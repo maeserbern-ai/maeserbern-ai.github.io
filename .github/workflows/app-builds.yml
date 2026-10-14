@@ -1,6 +1,7 @@
 # Builds the app files for every store from the party-game folder:
 # Android (phones, Google TV / Android TV, Fire TV), LG TV and Samsung TV.
-# Download the results from the run's "Artifacts".
+# Builds from the main branch are also published, permanently, on the
+# repository's Releases page ("Party game app files").
 name: App builds
 
 on:
@@ -16,6 +17,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      # One secret holds the whole upload key: "password:base64-keystore".
+      UPLOAD_KEY: ${{ secrets.ANDROID_UPLOAD_KEY }}
       KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
     steps:
       - uses: actions/checkout@v4
@@ -31,17 +34,22 @@ jobs:
 
       # Optional: sign store builds with your upload key (see android/README.md).
       - name: Load upload key
-        if: ${{ env.KEYSTORE_BASE64 != '' }}
+        if: ${{ env.UPLOAD_KEY != '' || env.KEYSTORE_BASE64 != '' }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+          if [ -n "$UPLOAD_KEY" ]; then
+            pass="${UPLOAD_KEY%%:*}"
+            echo "$UPLOAD_KEY" | tr -d ' \r\n' | cut -d: -f2- | base64 -d > "$RUNNER_TEMP/upload.jks"
+            echo "::add-mask::$pass"
+            { echo "ANDROID_KEYSTORE_PASSWORD=$pass"; echo "ANDROID_KEY_PASSWORD=$pass"; echo "ANDROID_KEY_ALIAS=upload"; } >> "$GITHUB_ENV"
+          else
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+            { echo "ANDROID_KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"; echo "ANDROID_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}"; echo "ANDROID_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}"; } >> "$GITHUB_ENV"
+          fi
           echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
 
       - name: Build
         env:
           VERSION_CODE: ${{ github.run_number }}
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: gradle -p android --no-daemon assembleDebug assembleRelease bundleRelease
 
       - uses: actions/upload-artifact@v4
@@ -86,3 +94,39 @@ jobs:
         with:
           name: party-game-tv-packages
           path: out/*
+
+  # Keeps a permanent copy of the latest app files on the Releases page
+  # (build downloads above expire; releases don't). Only for the main branch.
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: [build, tv-packages]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Name the files clearly
+        run: |
+          mkdir out
+          cp artifacts/party-game-test-apk/*.apk out/PartyGame-Android-test.apk
+          cp artifacts/party-game-store-builds/*.aab out/PartyGame-GooglePlay.aab
+          cp artifacts/party-game-store-builds/*.apk out/PartyGame-Amazon-FireTV.apk
+          cp artifacts/party-game-tv-packages/*.ipk out/PartyGame-LG.ipk
+          cp artifacts/party-game-tv-packages/*.wgt out/PartyGame-Samsung-unsigned.wgt
+          ls -la out
+
+      - name: Publish to the Releases page
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          notes="Latest app files for Ingredient Dictionary: The Party Game (build ${{ github.run_number }}). Install steps: party-game/TV-STORES.md and android/README.md."
+          if gh release view party-game-apps >/dev/null 2>&1; then
+            gh release edit party-game-apps --notes "$notes"
+            gh release upload party-game-apps out/* --clobber
+          else
+            gh release create party-game-apps out/* --target "${{ github.sha }}" --title "Party game app files" --notes "$notes"
+          fi

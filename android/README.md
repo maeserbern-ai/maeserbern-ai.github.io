@@ -6,8 +6,10 @@ app so it plays offline. Any change to the game is picked up by the next build.
 
 ## Getting the app files
 
-GitHub builds the app automatically whenever `party-game/` or `android/` changes
-(Actions tab → "Android app" → open the latest run → **Artifacts**):
+GitHub builds the app automatically whenever `party-game/` or `android/` changes.
+The latest files are always on the repository's **Releases** page
+("Party game app files"), which never expires. Each build's own downloads are
+under Actions → "App builds" → **Artifacts**:
 
 - **party-game-test-apk**: a test version you can install on your own phone or TV.
 - **party-game-store-builds**: `app-release.aab` for Google Play and
@@ -26,14 +28,11 @@ GitHub builds the app automatically whenever `party-game/` or `android/` changes
 ## Upload key (needed once, before store uploads)
 
 Store builds must be signed with your own private key. Keep the key file and its
-passwords somewhere safe; you need the same key for every future update.
+password somewhere safe; you need the same key for every future update.
 
-1. Create the key on your computer (Java's `keytool`):
-   `keytool -genkeypair -v -keystore upload.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000`
-2. In GitHub: repository → Settings → Secrets and variables → Actions → add:
-   - `ANDROID_KEYSTORE_BASE64`: the key file as base64 (`base64 -w0 upload.jks`)
-   - `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` (`upload`), `ANDROID_KEY_PASSWORD`
-3. Re-run the "Android app" build. The store builds are now signed.
+Add it to GitHub as ONE secret: repository → Settings → Secrets and variables →
+Actions → New repository secret, named `ANDROID_UPLOAD_KEY`, with the value
+`password:base64-of-the-keystore` (alias `upload`). The next build is then signed.
 
 ## Store listings
 

@@ -12,7 +12,8 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1 };
+  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1, timer: 0 };
+  const TIMER_SECONDS = { 1: 30, 2: 20, 3: 15 };   // Easy / Medium / Hard
 
   // Silly, safe dares for the last-place team. Nothing here involves eating or
   // touching a product — the game is about labels, not tasting.
@@ -52,6 +53,7 @@
   function show(id, focusSel) {
     $$(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
     current = id;
+    if (id !== "s-round") { stopMusic(); stopTimer(); }
     const target = (focusSel && $(focusSel)) || focusables()[0];
     setFocus(target);
   }
@@ -134,16 +136,130 @@
     applause(at = 0, len = 2.2) { for (let t = 0; t < len; t += 0.012) noise(at + t + Math.random() * 0.01, 0.03, 1500 + Math.random() * 2500, 0.06 * (1 - t / len) + 0.01); },
     final()   { SFX.drumroll(0.9); SFX.fanfare(1.0); },
     win()     { SFX.fanfare(0); SFX.applause(0.4); },
-    dare()    { tone([660, 520], 0, 0.18, "sine", 0.2); tone([520, 330], 0.2, 0.3, "sine", 0.2); }
+    dare()    { tone([660, 520], 0, 0.18, "sine", 0.2); tone([520, 330], 0.2, 0.3, "sine", 0.2); },
+    tick()    { tone(1760, 0, 0.06, "square", 0.08, { lowpass: 3000 }); },
+    timeup()  { tone(880, 0, 0.12, "square", 0.14, { lowpass: 2500 }); tone(880, 0.16, 0.12, "square", 0.14, { lowpass: 2500 }); tone(880, 0.32, 0.4, "square", 0.14, { lowpass: 2500 }); }
   };
   function sfx(name) {
     if (!soundOn) return;
     try { SFX[name](); } catch (e) { /* sound is optional */ }
   }
+  /* ---------- thinking music (original tune, synthesized) ---------- */
+  // A light tick-tock tune that loops while a question is on screen. It is an
+  // original melody written for this game — not any TV show's theme.
+  let musicOn = true;
+  try { musicOn = localStorage.getItem("idpg-music") !== "off"; } catch (e) { /* storage blocked */ }
+  const BEAT = 60 / 112;   // seconds per beat (112 bpm)
+  // [melody note (Hz or 0 for rest), bass note] per beat, 8 bars of 4 beats.
+  const N = { F2: 87.3, A2: 110, Bb1: 58.3, Bb2: 116.5, C2: 65.4, C3: 130.8, D2: 73.4, G2: 98,
+    A4: 440, Bb4: 466.2, C5: 523.3, D5: 587.3, E5: 659.3, F5: 698.5, G5: 784, A5: 880 };
+  const TUNE = [
+    ["A4", "F2"], ["C5", 0], ["F5", "C3"], ["C5", 0],
+    ["D5", "D2"], ["F5", 0], ["A5", "A2"], ["F5", 0],
+    ["G5", "C2"], ["E5", 0], ["C5", "G2"], ["E5", 0],
+    ["F5", "F2"], [0, 0], ["C5", "C3"], ["A4", 0],
+    ["Bb4", "Bb1"], ["D5", 0], ["F5", "F2"], ["D5", 0],
+    ["A4", "F2"], ["C5", 0], ["F5", "C3"], ["A5", 0],
+    ["G5", "C2"], ["F5", 0], ["E5", "G2"], ["G5", 0],
+    ["F5", "F2"], [0, 0], [0, "C3"], [0, 0]
+  ];
+  let music = null;   // { timer, step, next, bus }
+  function startMusic() {
+    if (music || !soundOn || !musicOn) return;
+    try {
+      const a = audioCtx();
+      const bus = a.createGain();
+      bus.gain.value = 0.32;
+      bus.connect(master);
+      music = { step: 0, next: a.currentTime + 0.1, bus };
+      const play = (f, t, dur, type, vol) => {
+        const o = a.createOscillator(), g = a.createGain();
+        o.type = type; o.frequency.value = f;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.exponentialRampToValueAtTime(vol, t + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        o.connect(g).connect(bus); o.start(t); o.stop(t + dur + 0.02);
+      };
+      const tick = (t, hi) => {
+        const len = Math.floor(a.sampleRate * 0.03), buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+        const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+        src.buffer = buf; f.type = "highpass"; f.frequency.value = hi ? 7000 : 4500; g.gain.value = hi ? 0.18 : 0.1;
+        src.connect(f).connect(g).connect(bus); src.start(t);
+      };
+      music.timer = setInterval(() => {
+        // schedule a little ahead so timing stays steady
+        while (music && music.next < a.currentTime + 0.25) {
+          const [mel, bass] = TUNE[music.step % TUNE.length], t = music.next;
+          if (mel) { play(N[mel], t, BEAT * 0.55, "triangle", 0.5); play(N[mel] * 2, t, BEAT * 0.25, "sine", 0.08); }
+          if (bass) play(N[bass], t, BEAT * 0.9, "sine", 0.55);
+          tick(t, true); tick(t + BEAT / 2, false);
+          music.step++; music.next += BEAT;
+        }
+      }, 60);
+    } catch (e) { music = null; }
+  }
+  function stopMusic() {
+    if (!music) return;
+    clearInterval(music.timer);
+    try {
+      const t = audio.currentTime;
+      music.bus.gain.setValueAtTime(music.bus.gain.value, t);
+      music.bus.gain.linearRampToValueAtTime(0.0001, t + 0.25);
+      const bus = music.bus; setTimeout(() => bus.disconnect(), 400);
+    } catch (e) { /* ignore */ }
+    music = null;
+  }
+  function setMusic(on) {
+    musicOn = on;
+    try { localStorage.setItem("idpg-music", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
+    $$("[data-action='music']").forEach((b) => { b.textContent = on ? "Music: On" : "Music: Off"; });
+    if (!on) stopMusic();
+  }
+
+  /* ---------- answer timer ---------- */
+  let timer = null;   // { left (ms), last, id }
+  function startTimer() {
+    stopTimer();
+    if (!settings.timer || current !== "s-round") return;
+    const total = TIMER_SECONDS[settings.level] * 1000;
+    timer = { total, left: total, last: performance.now(), id: 0, lastSec: null };
+    $("#clock").hidden = false; $("#timer-bar").hidden = false;
+    resumeTimer();
+  }
+  function resumeTimer() {
+    if (!timer) return;
+    timer.last = performance.now();
+    clearInterval(timer.id);
+    timer.id = setInterval(tickTimer, 100);
+    tickTimer();
+  }
+  function pauseTimer() { if (timer) clearInterval(timer.id); }
+  function stopTimer() {
+    if (timer) clearInterval(timer.id);
+    timer = null;
+    $("#clock").hidden = true; $("#timer-bar").hidden = true;
+  }
+  function tickTimer() {
+    const now = performance.now();
+    timer.left -= now - timer.last; timer.last = now;
+    const sec = Math.max(0, Math.ceil(timer.left / 1000));
+    $("#clock").textContent = sec + "s";
+    const bar = $("#timer-bar");
+    bar.style.width = Math.max(0, timer.left / timer.total * 100) + "%";
+    const urgent = timer.left <= 5000;
+    bar.classList.toggle("urgent", urgent); $("#clock").classList.toggle("urgent", urgent);
+    if (urgent && sec !== timer.lastSec && sec > 0) sfx("tick");
+    timer.lastSec = sec;
+    if (timer.left <= 0) { stopTimer(); answer(null); }
+  }
+
   function setSound(on) {
     soundOn = on;
     try { localStorage.setItem("idpg-sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='sound']").forEach((b) => { b.textContent = on ? "Sound: On" : "Sound: Off"; });
+    if (!on) stopMusic();
+    else if (current === "s-round" && modal.hidden) startMusic();
     if (on && audio) sfx("click");
   }
 
@@ -194,7 +310,8 @@
   function updateTotal() {
     const per = turnsPerTeam();
     const total = per * settings.teams;
-    const finale = hasFinale(settings.book) ? " + a toilet paper true-or-false finale" : "";
+    const finale = (hasFinale(settings.book) ? " + a toilet paper true-or-false finale" : "") +
+      (settings.timer ? ` · ${TIMER_SECONDS[settings.level]} seconds per question` : "");
     $("#setup-total").textContent = (settings.teams === 1
       ? `${total} rounds`
       : `${total} rounds — ${per} for each team` + (per < settings.rounds ? " (every puzzle in this book)" : "")) + finale;
@@ -282,6 +399,8 @@
 
     updateWorth();
     show("s-round", "#answers .answer");
+    startMusic();
+    if (!isWager(game.index)) startTimer();
   }
 
   // Long labels shrink their text so every ingredient stays on screen.
@@ -338,6 +457,7 @@
     renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
     updateWorth();
     setFocus($("#answers .answer"));
+    startTimer();   // the bet isn't timed; the question is
   }
 
   // Rising stakes: every full lap of turns adds +1 to what a question is worth,
@@ -445,6 +565,8 @@
   }
 
   function answer(choice) {
+    stopMusic(); stopTimer();
+    const timedOut = choice === null;
     const p = game.deck[game.index];
     const tf = p.type === "tf";
     const correct = tf ? (p.answer ? "True" : "False") : p.answer;
@@ -453,7 +575,7 @@
     const pts = right ? points() : 0;
     const lost = wager && !right ? Math.min(game.wager, game.scores[game.team]) : 0;
     game.scores[game.team] += pts - lost;
-    sfx(right ? "correct" : lost ? "lose" : "wrong");
+    sfx(right ? "correct" : lost ? "lose" : timedOut ? "timeup" : "wrong");
 
     if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
 
@@ -461,6 +583,7 @@
     v.className = "verdict " + (right ? "good" : "bad");
     v.textContent = right && wager && !pts ? "Correct! You bet 0, so your score stays the same."
       : right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}`
+      : timedOut ? (lost ? `Time's up! You lose ${lost} point${lost === 1 ? "" : "s"}.` : "Time's up!")
       : lost ? `Nope — you said ${choice}. You lose ${lost} point${lost === 1 ? "" : "s"}.`
       : `Nope — you said ${choice}.`;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
@@ -632,14 +755,18 @@
   const modal = $("#m-quit");
   let focusBeforeModal = null;
   function openQuit() {
+    stopMusic(); pauseTimer();
     focusBeforeModal = focused;
     modal.hidden = false;
     setFocus($(".focusable", modal));
   }
-  function closeQuit() { modal.hidden = true; setFocus(focusBeforeModal); }
+  function closeQuit() {
+    modal.hidden = true; setFocus(focusBeforeModal);
+    if (current === "s-round") { startMusic(); resumeTimer(); }
+  }
 
   /* ---------- actions ---------- */
-  const QUIET = new Set(["answer", "reveal", "help", "wager", "sound"]);
+  const QUIET = new Set(["answer", "reveal", "help", "wager", "sound", "music"]);
   function act(el) {
     if (!el) return;
     if (!QUIET.has(el.dataset.action)) sfx("click");
@@ -647,6 +774,7 @@
     if (el.dataset.rounds) { pick(el, "rounds"); return; }
     if (el.dataset.dare) { pick(el, "dare"); return; }
     if (el.dataset.level) { pick(el, "level"); return; }
+    if (el.dataset.timer) { pick(el, "timer"); return; }
     if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
       case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;
@@ -662,6 +790,7 @@
       case "quit-yes": modal.hidden = true; show("s-title"); break;
       case "menu": openQuit(); break;
       case "sound": setSound(!soundOn); break;
+      case "music": setMusic(!musicOn); break;
       case "change-game": modal.hidden = true; show("s-books", `#book-list [data-book="${settings.book}"]`); break;
       case "quit-no": closeQuit(); break;
     }
@@ -671,7 +800,7 @@
     settings[key] = Number(el.dataset[key]);
     updateTotal();
     // Guide the remote: teams -> rounds -> dare -> Start.
-    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-level].selected", level: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
+    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-level].selected", level: "#s-setup [data-timer].selected", timer: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
     setFocus($(nextFocus[key]));
   }
 
@@ -759,5 +888,6 @@
   } catch (e) { /* not on a Samsung TV */ }
 
   setSound(soundOn);
+  setMusic(musicOn);
   show("s-title");
 })();

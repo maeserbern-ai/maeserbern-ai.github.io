@@ -28,6 +28,7 @@
         <button class="btn primary focusable" data-action="books">Play</button>
         <button class="btn focusable" data-action="howto">How to play</button>
         <button class="btn focusable" data-action="sound">Sound: On</button>
+        <button class="btn focusable" data-action="music">Music: On</button>
       </div>
     </div>
     <p class="credit">From the <b>Ingredient Dictionary</b> book series by Maeser</p>
@@ -41,6 +42,7 @@
         <i>What Is Toilet Paper?</i> plays as true or false.</li>
       <li>Split into teams. Teams take turns.</li>
       <li>Pick a difficulty. <b>Easy</b> starts at the top of the label, <b>Medium</b> in the middle, <b>Hard</b> with the tiny chemicals at the bottom. Medium questions are worth +1 point, Hard +2.</li>
+      <li>Turn on the <b>answer timer</b> for extra pressure: 30 seconds on Easy, 20 on Medium, 15 on Hard. Run out of time and it counts as wrong.</li>
       <li>Every game ends with a <b>toilet paper true-or-false finale</b>. Each team <b>bets</b> some of its points before seeing the question — right wins the bet, wrong loses it.</li>
       <li>You start with the first <b>3 ingredients</b> — they're listed from most to least.</li>
       <li>Stuck? <b>Reveal</b> another ingredient. Each reveal is worth one point less.</li>
@@ -94,6 +96,13 @@
         </div>
       </div>
       <div class="setting">
+        <span class="label">Answer timer</span>
+        <div class="row" data-group="timer">
+          <button class="chip focusable selected" data-timer="0">Off</button>
+          <button class="chip focusable" data-timer="1">On</button>
+        </div>
+      </div>
+      <div class="setting">
         <span class="label">Loser's dare</span>
         <div class="row" data-group="dare">
           <button class="chip focusable selected" data-dare="1">On</button>
@@ -117,7 +126,9 @@
       <div class="label-card">
         <div class="label-head">
           <span>INGREDIENTS:</span>
+          <span id="clock" class="clock" hidden></span>
           <span id="worth" class="worth"></span>
+          <i id="timer-bar" class="timer-bar" hidden></i>
         </div>
         <ol id="ingredients" class="ingredients"></ol>
         <p id="statement" class="statement" hidden></p>
@@ -200,6 +211,7 @@
       <div class="menu-list">
         <button class="btn primary focusable" data-action="quit-no">Resume game</button>
         <button class="btn focusable" data-action="sound">Sound: On</button>
+        <button class="btn focusable" data-action="music">Music: On</button>
         <button class="btn focusable" data-action="change-game">Change game or options</button>
         <button class="btn focusable" data-action="quit-yes">Quit to main menu</button>
       </div>

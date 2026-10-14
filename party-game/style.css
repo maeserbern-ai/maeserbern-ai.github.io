@@ -383,3 +383,20 @@ button.order-card.focus:not(.picked){box-shadow:inset 0 0 0 6px var(--team),0 0 
 .order-tip{font-size:34px;max-width:1400px;margin:0 0 40px;color:var(--muted);}
 .next-dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin:0 .3em 0 .25em;vertical-align:-.05em;box-shadow:0 0 0 3px rgba(0,0,0,.35);}
 .card-foot .btn.small{white-space:nowrap;font-size:26px;padding:12px 24px;}
+
+/* ---------- ingredient chips ---------- */
+.ingredients{gap:12px;}
+.ingredients li:not(:last-child)::after{content:none;}
+.ingredients li{display:flex;border-radius:12px;}
+.ing{background:#FFFFFF;box-shadow:inset 0 0 0 2px #D9D6CC;padding:8px 18px;border-radius:12px;line-height:1.2;}
+.ing.warn,.ing.unknown{text-decoration:none;}
+.ing.warn{box-shadow:inset 0 0 0 3px rgba(180,35,24,.45);}
+.ing.unknown{box-shadow:inset 0 0 0 3px rgba(138,90,0,.45);}
+.ing.looked{background:#FFFFFF;box-shadow:inset 0 0 0 3px var(--label-ink);}
+.ing.focus{background:#FFFFFF;}
+.ingredients li.hidden{min-width:140px;min-height:1.2em;padding:8px 18px;border-radius:12px;color:#9B988E;
+  display:grid;place-items:center;cursor:pointer;box-sizing:content-box;}
+.ingredients li.hidden span{font-weight:900;}
+.ingredients li.hidden.focus{box-shadow:0 0 0 6px var(--gold) !important;transform:scale(1.05);}
+.card-foot{justify-content:flex-start;gap:24px;}
+.card-foot [data-action="menu"]{margin-left:auto;}

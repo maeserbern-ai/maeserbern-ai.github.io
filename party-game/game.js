@@ -497,6 +497,7 @@
     const tf = p.type === "tf";
     game.shown = tf ? 0 : Math.min(START_SHOWN, p.ingredients.length);
     game.order = tf ? [] : revealOrder(p.ingredients.length);
+    game.open = new Set(game.order.slice(0, game.shown));
     game.options = choicesFor(p);
     game.team = game.turnOrder[game.index % game.teams];
     $(".label-card").classList.toggle("tf", tf);
@@ -522,8 +523,8 @@
     resetHelp();
     (p.ingredients || []).forEach((ing, i) => {
       const li = document.createElement("li");
-      if (game.order.indexOf(i) < game.shown) li.appendChild(ingredientButton(ing, i));
-      else coverIngredient(li, ing);
+      if (game.open.has(i)) li.appendChild(ingredientButton(ing, i));
+      else coverIngredient(li, i);
       list.appendChild(li);
     });
 
@@ -718,25 +719,28 @@
     updateExtend();
   }
 
-  // A covered ingredient is a button too: selecting it reveals the next one.
-  function coverIngredient(li, ing) {
+  // A covered ingredient is a button too: selecting it uncovers that one.
+  function coverIngredient(li, i) {
     li.className = "hidden focusable";
     li.dataset.action = "reveal";
+    li.dataset.i = i;
     li.setAttribute("role", "button");
     li.tabIndex = -1;
-    li.setAttribute("aria-label", "Covered ingredient: reveal one more");
-    li.textContent = ing;
+    li.setAttribute("aria-label", "Covered ingredient: uncover it");
+    li.innerHTML = "<span>?</span>";
   }
 
-  function reveal() {
+  // Uncover a chosen ingredient, or the next one in difficulty order.
+  function reveal(pick) {
     if (game.steal) return;
     const p = game.deck[game.index];
     if (p.type === "tf" || game.shown >= p.ingredients.length) return;
-    const idx = game.order[game.shown];
+    const idx = pick !== undefined && !game.open.has(pick) ? pick : game.order.find((i) => !game.open.has(i));
+    game.open.add(idx);
     const li = $("#ingredients").children[idx];
     const wasFocused = focused === li;
     li.className = "new";
-    delete li.dataset.action;
+    delete li.dataset.action; delete li.dataset.i;
     li.removeAttribute("role"); li.removeAttribute("aria-label"); li.removeAttribute("tabindex");
     li.textContent = "";
     li.appendChild(ingredientButton(p.ingredients[idx], idx));
@@ -1109,7 +1113,7 @@
       case "pick-colors": showPick(); break;
       case "color": toggleColor(Number(el.dataset.color)); break;
       case "setup": show("s-setup", '#s-setup [data-action="start"]'); break;
-      case "reveal": reveal(); break;
+      case "reveal": reveal(el.dataset.i !== undefined ? Number(el.dataset.i) : undefined); break;
       case "extend": extendTime(); break;
       case "answer": answer(el.dataset.choice); break;
       case "next": next(); break;

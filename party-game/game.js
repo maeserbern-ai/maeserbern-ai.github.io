@@ -113,17 +113,22 @@
     o.start(t); o.stop(t + dur + 0.05);
   }
   // A burst of filtered noise — used for swishes, drums and applause.
+  // One shared second of white noise; every noise hit plays a slice of it
+  // instead of building its own buffer (keeps phones and TVs from running out of memory).
+  let noiseBuf = null;
   function noise(at, dur, freq, vol = 0.2, type = "bandpass", q = 1) {
     const a = audioCtx(), t = a.currentTime + at;
-    const len = Math.max(1, Math.floor(a.sampleRate * dur));
-    const buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    if (!noiseBuf) {
+      noiseBuf = a.createBuffer(1, a.sampleRate, a.sampleRate);
+      const d = noiseBuf.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
     const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
-    src.buffer = buf; f.type = type; f.frequency.value = freq; f.Q.value = q;
+    src.buffer = noiseBuf; src.loop = true; f.type = type; f.frequency.value = freq; f.Q.value = q;
     g.gain.setValueAtTime(vol, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     src.connect(f).connect(g).connect(master);
-    src.start(t); src.stop(t + dur + 0.02);
+    src.start(t, Math.random() * 0.9); src.stop(t + dur + 0.02);
   }
   const SFX = {
     move()    { tone(1200, 0, 0.03, "sine", 0.05); },
@@ -139,7 +144,7 @@
       [[523, 0], [659, 0.14], [784, 0.28]].forEach(([f, d]) => tone(f, at + d, 0.18, "sawtooth", 0.12, { lowpass: 2400 }));
       [523, 659, 784, 1047].forEach((f) => tone(f, at + 0.44, 0.9, "sawtooth", 0.09, { lowpass: 2400, attack: 0.03 }));
     },
-    applause(at = 0, len = 2.2) { for (let t = 0; t < len; t += 0.012) noise(at + t + Math.random() * 0.01, 0.03, 1500 + Math.random() * 2500, 0.06 * (1 - t / len) + 0.01); },
+    applause(at = 0, len = 2.2) { for (let t = 0; t < len; t += 0.024) noise(at + t + Math.random() * 0.012, 0.045, 1500 + Math.random() * 2500, 0.08 * (1 - t / len) + 0.014); },
     final()   { SFX.drumroll(0.9); SFX.fanfare(1.0); },
     win()     { SFX.fanfare(0); SFX.applause(0.4); },
     dare()    { tone([660, 520], 0, 0.18, "sine", 0.2); tone([520, 330], 0.2, 0.3, "sine", 0.2); },
@@ -260,6 +265,15 @@
       }
     }, 80);
   }
+
+  // If the TV or phone switches away, pause the clock and the music.
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { stopMusic(); pauseTimer(); }
+    else if (current === "s-round" && game && $("#m-quit").hidden) {
+      resumeTimer();
+      startMusic(game.steal || !$("#m-steal").hidden ? "suspense" : "main");
+    }
+  });
 
   function stopMusic() {
     if (!music) return;
@@ -727,7 +741,7 @@
     li.setAttribute("role", "button");
     li.tabIndex = -1;
     li.setAttribute("aria-label", "Covered ingredient: uncover it");
-    li.innerHTML = "<span>?</span>";
+    li.textContent = game.deck[game.index].ingredients[i];   // invisible, but sizes the box to the word
   }
 
   // Uncover a chosen ingredient, or the next one in difficulty order.

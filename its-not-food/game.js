@@ -10,7 +10,7 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const settings = { teams: 2, rounds: 5 };
+  const settings = { teams: 2, rounds: 5, book: "all" };
   let game = null;
 
   /* ---------- fit the 1920×1080 stage to any screen ---------- */
@@ -49,6 +49,44 @@
     } catch (e) { /* sound is optional */ }
   }
 
+  /* ---------- book picker ---------- */
+  function deckFor(book) {
+    return book === "all" ? PUZZLES : PUZZLES.filter((p) => p.book === book);
+  }
+  function bookLabel(book) {
+    return book === "all" ? "All the books, mixed" : BOOKS[book].title;
+  }
+  function buildBookList() {
+    const box = $("#book-list");
+    Object.keys(BOOKS).forEach((key) => {
+      const b = document.createElement("button");
+      b.className = "book focusable";
+      b.dataset.book = key;
+      b.innerHTML = `<img alt="" /><b></b><small>${deckFor(key).length} puzzles</small>`;
+      b.querySelector("img").src = BOOKS[key].cover;
+      b.querySelector("img").alt = BOOKS[key].title + " cover";
+      b.querySelector("b").textContent = BOOKS[key].name;
+      box.appendChild(b);
+    });
+    const mix = document.createElement("button");
+    mix.className = "book focusable";
+    mix.dataset.book = "all";
+    mix.innerHTML = `<div class="mix"></div><b>Mix all books</b><small>${PUZZLES.length} puzzles</small>`;
+    Object.values(BOOKS).forEach((bk) => {
+      const im = document.createElement("img"); im.src = bk.cover; im.alt = "";
+      mix.firstChild.appendChild(im);
+    });
+    mix.firstChild.insertAdjacentHTML("beforeend", "<span>+</span>");
+    box.appendChild(mix);
+  }
+  buildBookList();
+
+  function chooseBook(book) {
+    settings.book = book;
+    $("#setup-book").textContent = bookLabel(book);
+    show("s-setup", "#s-setup .chip.selected");
+  }
+
   /* ---------- game flow ---------- */
   function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -59,9 +97,12 @@
   }
 
   function startGame() {
-    const total = Math.min(settings.teams * settings.rounds, PUZZLES.length);
+    // Every team gets the same number of turns, capped by how many puzzles the book has.
+    const pool = deckFor(settings.book);
+    const perTeam = Math.max(1, Math.min(settings.rounds, Math.floor(pool.length / settings.teams)));
     game = {
-      deck: shuffle(PUZZLES.slice()).slice(0, total),
+      book: settings.book,
+      deck: shuffle(pool.slice()).slice(0, perTeam * settings.teams),
       index: 0,
       scores: new Array(settings.teams).fill(0),
       teams: settings.teams
@@ -77,7 +118,8 @@
 
     $("#turn").textContent = game.teams === 1 ? "Your turn" : TEAM_NAMES[game.team] + "'s turn";
     $("#turn").style.color = TEAM_COLORS[game.team];
-    $("#progress").textContent = `Round ${game.index + 1} of ${game.deck.length}`;
+    $("#progress").innerHTML = `<span class="round-book"></span><br />Round ${game.index + 1} of ${game.deck.length}`;
+    $("#progress .round-book").textContent = game.book === "all" ? "All books" : BOOKS[game.book].name;
     renderScores();
 
     const list = $("#ingredients");
@@ -144,7 +186,11 @@
     k.textContent = p.kind === "food" ? "It's food" : "It's not food";
     $("#r-spot-name").textContent = p.spotlight.name;
     $("#r-spot-note").textContent = p.spotlight.note;
-    $("#r-book").textContent = BOOKS[p.book].title;
+    const bk = BOOKS[p.book];
+    $("#r-book").href = bk.url;
+    $("#r-cover").src = bk.cover;
+    $("#r-cover").alt = bk.title + " cover";
+    $("#r-book-title").textContent = bk.title;
     $("#next-btn").textContent = game.index + 1 >= game.deck.length ? "See final scores" : "Next round";
     show("s-result");
   }
@@ -196,6 +242,14 @@
         list.appendChild(li);
       });
     }
+    const bk = game.book === "all" ? null : BOOKS[game.book];
+    const cover = $("#f-cover");
+    cover.hidden = !bk;
+    if (bk) { cover.src = bk.cover; cover.alt = bk.title + " cover"; }
+    $("#f-qr").src = bk ? bk.qr : SERIES.qr;
+    $("#f-title").textContent = bk ? bk.title : "the Ingredient Dictionary books";
+    $("#f-link").href = bk ? bk.url : SERIES.url;
+    $("#f-link").innerHTML = bk ? "Get the book &rarr;" : "See all the books &rarr;";
     beep([523, 659, 784, 1047], 0.13);
     show("s-final");
   }
@@ -215,8 +269,9 @@
     if (!el) return;
     if (el.dataset.teams) { pick(el, "teams"); return; }
     if (el.dataset.rounds) { pick(el, "rounds"); return; }
+    if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
-      case "setup": show("s-setup", ".chip.selected"); break;
+      case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;
       case "howto": show("s-howto"); break;
       case "title": show("s-title"); break;
       case "start": startGame(); break;
@@ -230,6 +285,8 @@
   function pick(el, key) {
     $$(".chip", el.parentElement).forEach((c) => c.classList.toggle("selected", c === el));
     settings[key] = Number(el.dataset[key]);
+    // Guide the remote: teams -> rounds -> Start.
+    setFocus(key === "teams" ? $("#s-setup [data-rounds].selected") : $('#s-setup [data-action="start"]'));
   }
 
   document.addEventListener("click", (e) => {
@@ -256,24 +313,34 @@
     if (!focused || !items.includes(focused)) { setFocus(items[0]); return; }
     const a = focused.getBoundingClientRect();
     const ax = a.left + a.width / 2, ay = a.top + a.height / 2;
-    let best = null, bestScore = Infinity;
-    items.forEach((el) => {
-      if (el === focused) return;
-      const b = el.getBoundingClientRect();
-      const bx = b.left + b.width / 2, by = b.top + b.height / 2;
-      const dx = bx - ax, dy = by - ay;
-      const main = { left: -dx, right: dx, up: -dy, down: dy }[dir];
-      if (main <= 1) return;
-      const cross = dir === "left" || dir === "right" ? Math.abs(dy) : Math.abs(dx);
-      const score = main + cross * 2;
-      if (score < bestScore) { bestScore = score; best = el; }
-    });
+    // Prefer elements roughly in line with the arrow; up/down may fall back to
+    // anything below/above (e.g. a lone Back button), left/right never jump rows.
+    const pickBest = (strict) => {
+      let best = null, bestScore = Infinity;
+      items.forEach((el) => {
+        if (el === focused) return;
+        const b = el.getBoundingClientRect();
+        const bx = b.left + b.width / 2, by = b.top + b.height / 2;
+        const dx = bx - ax, dy = by - ay;
+        const main = { left: -dx, right: dx, up: -dy, down: dy }[dir];
+        if (main <= 1) return;
+        const cross = dir === "left" || dir === "right" ? Math.abs(dy) : Math.abs(dx);
+        if (dir === "left" || dir === "right") {
+          if (b.bottom <= a.top || b.top >= a.bottom) return;   // must share the same row
+        } else if (strict && cross > main * 2) return;
+        const score = main + cross * 2;
+        if (score < bestScore) { bestScore = score; best = el; }
+      });
+      return best;
+    };
+    const best = pickBest(true) || (dir === "up" || dir === "down" ? pickBest(false) : null);
     if (best) setFocus(best);
   }
 
   function back() {
     if (!modal.hidden) { closeQuit(); return; }
     if (current === "s-round" || current === "s-result") { openQuit(); return; }
+    if (current === "s-setup") { act({ dataset: { action: "books" } }); return; }
     if (current !== "s-title") { show("s-title"); return; }
     // On the title screen, Back exits the app on TVs that allow it.
     try {

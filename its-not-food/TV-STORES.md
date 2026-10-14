@@ -60,7 +60,9 @@ Swift. Ask Claude for the Swift version when you're ready.
 **Full description:**
 Gather the family and find out who really knows what's in their stuff. Each round
 shows the start of a real-style ingredient list — candy, cleaners, shampoo, dog
-treats, whipped cream and more. Guess the product with as few clues as possible to
+treats, whipped cream and more. Pick a deck from any Ingredient Dictionary book —
+It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
+Not Safe — or mix them all. Guess the product with as few clues as possible to
 score big. Every answer comes with a "weird ingredient" fact you'll be repeating
 at dinner. 1–4 teams, plays entirely with your remote. From the Ingredient
 Dictionary book series by Maeser.
@@ -80,4 +82,5 @@ Dictionary book series by Maeser.
 
 Open `puzzles.js` and copy any `{ ... }` block. Each puzzle needs: the answer, four
 options (one is the answer), `kind` ("food" or "not"), the ingredient list in label
-order, a spotlight fact, and which book it belongs to.
+order, a spotlight fact, and which book it belongs to (`food`, `beauty`, `clean`,
+`kids` or `home`). The book picker counts puzzles automatically.

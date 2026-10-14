@@ -5,12 +5,16 @@
    book:  key into BOOKS — shown on the answer screen. */
 
 const BOOKS = {
-  food:   { title: "Ingredient Dictionary: It's Not Food",       url: "https://www.amazon.com/dp/B0H28XN7Z1" },
-  clean:  { title: "Ingredient Dictionary: It's Not Clean",      url: "https://www.amazon.com/dp/B0H3TLXQDP" },
-  beauty: { title: "Ingredient Dictionary: It's Not Beauty",     url: "https://www.amazon.com/dp/B0H3P2TDX4" },
-  kids:   { title: "Ingredient Dictionary: It's Not for Kids",   url: "https://www.amazon.com/dp/B0H7T981KL" },
-  home:   { title: "Ingredient Dictionary: Your Home Is Not Safe", url: "https://www.amazon.com/dp/B0H4LTY2FJ" }
+  food:   { name: "It's Not Food",         cover: "covers/it-s-not-food.jpg",         qr: "qr-food.svg",   url: "https://www.amazon.com/dp/B0H28XN7Z1" },
+  beauty: { name: "It's Not Beauty",       cover: "covers/it-s-not-beauty.jpg",       qr: "qr-beauty.svg", url: "https://www.amazon.com/dp/B0H3P2TDX4" },
+  clean:  { name: "It's Not Clean",        cover: "covers/it-s-not-clean.jpg",        qr: "qr-clean.svg",  url: "https://www.amazon.com/dp/B0H3TLXQDP" },
+  kids:   { name: "It's Not for Kids",     cover: "covers/it-s-not-for-kids.jpg",     qr: "qr-kids.svg",   url: "https://www.amazon.com/dp/B0H7T981KL" },
+  home:   { name: "Your Home Is Not Safe", cover: "covers/your-home-is-not-safe.jpg", qr: "qr-home.svg",   url: "https://www.amazon.com/dp/B0H4LTY2FJ" }
 };
+Object.values(BOOKS).forEach((b) => { b.title = "Ingredient Dictionary: " + b.name; });
+
+// Used when players pick "Mix all books".
+const SERIES = { name: "All the books", qr: "qr-all.svg", url: "https://maeserbern-ai.github.io/#books" };
 
 const PUZZLES = [
   {
@@ -299,5 +303,116 @@ const PUZZLES = [
     kind: "food", book: "food",
     ingredients: ["Grape juice", "High fructose corn syrup", "Corn syrup", "Fruit pectin", "Citric acid", "Sodium citrate"],
     spotlight: { name: "Fruit pectin", note: "A natural gelling fiber from apple peels and citrus rinds. It's what turns juice into jelly." }
+  },
+
+  /* ---------- more for It's Not Clean ---------- */
+  {
+    answer: "Liquid bleach",
+    options: ["Contact lens solution", "Liquid bleach", "Salt water", "Glass cleaner"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Sodium hypochlorite", "Sodium chloride", "Sodium hydroxide", "Sodium carbonate", "Sodium chlorate", "Sodium polyacrylate"],
+    spotlight: { name: "Sodium hydroxide", note: "Also called lye. It's the same chemical used to make soap — and to give soft pretzels their shiny brown crust." }
+  },
+  {
+    answer: "Liquid laundry detergent",
+    options: ["Dish soap", "Fabric softener", "Liquid laundry detergent", "Shampoo"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Sodium laureth sulfate", "C12-15 pareth-7", "Sodium citrate", "Propylene glycol", "Linear alkylbenzene sulfonate", "Enzymes (protease, amylase)", "Optical brightener", "Fragrance", "Colorant"],
+    spotlight: { name: "Optical brightener", note: "A dye that glows blue under UV light so white clothes look whiter. It doesn't clean anything — it just changes how fabric reflects light." }
+  },
+  {
+    answer: "Fabric softener",
+    options: ["Hair conditioner", "Fabric softener", "Hand lotion", "Liquid laundry detergent"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Diethylester dimethyl ammonium chloride", "Fragrance", "Calcium chloride", "Formic acid", "Silicone", "Dye"],
+    spotlight: { name: "Formic acid", note: "The same acid in ant stings. Its name comes from formica, Latin for ant." }
+  },
+  {
+    answer: "Dishwasher detergent powder",
+    options: ["Bath salts", "Baking powder", "Powdered drink mix", "Dishwasher detergent powder"],
+    kind: "not", book: "clean",
+    ingredients: ["Sodium carbonate", "Sodium percarbonate", "Sodium citrate", "Sodium silicate", "Enzymes", "Nonionic surfactant", "Fragrance"],
+    spotlight: { name: "Sodium percarbonate", note: "Washing soda bonded with hydrogen peroxide. In water it releases oxygen bubbles — the \"oxygen bleach\" in stain removers." }
+  },
+  {
+    answer: "Citrus all-purpose cleaner",
+    options: ["Orange soda", "Citrus all-purpose cleaner", "Sports drink", "Air freshener"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Alkyl polyglucoside", "Sodium citrate", "Limonene", "Fragrance", "Methylisothiazolinone"],
+    spotlight: { name: "Limonene", note: "The compound that makes oranges smell like oranges. Indoors it can react with ozone in the air and form small amounts of formaldehyde." }
+  },
+  {
+    answer: "Scouring powder",
+    options: ["Antacid tablets", "Baby powder", "Scouring powder", "Baking soda"],
+    kind: "not", book: "clean",
+    ingredients: ["Calcium carbonate", "Sodium carbonate", "Sodium dichloroisocyanurate", "Sodium dodecylbenzene sulfonate", "Fragrance", "Dye"],
+    spotlight: { name: "Calcium carbonate", note: "Basically ground-up chalk or limestone — the gritty scrubber. It's also the main ingredient in many antacid tablets." }
+  },
+  {
+    answer: "Liquid hand soap",
+    options: ["Liquid hand soap", "Shampoo", "Bubble bath", "Dish soap"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Sodium laureth sulfate", "Cocamidopropyl betaine", "Sodium chloride", "Glycerin", "Fragrance", "Citric acid", "DMDM hydantoin", "Tetrasodium EDTA", "Benzalkonium chloride"],
+    spotlight: { name: "DMDM hydantoin", note: "A preservative that works by slowly releasing tiny amounts of formaldehyde." }
+  },
+
+  /* ---------- more for It's Not for Kids ---------- */
+  {
+    answer: "Fruit snacks",
+    options: ["Gummy bears", "Fruit leather", "Fruit snacks", "Kids' gummy vitamins"],
+    kind: "food", book: "kids",
+    ingredients: ["Fruit puree (apple)", "Corn syrup", "Sugar", "Modified corn starch", "Gelatin", "Citric acid", "Lactic acid", "Ascorbic acid", "Natural flavor", "Vitamin A palmitate", "Carnauba wax", "Coconut oil", "Red 40", "Blue 1"],
+    spotlight: { name: "Ascorbic acid", note: "That's added vitamin C. It lets the box say \"good source of vitamin C\" even though it's mostly syrup and sugar." }
+  },
+  {
+    answer: "Boxed mac & cheese powder",
+    options: ["Cheddar cheese", "Nacho cheese dip", "Cheese puff dust", "Boxed mac & cheese powder"],
+    kind: "food", book: "kids",
+    ingredients: ["Whey", "Milkfat", "Milk protein concentrate", "Salt", "Sodium triphosphate", "Citric acid", "Lactic acid", "Sodium phosphate", "Calcium phosphate", "Paprika", "Turmeric", "Annatto (color)", "Enzymes", "Cheese culture"],
+    spotlight: { name: "Paprika, turmeric and annatto", note: "Where the bright orange comes from. Many brands swapped artificial dyes like Yellow 5 and 6 for spices." }
+  },
+  {
+    answer: "Kids' gummy vitamins",
+    options: ["Kids' gummy vitamins", "Fruit snacks", "Cough drops", "Gummy bears"],
+    kind: "food", book: "kids",
+    ingredients: ["Glucose syrup", "Sugar", "Water", "Gelatin", "Citric acid", "Natural flavors", "Vitamin C", "Vitamin E", "Vitamin A", "Zinc", "Coconut oil", "Carnauba wax", "Black carrot juice (color)"],
+    spotlight: { name: "Glucose syrup and sugar", note: "The first two ingredients. They taste like candy, which is exactly why the bottle has a child-proof cap." }
+  },
+  {
+    answer: "Fruit punch juice box",
+    options: ["100% apple juice", "Sports drink", "Fruit punch juice box", "Cough syrup"],
+    kind: "food", book: "kids",
+    ingredients: ["Water", "High fructose corn syrup", "Concentrated juices (pear, grape, apple)", "Citric acid", "Natural flavors", "Ascorbic acid", "Red 40", "Blue 1"],
+    spotlight: { name: "Concentrated juices", note: "Third on the list — after water and syrup. Many \"juice drinks\" are only about 10% juice." }
+  },
+
+  /* ---------- more for Your Home Is Not Safe ---------- */
+  {
+    answer: "Drain cleaner gel",
+    options: ["Liquid bleach", "Toilet bowl cleaner", "Drain cleaner gel", "Glass cleaner"],
+    kind: "not", book: "home",
+    ingredients: ["Water", "Sodium hypochlorite", "Sodium hydroxide", "Sodium silicate", "Lauramine oxide", "Sodium xylenesulfonate"],
+    spotlight: { name: "Sodium hydroxide", note: "Lye. It clears clogs by turning hair and grease into soap that rinses away. It can burn skin and eyes." }
+  },
+  {
+    answer: "Liquid ant bait",
+    options: ["Hummingbird nectar", "Pancake syrup", "Liquid ant bait", "Eye drops"],
+    kind: "not", book: "home",
+    ingredients: ["Sugar", "Water", "Borax (sodium tetraborate)"],
+    spotlight: { name: "Borax", note: "The sweet syrup is bait. Ants carry it home and share it, and the borax slowly works through the colony." }
+  },
+  {
+    answer: "Dryer sheets",
+    options: ["Makeup wipes", "Dryer sheets", "Facial tissues", "Coffee filters"],
+    kind: "not", book: "home",
+    ingredients: ["Polyester sheet", "Fabric softening agents (quaternary ammonium)", "Fatty acid", "Clay", "Fragrance"],
+    spotlight: { name: "Polyester sheet", note: "The sheet itself is plastic fabric. It's a carrier that melts softener and fragrance onto your clothes in the heat." }
+  },
+  {
+    answer: "Dry cat food",
+    options: ["Breakfast cereal", "Croutons", "Dry cat food", "Bird seed"],
+    kind: "not", book: "home",
+    ingredients: ["Chicken by-product meal", "Ground yellow corn", "Corn gluten meal", "Animal fat (preserved with mixed tocopherols)", "Brewers rice", "Natural flavor", "Fish meal", "Salt", "Taurine", "Vitamins and minerals"],
+    spotlight: { name: "Taurine", note: "Cats can't make enough of it on their own, so it's added — the same ingredient that's in energy drinks." }
   }
 ];

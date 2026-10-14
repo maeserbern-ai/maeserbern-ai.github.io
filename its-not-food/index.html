@@ -19,21 +19,22 @@
   <!-- TITLE -->
   <section class="screen active" id="s-title">
     <div class="title-wrap">
-      <p class="kicker">Snack&nbsp;or&nbsp;shampoo?</p>
+      <p class="series">Ingredient Dictionary</p>
       <h1 class="logo">It's <span>Not</span> Food</h1>
-      <p class="tag">Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
+      <p class="tag"><b>Snack or shampoo?</b> Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
       <div class="row">
-        <button class="btn primary focusable" data-action="setup">Play</button>
+        <button class="btn primary focusable" data-action="books">Play</button>
         <button class="btn focusable" data-action="howto">How to play</button>
       </div>
     </div>
-    <p class="credit">From the <b>Ingredient Dictionary</b> series by Maeser</p>
+    <p class="credit">The party game from the <b>Ingredient Dictionary</b> book series by Maeser</p>
   </section>
 
   <!-- HOW TO -->
   <section class="screen" id="s-howto">
     <h2 class="h2">How to play</h2>
     <ol class="howto">
+      <li>Pick an <b>Ingredient Dictionary</b> book — each one is its own deck — or mix them all.</li>
       <li>Split into teams. Teams take turns.</li>
       <li>You start with the first <b>3 ingredients</b> — they're listed from most to least.</li>
       <li>Stuck? <b>Reveal</b> another ingredient. Each reveal is worth one point less.</li>
@@ -41,13 +42,22 @@
       <li>Watch out — it might not be food at all.</li>
     </ol>
     <p class="hint">Use the arrows on your remote and press OK. On a keyboard, 1–4 picks an answer and R reveals.</p>
-    <div class="row"><button class="btn primary focusable" data-action="setup">Let's play</button>
+    <div class="row"><button class="btn primary focusable" data-action="books">Let's play</button>
     <button class="btn focusable" data-action="title">Back</button></div>
+  </section>
+
+  <!-- PICK A BOOK -->
+  <section class="screen" id="s-books">
+    <p class="series small">Ingredient Dictionary</p>
+    <h2 class="h2 tight">Pick your book</h2>
+    <div class="books" id="book-list"></div>
+    <div class="row"><button class="btn focusable" data-action="title">Back</button></div>
   </section>
 
   <!-- SETUP -->
   <section class="screen" id="s-setup">
-    <h2 class="h2">Game setup</h2>
+    <p class="series small" id="setup-book"></p>
+    <h2 class="h2 tight">Game setup</h2>
     <div class="setup">
       <div class="setting">
         <span class="label">Teams</span>
@@ -68,7 +78,7 @@
       </div>
     </div>
     <div class="row"><button class="btn primary focusable" data-action="start">Start game</button>
-    <button class="btn focusable" data-action="title">Back</button></div>
+    <button class="btn focusable" data-action="books">Back</button></div>
   </section>
 
   <!-- ROUND -->
@@ -94,6 +104,7 @@
   <!-- RESULT -->
   <section class="screen" id="s-result">
     <div class="result">
+     <div>
       <p id="verdict" class="verdict"></p>
       <h2 id="r-answer" class="r-answer"></h2>
       <p id="r-kind" class="r-kind"></p>
@@ -102,8 +113,12 @@
         <h3 id="r-spot-name"></h3>
         <p id="r-spot-note"></p>
       </div>
-      <p class="r-book">Learn more in <b id="r-book"></b></p>
       <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button></div>
+     </div>
+      <a class="r-book" id="r-book" target="_blank" rel="noopener">
+        <img id="r-cover" alt="" />
+        <span>Learn more in<br /><b id="r-book-title"></b></span>
+      </a>
     </div>
   </section>
 
@@ -118,9 +133,12 @@
         <button class="btn focusable" data-action="title">Main menu</button></div>
       </div>
       <aside class="promo">
-        <img src="qr-books.svg" alt="QR code to the Ingredient Dictionary books" />
-        <p><b>What's really in your stuff?</b><br />Scan for the Ingredient Dictionary books by Maeser.</p>
-        <p class="url">maeserbern-ai.github.io</p>
+        <img id="f-cover" class="f-cover" alt="" />
+        <div>
+          <img id="f-qr" class="f-qr" alt="QR code to the book" />
+          <p><b>What's really in your stuff?</b><br />Scan to get <span id="f-title"></span> by Maeser.</p>
+          <a id="f-link" class="url" target="_blank" rel="noopener">Get the book &rarr;</a>
+        </div>
       </aside>
     </div>
   </section>

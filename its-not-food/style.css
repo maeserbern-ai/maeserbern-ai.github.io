@@ -79,7 +79,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .score.on{border-color:currentColor;}
 .score i{width:20px;height:20px;border-radius:50%;background:currentColor;display:inline-block;}
 .score span{color:var(--ink);}
-.progress{font-size:30px;color:var(--muted);font-weight:700;}
+.progress{font-size:30px;color:var(--muted);font-weight:700;text-align:right;line-height:1.5;}
 .round-body{flex:1;display:grid;grid-template-columns:1.12fr 1fr;gap:64px;min-height:0;}
 
 .label-card{background:var(--label);color:var(--label-ink);border-radius:20px;padding:40px 48px;
@@ -107,7 +107,6 @@ button{font:inherit;color:inherit;cursor:pointer;}
 
 /* ---------- result ---------- */
 #s-result{justify-content:center;}
-.result{max-width:1500px;}
 .verdict{font-size:56px;font-weight:800;margin:0 0 6px;}
 .verdict.good{color:var(--good);} .verdict.bad{color:var(--bad);}
 .r-answer{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:120px;line-height:1;margin:0 0 18px;}
@@ -118,8 +117,6 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .spot-tag{font-size:26px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);}
 .spot h3{font-family:"Fraunces",Georgia,serif;font-size:56px;margin:8px 0 10px;}
 .spot p{font-size:40px;line-height:1.4;margin:0;color:var(--ink-soft);}
-.r-book{font-size:32px;color:var(--muted);margin:0 0 44px;}
-.r-book b{color:var(--ink);}
 
 /* ---------- final ---------- */
 #s-final{justify-content:center;}
@@ -130,7 +127,6 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .final-scores i{width:28px;height:28px;border-radius:50%;background:currentColor;}
 .final-scores span{color:var(--ink);}
 .promo{background:var(--label);color:var(--label-ink);border-radius:24px;padding:40px;text-align:center;}
-.promo img{width:360px;height:360px;display:block;margin:0 auto 24px;}
 .promo p{font-size:32px;line-height:1.35;margin:0 0 10px;}
 .promo .url{font-weight:800;font-size:30px;color:#3F5D4F;}
 
@@ -139,3 +135,36 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .modal[hidden]{display:none;}
 .modal-box{background:var(--bg-2);padding:64px 80px;border-radius:28px;text-align:center;}
 .modal-box h3{font-family:"Fraunces",Georgia,serif;font-size:72px;margin:0 0 44px;}
+
+/* ---------- series label + book picker ---------- */
+.series{font-size:40px;font-weight:800;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin:0 0 18px;}
+.series.small{font-size:28px;margin:0;}
+.h2.tight{margin-top:4px;}
+.tag b{color:var(--ink);}
+.books{display:grid;grid-template-columns:repeat(6,1fr);gap:32px;margin-bottom:48px;}
+.book{border:0;background:transparent;padding:14px;border-radius:20px;display:flex;flex-direction:column;
+  align-items:center;gap:18px;text-align:center;transition:transform .15s ease;}
+.book img,.book .mix{width:100%;aspect-ratio:563/900;object-fit:cover;border-radius:6px 12px 12px 6px;
+  box-shadow:0 24px 40px -20px rgba(0,0,0,.8);background:#fff;}
+.book .mix{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,1fr);gap:6px;padding:10px;background:var(--bg-2);}
+.book .mix img{aspect-ratio:auto;width:100%;height:100%;border-radius:3px;box-shadow:none;}
+.book .mix span{display:grid;place-items:center;font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:40px;color:var(--gold);}
+.book b{font-size:30px;line-height:1.2;font-weight:800;}
+.book small{font-size:24px;color:var(--muted);font-weight:700;margin-top:-10px;}
+.book.focus{background:var(--bg-2);}
+.round-book{font-size:26px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+
+/* ---------- result + final book links ---------- */
+.result{display:grid;grid-template-columns:1fr 380px;gap:72px;align-items:center;max-width:none;}
+.r-book{display:flex;flex-direction:column;gap:22px;align-items:center;text-align:center;text-decoration:none;
+  color:var(--muted);font-size:30px;line-height:1.35;margin:0;}
+.r-book img{width:300px;aspect-ratio:563/900;object-fit:cover;background:#fff;border-radius:6px 12px 12px 6px;
+  box-shadow:0 30px 50px -20px rgba(0,0,0,.8);}
+.r-book b{color:var(--ink);}
+.final{grid-template-columns:1fr 760px;}
+.promo{display:flex;gap:36px;align-items:center;text-align:left;}
+.promo .f-cover{width:250px;aspect-ratio:563/900;object-fit:cover;border-radius:6px 12px 12px 6px;
+  box-shadow:0 24px 40px -18px rgba(0,0,0,.6);flex:none;}
+.promo .f-cover[hidden]{display:none;}
+.promo .f-qr{width:260px;height:260px;display:block;margin:0 0 18px;}
+.promo a.url{text-decoration:none;}

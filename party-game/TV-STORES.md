@@ -12,7 +12,8 @@ Anyone can play it on a TV right away by:
 - opening that link in a smart TV's web browser, or
 - casting/screen-mirroring a laptop or phone (AirPlay, Chromecast, HDMI cable).
 
-Use the arrow keys + Enter (or a TV remote). Keys 1–4 pick answers, R reveals a clue.
+Play with a TV remote: arrows to move, the center OK button to pick, Back to pause.
+On a computer, the arrow keys + Enter or a mouse work too.
 
 ## 2. LG TVs (webOS) — free developer account
 
@@ -63,12 +64,13 @@ shows the start of a real-style ingredient list — candy, cleaners, shampoo, do
 treats, whipped cream and more. Pick any Ingredient Dictionary book —
 It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
 Not Safe — or mix them all. Every game ends with a What Is Toilet Paper?
-true-or-false finale where teams bet their points. Pick Easy, Medium or Hard — harder
+true-or-false finale where teams bet their points. Miss a question and the first
+team to yell "STEAL!" gets a shot at half the points. Pick Easy, Medium or Hard — harder
 levels start from the obscure chemicals at the bottom of the label and score more.
-Stuck on an ingredient? Tap it to see what it is. Red and amber highlights
+Stuck on an ingredient? Select it to see what it is. Red and amber highlights
 show which ingredients are worth knowing about and which hide what's inside. Guess the product with as few clues as possible to
 score big. Every answer comes with a "weird ingredient" fact you'll be repeating
-at dinner. 1–4 teams, plays entirely with your remote. From the Ingredient
+at dinner. Optional answer timer, 1–4 teams, plays entirely with your remote. From the Ingredient
 Dictionary book series by Maeser.
 
 **Category:** Games → Trivia / Family
@@ -91,5 +93,5 @@ order, a spotlight fact, and which book it belongs to (`food`, `beauty`, `clean`
 
 ## Ingredient help text
 
-`glossary.js` holds the plain-English "what is it?" text players see when they tap an
+`glossary.js` holds the plain-English "what is it?" text players see when they select an
 ingredient. If you add a puzzle with a new ingredient, add a line there too.

@@ -1,0 +1,12 @@
+{
+  "id": "io.github.maeserbern.itsnotfood",
+  "version": "1.0.0",
+  "vendor": "Maeser",
+  "type": "web",
+  "main": "index.html",
+  "title": "It's Not Food",
+  "icon": "icon-80.png",
+  "largeIcon": "icon-130.png",
+  "resolution": "1920x1080",
+  "disableBackHistoryAPI": true
+}

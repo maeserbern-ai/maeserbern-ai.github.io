@@ -68,12 +68,14 @@ jobs:
       # Copy only what the TV apps need.
       - name: Prepare files
         run: |
-          mkdir -p tv/lg tv/samsung out
-          rsync -a --exclude TV-STORES.md --exclude config.xml --exclude icon-samsung.png --exclude sw.js --exclude manifest.webmanifest party-game/ tv/lg/
-          rsync -a --exclude TV-STORES.md --exclude appinfo.json --exclude sw.js --exclude manifest.webmanifest party-game/ tv/samsung/
+          mkdir -p tv out
+          cp -r party-game tv/lg
+          cp -r party-game tv/samsung
+          rm -f tv/*/TV-STORES.md tv/*/sw.js tv/*/manifest.webmanifest
+          rm -f tv/lg/config.xml tv/lg/icon-samsung.png tv/samsung/appinfo.json
 
       - name: LG webOS package (.ipk)
-        run: npx --yes @webos-tools/cli@3 ares-package --no-minify -o out tv/lg
+        run: npx --yes -p @webos-tools/cli@3 ares-package --no-minify -o out tv/lg
 
       # Samsung signs the final package with your Samsung certificates in Tizen
       # Studio; this zip is the app ready for that step (see party-game/TV-STORES.md).

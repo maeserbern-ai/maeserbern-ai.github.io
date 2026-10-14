@@ -55,7 +55,7 @@ Swift. Ask Claude for the Swift version when you're ready.
 
 **Name:** Ingredient Dictionary: The Party Game
 
-**Short description:** Snack or shampoo? Guess the product from its ingredient list.
+**Short description:** Snack or Shampoo? Guess the product from its ingredient list.
 
 **Full description:**
 Gather the family and find out who really knows what's in their stuff. Each round

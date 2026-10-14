@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Ingredient Dictionary: The Party Game</title>
-<meta name="description" content="Snack or shampoo? A living-room party game from the Ingredient Dictionary books by Maeser: guess the product from its ingredient list." />
+<meta name="description" content="Snack or Shampoo? A living-room party game from the Ingredient Dictionary books by Maeser: guess the product from its ingredient list." />
 <meta property="og:title" content="Ingredient Dictionary: The Party Game" />
-<meta property="og:description" content="Snack or shampoo? Guess the product from its ingredient list." />
+<meta property="og:description" content="Snack or Shampoo? Guess the product from its ingredient list." />
 <link rel="icon" href="icon-130.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,7 +22,7 @@
     <div class="title-wrap">
       <p class="series">Ingredient Dictionary</p>
       <h1 class="logo">The <span>Party</span> Game</h1>
-      <p class="hook">Snack or shampoo?</p>
+      <p class="hook">Snack or Shampoo?</p>
       <p class="tag">Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
       <div class="row">
         <button class="btn primary focusable" data-action="books">Play</button>
@@ -167,11 +167,14 @@
         <h2 id="winner" class="winner"></h2>
         <ol id="final-scores" class="final-scores"></ol>
         <div class="dare" id="dare" hidden>
-          <span class="dare-tag" id="dare-who"></span>
+          <div class="dare-head">
+            <span class="dare-tag" id="dare-who"></span>
+            <button class="btn small focusable" data-action="new-dare" id="new-dare-btn">New dare</button>
+          </div>
           <p id="dare-text"></p>
         </div>
         <div class="row"><button class="btn primary focusable" data-action="start">Play again</button>
-        <button class="btn focusable" data-action="new-dare" id="new-dare-btn">New dare</button>
+        <button class="btn focusable" data-action="books">Change game</button>
         <button class="btn focusable" data-action="title">Main menu</button></div>
       </div>
       <aside class="promo">

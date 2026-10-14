@@ -266,7 +266,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
 
 /* ---------- title hook line ---------- */
 .hook{font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:600;font-size:72px;line-height:1.1;
-  color:var(--ink);margin:0 0 18px;}
+  color:var(--gold);margin:0 0 18px;}
 .hook + .tag{margin-top:0;}
 
 /* ---------- answer screen: roomier two-column layout ---------- */
@@ -290,3 +290,8 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .r-side.solo .r-book img{width:300px;}
 #s-title .logo{font-size:206px;margin-bottom:56px;}
 #s-title .logo span{margin-right:.1em;}
+.dare-head{display:flex;align-items:center;justify-content:space-between;gap:24px;}
+.dare-head .btn.small{font-size:26px;padding:12px 28px;}
+#s-final .row .btn{font-size:34px;padding:22px 40px;}
+#s-final .row{gap:22px;flex-wrap:nowrap;}
+.get-book{font-size:26px;white-space:nowrap;}

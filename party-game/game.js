@@ -507,7 +507,7 @@
     $("#f-link").innerHTML = bk ? `Get ${bk.name} on Amazon &rarr;` : "See all the books &rarr;";
 
     beep([523, 659, 784, 1047], 0.13);
-    show("s-final");
+    show("s-final", '#s-final [data-action="start"]');
     const winColors = game.teams === 1 || winners.length > 1 ? TEAM_COLORS_HEX : [TEAM_COLORS_HEX[winners[0].i]];
     confetti(260, winColors.concat(["#F2C46B", "#F4F3EE"]));
     setTimeout(() => current === "s-final" && confetti(160, winColors.concat(["#F2C46B"])), 900);

@@ -67,9 +67,14 @@
   function audioCtx() {
     if (!audio) {
       audio = new (window.AudioContext || window.webkitAudioContext)();
+      // Boost everything, then run it through a limiter so loud moments
+      // (fanfare + applause) get punchier without distorting.
       master = audio.createGain();
-      master.gain.value = 0.55;
-      master.connect(audio.destination);
+      master.gain.value = 1.9;
+      const limiter = audio.createDynamicsCompressor();
+      limiter.threshold.value = -8; limiter.knee.value = 6; limiter.ratio.value = 12;
+      limiter.attack.value = 0.003; limiter.release.value = 0.2;
+      master.connect(limiter).connect(audio.destination);
     }
     if (audio.state === "suspended") audio.resume();
     return audio;
@@ -154,11 +159,6 @@
   }
   // Harder difficulty earns more: Medium +1, Hard +2 on ingredient questions.
   const LEVEL_BONUS = { 1: 0, 2: 1, 3: 2 };
-  // Show "It's food / It's not food" only when the deck mixes both.
-  function kindMatters(book) {
-    const kinds = new Set(mainPool(book).map((p) => p.kind).filter(Boolean));
-    return kinds.size > 1;
-  }
   function bookLabel(book) {
     return book === "all" ? "All the books, mixed" : BOOKS[book].title;
   }
@@ -464,12 +464,6 @@
       : lost ? `Nope — you said ${choice}. You lose ${lost} point${lost === 1 ? "" : "s"}.`
       : `Nope — you said ${choice}.`;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
-    const k = $("#r-kind");
-    k.hidden = tf || !kindMatters(game.book);
-    if (!k.hidden) {
-      k.className = "r-kind " + p.kind;
-      k.textContent = p.kind === "food" ? "It's food" : "It's not food";
-    }
 
     // Explanation card.
     $("#r-spot-tag").textContent = tf ? "The real story" : "Weird ingredient spotlight";

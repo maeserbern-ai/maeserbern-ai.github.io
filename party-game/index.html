@@ -41,6 +41,7 @@
       <li>You start with the first <b>3 ingredients</b> — they're listed from most to least.</li>
       <li>Stuck? <b>Reveal</b> another ingredient. Each reveal is worth one point less.</li>
       <li>Pick an answer. Right = points. Wrong = zero.</li>
+      <li>Points go up <b>+1 every round</b>, and each team's <b>final round is worth double</b>.</li>
       <li>Don't know an ingredient? <b>Tap it for help</b> to see what it is. Each one you look up costs 1 point.</li>
       <li><b class="hl-warn">Red</b> ingredients are worth knowing about. <b class="hl-unknown">Amber</b> ones hide what's really inside.</li>
       <li>Watch out — it might not be food at all.</li>
@@ -96,7 +97,7 @@
   <!-- ROUND -->
   <section class="screen" id="s-round">
     <header class="hud">
-      <div id="turn" class="turn"></div>
+      <div class="turn-wrap"><div id="turn" class="turn"></div><div id="stakes" class="stakes" hidden></div></div>
       <div id="scores" class="scores"></div>
       <div id="progress" class="progress"></div>
     </header>

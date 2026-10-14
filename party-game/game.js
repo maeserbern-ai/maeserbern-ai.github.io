@@ -175,6 +175,7 @@
     $("#progress").innerHTML = `<span class="round-book"></span><br />Round ${game.index + 1} of ${game.deck.length}`;
     $("#progress .round-book").textContent = game.book === "all" ? "All books" : BOOKS[game.book].name;
     renderScores();
+    showStakes();
 
     const list = $("#ingredients");
     list.innerHTML = "";
@@ -203,11 +204,31 @@
     show("s-round", "#answers .answer");
   }
 
+  // Rising stakes: every full lap of turns adds +1 to what a question is worth,
+  // and each team's last turn counts double. Reveals and help still subtract.
+  function lapOf(i) { return Math.floor(i / game.teams); }
+  function laps() { return game.deck.length / game.teams; }
+  function isFinal(i) { return laps() > 1 && lapOf(i) === laps() - 1; }
+  function basePoints(i) {
+    return (game.deck[i].type === "tf" ? TF_POINTS : MAX_POINTS) + lapOf(i);
+  }
   function points() {
-    const p = game.deck[game.index];
-    if (p.type === "tf") return TF_POINTS;
-    const reveals = game.shown - Math.min(START_SHOWN, p.ingredients.length);
-    return Math.max(1, MAX_POINTS - reveals - game.helped.size);
+    const i = game.index, p = game.deck[i];
+    const reveals = p.type === "tf" ? 0 : game.shown - Math.min(START_SHOWN, p.ingredients.length);
+    const pts = Math.max(1, basePoints(i) - reveals - game.helped.size);
+    return isFinal(i) ? pts * 2 : pts;
+  }
+  function showStakes() {
+    const i = game.index, el = $("#stakes");
+    el.className = "stakes";
+    if (isFinal(i)) {
+      el.textContent = "Final round ×2";
+      el.classList.add("is-final");
+      if (i % game.teams === 0) { beep([523, 784, 1047], 0.12); confetti(90, ["#F2C46B", "#E07A55"]); }
+    } else if (lapOf(i) > 0) {
+      el.textContent = `Points are up +${lapOf(i)}`;
+    }
+    el.hidden = !(isFinal(i) || lapOf(i) > 0);
   }
 
   /* ---------- ingredient help during a question ---------- */
@@ -225,7 +246,8 @@
   function resetHelp() {
     const t = $("#help-text");
     t.className = "help-text";
-    t.innerHTML = 'Tap an ingredient to see what it is <span>(−1 point)</span>';
+    const cost = isFinal(game.index) ? 2 : 1;
+    t.innerHTML = `Tap an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
   }
   function help(i) {
     const p = game.deck[game.index];
@@ -342,7 +364,7 @@
   }
 
   function maxPoints() {
-    return game.deck.reduce((sum, p) => sum + (p.type === "tf" ? TF_POINTS : MAX_POINTS), 0);
+    return game.deck.reduce((sum, p, i) => sum + basePoints(i) * (isFinal(i) ? 2 : 1), 0);
   }
 
   function finish() {

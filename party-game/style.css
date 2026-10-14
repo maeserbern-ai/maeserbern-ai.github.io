@@ -72,7 +72,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
 
 /* ---------- round ---------- */
 .hud{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-bottom:40px;}
-.turn{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:58px;}
+.turn{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:58px;white-space:nowrap;}
 .scores{display:flex;gap:20px;}
 .score{display:flex;align-items:center;gap:14px;font-size:34px;font-weight:800;background:var(--bg-2);
   padding:12px 26px;border-radius:999px;border:3px solid transparent;}
@@ -242,3 +242,13 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .help-text.warn em{color:var(--warn-ink);} .help-text.unknown em{color:var(--unknown-ink);}
 .hl-warn{color:#F08A80;} .hl-unknown{color:var(--gold);}
 .ingredients li:not(:last-child)::after{margin-left:-8px;}
+
+/* ---------- rising stakes ---------- */
+.turn-wrap{display:flex;align-items:center;gap:22px;min-width:0;}
+.hud .scores,.hud .progress{flex:none;white-space:nowrap;}
+.stakes{flex:none;white-space:nowrap;width:max-content;font-size:26px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--gold);background:rgba(242,196,107,.12);border:2px solid rgba(242,196,107,.5);border-radius:999px;padding:4px 18px;}
+.stakes[hidden]{display:none;}
+.stakes.is-final{color:#1A1C1E;background:var(--gold);border-color:var(--gold);animation:pulse 1.2s ease-in-out infinite;}
+@keyframes pulse{50%{transform:scale(1.06);}}
+@media (prefers-reduced-motion: reduce){.stakes.is-final{animation:none;}}

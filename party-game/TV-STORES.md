@@ -60,7 +60,7 @@ Swift. Ask Claude for the Swift version when you're ready.
 **Full description:**
 Gather the family and find out who really knows what's in their stuff. Each round
 shows the start of a real-style ingredient list — candy, cleaners, shampoo, dog
-treats, whipped cream and more. Pick a deck from any Ingredient Dictionary book —
+treats, whipped cream and more. Pick any Ingredient Dictionary book —
 It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
 Not Safe — or mix them all. Every game ends with a What Is Toilet Paper?
 true-or-false finale where teams bet their points. Pick Easy, Medium or Hard — harder

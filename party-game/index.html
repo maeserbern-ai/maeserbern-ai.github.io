@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ingredient Dictionary: The Party Game</title>
+<meta name="description" content="Snack or Shampoo? A living-room party game from the Ingredient Dictionary books by Maeser: guess the product from its ingredient list." />
+<meta property="og:title" content="Ingredient Dictionary: The Party Game" />
+<meta property="og:description" content="Snack or Shampoo? Guess the product from its ingredient list." />
+<link rel="icon" href="icon-130.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@500;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="stage">
+  <canvas id="confetti" width="1920" height="1080" aria-hidden="true"></canvas>
+
+  <!-- TITLE -->
+  <section class="screen active" id="s-title">
+    <div class="title-wrap">
+      <p class="series">Ingredient Dictionary</p>
+      <h1 class="logo">The <span>Party</span> Game</h1>
+      <p class="hook">Snack or Shampoo?</p>
+      <p class="tag">Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
+      <div class="row">
+        <button class="btn primary focusable" data-action="books">Play</button>
+        <button class="btn focusable" data-action="howto">How to play</button>
+        <button class="btn focusable" data-action="sound">Sound: On</button>
+        <button class="btn focusable" data-action="music">Music: On</button>
+      </div>
+    </div>
+    <p class="credit">From the <b>Ingredient Dictionary</b> book series by Maeser</p>
+  </section>
+
+  <!-- HOW TO -->
+  <section class="screen" id="s-howto">
+    <h2 class="h2 howto-title">How to play</h2>
+    <ul class="steps">
+      <li><b>Split into teams</b> and pick your colors. The TV shuffles who goes first. <i>No arguing.</i></li>
+      <li><b>Read the 3 ingredients</b> and guess the product. <i>Snack or Shampoo?</i></li>
+      <li><b>Need a hint?</b> Select a covered box to uncover it, or an ingredient to see what it is. −1 point each.</li>
+      <li><b>Right answer = points.</b> Wrong answer = zero. <i>And a little shame.</i></li>
+      <li><b>Steal!</b> Miss it and the first team to yell <b>“STEAL!”</b> tries for half the points. Miss, lose them.</li>
+      <li><span class="hl-warn">Red</span> ingredients are worth knowing about. <span class="hl-unknown">Amber</span> ones are kept secret.</li>
+      <li><b>Points go up</b> every round, and your last round counts double. <i>Comebacks happen.</i></li>
+      <li><b>Hard mode</b> starts with the weird chemicals and pays more. <i>Sweating optional.</i></li>
+      <li><b>Timer</b> (optional): Easy 60 sec, Medium 45, Hard 30, steals 10. Buy +15 sec once.</li>
+      <li><b>Finale:</b> bet your points on toilet paper trivia. Lowest score does a dare. <i>Yes, really.</i></li>
+    </ul>
+    <p class="hint">Remote: <b>arrows</b> to move, the <b>center OK button</b> to pick. Pass it to the team whose turn it is. <b>Back</b> pauses the game.</p>
+    <div class="row"><button class="btn primary focusable" data-action="books">Let's play</button>
+    <button class="btn focusable" data-action="title">Back</button></div>
+  </section>
+
+  <!-- PICK A BOOK -->
+  <section class="screen" id="s-books">
+    <p class="series small">Ingredient Dictionary</p>
+    <h2 class="h2 tight">Pick your book</h2>
+    <div class="books" id="book-list"></div>
+    <div class="row"><button class="btn focusable" data-action="title">Back</button></div>
+  </section>
+
+  <!-- SETUP -->
+  <section class="screen" id="s-setup">
+    <p class="series small" id="setup-book"></p>
+    <h2 class="h2 tight">Game setup</h2>
+    <div class="setup">
+      <div class="setting">
+        <span class="label">Teams</span>
+        <div class="row" data-group="teams">
+          <button class="chip focusable" data-teams="1">Solo</button>
+          <button class="chip focusable selected" data-teams="2">2</button>
+          <button class="chip focusable" data-teams="3">3</button>
+          <button class="chip focusable" data-teams="4">4</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Rounds per team</span>
+        <div class="row" data-group="rounds">
+          <button class="chip focusable" data-rounds="3">3</button>
+          <button class="chip focusable selected" data-rounds="5">5</button>
+          <button class="chip focusable" data-rounds="8">8</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Difficulty — which ingredients show first</span>
+        <div class="row" data-group="level">
+          <button class="chip focusable selected" data-level="1">Easy</button>
+          <button class="chip focusable" data-level="2">Medium</button>
+          <button class="chip focusable" data-level="3">Hard</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Answer timer</span>
+        <div class="row" data-group="timer">
+          <button class="chip focusable selected" data-timer="0">Off</button>
+          <button class="chip focusable" data-timer="1">On</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Steals</span>
+        <div class="row" data-group="steal">
+          <button class="chip focusable selected" data-steal="1">On</button>
+          <button class="chip focusable" data-steal="0">Off</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Loser's dare</span>
+        <div class="row" data-group="dare">
+          <button class="chip focusable selected" data-dare="1">On</button>
+          <button class="chip focusable" data-dare="0">Off</button>
+        </div>
+      </div>
+      <p class="total" id="setup-total"></p>
+    </div>
+    <div class="row"><button class="btn primary focusable" data-action="start">Start game</button>
+    <button class="btn focusable" data-action="books">Back</button></div>
+  </section>
+
+  <!-- TEAM COLORS + TURN ORDER -->
+  <section class="screen" id="s-order">
+    <p class="series small" id="order-kicker"></p>
+    <h2 class="h2 tight" id="order-title"></h2>
+    <div class="order-list" id="order-list"></div>
+    <p class="order-tip" id="order-tip"></p>
+    <div class="row" id="order-buttons"></div>
+  </section>
+
+  <!-- ROUND -->
+  <section class="screen" id="s-round">
+    <header class="hud">
+      <div class="turn-wrap"><div id="turn" class="turn"></div><div id="stakes" class="stakes" hidden></div></div>
+      <div id="scores" class="scores"></div>
+      <div id="progress" class="progress"></div>
+    </header>
+    <div class="round-body">
+      <div class="label-card">
+        <div class="label-head">
+          <span>INGREDIENTS:</span>
+          <span id="worth" class="worth"></span>
+          <i id="timer-bar" class="timer-bar" hidden></i>
+        </div>
+        <div class="clock-ring" id="clock" hidden>
+          <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="52"></circle><circle class="prog" id="clock-prog" cx="60" cy="60" r="52"></circle></svg>
+          <span id="clock-num"></span>
+        </div>
+        <ol id="ingredients" class="ingredients"></ol>
+        <p id="statement" class="statement" hidden></p>
+        <div class="help" id="help">
+          <p class="legend"><span class="key warn">!</span> worth knowing <span class="key unknown">?</span> not fully disclosed</p>
+          <p id="help-text" class="help-text">Select an ingredient to see what it is <span>(−1 point)</span></p>
+        </div>
+        <div class="card-foot">
+          <button id="reveal" class="btn small ghost focusable" data-action="reveal">Next ingredient</button>
+          <button id="extend" class="btn small ghost focusable" data-action="extend" hidden>+15 sec</button>
+          <button class="btn small ghost focusable" data-action="menu">Menu</button>
+        </div>
+      </div>
+      <div class="answers" id="answers"></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="s-result">
+    <div class="result">
+     <div class="r-main">
+      <p id="verdict" class="verdict"></p>
+      <h2 id="r-answer" class="r-answer"></h2>
+      <div id="explain">
+        <div class="spot">
+          <span class="spot-tag" id="r-spot-tag">Weird ingredient spotlight</span>
+          <h3 id="r-spot-name"></h3>
+          <p id="r-spot-note"></p>
+        </div>
+        <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button>
+        <button class="btn ghost-dark focusable" data-action="menu">Menu</button></div>
+      </div>
+     </div>
+     <aside class="r-side" id="r-side">
+      <div class="watch" id="watch" hidden>
+        <span class="spot-tag">Ingredients to know about</span>
+        <ul id="watch-list"></ul>
+      </div>
+      <a class="r-book" id="r-book" target="_blank" rel="noopener">
+        <img id="r-cover" alt="" />
+        <span>Learn more in<br /><b id="r-book-title"></b></span>
+      </a>
+     </aside>
+    </div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="screen" id="s-final">
+    <div class="final">
+      <div>
+        <p class="kicker">Game over</p>
+        <h2 id="winner" class="winner"></h2>
+        <ol id="final-scores" class="final-scores"></ol>
+        <div class="dare" id="dare" hidden>
+          <div class="dare-head">
+            <span class="dare-tag" id="dare-who"></span>
+            <button class="btn small focusable" data-action="new-dare" id="new-dare-btn">New dare</button>
+          </div>
+          <p id="dare-text"></p>
+        </div>
+        <div class="row"><button class="btn primary focusable" data-action="start">Play again</button>
+        <button class="btn focusable" data-action="books">Change game</button>
+        <button class="btn focusable" data-action="title">Main menu</button></div>
+      </div>
+      <aside class="promo">
+        <p class="promo-kicker">What's really in your stuff?</p>
+        <div class="qr-wrap">
+          <img id="f-qr" class="f-qr" alt="QR code to the book" />
+          <img id="f-cover" class="qr-cover" alt="" />
+        </div>
+        <p class="promo-title">Scan to get<br /><b id="f-title"></b></p>
+        <a id="f-link" class="get-book" target="_blank" rel="noopener"></a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- QUIT CONFIRM -->
+  <div class="wrong-pop" id="wrong-pop" hidden>
+    <b id="pop-title">WRONG!</b>
+    <span id="wrong-sub"></span>
+  </div>
+
+  <div class="modal" id="m-steal" hidden>
+    <div class="modal-box steal-box">
+      <p class="steal-kicker" id="steal-kicker"></p>
+      <h3>Steal it?</h3>
+      <p class="steal-sub" id="steal-sub"></p>
+      <div class="menu-list" id="steal-teams"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="m-quit" hidden>
+    <div class="modal-box">
+      <h3>Game paused</h3>
+      <div class="menu-list">
+        <button class="btn primary focusable" data-action="quit-no">Resume game</button>
+        <div class="toggle-grid">
+          <button class="btn focusable" data-action="sound">Sound: On</button>
+          <button class="btn focusable" data-action="music">Music: On</button>
+          <button class="btn focusable" data-action="timer-toggle">Timer: Off</button>
+          <button class="btn focusable" data-action="steal-toggle">Steals: On</button>
+        </div>
+        <button class="btn focusable" data-action="change-game">Change game or options</button>
+        <button class="btn focusable" data-action="quit-yes">Quit to main menu</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="puzzles.js"></script>
+<script src="glossary.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

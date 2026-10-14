@@ -1,0 +1,12 @@
+{
+  "id": "io.github.maeserbern.ingredientpartygame",
+  "version": "1.0.0",
+  "vendor": "Maeser",
+  "type": "web",
+  "main": "index.html",
+  "title": "Ingredient Dictionary: The Party Game",
+  "icon": "icon-80.png",
+  "largeIcon": "icon-130.png",
+  "resolution": "1920x1080",
+  "disableBackHistoryAPI": true
+}

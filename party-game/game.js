@@ -12,7 +12,7 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const settings = { teams: 2, rounds: 5, book: "all", dare: 1 };
+  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1 };
 
   // Silly, safe dares for the last-place team. Nothing here involves eating or
   // touching a product — the game is about labels, not tasting.
@@ -161,6 +161,7 @@
     const p = game.deck[game.index];
     const tf = p.type === "tf";
     game.shown = tf ? 0 : Math.min(START_SHOWN, p.ingredients.length);
+    game.order = tf ? [] : revealOrder(p.ingredients.length);
     game.options = choicesFor(p);
     game.team = game.index % game.teams;
     $(".label-card").classList.toggle("tf", tf);
@@ -183,7 +184,7 @@
     resetHelp();
     (p.ingredients || []).forEach((ing, i) => {
       const li = document.createElement("li");
-      if (i < game.shown) li.appendChild(ingredientButton(ing, i));
+      if (game.order.indexOf(i) < game.shown) li.appendChild(ingredientButton(ing, i));
       else { li.className = "hidden"; li.textContent = ing; li.setAttribute("aria-hidden", "true"); }
       list.appendChild(li);
     });
@@ -231,6 +232,21 @@
     el.hidden = !(isFinal(i) || lapOf(i) > 0);
   }
 
+  // Which ingredients appear first. Labels list the biggest amounts first, so
+  // the top of the label is the easiest clue and the bottom is the hardest.
+  //   Easy:   top of the label, revealing downward
+  //   Medium: middle of the label, spreading out
+  //   Hard:   bottom of the label (the tiny-amount chemicals), revealing upward
+  function revealOrder(n) {
+    const idx = Array.from({ length: n }, (_, i) => i);
+    if (settings.level === 3) return idx.reverse();
+    if (settings.level === 2) {
+      const mid = (n - 1) / 2;
+      return idx.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid) || b - a);
+    }
+    return idx;
+  }
+
   /* ---------- ingredient help during a question ---------- */
   // Each visible ingredient is a button. Red = worth knowing about,
   // amber = not fully disclosed. Looking one up costs a point (once each).
@@ -276,11 +292,12 @@
   function reveal() {
     const p = game.deck[game.index];
     if (p.type === "tf" || game.shown >= p.ingredients.length) return;
-    const li = $("#ingredients").children[game.shown];
+    const idx = game.order[game.shown];
+    const li = $("#ingredients").children[idx];
     li.className = "new";
     li.removeAttribute("aria-hidden");
     li.textContent = "";
-    li.appendChild(ingredientButton(p.ingredients[game.shown], game.shown));
+    li.appendChild(ingredientButton(p.ingredients[idx], idx));
     game.shown++;
     beep([520]);
     updateWorth();
@@ -480,6 +497,7 @@
     if (el.dataset.teams) { pick(el, "teams"); return; }
     if (el.dataset.rounds) { pick(el, "rounds"); return; }
     if (el.dataset.dare) { pick(el, "dare"); return; }
+    if (el.dataset.level) { pick(el, "level"); return; }
     if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
       case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;
@@ -500,7 +518,7 @@
     settings[key] = Number(el.dataset[key]);
     updateTotal();
     // Guide the remote: teams -> rounds -> dare -> Start.
-    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
+    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-level].selected", level: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
     setFocus($(nextFocus[key]));
   }
 

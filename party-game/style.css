@@ -54,7 +54,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
   position:relative;z-index:2;}
 
 /* ---------- title ---------- */
-#s-title{justify-content:center;}
+#s-title{justify-content:center;padding-bottom:150px;}
 .title-wrap{max-width:1500px;}
 .logo{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:230px;line-height:.9;margin:0 0 36px;letter-spacing:-.02em;}
 .logo span{color:var(--pop);font-style:italic;}
@@ -67,7 +67,8 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .howto li{margin-bottom:14px;}
 .howto b{color:var(--gold);}
 .hint{font-size:32px;color:var(--muted);margin:0 0 48px;}
-.setup{display:flex;flex-direction:column;gap:30px;margin-bottom:40px;}
+.setup{display:grid;grid-template-columns:auto auto;justify-content:start;gap:34px 120px;margin-bottom:40px;}
+.setup .total{grid-column:1 / -1;}
 .setting .label{display:block;font-size:34px;color:var(--ink-soft);margin-bottom:16px;font-weight:700;}
 
 /* ---------- round ---------- */

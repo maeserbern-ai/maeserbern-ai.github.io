@@ -13,7 +13,7 @@
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
   const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1, timer: 0 };
-  const TIMER_SECONDS = { 1: 30, 2: 20, 3: 15 };   // Easy / Medium / Hard
+  const TIMER_SECONDS = { 1: 60, 2: 45, 3: 30 };   // Easy / Medium / Hard
 
   // Silly, safe dares for the last-place team. Nothing here involves eating or
   // touching a product — the game is about labels, not tasting.
@@ -247,7 +247,7 @@
     $("#clock").textContent = sec + "s";
     const bar = $("#timer-bar");
     bar.style.width = Math.max(0, timer.left / timer.total * 100) + "%";
-    const urgent = timer.left <= 5000;
+    const urgent = timer.left <= 10000;   // last 10 seconds: red bar + ticking
     bar.classList.toggle("urgent", urgent); $("#clock").classList.toggle("urgent", urgent);
     if (urgent && sec !== timer.lastSec && sec > 0) sfx("tick");
     timer.lastSec = sec;

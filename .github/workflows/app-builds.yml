@@ -111,11 +111,12 @@ jobs:
       - name: Name the files clearly
         run: |
           mkdir out
-          cp artifacts/party-game-test-apk/*.apk out/PartyGame-Android-test.apk
-          cp artifacts/party-game-store-builds/*.aab out/PartyGame-GooglePlay.aab
-          cp artifacts/party-game-store-builds/*.apk out/PartyGame-Amazon-FireTV.apk
-          cp artifacts/party-game-tv-packages/*.ipk out/PartyGame-LG.ipk
-          cp artifacts/party-game-tv-packages/*.wgt out/PartyGame-Samsung-unsigned.wgt
+          pick() { find "artifacts/$1" -type f -name "$2" | head -n 1; }
+          cp "$(pick party-game-test-apk '*.apk')" out/PartyGame-Android-test.apk
+          cp "$(pick party-game-store-builds '*.aab')" out/PartyGame-GooglePlay.aab
+          cp "$(pick party-game-store-builds '*.apk')" out/PartyGame-Amazon-FireTV.apk
+          cp "$(pick party-game-tv-packages '*.ipk')" out/PartyGame-LG.ipk
+          cp "$(pick party-game-tv-packages '*.wgt')" out/PartyGame-Samsung-unsigned.wgt
           ls -la out
 
       - name: Publish to the Releases page

@@ -6,11 +6,35 @@
   const MAX_POINTS = 5;    // points if answered with only the starting clues
   const TEAM_NAMES = ["Team Orange", "Team Blue", "Team Purple", "Team Green"];
   const TEAM_COLORS = ["var(--team1)", "var(--team2)", "var(--team3)", "var(--team4)"];
+  const TEAM_COLORS_HEX = ["#E07A55", "#6FA3D9", "#B392D6", "#6CC596"];
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const settings = { teams: 2, rounds: 5, book: "all" };
+  const settings = { teams: 2, rounds: 5, book: "all", dare: 1 };
+
+  // Silly, safe dares for the last-place team. Nothing here involves eating or
+  // touching a product — the game is about labels, not tasting.
+  const DARES = [
+    "Read the ingredients of the nearest product out loud in your best sports-announcer voice.",
+    "Film a 15-second shampoo commercial. Hair flip required.",
+    "Sell the winners a bottle of dish soap like it's a fancy wine.",
+    "Say \"sodium laureth sulfate\" five times fast.",
+    "Try to say \"methylisothiazolinone\" three times in a row without laughing.",
+    "Do a dramatic slow-motion gasp, as if you just found Red 40 in your cereal.",
+    "Compliment each winner using only ingredient names.",
+    "Sing the ingredient list of any product to the tune of \"Happy Birthday.\"",
+    "Act out a product from tonight's game. The winners have 30 seconds to guess it.",
+    "Give a 20-second infomercial for cooking spray. Be very excited.",
+    "Do 10 jumping jacks while shouting \"It's not food!\"",
+    "Invent a brand-new snack and read its made-up ingredient list with a straight face.",
+    "Narrate the winners' victory lap like a nature documentary.",
+    "Turn a sock into a puppet and let it announce the winners.",
+    "The winners pick the next show or movie. No complaining.",
+    "Clean up the snacks — and read one label out loud while you do it.",
+    "Talk like a toothpaste-commercial dentist until the next game starts.",
+    "Strike your best \"before\" pose from a cleaning-product ad. Hold it for 10 seconds."
+  ];
   let game = null;
 
   /* ---------- fit the 1920×1080 stage to any screen ---------- */
@@ -81,9 +105,23 @@
   }
   buildBookList();
 
+  // Every team gets the same number of turns, capped by how many puzzles the book has.
+  function turnsPerTeam() {
+    const pool = deckFor(settings.book);
+    return Math.max(1, Math.min(settings.rounds, Math.floor(pool.length / settings.teams)));
+  }
+  function updateTotal() {
+    const per = turnsPerTeam();
+    const total = per * settings.teams;
+    $("#setup-total").textContent = settings.teams === 1
+      ? `${total} rounds`
+      : `${total} rounds total — ${per} for each team` + (per < settings.rounds ? " (that's every puzzle in this book)" : "");
+  }
+
   function chooseBook(book) {
     settings.book = book;
     $("#setup-book").textContent = bookLabel(book);
+    updateTotal();
     show("s-setup", "#s-setup .chip.selected");
   }
 
@@ -97,9 +135,8 @@
   }
 
   function startGame() {
-    // Every team gets the same number of turns, capped by how many puzzles the book has.
     const pool = deckFor(settings.book);
-    const perTeam = Math.max(1, Math.min(settings.rounds, Math.floor(pool.length / settings.teams)));
+    const perTeam = turnsPerTeam();
     game = {
       book: settings.book,
       deck: shuffle(pool.slice()).slice(0, perTeam * settings.teams),
@@ -176,6 +213,7 @@
     const pts = right ? points() : 0;
     game.scores[game.team] += pts;
     beep(right ? [660, 880] : [300, 200], 0.16);
+    if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
 
     const v = $("#verdict");
     v.className = "verdict " + (right ? "good" : "bad");
@@ -242,16 +280,75 @@
         list.appendChild(li);
       });
     }
+    // Loser's dare: last place (all tied for last) does it. Solo players get one
+    // if they scored under half the possible points.
+    const low = order[order.length - 1].s;
+    const losers = order.filter((o) => o.s === low).map((o) => o.i);
+    let who = null;
+    if (settings.dare) {
+      if (game.teams === 1) who = top < game.deck.length * MAX_POINTS / 2 ? "Your dare" : null;
+      else if (losers.length === game.teams) who = "Everybody's dare";
+      else who = losers.map((i) => TEAM_NAMES[i]).join(" & ") + (losers.length > 1 ? "'s dare" : "'s dare");
+    }
+    game.dareWho = who;
+    $("#dare").hidden = !who;
+    $("#new-dare-btn").hidden = !who;
+    if (who) showDare();
+
+    // The book they picked: its cover sits in the middle of the QR code,
+    // and the button links straight to that book.
     const bk = game.book === "all" ? null : BOOKS[game.book];
     const cover = $("#f-cover");
-    cover.hidden = !bk;
-    if (bk) { cover.src = bk.cover; cover.alt = bk.title + " cover"; }
+    cover.src = bk ? bk.cover : "icon-130.png";
+    cover.className = "qr-cover" + (bk ? "" : " logo");
     $("#f-qr").src = bk ? bk.qr : SERIES.qr;
     $("#f-title").textContent = bk ? bk.title : "the Ingredient Dictionary books";
     $("#f-link").href = bk ? bk.url : SERIES.url;
-    $("#f-link").innerHTML = bk ? "Get the book &rarr;" : "See all the books &rarr;";
+    $("#f-link").innerHTML = bk ? `Get ${bk.name} on Amazon &rarr;` : "See all the books &rarr;";
+
     beep([523, 659, 784, 1047], 0.13);
     show("s-final");
+    const winColors = game.teams === 1 || winners.length > 1 ? TEAM_COLORS_HEX : [TEAM_COLORS_HEX[winners[0].i]];
+    confetti(260, winColors.concat(["#F2C46B", "#F4F3EE"]));
+    setTimeout(() => current === "s-final" && confetti(160, winColors.concat(["#F2C46B"])), 900);
+  }
+
+  function showDare() {
+    const prev = $("#dare-text").textContent;
+    let d;
+    do { d = DARES[Math.floor(Math.random() * DARES.length)]; } while (d === prev && DARES.length > 1);
+    $("#dare-who").textContent = game.dareWho;
+    $("#dare-text").textContent = d;
+  }
+
+  /* ---------- confetti (no library) ---------- */
+  const canvas = $("#confetti");
+  const ctx = canvas.getContext("2d");
+  let bits = [], running = false;
+  const calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function confetti(count, colors) {
+    if (calm) return;
+    for (let i = 0; i < count; i++) {
+      bits.push({
+        x: 960 + (Math.random() - 0.5) * 900, y: -20 - Math.random() * 300,
+        vx: (Math.random() - 0.5) * 9, vy: 4 + Math.random() * 7,
+        w: 14 + Math.random() * 14, h: 8 + Math.random() * 10,
+        r: Math.random() * Math.PI, vr: (Math.random() - 0.5) * 0.3,
+        c: colors[i % colors.length], life: 0
+      });
+    }
+    if (!running) { running = true; requestAnimationFrame(tick); }
+  }
+  function tick() {
+    ctx.clearRect(0, 0, 1920, 1080);
+    bits = bits.filter((b) => b.y < 1120 && b.life < 400);
+    bits.forEach((b) => {
+      b.life++; b.x += b.vx + Math.sin(b.life / 12) * 1.5; b.y += b.vy; b.vy += 0.06; b.r += b.vr;
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.r);
+      ctx.fillStyle = b.c; ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h * Math.abs(Math.cos(b.life / 8)));
+      ctx.restore();
+    });
+    if (bits.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, 1920, 1080); }
   }
 
   /* ---------- quit confirm ---------- */
@@ -269,6 +366,7 @@
     if (!el) return;
     if (el.dataset.teams) { pick(el, "teams"); return; }
     if (el.dataset.rounds) { pick(el, "rounds"); return; }
+    if (el.dataset.dare) { pick(el, "dare"); return; }
     if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
       case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;
@@ -278,6 +376,7 @@
       case "reveal": reveal(); break;
       case "answer": answer(el.dataset.choice); break;
       case "next": next(); break;
+      case "new-dare": showDare(); break;
       case "quit-yes": modal.hidden = true; show("s-title"); break;
       case "quit-no": closeQuit(); break;
     }
@@ -285,8 +384,10 @@
   function pick(el, key) {
     $$(".chip", el.parentElement).forEach((c) => c.classList.toggle("selected", c === el));
     settings[key] = Number(el.dataset[key]);
-    // Guide the remote: teams -> rounds -> Start.
-    setFocus(key === "teams" ? $("#s-setup [data-rounds].selected") : $('#s-setup [data-action="start"]'));
+    updateTotal();
+    // Guide the remote: teams -> rounds -> dare -> Start.
+    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
+    setFocus($(nextFocus[key]));
   }
 
   document.addEventListener("click", (e) => {

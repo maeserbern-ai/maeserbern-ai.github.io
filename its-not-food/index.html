@@ -15,6 +15,7 @@
 </head>
 <body>
 <div id="stage">
+  <canvas id="confetti" width="1920" height="1080" aria-hidden="true"></canvas>
 
   <!-- TITLE -->
   <section class="screen active" id="s-title">
@@ -76,6 +77,14 @@
           <button class="chip focusable" data-rounds="8">8</button>
         </div>
       </div>
+      <div class="setting">
+        <span class="label">Loser's dare</span>
+        <div class="row" data-group="dare">
+          <button class="chip focusable selected" data-dare="1">On</button>
+          <button class="chip focusable" data-dare="0">Off</button>
+        </div>
+      </div>
+      <p class="total" id="setup-total"></p>
     </div>
     <div class="row"><button class="btn primary focusable" data-action="start">Start game</button>
     <button class="btn focusable" data-action="books">Back</button></div>
@@ -129,16 +138,22 @@
         <p class="kicker">Game over</p>
         <h2 id="winner" class="winner"></h2>
         <ol id="final-scores" class="final-scores"></ol>
+        <div class="dare" id="dare" hidden>
+          <span class="dare-tag" id="dare-who"></span>
+          <p id="dare-text"></p>
+        </div>
         <div class="row"><button class="btn primary focusable" data-action="start">Play again</button>
+        <button class="btn focusable" data-action="new-dare" id="new-dare-btn">New dare</button>
         <button class="btn focusable" data-action="title">Main menu</button></div>
       </div>
       <aside class="promo">
-        <img id="f-cover" class="f-cover" alt="" />
-        <div>
+        <p class="promo-kicker">What's really in your stuff?</p>
+        <div class="qr-wrap">
           <img id="f-qr" class="f-qr" alt="QR code to the book" />
-          <p><b>What's really in your stuff?</b><br />Scan to get <span id="f-title"></span> by Maeser.</p>
-          <a id="f-link" class="url" target="_blank" rel="noopener">Get the book &rarr;</a>
+          <img id="f-cover" class="qr-cover" alt="" />
         </div>
+        <p class="promo-title">Scan to get<br /><b id="f-title"></b></p>
+        <a id="f-link" class="get-book" target="_blank" rel="noopener"></a>
       </aside>
     </div>
   </section>

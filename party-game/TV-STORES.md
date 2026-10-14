@@ -62,7 +62,9 @@ Gather the family and find out who really knows what's in their stuff. Each roun
 shows the start of a real-style ingredient list — candy, cleaners, shampoo, dog
 treats, whipped cream and more. Pick a deck from any Ingredient Dictionary book —
 It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
-Not Safe — or mix them all. What Is Toilet Paper? plays as a true-or-false round.
+Not Safe — or mix them all. Every game ends with a What Is Toilet Paper?
+true-or-false finale for double points. Pick Easy, Medium or Hard — harder
+levels start from the obscure chemicals at the bottom of the label and score more.
 Stuck on an ingredient? Tap it to see what it is. Red and amber highlights
 show which ingredients are worth knowing about and which hide what's inside. Guess the product with as few clues as possible to
 score big. Every answer comes with a "weird ingredient" fact you'll be repeating

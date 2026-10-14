@@ -253,3 +253,5 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .stakes.is-final{color:#1A1C1E;background:var(--gold);border-color:var(--gold);animation:pulse 1.2s ease-in-out infinite;}
 @keyframes pulse{50%{transform:scale(1.06);}}
 @media (prefers-reduced-motion: reduce){.stakes.is-final{animation:none;}}
+.chip small{font-size:.6em;font-weight:800;color:var(--gold);margin-left:6px;}
+.chip.selected small{color:#8A5A00;}

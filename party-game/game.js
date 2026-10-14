@@ -78,6 +78,19 @@
   function deckFor(book) {
     return book === "all" ? PUZZLES : PUZZLES.filter((p) => p.book === book);
   }
+  // Every game except the toilet paper book itself ends with a
+  // What Is Toilet Paper? true-or-false finale (one question per team).
+  function hasFinale(book) { return book !== "tp"; }
+  function mainPool(book) {
+    return hasFinale(book) ? deckFor(book).filter((p) => p.type !== "tf") : deckFor(book);
+  }
+  // Harder difficulty earns more: Medium +1, Hard +2 on ingredient questions.
+  const LEVEL_BONUS = { 1: 0, 2: 1, 3: 2 };
+  // Show "It's food / It's not food" only when the deck mixes both.
+  function kindMatters(book) {
+    const kinds = new Set(mainPool(book).map((p) => p.kind).filter(Boolean));
+    return kinds.size > 1;
+  }
   function bookLabel(book) {
     return book === "all" ? "All the books, mixed" : BOOKS[book].title;
   }
@@ -107,15 +120,16 @@
 
   // Every team gets the same number of turns, capped by how many puzzles the book has.
   function turnsPerTeam() {
-    const pool = deckFor(settings.book);
+    const pool = mainPool(settings.book);
     return Math.max(1, Math.min(settings.rounds, Math.floor(pool.length / settings.teams)));
   }
   function updateTotal() {
     const per = turnsPerTeam();
     const total = per * settings.teams;
-    $("#setup-total").textContent = settings.teams === 1
+    const finale = hasFinale(settings.book) ? " + a toilet paper true-or-false finale" : "";
+    $("#setup-total").textContent = (settings.teams === 1
       ? `${total} rounds`
-      : `${total} rounds total — ${per} for each team` + (per < settings.rounds ? " (that's every puzzle in this book)" : "");
+      : `${total} rounds — ${per} for each team` + (per < settings.rounds ? " (every puzzle in this book)" : "")) + finale;
   }
 
   function chooseBook(book) {
@@ -136,11 +150,13 @@
 
   function startGame() {
     bits = [];   // clear any confetti still falling from the last game
-    const pool = deckFor(settings.book);
+    const pool = mainPool(settings.book);
     const perTeam = turnsPerTeam();
+    let deck = shuffle(pool.slice()).slice(0, perTeam * settings.teams);
+    if (hasFinale(settings.book)) deck = deck.concat(shuffle(deckFor("tp").slice()).slice(0, settings.teams));
     game = {
       book: settings.book,
-      deck: shuffle(pool.slice()).slice(0, perTeam * settings.teams),
+      deck,
       index: 0,
       scores: new Array(settings.teams).fill(0),
       teams: settings.teams
@@ -174,7 +190,8 @@
     $("#turn").textContent = game.teams === 1 ? "Your turn" : TEAM_NAMES[game.team] + "'s turn";
     $("#turn").style.color = TEAM_COLORS[game.team];
     $("#progress").innerHTML = `<span class="round-book"></span><br />Round ${game.index + 1} of ${game.deck.length}`;
-    $("#progress .round-book").textContent = game.book === "all" ? "All books" : BOOKS[game.book].name;
+    const finaleQ = p.type === "tf" && game.book !== "tp";
+    $("#progress .round-book").textContent = finaleQ ? BOOKS.tp.name : game.book === "all" ? "All books" : BOOKS[game.book].name;
     renderScores();
     showStakes();
 
@@ -211,7 +228,8 @@
   function laps() { return game.deck.length / game.teams; }
   function isFinal(i) { return laps() > 1 && lapOf(i) === laps() - 1; }
   function basePoints(i) {
-    return (game.deck[i].type === "tf" ? TF_POINTS : MAX_POINTS) + lapOf(i);
+    const p = game.deck[i];
+    return (p.type === "tf" ? TF_POINTS : MAX_POINTS + LEVEL_BONUS[settings.level]) + lapOf(i);
   }
   function points() {
     const i = game.index, p = game.deck[i];
@@ -223,7 +241,7 @@
     const i = game.index, el = $("#stakes");
     el.className = "stakes";
     if (isFinal(i)) {
-      el.textContent = "Final round ×2";
+      el.textContent = game.deck[i].type === "tf" && game.book !== "tp" ? "Toilet paper finale ×2" : "Final round ×2";
       el.classList.add("is-final");
       if (i % game.teams === 0) { beep([523, 784, 1047], 0.12); confetti(90, ["#F2C46B", "#E07A55"]); }
     } else if (lapOf(i) > 0) {
@@ -319,8 +337,8 @@
     v.textContent = right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}` : `Nope — you said ${choice}.`;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
     const k = $("#r-kind");
-    k.hidden = tf;
-    if (!tf) {
+    k.hidden = tf || !kindMatters(game.book);
+    if (!k.hidden) {
       k.className = "r-kind " + p.kind;
       k.textContent = p.kind === "food" ? "It's food" : "It's not food";
     }

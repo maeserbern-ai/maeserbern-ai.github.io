@@ -1134,7 +1134,10 @@
       });
       return best;
     };
-    const best = pickBest(true) || (dir === "up" || dir === "down" ? pickBest(false) : null);
+    let best = pickBest(true) || (dir === "up" || dir === "down" ? pickBest(false) : null);
+    // Moving down off the ingredients lands on Reveal, never straight on Menu.
+    const rev = $("#reveal");
+    if (dir === "down" && best && best.dataset.action === "menu" && items.includes(rev) && focused !== rev) best = rev;
     if (best) { setFocus(best); sfx("move"); }
   }
 

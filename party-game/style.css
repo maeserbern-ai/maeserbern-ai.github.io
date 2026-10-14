@@ -315,7 +315,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
 #s-setup .setup{gap:22px 120px;margin-bottom:30px;}
 
 /* ---------- how to play: six short cards ---------- */
-.howto-title{margin:10px 0 30px;}
+.howto-title{margin:0 0 24px;}
 .rules{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:28px;}
 .rule{background:var(--bg-2);border-radius:20px;padding:26px 30px;border-top:6px solid var(--pop);}
 .rule b{display:block;font-family:"Fraunces",Georgia,serif;font-size:40px;line-height:1.1;margin-bottom:10px;color:var(--gold);}
@@ -324,7 +324,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
 #s-howto .hint{font-size:28px;margin:0 0 30px;}
 
 /* ---------- how to play: bullet list ---------- */
-.steps{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:18px;}
+.steps{list-style:none;margin:0 0 26px;padding:0;display:flex;flex-direction:column;gap:11px;}
 .steps li{position:relative;padding-left:52px;font-size:36px;line-height:1.35;color:var(--ink-soft);white-space:nowrap;}
 .steps li::before{content:"";position:absolute;left:8px;top:.5em;width:18px;height:18px;border-radius:50%;background:var(--pop);}
 .steps b{color:var(--ink);}
@@ -373,9 +373,11 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .order-card{flex:1;max-width:380px;min-height:210px;background:var(--team);color:#16181A;border:0;border-radius:24px;padding:30px 32px 34px;
   display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;font:inherit;box-shadow:0 10px 30px rgba(0,0,0,.35);}
 div.order-card:first-child{transform:scale(1.06);}
-button.order-card{cursor:pointer;opacity:.38;filter:saturate(.5);transition:opacity .15s,filter .15s,transform .15s;}
-button.order-card.picked{opacity:1;filter:none;}
-button.order-card.focus{outline:none;box-shadow:0 0 0 8px var(--gold),0 10px 30px rgba(0,0,0,.35);transform:scale(1.04);}
+button.order-card{cursor:pointer;background:transparent;color:var(--team);box-shadow:inset 0 0 0 6px var(--team);transition:transform .15s;}
+button.order-card.picked{background:var(--team);color:#16181A;box-shadow:0 10px 30px rgba(0,0,0,.35);}
+button.order-card:not(.picked) .order-n{opacity:1;}
+button.order-card.focus{outline:none;box-shadow:0 0 0 8px var(--gold),0 10px 30px rgba(0,0,0,.35) !important;transform:scale(1.04);}
+button.order-card.focus:not(.picked){box-shadow:inset 0 0 0 6px var(--team),0 0 0 8px var(--gold) !important;}
 .order-n{font-size:34px;font-weight:800;opacity:.75;}
 .order-card b{font-family:"Fraunces",serif;font-weight:900;font-size:56px;line-height:1.05;}
 .order-tip{font-size:34px;max-width:1400px;margin:0 0 40px;color:var(--muted);}

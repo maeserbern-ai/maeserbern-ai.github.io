@@ -4,6 +4,8 @@
 
   const START_SHOWN = 3;   // ingredients visible when a round starts
   const MAX_POINTS = 5;    // points if answered with only the starting clues
+  const TF_POINTS = 3;     // a true/false question
+  const BONUS_POINTS = 1;  // knowing what the spotlight ingredient is for
   const TEAM_NAMES = ["Team Orange", "Team Blue", "Team Purple", "Team Green"];
   const TEAM_COLORS = ["var(--team1)", "var(--team2)", "var(--team3)", "var(--team4)"];
   const TEAM_COLORS_HEX = ["#E07A55", "#6FA3D9", "#B392D6", "#6CC596"];
@@ -86,7 +88,7 @@
       const b = document.createElement("button");
       b.className = "book focusable";
       b.dataset.book = key;
-      b.innerHTML = `<img alt="" /><b></b><small>${deckFor(key).length} puzzles</small>`;
+      b.innerHTML = `<img alt="" /><b></b><small>${deckFor(key).length} ${BOOKS[key].trueFalse ? "true or false" : "puzzles"}</small>`;
       b.querySelector("img").src = BOOKS[key].cover;
       b.querySelector("img").alt = BOOKS[key].title + " cover";
       b.querySelector("b").textContent = BOOKS[key].name;
@@ -100,7 +102,6 @@
       const im = document.createElement("img"); im.src = bk.cover; im.alt = "";
       mix.firstChild.appendChild(im);
     });
-    mix.firstChild.insertAdjacentHTML("beforeend", "<span>+</span>");
     box.appendChild(mix);
   }
   buildBookList();
@@ -135,6 +136,7 @@
   }
 
   function startGame() {
+    bits = [];   // clear any confetti still falling from the last game
     const pool = deckFor(settings.book);
     const perTeam = turnsPerTeam();
     game = {
@@ -147,11 +149,26 @@
     startRound();
   }
 
+  // A single book keeps every answer choice in that book's world (all beauty
+  // products, all cleaners...). "Mix all books" uses the cross-category decoys.
+  function choicesFor(p) {
+    if (p.type === "tf") return ["True", "False"];
+    if (game.book === "all") return shuffle(p.options.slice());
+    const others = shuffle(deckFor(p.book).filter((q) => q.type !== "tf" && q.answer !== p.answer).map((q) => q.answer));
+    return shuffle([p.answer].concat(others.slice(0, 3)));
+  }
+
   function startRound() {
     const p = game.deck[game.index];
-    game.shown = Math.min(START_SHOWN, p.ingredients.length);
-    game.options = shuffle(p.options.slice());
+    const tf = p.type === "tf";
+    game.shown = tf ? 0 : Math.min(START_SHOWN, p.ingredients.length);
+    game.options = choicesFor(p);
     game.team = game.index % game.teams;
+    $(".label-card").classList.toggle("tf", tf);
+    $("#answers").classList.toggle("tf", tf);
+    $(".label-head span").textContent = tf ? "TRUE OR FALSE?" : "INGREDIENTS:";
+    $("#statement").hidden = !tf;
+    $("#statement").textContent = tf ? p.statement : "";
 
     $("#turn").textContent = game.teams === 1 ? "Your turn" : TEAM_NAMES[game.team] + "'s turn";
     $("#turn").style.color = TEAM_COLORS[game.team];
@@ -161,7 +178,7 @@
 
     const list = $("#ingredients");
     list.innerHTML = "";
-    p.ingredients.forEach((ing, i) => {
+    (p.ingredients || []).forEach((ing, i) => {
       const li = document.createElement("li");
       li.textContent = ing;
       if (i >= game.shown) { li.className = "hidden"; li.setAttribute("aria-hidden", "true"); }
@@ -185,6 +202,7 @@
   }
 
   function points() {
+    if (game.deck[game.index].type === "tf") return TF_POINTS;
     return Math.max(1, MAX_POINTS - (game.shown - Math.min(START_SHOWN, game.deck[game.index].ingredients.length)));
   }
 
@@ -192,12 +210,12 @@
     const p = game.deck[game.index];
     const pts = points();
     $("#worth").textContent = `Worth ${pts} point${pts === 1 ? "" : "s"}`;
-    $("#reveal").disabled = game.shown >= p.ingredients.length;
+    $("#reveal").disabled = p.type === "tf" || game.shown >= p.ingredients.length;
   }
 
   function reveal() {
     const p = game.deck[game.index];
-    if (game.shown >= p.ingredients.length) return;
+    if (p.type === "tf" || game.shown >= p.ingredients.length) return;
     const li = $("#ingredients").children[game.shown];
     li.className = "new";
     li.removeAttribute("aria-hidden");
@@ -209,7 +227,9 @@
 
   function answer(choice) {
     const p = game.deck[game.index];
-    const right = choice === p.answer;
+    const tf = p.type === "tf";
+    const correct = tf ? (p.answer ? "True" : "False") : p.answer;
+    const right = choice === correct;
     const pts = right ? points() : 0;
     game.scores[game.team] += pts;
     beep(right ? [660, 880] : [300, 200], 0.16);
@@ -218,19 +238,93 @@
     const v = $("#verdict");
     v.className = "verdict " + (right ? "good" : "bad");
     v.textContent = right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}` : `Nope — you said ${choice}.`;
-    $("#r-answer").textContent = p.answer;
+    $("#r-answer").textContent = tf ? `${correct}.` : correct;
     const k = $("#r-kind");
-    k.className = "r-kind " + p.kind;
-    k.textContent = p.kind === "food" ? "It's food" : "It's not food";
-    $("#r-spot-name").textContent = p.spotlight.name;
-    $("#r-spot-note").textContent = p.spotlight.note;
+    k.hidden = tf;
+    if (!tf) {
+      k.className = "r-kind " + p.kind;
+      k.textContent = p.kind === "food" ? "It's food" : "It's not food";
+    }
+
+    // Explanation card (filled now, shown after the bonus question).
+    $("#r-spot-tag").textContent = tf ? "The real story" : "Weird ingredient spotlight";
+    $("#r-spot-name").textContent = tf ? p.statement : p.spotlight.name;
+    $("#r-spot-note").textContent = tf ? p.explain : p.spotlight.note;
+    $("#r-spot-role").hidden = true;
+    renderWatch(p);
+
     const bk = BOOKS[p.book];
     $("#r-book").href = bk.url;
     $("#r-cover").src = bk.cover;
     $("#r-cover").alt = bk.title + " cover";
     $("#r-book-title").textContent = bk.title;
     $("#next-btn").textContent = game.index + 1 >= game.deck.length ? "See final scores" : "Next round";
-    show("s-result");
+
+    const role = !tf && p.spotlight.role;
+    if (role) askBonus(p); else { $("#bonus").hidden = true; $("#explain").hidden = false; }
+    show("s-result", role ? "#bonus-opts .bonus-opt" : "#next-btn");
+  }
+
+  /* ---------- bonus point: what is the ingredient for? ---------- */
+  function decoyRoles(role) {
+    const group = ROLE_GROUPS.find((g) => g.includes(role)) || [role];
+    return shuffle(Object.keys(ROLES).filter((r) => !group.includes(r))).slice(0, 3);
+  }
+  function askBonus(p) {
+    $("#bonus").hidden = false;
+    $("#explain").hidden = true;
+    $("#b-ing").textContent = p.spotlight.name;
+    const box = $("#bonus-opts");
+    box.innerHTML = "";
+    shuffle([p.spotlight.role].concat(decoyRoles(p.spotlight.role))).forEach((r, i) => {
+      const b = document.createElement("button");
+      b.className = "bonus-opt focusable";
+      b.dataset.action = "bonus";
+      b.dataset.role = r;
+      b.textContent = `${i + 1}. ${ROLES[r]}`;
+      box.appendChild(b);
+    });
+    const skip = document.createElement("button");
+    skip.className = "bonus-opt skip focusable";
+    skip.dataset.action = "bonus";
+    skip.dataset.role = "";
+    skip.textContent = "Skip the bonus";
+    box.appendChild(skip);
+  }
+  function answerBonus(role) {
+    const p = game.deck[game.index];
+    const line = $("#r-spot-role");
+    if (role) {
+      const right = role === p.spotlight.role;
+      if (right) {
+        game.scores[game.team] += BONUS_POINTS;
+        beep([880, 1175], 0.12);
+        confetti(40, ["#F2C46B"]);
+      } else beep([300, 200], 0.14);
+      line.className = "spot-role " + (right ? "good" : "bad");
+      line.textContent = (right ? "Bonus! +1 point — " : "Not quite — ") + "it " + ROLES[p.spotlight.role].toLowerCase().replace(/^it's/, "is") + ".";
+      line.hidden = false;
+    }
+    $("#bonus").hidden = true;
+    $("#explain").hidden = false;
+    setFocus($("#next-btn"));
+  }
+
+  function renderWatch(p) {
+    const list = $("#watch-list");
+    list.innerHTML = "";
+    const seen = new Set();
+    (p.ingredients || []).forEach((ing) => {
+      const tag = watchTag(ing);
+      if (!tag || seen.has(ing)) return;
+      seen.add(ing);
+      const li = document.createElement("li");
+      li.innerHTML = "<b></b><small></small>";
+      li.firstChild.textContent = ing;
+      li.lastChild.textContent = tag;
+      list.appendChild(li);
+    });
+    $("#watch").hidden = !list.children.length;
   }
 
   function next() {
@@ -254,13 +348,17 @@
     });
   }
 
+  function maxPoints() {
+    return game.deck.reduce((sum, p) => sum + (p.type === "tf" ? TF_POINTS : MAX_POINTS + (p.spotlight.role ? BONUS_POINTS : 0)), 0);
+  }
+
   function finish() {
     const order = game.scores.map((s, i) => ({ s, i })).sort((a, b) => b.s - a.s);
     const top = order[0].s;
     const winners = order.filter((o) => o.s === top);
     const w = $("#winner");
     if (game.teams === 1) {
-      const max = game.deck.length * MAX_POINTS;
+      const max = maxPoints();
       w.textContent = `${top} of ${max} points!`;
       w.style.color = "";
     } else if (winners.length > 1) {
@@ -286,7 +384,7 @@
     const losers = order.filter((o) => o.s === low).map((o) => o.i);
     let who = null;
     if (settings.dare) {
-      if (game.teams === 1) who = top < game.deck.length * MAX_POINTS / 2 ? "Your dare" : null;
+      if (game.teams === 1) who = top < maxPoints() / 2 ? "Your dare" : null;
       else if (losers.length === game.teams) who = "Everybody's dare";
       else who = losers.map((i) => TEAM_NAMES[i]).join(" & ") + (losers.length > 1 ? "'s dare" : "'s dare");
     }
@@ -377,6 +475,7 @@
       case "answer": answer(el.dataset.choice); break;
       case "next": next(); break;
       case "new-dare": showDare(); break;
+      case "bonus": answerBonus(el.dataset.role); break;
       case "quit-yes": modal.hidden = true; show("s-title"); break;
       case "quit-no": closeQuit(); break;
     }
@@ -460,6 +559,12 @@
     if (k === "left" || k === "right" || k === "up" || k === "down") { e.preventDefault(); move(k); return; }
     if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) act(focused); return; }
     if (k === "back") { e.preventDefault(); back(); return; }
+    if (current === "s-result" && modal.hidden && !$("#bonus").hidden) {
+      const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
+      const b = n >= 0 && $$("#bonus-opts .bonus-opt:not(.skip)")[n];
+      if (b) { setFocus(b); act(b); }
+      return;
+    }
     if (current === "s-round" && modal.hidden) {
       const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
       if (n >= 0) { const b = $$("#answers .answer")[n]; if (b) { setFocus(b); act(b); } return; }

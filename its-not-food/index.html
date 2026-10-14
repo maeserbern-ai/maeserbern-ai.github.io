@@ -35,11 +35,13 @@
   <section class="screen" id="s-howto">
     <h2 class="h2">How to play</h2>
     <ol class="howto">
-      <li>Pick an <b>Ingredient Dictionary</b> book — each one is its own deck — or mix them all.</li>
+      <li>Pick an <b>Ingredient Dictionary</b> book — each one is its own deck — or mix them all.
+        <i>What Is Toilet Paper?</i> plays as true or false.</li>
       <li>Split into teams. Teams take turns.</li>
       <li>You start with the first <b>3 ingredients</b> — they're listed from most to least.</li>
       <li>Stuck? <b>Reveal</b> another ingredient. Each reveal is worth one point less.</li>
       <li>Pick an answer. Right = points. Wrong = zero.</li>
+      <li>Then grab a <b>bonus point</b>: what is the weird ingredient for?</li>
       <li>Watch out — it might not be food at all.</li>
     </ol>
     <p class="hint">Use the arrows on your remote and press OK. On a keyboard, 1–4 picks an answer and R reveals.</p>
@@ -104,6 +106,7 @@
           <span id="worth" class="worth"></span>
         </div>
         <ol id="ingredients" class="ingredients"></ol>
+        <p id="statement" class="statement" hidden></p>
         <button id="reveal" class="btn small focusable" data-action="reveal">Reveal next ingredient <kbd>R</kbd></button>
       </div>
       <div class="answers" id="answers"></div>
@@ -117,12 +120,24 @@
       <p id="verdict" class="verdict"></p>
       <h2 id="r-answer" class="r-answer"></h2>
       <p id="r-kind" class="r-kind"></p>
-      <div class="spot">
-        <span class="spot-tag">Weird ingredient spotlight</span>
-        <h3 id="r-spot-name"></h3>
-        <p id="r-spot-note"></p>
+      <div class="bonus" id="bonus" hidden>
+        <span class="spot-tag">Bonus point</span>
+        <h3>What is <span id="b-ing"></span> for?</h3>
+        <div class="bonus-opts" id="bonus-opts"></div>
       </div>
-      <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button></div>
+      <div id="explain">
+        <div class="spot">
+          <span class="spot-tag" id="r-spot-tag">Weird ingredient spotlight</span>
+          <h3 id="r-spot-name"></h3>
+          <p id="r-spot-role" class="spot-role" hidden></p>
+          <p id="r-spot-note"></p>
+        </div>
+        <div class="watch" id="watch" hidden>
+          <span class="spot-tag">Ingredients to know about</span>
+          <ul id="watch-list"></ul>
+        </div>
+        <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button></div>
+      </div>
      </div>
       <a class="r-book" id="r-book" target="_blank" rel="noopener">
         <img id="r-cover" alt="" />

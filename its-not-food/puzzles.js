@@ -9,7 +9,8 @@ const BOOKS = {
   beauty: { name: "It's Not Beauty",       cover: "covers/it-s-not-beauty.jpg",       qr: "qr-beauty.svg", url: "https://www.amazon.com/dp/B0H3P2TDX4" },
   clean:  { name: "It's Not Clean",        cover: "covers/it-s-not-clean.jpg",        qr: "qr-clean.svg",  url: "https://www.amazon.com/dp/B0H3TLXQDP" },
   kids:   { name: "It's Not for Kids",     cover: "covers/it-s-not-for-kids.jpg",     qr: "qr-kids.svg",   url: "https://www.amazon.com/dp/B0H7T981KL" },
-  home:   { name: "Your Home Is Not Safe", cover: "covers/your-home-is-not-safe.jpg", qr: "qr-home.svg",   url: "https://www.amazon.com/dp/B0H4LTY2FJ" }
+  home:   { name: "Your Home Is Not Safe", cover: "covers/your-home-is-not-safe.jpg", qr: "qr-home.svg",   url: "https://www.amazon.com/dp/B0H4LTY2FJ" },
+  tp:     { name: "What Is Toilet Paper?", cover: "covers/what-is-toilet-paper.jpg",  qr: "qr-tp.svg",     url: "https://www.amazon.com/dp/B0HCDRY91D", trueFalse: true }
 };
 Object.values(BOOKS).forEach((b) => { b.title = "Ingredient Dictionary: " + b.name; });
 
@@ -176,7 +177,7 @@ const PUZZLES = [
     options: ["Powdered milk", "Baby powder", "Powdered coffee creamer", "Pancake mix"],
     kind: "food", book: "food",
     ingredients: ["Corn syrup solids", "Hydrogenated vegetable oil (coconut and/or palm kernel)", "Sodium caseinate", "Mono- and diglycerides", "Dipotassium phosphate", "Sodium aluminosilicate", "Artificial flavor", "Annatto color"],
-    spotlight: { name: "Sodium caseinate", note: "A protein made from milk — even though the jar says \"non-dairy.\" Labeling rules allow it." }
+    spotlight: { name: "Sodium caseinate", note: "A milk protein that keeps the oil blended into your coffee — even though the jar says \"non-dairy.\" Labeling rules allow it." }
   },
   {
     answer: "Baby powder",
@@ -416,3 +417,106 @@ const PUZZLES = [
     spotlight: { name: "Taurine", note: "Cats can't make enough of it on their own, so it's added — the same ingredient that's in energy drinks." }
   }
 ];
+
+/* ---------- What Is Toilet Paper? — true or false round ----------
+   Toilet paper has no ingredient label, so this book plays as true/false. */
+const TRUE_FALSE = [
+  { statement: "Most toilet paper starts out as trees.", answer: true,
+    explain: "Most rolls are made from wood pulp, much of it from virgin forests. Bamboo and recycled paper are the main alternatives." },
+  { statement: "Toilet paper is naturally white.", answer: false,
+    explain: "Wood pulp is brown. Toilet paper is bleached to make it white — usually with chlorine dioxide." },
+  { statement: "Scientists have found PFAS \"forever chemicals\" in toilet paper.", answer: true,
+    explain: "A 2023 study tested toilet paper from around the world and found PFAS in it. PFAS can be used in paper-making." },
+  { statement: "Recycled toilet paper can contain traces of BPA.", answer: true,
+    explain: "BPA coats many thermal cash-register receipts. When receipts get recycled into paper, traces can carry over." },
+  { statement: "\"Flushable\" wipes break down in pipes just like toilet paper.", answer: false,
+    explain: "Toilet paper is made to fall apart in water within seconds. Wipes hold together, so they clog pipes and sewers." },
+  { statement: "Toilet paper is designed to fall apart when it gets wet.", answer: true,
+    explain: "Its fibers are short and only lightly bonded, so it breaks up in water instead of clogging your pipes." },
+  { statement: "Packaged toilet paper has been sold in the US since the 1850s.", answer: true,
+    explain: "Joseph Gayetty sold flat sheets of \"medicated paper\" in 1857. Rolls came a few decades later." },
+  { statement: "Most people in the world use toilet paper.", answer: false,
+    explain: "Much of the world — including large parts of Asia, the Middle East and southern Europe — mainly uses water instead." },
+  { statement: "The average American uses more than 100 rolls of toilet paper a year.", answer: true,
+    explain: "Estimates put it around 140 rolls per person per year — among the highest in the world." },
+  { statement: "Brown, unbleached toilet paper is dirtier than white toilet paper.", answer: false,
+    explain: "The color comes from skipping the bleach, not from dirt. Unbleached paper just skips a chemical step." },
+  { statement: "Scented toilet paper can irritate sensitive skin.", answer: true,
+    explain: "Added fragrance is one of the most common causes of skin irritation, and toilet paper touches very sensitive skin." },
+  { statement: "The original 1891 toilet-roll patent drawing shows the paper hanging \"over,\" not \"under.\"", answer: true,
+    explain: "Seth Wheeler's patent drawing shows the loose end hanging over the front of the roll. Debate settled?" }
+];
+TRUE_FALSE.forEach((q) => { q.type = "tf"; q.book = "tp"; PUZZLES.push(q); });
+
+/* ---------- Bonus point: what is the spotlight ingredient for? ---------- */
+const ROLES = {
+  shine: "Adds shine and a coating", sweetener: "Makes it sweet", thickener: "Makes it thicker",
+  moisturizer: "Softens or moisturizes", emulsifier: "Keeps oil and water mixed", preservative: "Keeps it from spoiling",
+  propellant: "Pushes it out of the can", acid: "Adds acidity", germs: "Kills germs", clean: "Cuts grease and dirt",
+  color: "Adds color", base: "It's the main base of the product", flavor: "Boosts flavor", absorb: "Absorbs moisture",
+  antifoam: "Stops foaming", fizz: "Makes it fizz", rise: "Makes baked goods rise", hold: "Holds hair in place",
+  gel: "Turns liquid into jelly", whiten: "Makes fabric look whiter", bleach: "Bleaches and lifts stains",
+  scent: "Adds scent", scrub: "Scrubs away grime", nutrient: "Adds a vitamin or nutrient", pest: "Kills pests"
+};
+// Roles that are too close to tell apart never appear as decoys for each other.
+const ROLE_GROUPS = [
+  ["clean", "scrub", "bleach", "germs", "whiten"],
+  ["moisturizer", "thickener", "emulsifier", "gel", "hold", "absorb"],
+  ["sweetener", "flavor"], ["preservative", "acid"]
+];
+const ROLE_BY_ANSWER = {
+  "Gummy bears": "shine", "Toothpaste": "sweetener", "Dandruff shampoo": "thickener", "Lip balm": "moisturizer",
+  "Individually wrapped cheese slices": "emulsifier", "Dish soap": "preservative", "Ranch dressing": "preservative",
+  "Hand lotion": "thickener", "Vanilla frosting": "emulsifier", "Shaving cream": "propellant",
+  "Spray whipped cream": "propellant", "Hair conditioner": "thickener", "Diet cola": "acid",
+  "Toilet bowl cleaner": "acid", "Mouthwash": "germs", "Sports drink": "emulsifier", "Glass cleaner": "clean",
+  "Fruity cereal rings": "preservative", "Bacon-style dog treats": "color", "Imitation bacon bits": "base",
+  "Fish food flakes": "preservative", "Powdered coffee creamer": "emulsifier", "Baby powder": "absorb",
+  "Dry shampoo": "propellant", "Cooking spray": "antifoam", "Bath bomb": "fizz", "Baking powder": "rise",
+  "Instant ramen seasoning packet": "flavor", "Bath salts": "base", "Chewing gum": "base",
+  "Diaper rash cream": "moisturizer", "Hot dogs": "base", "Ketchup": "sweetener", "Hand sanitizer": "germs",
+  "Hair gel": "hold", "Grape jelly": "gel", "Liquid laundry detergent": "whiten",
+  "Dishwasher detergent powder": "bleach", "Citrus all-purpose cleaner": "scent", "Scouring powder": "scrub",
+  "Liquid hand soap": "preservative", "Fruit snacks": "nutrient", "Boxed mac & cheese powder": "color",
+  "Kids' gummy vitamins": "sweetener", "Drain cleaner gel": "clean", "Liquid ant bait": "pest",
+  "Dry cat food": "nutrient"
+};
+PUZZLES.forEach((p) => { if (p.spotlight && ROLE_BY_ANSWER[p.answer]) p.spotlight.role = ROLE_BY_ANSWER[p.answer]; });
+
+/* ---------- Watch list: ingredients worth knowing about ----------
+   Highlighted on the answer screen. Short, factual tags — not a verdict that
+   a product is dangerous; the amount and how it's used matter. */
+const WATCH = [
+  [/red 40|yellow 5|yellow 6|blue 1\b|green 3/i, "Synthetic dye"],
+  [/\bbha\b/i, "Possible carcinogen"],
+  [/\bbht\b/i, "Debated preservative"],
+  [/paraben/i, "Paraben preservative"],
+  [/methylisothiazolinone/i, "Skin allergen"],
+  [/dmdm hydantoin/i, "Releases formaldehyde"],
+  [/fragrance/i, "Undisclosed chemical mix"],
+  [/sodium lauryl sulfate/i, "Skin irritant"],
+  [/sodium laureth sulfate/i, "Can carry 1,4-dioxane"],
+  [/triethanolamine/i, "Skin irritant"],
+  [/titanium dioxide/i, "Banned in EU food"],
+  [/aspartame/i, "Possible carcinogen (IARC)"],
+  [/sodium nitrite/i, "Can form nitrosamines"],
+  [/high fructose corn syrup/i, "Highly processed sugar"],
+  [/hydrogenated vegetable oil/i, "Hardened oil"],
+  [/mineral oil|petrolatum|paraffin|petroleum/i, "Petroleum-based"],
+  [/\btalc\b/i, "Asbestos risk if impure"],
+  [/hydrochloric acid|sodium hydroxide|ammonium hydroxide/i, "Corrosive"],
+  [/sodium hypochlorite|dichloroisocyanurate/i, "Bleach — never mix"],
+  [/ethoxyquin/i, "Restricted in the EU"],
+  [/borax/i, "Toxic if swallowed"],
+  [/butane|propane/i, "Flammable gas"],
+  [/optical brightener/i, "Stays on fabric"],
+  [/benzalkonium chloride/i, "Skin irritant"],
+  [/quaternary ammonium|diethylester dimethyl ammonium/i, "Can irritate airways"],
+  [/limonene/i, "Can form formaldehyde indoors"],
+  [/hexoxyethanol/i, "Harsh solvent"],
+  [/caramel color/i, "May contain 4-MEI"]
+];
+function watchTag(ingredient) {
+  const hit = WATCH.find(([re]) => re.test(ingredient));
+  return hit ? hit[1] : null;
+}

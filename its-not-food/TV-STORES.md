@@ -62,7 +62,9 @@ Gather the family and find out who really knows what's in their stuff. Each roun
 shows the start of a real-style ingredient list — candy, cleaners, shampoo, dog
 treats, whipped cream and more. Pick a deck from any Ingredient Dictionary book —
 It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
-Not Safe — or mix them all. Guess the product with as few clues as possible to
+Not Safe — or mix them all. What Is Toilet Paper? plays as a true-or-false round.
+Earn a bonus point for knowing what the weird ingredient is for, and see which
+ingredients are worth knowing about. Guess the product with as few clues as possible to
 score big. Every answer comes with a "weird ingredient" fact you'll be repeating
 at dinner. 1–4 teams, plays entirely with your remote. From the Ingredient
 Dictionary book series by Maeser.

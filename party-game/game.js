@@ -523,7 +523,7 @@
     (p.ingredients || []).forEach((ing, i) => {
       const li = document.createElement("li");
       if (game.order.indexOf(i) < game.shown) li.appendChild(ingredientButton(ing, i));
-      else { li.className = "hidden"; li.textContent = ing; li.setAttribute("aria-hidden", "true"); }
+      else coverIngredient(li, ing);
       list.appendChild(li);
     });
 
@@ -627,7 +627,7 @@
     b.hidden = !show;
     if (show) {
       const cost = extendCost(game.index) * (isFinal(game.index) ? 2 : 1);
-      b.textContent = `+${EXTEND_SECONDS} sec · −${cost} pt${cost === 1 ? "" : "s"}`;
+      b.textContent = `+${EXTEND_SECONDS} sec −${cost} pt${cost === 1 ? "" : "s"}`;
     }
   }
   function extendTime() {
@@ -685,7 +685,7 @@
     const t = $("#help-text");
     t.className = "help-text";
     const cost = isFinal(game.index) ? 2 : 1;
-    t.innerHTML = `◀ to an ingredient, OK to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
+    t.innerHTML = `Select an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
   }
   function help(i) {
     const p = game.deck[game.index];
@@ -718,16 +718,29 @@
     updateExtend();
   }
 
+  // A covered ingredient is a button too: selecting it reveals the next one.
+  function coverIngredient(li, ing) {
+    li.className = "hidden focusable";
+    li.dataset.action = "reveal";
+    li.setAttribute("role", "button");
+    li.tabIndex = -1;
+    li.setAttribute("aria-label", "Covered ingredient: reveal one more");
+    li.textContent = ing;
+  }
+
   function reveal() {
     if (game.steal) return;
     const p = game.deck[game.index];
     if (p.type === "tf" || game.shown >= p.ingredients.length) return;
     const idx = game.order[game.shown];
     const li = $("#ingredients").children[idx];
+    const wasFocused = focused === li;
     li.className = "new";
-    li.removeAttribute("aria-hidden");
+    delete li.dataset.action;
+    li.removeAttribute("role"); li.removeAttribute("aria-label"); li.removeAttribute("tabindex");
     li.textContent = "";
     li.appendChild(ingredientButton(p.ingredients[idx], idx));
+    if (wasFocused) setFocus(li.firstChild);
     fitIngredients();
     game.shown++;
     sfx("reveal");
@@ -869,6 +882,7 @@
       b.disabled = gone; b.classList.toggle("struck", gone);
     });
     $("#reveal").disabled = true;
+    $$("#ingredients li.hidden").forEach((li) => li.classList.remove("focusable"));   // no reveals on a steal
     const t = $("#help-text");
     t.className = "help-text";
     t.textContent = "Steal round: ingredient help is free.";

@@ -448,41 +448,6 @@ const TRUE_FALSE = [
 ];
 TRUE_FALSE.forEach((q) => { q.type = "tf"; q.book = "tp"; PUZZLES.push(q); });
 
-/* ---------- Bonus point: what is the spotlight ingredient for? ---------- */
-const ROLES = {
-  shine: "Adds shine and a coating", sweetener: "Makes it sweet", thickener: "Makes it thicker",
-  moisturizer: "Softens or moisturizes", emulsifier: "Keeps oil and water mixed", preservative: "Keeps it from spoiling",
-  propellant: "Pushes it out of the can", acid: "Adds acidity", germs: "Kills germs", clean: "Cuts grease and dirt",
-  color: "Adds color", base: "It's the main base of the product", flavor: "Boosts flavor", absorb: "Absorbs moisture",
-  antifoam: "Stops foaming", fizz: "Makes it fizz", rise: "Makes baked goods rise", hold: "Holds hair in place",
-  gel: "Turns liquid into jelly", whiten: "Makes fabric look whiter", bleach: "Bleaches and lifts stains",
-  scent: "Adds scent", scrub: "Scrubs away grime", nutrient: "Adds a vitamin or nutrient", pest: "Kills pests"
-};
-// Roles that are too close to tell apart never appear as decoys for each other.
-const ROLE_GROUPS = [
-  ["clean", "scrub", "bleach", "germs", "whiten"],
-  ["moisturizer", "thickener", "emulsifier", "gel", "hold", "absorb"],
-  ["sweetener", "flavor"], ["preservative", "acid"]
-];
-const ROLE_BY_ANSWER = {
-  "Gummy bears": "shine", "Toothpaste": "sweetener", "Dandruff shampoo": "thickener", "Lip balm": "moisturizer",
-  "Individually wrapped cheese slices": "emulsifier", "Dish soap": "preservative", "Ranch dressing": "preservative",
-  "Hand lotion": "thickener", "Vanilla frosting": "emulsifier", "Shaving cream": "propellant",
-  "Spray whipped cream": "propellant", "Hair conditioner": "thickener", "Diet cola": "acid",
-  "Toilet bowl cleaner": "acid", "Mouthwash": "germs", "Sports drink": "emulsifier", "Glass cleaner": "clean",
-  "Fruity cereal rings": "preservative", "Bacon-style dog treats": "color", "Imitation bacon bits": "base",
-  "Fish food flakes": "preservative", "Powdered coffee creamer": "emulsifier", "Baby powder": "absorb",
-  "Dry shampoo": "propellant", "Cooking spray": "antifoam", "Bath bomb": "fizz", "Baking powder": "rise",
-  "Instant ramen seasoning packet": "flavor", "Bath salts": "base", "Chewing gum": "base",
-  "Diaper rash cream": "moisturizer", "Hot dogs": "base", "Ketchup": "sweetener", "Hand sanitizer": "germs",
-  "Hair gel": "hold", "Grape jelly": "gel", "Liquid laundry detergent": "whiten",
-  "Dishwasher detergent powder": "bleach", "Citrus all-purpose cleaner": "scent", "Scouring powder": "scrub",
-  "Liquid hand soap": "preservative", "Fruit snacks": "nutrient", "Boxed mac & cheese powder": "color",
-  "Kids' gummy vitamins": "sweetener", "Drain cleaner gel": "clean", "Liquid ant bait": "pest",
-  "Dry cat food": "nutrient"
-};
-PUZZLES.forEach((p) => { if (p.spotlight && ROLE_BY_ANSWER[p.answer]) p.spotlight.role = ROLE_BY_ANSWER[p.answer]; });
-
 /* ---------- Watch list: ingredients worth knowing about ----------
    Highlighted on the answer screen. Short, factual tags — not a verdict that
    a product is dangerous; the amount and how it's used matter. */
@@ -493,7 +458,6 @@ const WATCH = [
   [/paraben/i, "Paraben preservative"],
   [/methylisothiazolinone/i, "Skin allergen"],
   [/dmdm hydantoin/i, "Releases formaldehyde"],
-  [/fragrance/i, "Undisclosed chemical mix"],
   [/sodium lauryl sulfate/i, "Skin irritant"],
   [/sodium laureth sulfate/i, "Can carry 1,4-dioxane"],
   [/triethanolamine/i, "Skin irritant"],
@@ -516,7 +480,20 @@ const WATCH = [
   [/hexoxyethanol/i, "Harsh solvent"],
   [/caramel color/i, "May contain 4-MEI"]
 ];
-function watchTag(ingredient) {
-  const hit = WATCH.find(([re]) => re.test(ingredient));
-  return hit ? hit[1] : null;
+// Ingredients whose real contents the label doesn't spell out.
+const UNDISCLOSED = [
+  [/^fragrance/i, "Secret scent recipe"],
+  [/flavou?r|flavorings/i, "Secret flavor recipe"],
+  [/gum base/i, "Secret blend"],
+  [/^spices?$/i, "Spices not named"],
+  [/blue dye|^dye$|colorants?$/i, "Dye not named"],
+  [/meat by-products/i, "Animal not named"],
+  [/nonionic surfactant|fabric softening agents/i, "Chemical not named"]
+];
+// { level: "warn" | "unknown", tag } or null
+function watchInfo(ingredient) {
+  let hit = WATCH.find(([re]) => re.test(ingredient));
+  if (hit) return { level: "warn", tag: hit[1] };
+  hit = UNDISCLOSED.find(([re]) => re.test(ingredient));
+  return hit ? { level: "unknown", tag: hit[1] } : null;
 }

@@ -1,4 +1,4 @@
-# It's Not Food — getting it onto TVs
+# Ingredient Dictionary: The Party Game — getting it onto TVs
 
 The game is a plain web app (HTML/CSS/JS). It needs no server, no accounts and no
 database, so there is nothing to run or maintain once it's published.
@@ -6,7 +6,7 @@ database, so there is nothing to run or maintain once it's published.
 ## 1. On the web (free, works today)
 
 Once this folder is merged into the site, the game is live at
-**https://maeserbern-ai.github.io/its-not-food/**
+**https://maeserbern-ai.github.io/party-game/**
 
 Anyone can play it on a TV right away by:
 - opening that link in a smart TV's web browser, or
@@ -20,8 +20,8 @@ This folder already contains `appinfo.json`, which makes it an LG app.
 
 1. Make a free account at the LG Seller Lounge (seller.lgappstv.com).
 2. Install the webOS TV CLI ("ares" tools) on your computer.
-3. From the folder that contains `its-not-food`, run:
-   `ares-package its-not-food` → this creates an `.ipk` file.
+3. From the folder that contains `party-game`, run:
+   `ares-package party-game` → this creates an `.ipk` file.
 4. (Optional) Test on your own LG TV: turn on Developer Mode on the TV, then
    `ares-install` the `.ipk`.
 5. Upload the `.ipk` in the Seller Lounge with screenshots and a description,
@@ -53,7 +53,7 @@ Swift. Ask Claude for the Swift version when you're ready.
 
 ## Store listing text (copy/paste)
 
-**Name:** It's Not Food — The Party Game
+**Name:** Ingredient Dictionary: The Party Game
 
 **Short description:** Snack or shampoo? Guess the product from its ingredient list.
 
@@ -63,8 +63,8 @@ shows the start of a real-style ingredient list — candy, cleaners, shampoo, do
 treats, whipped cream and more. Pick a deck from any Ingredient Dictionary book —
 It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
 Not Safe — or mix them all. What Is Toilet Paper? plays as a true-or-false round.
-Earn a bonus point for knowing what the weird ingredient is for, and see which
-ingredients are worth knowing about. Guess the product with as few clues as possible to
+Stuck on an ingredient? Tap it to see what it is. Red and amber highlights
+show which ingredients are worth knowing about and which hide what's inside. Guess the product with as few clues as possible to
 score big. Every answer comes with a "weird ingredient" fact you'll be repeating
 at dinner. 1–4 teams, plays entirely with your remote. From the Ingredient
 Dictionary book series by Maeser.
@@ -86,3 +86,8 @@ Open `puzzles.js` and copy any `{ ... }` block. Each puzzle needs: the answer, f
 options (one is the answer), `kind` ("food" or "not"), the ingredient list in label
 order, a spotlight fact, and which book it belongs to (`food`, `beauty`, `clean`,
 `kids` or `home`). The book picker counts puzzles automatically.
+
+## Ingredient help text
+
+`glossary.js` holds the plain-English "what is it?" text players see when they tap an
+ingredient. If you add a puzzle with a new ingredient, add a line there too.

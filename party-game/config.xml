@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
-        id="https://maeserbern-ai.github.io/its-not-food" version="1.0.0" viewmodes="maximized">
-  <tizen:application id="ItsNotFood.Game" package="ItsNotFood" required_version="6.0"/>
+        id="https://maeserbern-ai.github.io/party-game" version="1.0.0" viewmodes="maximized">
+  <tizen:application id="InDictGame.PartyGame" package="InDictGame" required_version="6.0"/>
   <tizen:profile name="tv-samsung"/>
-  <name>It's Not Food</name>
+  <name>Ingredient Dictionary: The Party Game</name>
   <content src="index.html"/>
   <icon src="icon-samsung.png"/>
   <access origin="*" subdomains="true"/>

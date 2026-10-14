@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>It's Not Food — The TV Party Game</title>
-<meta name="description" content="Snack or shampoo? A living-room party game: guess the product from its ingredient list. By Maeser, author of the Ingredient Dictionary series." />
-<meta property="og:title" content="It's Not Food — The TV Party Game" />
+<title>Ingredient Dictionary: The Party Game</title>
+<meta name="description" content="Snack or shampoo? A living-room party game from the Ingredient Dictionary books by Maeser: guess the product from its ingredient list." />
+<meta property="og:title" content="Ingredient Dictionary: The Party Game" />
 <meta property="og:description" content="Snack or shampoo? Guess the product from its ingredient list." />
 <link rel="icon" href="icon-130.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,14 +21,14 @@
   <section class="screen active" id="s-title">
     <div class="title-wrap">
       <p class="series">Ingredient Dictionary</p>
-      <h1 class="logo">It's <span>Not</span> Food</h1>
+      <h1 class="logo">The <span>Party</span> Game</h1>
       <p class="tag"><b>Snack or shampoo?</b> Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
       <div class="row">
         <button class="btn primary focusable" data-action="books">Play</button>
         <button class="btn focusable" data-action="howto">How to play</button>
       </div>
     </div>
-    <p class="credit">The party game from the <b>Ingredient Dictionary</b> book series by Maeser</p>
+    <p class="credit">From the <b>Ingredient Dictionary</b> book series by Maeser</p>
   </section>
 
   <!-- HOW TO -->
@@ -41,7 +41,8 @@
       <li>You start with the first <b>3 ingredients</b> — they're listed from most to least.</li>
       <li>Stuck? <b>Reveal</b> another ingredient. Each reveal is worth one point less.</li>
       <li>Pick an answer. Right = points. Wrong = zero.</li>
-      <li>Then grab a <b>bonus point</b>: what is the weird ingredient for?</li>
+      <li>Don't know an ingredient? <b>Tap it for help</b> to see what it is. Each one you look up costs 1 point.</li>
+      <li><b class="hl-warn">Red</b> ingredients are worth knowing about. <b class="hl-unknown">Amber</b> ones hide what's really inside.</li>
       <li>Watch out — it might not be food at all.</li>
     </ol>
     <p class="hint">Use the arrows on your remote and press OK. On a keyboard, 1–4 picks an answer and R reveals.</p>
@@ -107,6 +108,10 @@
         </div>
         <ol id="ingredients" class="ingredients"></ol>
         <p id="statement" class="statement" hidden></p>
+        <div class="help" id="help">
+          <p class="legend"><span class="key warn">!</span> worth knowing <span class="key unknown">?</span> not fully disclosed</p>
+          <p id="help-text" class="help-text">Tap an ingredient to see what it is <span>(−1 point)</span></p>
+        </div>
         <button id="reveal" class="btn small focusable" data-action="reveal">Reveal next ingredient <kbd>R</kbd></button>
       </div>
       <div class="answers" id="answers"></div>
@@ -120,16 +125,10 @@
       <p id="verdict" class="verdict"></p>
       <h2 id="r-answer" class="r-answer"></h2>
       <p id="r-kind" class="r-kind"></p>
-      <div class="bonus" id="bonus" hidden>
-        <span class="spot-tag">Bonus point</span>
-        <h3>What is <span id="b-ing"></span> for?</h3>
-        <div class="bonus-opts" id="bonus-opts"></div>
-      </div>
       <div id="explain">
         <div class="spot">
           <span class="spot-tag" id="r-spot-tag">Weird ingredient spotlight</span>
           <h3 id="r-spot-name"></h3>
-          <p id="r-spot-role" class="spot-role" hidden></p>
           <p id="r-spot-note"></p>
         </div>
         <div class="watch" id="watch" hidden>
@@ -184,6 +183,7 @@
 
 </div>
 <script src="puzzles.js"></script>
+<script src="glossary.js"></script>
 <script src="game.js"></script>
 </body>
 </html>

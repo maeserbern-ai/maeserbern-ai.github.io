@@ -5,7 +5,6 @@
   const START_SHOWN = 3;   // ingredients visible when a round starts
   const MAX_POINTS = 5;    // points if answered with only the starting clues
   const TF_POINTS = 3;     // a true/false question
-  const BONUS_POINTS = 1;  // knowing what the spotlight ingredient is for
   const TEAM_NAMES = ["Team Orange", "Team Blue", "Team Purple", "Team Green"];
   const TEAM_COLORS = ["var(--team1)", "var(--team2)", "var(--team3)", "var(--team4)"];
   const TEAM_COLORS_HEX = ["#E07A55", "#6FA3D9", "#B392D6", "#6CC596"];
@@ -168,6 +167,7 @@
     $("#answers").classList.toggle("tf", tf);
     $(".label-head span").textContent = tf ? "TRUE OR FALSE?" : "INGREDIENTS:";
     $("#statement").hidden = !tf;
+    $("#help").hidden = tf;
     $("#statement").textContent = tf ? p.statement : "";
 
     $("#turn").textContent = game.teams === 1 ? "Your turn" : TEAM_NAMES[game.team] + "'s turn";
@@ -178,10 +178,12 @@
 
     const list = $("#ingredients");
     list.innerHTML = "";
+    game.helped = new Set();
+    resetHelp();
     (p.ingredients || []).forEach((ing, i) => {
       const li = document.createElement("li");
-      li.textContent = ing;
-      if (i >= game.shown) { li.className = "hidden"; li.setAttribute("aria-hidden", "true"); }
+      if (i < game.shown) li.appendChild(ingredientButton(ing, i));
+      else { li.className = "hidden"; li.textContent = ing; li.setAttribute("aria-hidden", "true"); }
       list.appendChild(li);
     });
 
@@ -202,8 +204,44 @@
   }
 
   function points() {
-    if (game.deck[game.index].type === "tf") return TF_POINTS;
-    return Math.max(1, MAX_POINTS - (game.shown - Math.min(START_SHOWN, game.deck[game.index].ingredients.length)));
+    const p = game.deck[game.index];
+    if (p.type === "tf") return TF_POINTS;
+    const reveals = game.shown - Math.min(START_SHOWN, p.ingredients.length);
+    return Math.max(1, MAX_POINTS - reveals - game.helped.size);
+  }
+
+  /* ---------- ingredient help during a question ---------- */
+  // Each visible ingredient is a button. Red = worth knowing about,
+  // amber = not fully disclosed. Looking one up costs a point (once each).
+  function ingredientButton(ing, i) {
+    const b = document.createElement("button");
+    const info = watchInfo(ing);
+    b.className = "ing focusable" + (info ? " " + info.level : "");
+    b.dataset.action = "help";
+    b.dataset.i = i;
+    b.textContent = ing;
+    return b;
+  }
+  function resetHelp() {
+    const t = $("#help-text");
+    t.className = "help-text";
+    t.innerHTML = 'Tap an ingredient to see what it is <span>(−1 point)</span>';
+  }
+  function help(i) {
+    const p = game.deck[game.index];
+    const ing = p.ingredients[i];
+    const first = !game.helped.has(i);
+    if (first && points() > 1) beep([440]);
+    game.helped.add(i);
+    const info = watchInfo(ing);
+    const t = $("#help-text");
+    t.className = "help-text on" + (info ? " " + info.level : "");
+    t.innerHTML = "<b></b> <span class='what'></span>" + (info ? " <em></em>" : "");
+    t.querySelector("b").textContent = ing + ":";
+    t.querySelector(".what").textContent = glossaryFor(ing);
+    if (info) t.querySelector("em").textContent = info.tag;
+    $$("#ingredients .ing").forEach((b) => b.classList.toggle("looked", game.helped.has(Number(b.dataset.i))));
+    updateWorth();
   }
 
   function updateWorth() {
@@ -219,6 +257,8 @@
     const li = $("#ingredients").children[game.shown];
     li.className = "new";
     li.removeAttribute("aria-hidden");
+    li.textContent = "";
+    li.appendChild(ingredientButton(p.ingredients[game.shown], game.shown));
     game.shown++;
     beep([520]);
     updateWorth();
@@ -246,11 +286,10 @@
       k.textContent = p.kind === "food" ? "It's food" : "It's not food";
     }
 
-    // Explanation card (filled now, shown after the bonus question).
+    // Explanation card.
     $("#r-spot-tag").textContent = tf ? "The real story" : "Weird ingredient spotlight";
     $("#r-spot-name").textContent = tf ? p.statement : p.spotlight.name;
     $("#r-spot-note").textContent = tf ? p.explain : p.spotlight.note;
-    $("#r-spot-role").hidden = true;
     renderWatch(p);
 
     const bk = BOOKS[p.book];
@@ -260,54 +299,7 @@
     $("#r-book-title").textContent = bk.title;
     $("#next-btn").textContent = game.index + 1 >= game.deck.length ? "See final scores" : "Next round";
 
-    const role = !tf && p.spotlight.role;
-    if (role) askBonus(p); else { $("#bonus").hidden = true; $("#explain").hidden = false; }
-    show("s-result", role ? "#bonus-opts .bonus-opt" : "#next-btn");
-  }
-
-  /* ---------- bonus point: what is the ingredient for? ---------- */
-  function decoyRoles(role) {
-    const group = ROLE_GROUPS.find((g) => g.includes(role)) || [role];
-    return shuffle(Object.keys(ROLES).filter((r) => !group.includes(r))).slice(0, 3);
-  }
-  function askBonus(p) {
-    $("#bonus").hidden = false;
-    $("#explain").hidden = true;
-    $("#b-ing").textContent = p.spotlight.name;
-    const box = $("#bonus-opts");
-    box.innerHTML = "";
-    shuffle([p.spotlight.role].concat(decoyRoles(p.spotlight.role))).forEach((r, i) => {
-      const b = document.createElement("button");
-      b.className = "bonus-opt focusable";
-      b.dataset.action = "bonus";
-      b.dataset.role = r;
-      b.textContent = `${i + 1}. ${ROLES[r]}`;
-      box.appendChild(b);
-    });
-    const skip = document.createElement("button");
-    skip.className = "bonus-opt skip focusable";
-    skip.dataset.action = "bonus";
-    skip.dataset.role = "";
-    skip.textContent = "Skip the bonus";
-    box.appendChild(skip);
-  }
-  function answerBonus(role) {
-    const p = game.deck[game.index];
-    const line = $("#r-spot-role");
-    if (role) {
-      const right = role === p.spotlight.role;
-      if (right) {
-        game.scores[game.team] += BONUS_POINTS;
-        beep([880, 1175], 0.12);
-        confetti(40, ["#F2C46B"]);
-      } else beep([300, 200], 0.14);
-      line.className = "spot-role " + (right ? "good" : "bad");
-      line.textContent = (right ? "Bonus! +1 point — " : "Not quite — ") + "it " + ROLES[p.spotlight.role].toLowerCase().replace(/^it's/, "is") + ".";
-      line.hidden = false;
-    }
-    $("#bonus").hidden = true;
-    $("#explain").hidden = false;
-    setFocus($("#next-btn"));
+    show("s-result", "#next-btn");
   }
 
   function renderWatch(p) {
@@ -315,13 +307,14 @@
     list.innerHTML = "";
     const seen = new Set();
     (p.ingredients || []).forEach((ing) => {
-      const tag = watchTag(ing);
-      if (!tag || seen.has(ing)) return;
+      const info = watchInfo(ing);
+      if (!info || seen.has(ing)) return;
       seen.add(ing);
       const li = document.createElement("li");
+      li.className = info.level;
       li.innerHTML = "<b></b><small></small>";
       li.firstChild.textContent = ing;
-      li.lastChild.textContent = tag;
+      li.lastChild.textContent = info.tag;
       list.appendChild(li);
     });
     $("#watch").hidden = !list.children.length;
@@ -349,7 +342,7 @@
   }
 
   function maxPoints() {
-    return game.deck.reduce((sum, p) => sum + (p.type === "tf" ? TF_POINTS : MAX_POINTS + (p.spotlight.role ? BONUS_POINTS : 0)), 0);
+    return game.deck.reduce((sum, p) => sum + (p.type === "tf" ? TF_POINTS : MAX_POINTS), 0);
   }
 
   function finish() {
@@ -475,7 +468,7 @@
       case "answer": answer(el.dataset.choice); break;
       case "next": next(); break;
       case "new-dare": showDare(); break;
-      case "bonus": answerBonus(el.dataset.role); break;
+      case "help": help(Number(el.dataset.i)); break;
       case "quit-yes": modal.hidden = true; show("s-title"); break;
       case "quit-no": closeQuit(); break;
     }
@@ -559,12 +552,6 @@
     if (k === "left" || k === "right" || k === "up" || k === "down") { e.preventDefault(); move(k); return; }
     if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) act(focused); return; }
     if (k === "back") { e.preventDefault(); back(); return; }
-    if (current === "s-result" && modal.hidden && !$("#bonus").hidden) {
-      const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
-      const b = n >= 0 && $$("#bonus-opts .bonus-opt:not(.skip)")[n];
-      if (b) { setFocus(b); act(b); }
-      return;
-    }
     if (current === "s-round" && modal.hidden) {
       const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
       if (n >= 0) { const b = $$("#answers .answer")[n]; if (b) { setFocus(b); act(b); } return; }

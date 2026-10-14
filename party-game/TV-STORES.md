@@ -15,42 +15,56 @@ Anyone can play it on a TV right away by:
 Play with a TV remote: arrows to move, the center OK button to pick, Back to pause.
 On a computer, the arrow keys + Enter or a mouse work too.
 
+**iPhone and iPad (no store needed):** open the game link in Safari, tap the Share
+button → **Add to Home Screen**. It opens full screen like an app and keeps working
+offline. Turn the phone sideways to play.
+
 ## 2. LG TVs (webOS) — free developer account
 
-This folder already contains `appinfo.json`, which makes it an LG app.
+GitHub builds the LG app file for you: Actions → "App builds" → latest run →
+**Artifacts** → `party-game-tv-packages` → the `.ipk` file.
 
 1. Make a free account at the LG Seller Lounge (seller.lgappstv.com).
-2. Install the webOS TV CLI ("ares" tools) on your computer.
-3. From the folder that contains `party-game`, run:
-   `ares-package party-game` → this creates an `.ipk` file.
-4. (Optional) Test on your own LG TV: turn on Developer Mode on the TV, then
-   `ares-install` the `.ipk`.
-5. Upload the `.ipk` in the Seller Lounge with screenshots and a description,
-   then submit it for review.
+2. Upload the `.ipk` with screenshots and the description below, then submit it
+   for review.
+3. (Optional) Test on your own LG TV first: turn on Developer Mode on the TV and
+   install the `.ipk` with LG's webOS TV tools.
 
 ## 3. Samsung TVs (Tizen) — free developer account
 
-This folder already contains `config.xml`, which makes it a Samsung TV app.
+GitHub builds the Samsung app (`IngredientPartyGame-samsung-unsigned.wgt` in the
+same `party-game-tv-packages` download). Samsung requires it to be signed with
+certificates tied to your Samsung account, which only works on your computer:
 
 1. Make a free account at Samsung Apps TV Seller Office (seller.samsungapps.com/tv).
-2. Install Tizen Studio with the TV extension, and create an author certificate
-   (Tizen Studio walks you through it).
-3. Import this folder as a TV web project and build a signed `.wgt` package.
-4. (Optional) Test on your own Samsung TV in Developer Mode.
+2. Install Tizen Studio (Windows is fine) with the "TV Extensions" add-on.
+3. In Tizen Studio's Certificate Manager, create a **Samsung** certificate
+   (it signs you in with your Samsung account).
+4. Import the `party-game` folder as a TV web project and build a signed `.wgt`
+   (Project → Build Signed Package).
 5. Upload the `.wgt` in Seller Office and submit it for review.
 
 ## 4. Google TV / Android TV and Amazon Fire TV
 
-These stores need an Android app. The easiest route is a small "wrapper" app that
-shows this web game full-screen (a WebView). You already have a Google Play
-developer account, and an Amazon developer account is free. Ask Claude to build
-the Android TV wrapper as the next step.
+The Android app in `../android` covers Android phones, Google TV / Android TV and
+Fire TV. GitHub builds it automatically; see `../android/README.md` for test
+installs, the one-time upload key, and the Google Play and Amazon Appstore steps.
 
-## 5. Apple TV
+## 5. Apple: iPhone and iPad App Store
 
-Apple TV apps must be built in Xcode on a Mac with your existing Apple Developer
-account. tvOS has no built-in web view, so the game would need to be rebuilt in
-Swift. Ask Claude for the Swift version when you're ready.
+`../apple-app` is an Expo app, built the same way as CueReady AI. On your Windows
+computer, open the `apple-app` folder and double-click **BUILD_AND_UPLOAD_IOS.cmd**.
+Expo builds it in the cloud (no Mac needed) and uploads it to App Store Connect /
+TestFlight. The first time, it asks for your Apple login and creates the new app,
+its certificate and profile. Your other apps are not touched.
+Then finish the listing in App Store Connect (screenshots, description below,
+privacy URL https://maeserbern-ai.github.io/#privacy) and submit for review.
+
+## 6. Apple TV
+
+Today: play on Apple TV with **AirPlay** (iPhone, iPad or Mac → Screen Mirroring).
+A real Apple TV app needs the game rebuilt in Apple's own tools, because Apple TV
+apps can't show web pages. That's a bigger project for later.
 
 ## Store listing text (copy/paste)
 

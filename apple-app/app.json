@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "Ingredient Party Game",
+    "slug": "ingredient-party-game",
+    "version": "1.0.0",
+    "orientation": "landscape",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#16211C",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#16211C"
+    },
+    "ios": {
+      "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "requireFullScreen": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIStatusBarHidden": true,
+        "UIViewControllerBasedStatusBarAppearance": false
+      }
+    }
+  }
+}

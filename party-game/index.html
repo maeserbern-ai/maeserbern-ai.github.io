@@ -38,7 +38,7 @@
   <section class="screen" id="s-howto">
     <h2 class="h2 howto-title">How to play</h2>
     <ul class="steps">
-      <li><b>Split into teams</b> and pick a book. The TV shuffles who goes first. <i>No arguing.</i></li>
+      <li><b>Split into teams</b> and pick your colors. The TV shuffles who goes first. <i>No arguing.</i></li>
       <li><b>Read the 3 ingredients</b> and guess the product. <i>Snack or Shampoo?</i></li>
       <li><b>Need a hint?</b> Reveal another ingredient, or click one to see what it is. Each costs 1 point.</li>
       <li><b>Right answer = points.</b> Wrong answer = zero. <i>And a little shame.</i></li>
@@ -118,15 +118,13 @@
     <button class="btn focusable" data-action="books">Back</button></div>
   </section>
 
-  <!-- TURN ORDER -->
+  <!-- TEAM COLORS + TURN ORDER -->
   <section class="screen" id="s-order">
-    <p class="series small">The TV shuffled the teams</p>
-    <h2 class="h2 tight">Here's who goes first</h2>
-    <ol class="order-list" id="order-list"></ol>
-    <p class="order-tip">Each team claims a color. Pass the remote to whoever's turn it is — or let one person be the host.</p>
-    <div class="row"><button class="btn primary focusable" data-action="go">Let's go</button>
-    <button class="btn focusable" data-action="reshuffle">Shuffle again</button>
-    <button class="btn focusable" data-action="setup">Back</button></div>
+    <p class="series small" id="order-kicker"></p>
+    <h2 class="h2 tight" id="order-title"></h2>
+    <div class="order-list" id="order-list"></div>
+    <p class="order-tip" id="order-tip"></p>
+    <div class="row" id="order-buttons"></div>
   </section>
 
   <!-- ROUND -->

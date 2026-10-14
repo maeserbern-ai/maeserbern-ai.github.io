@@ -8,11 +8,15 @@
   const TEAM_NAMES = ["Team Orange", "Team Blue", "Team Purple", "Team Green"];
   const TEAM_COLORS = ["var(--team1)", "var(--team2)", "var(--team3)", "var(--team4)"];
   const TEAM_COLORS_HEX = ["#E07A55", "#6FA3D9", "#B392D6", "#6CC596"];
+  // Teams are numbered 0..n-1 in a game; game.colors says which color each one picked.
+  const teamName = (t) => TEAM_NAMES[game.colors[t]];
+  const teamColor = (t) => TEAM_COLORS[game.colors[t]];
+  const teamHex = (t) => TEAM_COLORS_HEX[game.colors[t]];
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1, timer: 0, steal: 1 };
+  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1, timer: 0, steal: 1, colors: [0, 1] };
   const STEAL_SECONDS = 10;
   const TIMER_SECONDS = { 1: 60, 2: 45, 3: 30 };   // Easy / Medium / Hard
 
@@ -404,30 +408,77 @@
       index: 0,
       scores: new Array(settings.teams).fill(0),
       teams: settings.teams,
-      turnOrder: shuffle([...Array(settings.teams).keys()])
+      colors: keepColors(),
+      turnOrder: [...Array(settings.teams).keys()]
     };
-    if (game.teams > 1) showOrder(); else startRound();
+    if (game.teams > 1) showPick(); else startRound();
   }
 
-  // The TV shuffles who goes first, then shows the order so each group can
-  // claim a color before the first question.
-  function showOrder() {
-    const list = $("#order-list");
-    list.innerHTML = "";
+  // Last game's colors carry over when the team count is the same.
+  function keepColors() {
+    const c = settings.colors.filter((x, i, a) => a.indexOf(x) === i).slice(0, settings.teams);
+    for (let i = 0; c.length < settings.teams; i++) if (!c.includes(i)) c.push(i);
+    return c;
+  }
+
+  // Step 1: each team picks its color. Step 2: the TV shuffles who goes first.
+  function orderScreen(kicker, title, tip, buttons) {
+    $("#order-kicker").textContent = kicker;
+    $("#order-title").textContent = title;
+    $("#order-tip").textContent = tip;
+    $("#order-buttons").innerHTML = buttons;
+    $("#order-list").innerHTML = "";
+  }
+  function showPick(focusSel) {
+    const n = game.teams, picked = game.colors;
+    orderScreen("Before we start", "Pick your team colors",
+      picked.length === n ? `Every team has a color. Now shuffle to see who goes first!`
+        : `Pick ${n} colors — one for each team. ${picked.length} of ${n} picked.`,
+      `<button class="btn primary focusable" data-action="shuffle-order">Shuffle the order</button>
+       <button class="btn focusable" data-action="setup">Back</button>`);
+    TEAM_NAMES.forEach((name, c) => {
+      const b = document.createElement("button");
+      const on = picked.includes(c);
+      b.className = "order-card focusable" + (on ? " picked" : "");
+      b.dataset.action = "color"; b.dataset.color = c;
+      b.style.setProperty("--team", TEAM_COLORS[c]);
+      b.innerHTML = `<span class="order-n">${on ? "✓ Playing" : "Not playing"}</span><b>${name}</b>`;
+      $("#order-list").appendChild(b);
+    });
+    show("s-order", focusSel || '#s-order [data-action="shuffle-order"]');
+  }
+  function toggleColor(c) {
+    const picked = game.colors, i = picked.indexOf(c);
+    if (i >= 0) picked.splice(i, 1);
+    else { picked.push(c); if (picked.length > game.teams) picked.shift(); }   // swap out the oldest pick
+    sfx("move");
+    showPick(`#s-order [data-color="${c}"]`);
+  }
+  function shuffleOrder() {
+    if (game.colors.length !== game.teams) {
+      sfx("wrong");
+      $("#order-tip").textContent = `Pick ${game.teams} colors first — ${game.colors.length} of ${game.teams} picked.`;
+      return;
+    }
+    settings.colors = game.colors.slice();
+    let next = shuffle(game.turnOrder.slice());
+    if (game.shuffled && next.join() === game.turnOrder.join()) next = next.slice(1).concat(next[0]);
+    game.turnOrder = next;
+    game.shuffled = true;
+    orderScreen("The TV shuffled the teams", "Here's who goes first",
+      "Pass the remote to whoever's turn it is — or let one person be the host.",
+      `<button class="btn primary focusable" data-action="go">Let's go</button>
+       <button class="btn focusable" data-action="shuffle-order">Shuffle again</button>
+       <button class="btn focusable" data-action="pick-colors">Change colors</button>`);
     game.turnOrder.forEach((t, k) => {
-      const li = document.createElement("li");
-      li.style.setProperty("--team", TEAM_COLORS[t]);
-      li.innerHTML = `<span class="order-n">${["1st", "2nd", "3rd", "4th"][k]}</span><b>${TEAM_NAMES[t]}</b>`;
-      list.appendChild(li);
+      const d = document.createElement("div");
+      d.className = "order-card";
+      d.style.setProperty("--team", teamColor(t));
+      d.innerHTML = `<span class="order-n">${["1st", "2nd", "3rd", "4th"][k]}</span><b>${teamName(t)}</b>`;
+      $("#order-list").appendChild(d);
     });
     show("s-order", '#s-order [data-action="go"]');
-    sfx("move");
-  }
-  function reshuffle() {
-    let next = shuffle(game.turnOrder.slice());
-    if (next.join() === game.turnOrder.join()) next = next.slice(1).concat(next[0]);
-    game.turnOrder = next;
-    showOrder();
+    sfx("steal");
   }
 
   // A single book keeps every answer choice in that book's world (all beauty
@@ -454,8 +505,8 @@
     $("#statement").textContent = tf ? p.statement : "";
 
     $(".hud").classList.toggle("crowded", game.teams >= 3);
-    $("#turn").textContent = game.teams === 1 ? "Your turn" : TEAM_NAMES[game.team] + "'s turn";
-    $("#turn").style.color = TEAM_COLORS[game.team];
+    $("#turn").textContent = game.teams === 1 ? "Your turn" : teamName(game.team) + "'s turn";
+    $("#turn").style.color = teamColor(game.team);
     $("#progress").innerHTML = `<span class="round-book"></span><br />Round ${game.index + 1} of ${game.deck.length}`;
     const finaleQ = p.type === "tf" && game.book !== "tp";
     $("#progress .round-book").textContent = finaleQ ? BOOKS.tp.name : game.book === "all" ? "All books" : BOOKS[game.book].name;
@@ -669,7 +720,7 @@
     game.scores[game.team] += pts - lost;
     sfx(right ? "correct" : lost ? "lose" : timedOut ? "timeup" : "wrong");
 
-    if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
+    if (right) confetti(70, [teamHex(game.team)]);
 
     const v = $("#verdict");
     v.className = "verdict " + (right ? "good" : "bad");
@@ -700,7 +751,14 @@
     $("#r-cover").src = bk.cover;
     $("#r-cover").alt = bk.title + " cover";
     $("#r-book-title").textContent = bk.title;
-    $("#next-btn").textContent = game.index + 1 >= game.deck.length ? "See final scores" : "Next round";
+    const nb = $("#next-btn"), last = game.index + 1 >= game.deck.length;
+    if (last) nb.textContent = "See final scores";
+    else if (game.teams === 1) nb.textContent = "Next round";
+    else {
+      const up = game.turnOrder[(game.index + 1) % game.teams];
+      nb.innerHTML = `Up next: <span class="next-dot"></span>${teamName(up)}`;
+      nb.querySelector(".next-dot").style.background = teamColor(up);
+    }
 
     show("s-result", "#next-btn");
   }
@@ -725,7 +783,7 @@
       steals: 0
     };
     sfx(timedOut ? "timeup" : "wrong");
-    showWrong(`${TEAM_NAMES[game.team]} ${timedOut ? "ran out of time" : `said ${choice}`}`, () => offerSteal(p));
+    showWrong(`${teamName(game.team)} ${timedOut ? "ran out of time" : `said ${choice}`}`, () => offerSteal(p));
   }
   function showWrong(sub, then) {
     const pop = $("#wrong-pop");
@@ -752,8 +810,8 @@
       const b = document.createElement("button");
       b.className = "btn focusable steal-team";
       b.dataset.action = "stealer"; b.dataset.team = i;
-      b.style.setProperty("--team", TEAM_COLORS[i]);
-      b.textContent = `${TEAM_NAMES[i]} yelled first`;
+      b.style.setProperty("--team", teamColor(i));
+      b.textContent = `${teamName(i)} yelled first`;
       box.appendChild(b);
     });
     const no = document.createElement("button");
@@ -770,8 +828,8 @@
     $("#m-steal").hidden = true;
     game.steal = { team, value: ch.value };
     ch.tried.add(team); ch.steals++;
-    $("#turn").textContent = TEAM_NAMES[team] + " — steal it!";
-    $("#turn").style.color = TEAM_COLORS[team];
+    $("#turn").textContent = teamName(team) + " — steal it!";
+    $("#turn").style.color = teamColor(team);
     const st = $("#stakes");
     st.hidden = false; st.className = "stakes is-steal";
     st.textContent = `Win ${ch.value} · miss = −${ch.value}`;
@@ -791,11 +849,11 @@
     startTimer(STEAL_SECONDS);
   }
   function finishSteal(choice, right, timedOut) {
-    const s = game.steal, ch = game.chain, name = TEAM_NAMES[s.team];
+    const s = game.steal, ch = game.chain, name = teamName(s.team);
     if (right) {
       game.scores[s.team] += s.value;
       sfx("correct");
-      confetti(110, [TEAM_COLORS_HEX[s.team]]);
+      confetti(110, [teamHex(s.team)]);
       const v = $("#verdict");
       v.className = "verdict good";
       v.textContent = `${name} steals it! +${plural(s.value)}`;
@@ -853,14 +911,14 @@
     const box = $("#scores");
     box.innerHTML = "";
     if (game.teams === 1) {
-      box.innerHTML = `<div class="score on" style="color:${TEAM_COLORS[0]}"><i></i><span>${game.scores[0]} pts</span></div>`;
+      box.innerHTML = `<div class="score on" style="color:${teamColor(0)}"><i></i><span>${game.scores[0]} pts</span></div>`;
       return;
     }
     game.turnOrder.forEach((i) => {
       const s = game.scores[i];
       const d = document.createElement("div");
       d.className = "score" + (i === game.team ? " on" : "");
-      d.style.color = TEAM_COLORS[i];
+      d.style.color = teamColor(i);
       d.innerHTML = `<i></i><span>${s}</span>`;
       box.appendChild(d);
     });
@@ -883,16 +941,16 @@
       w.textContent = "It's a tie!";
       w.style.color = "";
     } else {
-      w.textContent = TEAM_NAMES[winners[0].i] + " wins!";
-      w.style.color = TEAM_COLORS[winners[0].i];
+      w.textContent = teamName(winners[0].i) + " wins!";
+      w.style.color = teamColor(winners[0].i);
     }
     const list = $("#final-scores");
     list.innerHTML = "";
     if (game.teams > 1) {
       order.forEach((o) => {
         const li = document.createElement("li");
-        li.style.color = TEAM_COLORS[o.i];
-        li.innerHTML = `<i></i><span>${TEAM_NAMES[o.i]} — ${o.s}</span>`;
+        li.style.color = teamColor(o.i);
+        li.innerHTML = `<i></i><span>${teamName(o.i)} — ${o.s}</span>`;
         list.appendChild(li);
       });
     }
@@ -904,7 +962,7 @@
     if (settings.dare) {
       if (game.teams === 1) who = top < maxPoints() / 2 ? "Your dare" : null;
       else if (losers.length === game.teams) who = "Everybody's dare";
-      else who = losers.map((i) => TEAM_NAMES[i]).join(" & ") + (losers.length > 1 ? "'s dare" : "'s dare");
+      else who = losers.map((i) => teamName(i)).join(" & ") + (losers.length > 1 ? "'s dare" : "'s dare");
     }
     game.dareWho = who;
     $("#dare").hidden = !who;
@@ -925,7 +983,7 @@
     sfx("win");
     if (who) setTimeout(() => current === "s-final" && sfx("dare"), 2600);
     show("s-final", '#s-final [data-action="start"]');
-    const winColors = game.teams === 1 || winners.length > 1 ? TEAM_COLORS_HEX : [TEAM_COLORS_HEX[winners[0].i]];
+    const winColors = game.teams === 1 || winners.length > 1 ? game.colors.map((c) => TEAM_COLORS_HEX[c]) : [teamHex(winners[0].i)];
     confetti(260, winColors.concat(["#F2C46B", "#F4F3EE"]));
     setTimeout(() => current === "s-final" && confetti(160, winColors.concat(["#F2C46B"])), 900);
   }
@@ -1002,7 +1060,9 @@
       case "title": show("s-title"); break;
       case "start": startGame(); break;
       case "go": startRound(); break;
-      case "reshuffle": reshuffle(); break;
+      case "shuffle-order": shuffleOrder(); break;
+      case "pick-colors": showPick(); break;
+      case "color": toggleColor(Number(el.dataset.color)); break;
       case "setup": show("s-setup", '#s-setup [data-action="start"]'); break;
       case "reveal": reveal(); break;
       case "answer": answer(el.dataset.choice); break;

@@ -316,3 +316,12 @@ button{font:inherit;color:inherit;cursor:pointer;}
 @media (prefers-reduced-motion: reduce){.timer-bar.urgent{animation:none;}}
 #s-setup .h2{margin-bottom:26px;}
 #s-setup .setup{gap:22px 120px;margin-bottom:30px;}
+
+/* ---------- how to play: six short cards ---------- */
+.howto-title{margin:10px 0 30px;}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-bottom:28px;}
+.rule{background:var(--bg-2);border-radius:20px;padding:26px 30px;border-top:6px solid var(--pop);}
+.rule b{display:block;font-family:"Fraunces",Georgia,serif;font-size:40px;line-height:1.1;margin-bottom:10px;color:var(--gold);}
+.rule p{margin:0;font-size:29px;line-height:1.4;color:var(--ink-soft);}
+.rule em{font-style:italic;color:var(--ink);}
+#s-howto .hint{font-size:28px;margin:0 0 30px;}

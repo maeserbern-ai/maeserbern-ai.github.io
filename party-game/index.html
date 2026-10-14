@@ -223,7 +223,7 @@
 
   <!-- QUIT CONFIRM -->
   <div class="wrong-pop" id="wrong-pop" hidden>
-    <b>WRONG!</b>
+    <b id="pop-title">WRONG!</b>
     <span id="wrong-sub"></span>
   </div>
 
@@ -241,8 +241,12 @@
       <h3>Game paused</h3>
       <div class="menu-list">
         <button class="btn primary focusable" data-action="quit-no">Resume game</button>
-        <button class="btn focusable" data-action="sound">Sound: On</button>
-        <button class="btn focusable" data-action="music">Music: On</button>
+        <div class="toggle-grid">
+          <button class="btn focusable" data-action="sound">Sound: On</button>
+          <button class="btn focusable" data-action="music">Music: On</button>
+          <button class="btn focusable" data-action="timer-toggle">Timer: Off</button>
+          <button class="btn focusable" data-action="steal-toggle">Steals: On</button>
+        </div>
         <button class="btn focusable" data-action="change-game">Change game or options</button>
         <button class="btn focusable" data-action="quit-yes">Quit to main menu</button>
       </div>

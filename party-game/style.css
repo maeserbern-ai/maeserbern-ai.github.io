@@ -398,3 +398,9 @@ button.order-card.focus:not(.picked){box-shadow:inset 0 0 0 6px var(--team),0 0 
 .ingredients li.hidden.focus{box-shadow:0 0 0 6px var(--gold) !important;transform:scale(1.05);}
 .card-foot{justify-content:flex-start;gap:24px;}
 .card-foot [data-action="menu"]{margin-left:auto;}
+
+/* pause menu toggles + CORRECT! stamp */
+.toggle-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.toggle-grid .btn{width:100%;}
+.wrong-pop.good{background:rgba(6,50,28,.55);}
+.wrong-pop.good b{background:#2F8F5B;font-size:210px;padding:24px 80px 40px;}

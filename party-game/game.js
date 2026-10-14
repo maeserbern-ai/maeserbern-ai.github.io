@@ -791,7 +791,11 @@
       : timedOut ? (lost ? `Time's up! You lose ${lost} point${lost === 1 ? "" : "s"}.` : "Time's up!")
       : lost ? `Nope — you said ${choice}. You lose ${lost} point${lost === 1 ? "" : "s"}.`
       : `Nope — you said ${choice}.`;
-    showResult(p);
+    const who = game.teams === 1 ? "You" : teamName(game.team);
+    showPop(right, right ? (pts ? `${who} +${plural(pts)}` : `${who} kept their points`)
+      : timedOut ? `${who} ran out of time` + (lost ? ` — loses ${plural(lost)}` : "")
+      : `${who} said ${choice}` + (lost ? ` — loses ${plural(lost)}` : ""),
+      () => showResult(p));
   }
 
   // Fills in the answer screen (answer, spotlight, watch list, book) and shows it.
@@ -847,18 +851,22 @@
     sfx(timedOut ? "timeup" : "wrong");
     showWrong(`${teamName(game.team)} ${timedOut ? "ran out of time" : `said ${choice}`}`, () => offerSteal(p));
   }
-  function showWrong(sub, then) {
+  // Big CORRECT! / WRONG! stamp over the question, then carry on.
+  function showPop(good, sub, then) {
     const pop = $("#wrong-pop");
+    $("#pop-title").textContent = good ? "CORRECT!" : "WRONG!";
     $("#wrong-sub").textContent = sub;
+    pop.classList.toggle("good", good);
     pop.hidden = false;
-    game.locked = true;   // no clicks or keys while WRONG! is on screen
+    game.locked = true;   // no clicks or keys while the stamp is on screen
     pop.classList.remove("go"); void pop.offsetWidth; pop.classList.add("go");
     setTimeout(() => {
       pop.hidden = true;
       game.locked = false;
-      if (current === "s-round" && game.chain) then();
+      if (current === "s-round") then();
     }, 1600);
   }
+  function showWrong(sub, then) { showPop(false, sub, () => { if (game.chain) then(); }); }
   function offerSteal(p) {
     const ch = game.chain;
     const left = game.options.filter((o) => !ch.removed.includes(o));
@@ -920,7 +928,7 @@
       const v = $("#verdict");
       v.className = "verdict good";
       v.textContent = `${name} steals it! +${plural(s.value)}`;
-      showResult(game.deck[game.index]);
+      showPop(true, `${name} steals it! +${plural(s.value)}`, () => showResult(game.deck[game.index]));
       return;
     }
     const lost = Math.min(s.value, game.scores[s.team]);
@@ -1092,7 +1100,24 @@
   /* ---------- pause menu (Menu button or the remote's Back key) ---------- */
   const modal = $("#m-quit");
   let focusBeforeModal = null;
+  function syncToggles() {
+    $$("[data-action='timer-toggle']").forEach((b) => { b.textContent = settings.timer ? "Timer: On" : "Timer: Off"; });
+    $$("[data-action='steal-toggle']").forEach((b) => { b.textContent = settings.steal ? "Steals: On" : "Steals: Off"; });
+    $$("#s-setup [data-timer]").forEach((c) => c.classList.toggle("selected", Number(c.dataset.timer) === settings.timer));
+    $$("#s-setup [data-steal]").forEach((c) => c.classList.toggle("selected", Number(c.dataset.steal) === settings.steal));
+  }
+  // Timer and steals can be switched mid-game from the pause menu.
+  function toggleTimer() {
+    settings.timer = settings.timer ? 0 : 1;
+    if (!settings.timer) stopTimer();
+    syncToggles(); updateTotal();
+  }
+  function toggleSteal() {
+    settings.steal = settings.steal ? 0 : 1;
+    syncToggles();
+  }
   function openQuit() {
+    syncToggles();
     stopMusic(); pauseTimer();
     focusBeforeModal = focused;
     modal.hidden = false;
@@ -1100,7 +1125,13 @@
   }
   function closeQuit() {
     modal.hidden = true; setFocus(focusBeforeModal);
-    if (current === "s-round") { startMusic(game.steal || !$("#m-steal").hidden ? "suspense" : "main"); resumeTimer(); }
+    if (current === "s-round") {
+      startMusic(game.steal || !$("#m-steal").hidden ? "suspense" : "main");
+      // Timer just switched on: start the clock now (after the bet on the finale).
+      if (settings.timer && !timer && !game.locked && $("#m-steal").hidden && !(isWager(game.index) && game.wager === null))
+        startTimer(game.steal ? STEAL_SECONDS : undefined);
+      else resumeTimer();
+    }
   }
 
   /* ---------- actions ---------- */
@@ -1140,6 +1171,8 @@
       case "menu": openQuit(); break;
       case "sound": setSound(!soundOn); break;
       case "music": setMusic(!musicOn); break;
+      case "timer-toggle": toggleTimer(); break;
+      case "steal-toggle": toggleSteal(); break;
       case "change-game": modal.hidden = true; show("s-books", `#book-list [data-book="${settings.book}"]`); break;
       case "quit-no": closeQuit(); break;
     }

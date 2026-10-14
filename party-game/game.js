@@ -52,6 +52,7 @@
   /* ---------- screens ---------- */
   let current = "s-title";
   function show(id, focusSel) {
+    $("#m-steal").hidden = true;
     $$(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
     current = id;
     if (id !== "s-round") { stopMusic(); stopTimer(); }
@@ -168,8 +169,10 @@
   const BASS = [[36, 40, 43, 45], [33, 36, 40, 43], [38, 41, 45, 48], [31, 35, 38, 41]];   // walking quarters
   const CHORDS = [[60, 64, 67], [57, 60, 64], [62, 65, 69], [59, 62, 65, 67]];            // C, Am, Dm, G7
   let music = null;   // { timer, step, barStart, bus }
-  function startMusic() {
-    if (music || !soundOn || !musicOn) return;
+  function startMusic(mode = "main") {
+    if (music && music.mode === mode) return;
+    if (music) stopMusic();
+    if (!soundOn || !musicOn) return;
     try {
       const a = audioCtx();
       const bus = a.createGain();
@@ -202,7 +205,8 @@
           const fl = a.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.setValueAtTime(900, t); fl.frequency.linearRampToValueAtTime(2600, t + 0.05);
           o.connect(fl); env(fl, t, 0.16, dur, 0.02); o.start(t); o.stop(t + dur + 0.03); });
       };
-      music = { step: 0, barStart: a.currentTime + 0.12, bus };
+      if (mode === "suspense") { startSuspense(a, bus, osc, kick, hit, env); return; }
+      music = { mode, step: 0, barStart: a.currentTime + 0.12, bus };
       music.timer = setInterval(() => {
         // schedule each bar a little ahead so timing stays tight
         while (music && music.barStart < a.currentTime + 0.4) {
@@ -222,6 +226,37 @@
       }, 80);
     } catch (e) { music = null; }
   }
+  // Steal music: slow minor-key tension — heartbeat drum, pulsing low bass,
+  // tremolo strings and a ticking clock (Am – F – Dm – E).
+  function startSuspense(a, bus, osc, kick, hit, env) {
+    const SB = 60 / 96;
+    const ROOTS = [45, 41, 38, 40];
+    const STRINGS = [[69, 72, 76], [65, 69, 72], [62, 65, 69], [64, 68, 71]];
+    const tremolo = (n, t, dur) => {
+      const o = a.createOscillator(), trem = a.createGain(), lfo = a.createOscillator(), depth = a.createGain(), fl = a.createBiquadFilter();
+      o.type = "sawtooth"; o.frequency.value = hz(n);
+      fl.type = "lowpass"; fl.frequency.value = 1700;
+      trem.gain.value = 0.5; lfo.frequency.value = 9; depth.gain.value = 0.5;
+      lfo.connect(depth).connect(trem.gain);
+      o.connect(fl).connect(trem); env(trem, t, 0.05, dur, 0.4);
+      o.start(t); lfo.start(t); o.stop(t + dur + 0.05); lfo.stop(t + dur + 0.05);
+    };
+    music = { mode: "suspense", step: 0, barStart: a.currentTime + 0.1, bus };
+    music.timer = setInterval(() => {
+      while (music && music.barStart < a.currentTime + 0.5) {
+        const c = music.step % 4, t0 = music.barStart;
+        STRINGS[c].forEach((n) => tremolo(n, t0, SB * 4));
+        for (let beat = 0; beat < 4; beat++) {
+          const on = t0 + beat * SB;
+          if (beat === 0 || beat === 2) { kick(on); kick(on + 0.2); }   // lub-dub
+          hit(on, "highpass", 6000, 0.08, 0.03);                         // clock tick
+          for (let e = 0; e < 2; e++) osc("triangle", hz(ROOTS[c]), on + e * SB / 2, SB * 0.4, 0.38, 500);
+        }
+        music.step++; music.barStart += SB * 4;
+      }
+    }, 80);
+  }
+
   function stopMusic() {
     if (!music) return;
     clearInterval(music.timer);
@@ -247,7 +282,7 @@
     if (!settings.timer || current !== "s-round") return;
     const total = (seconds || TIMER_SECONDS[settings.level]) * 1000;
     timer = { total, left: total, last: performance.now(), id: 0, lastSec: null };
-    $("#clock").hidden = false; $("#timer-bar").hidden = false;
+    $("#clock").hidden = false; $("#timer-bar").hidden = false; $(".label-card").classList.add("timed");
     resumeTimer();
   }
   function resumeTimer() {
@@ -261,13 +296,14 @@
   function stopTimer() {
     if (timer) clearInterval(timer.id);
     timer = null;
-    $("#clock").hidden = true; $("#timer-bar").hidden = true;
+    $("#clock").hidden = true; $("#timer-bar").hidden = true; $(".label-card").classList.remove("timed");
   }
   function tickTimer() {
     const now = performance.now();
     timer.left -= now - timer.last; timer.last = now;
     const sec = Math.max(0, Math.ceil(timer.left / 1000));
-    $("#clock").textContent = sec + "s";
+    $("#clock-num").textContent = sec;
+    $("#clock-prog").style.strokeDashoffset = (1 - Math.max(0, timer.left) / timer.total) * 326.7;
     const bar = $("#timer-bar");
     bar.style.width = Math.max(0, timer.left / timer.total * 100) + "%";
     const urgent = timer.left <= 10000;   // last 10 seconds: red bar + ticking
@@ -282,7 +318,7 @@
     try { localStorage.setItem("idpg-sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='sound']").forEach((b) => { b.textContent = on ? "Sound: On" : "Sound: Off"; });
     if (!on) stopMusic();
-    else if (current === "s-round" && modal.hidden) startMusic();
+    else if (current === "s-round" && modal.hidden) startMusic(game && (game.steal || !$("#m-steal").hidden) ? "suspense" : "main");
     if (on && audio) sfx("click");
   }
 
@@ -418,6 +454,8 @@
     fitIngredients();
     game.wager = null;
     game.steal = null;
+    game.chain = null;
+    game.locked = false;
     if (isWager(game.index)) askWager(p);
     else renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
 
@@ -594,6 +632,7 @@
   }
 
   function answer(choice) {
+    if (game.locked) return;
     stopMusic(); stopTimer();
     const timedOut = choice === null;
     const p = game.deck[game.index];
@@ -601,11 +640,11 @@
     const correct = tf ? (p.answer ? "True" : "False") : p.answer;
     const right = choice === correct;
     if (game.steal) { finishSteal(choice, right, timedOut); return; }
+    if (!right && !isWager(game.index) && canSteal(p)) { firstMiss(choice, timedOut); return; }
     const wager = isWager(game.index);
     const pts = right ? points() : 0;
     const lost = wager && !right ? Math.min(game.wager, game.scores[game.team]) : 0;
     game.scores[game.team] += pts - lost;
-    if (!right && canSteal(p)) { sfx(timedOut ? "timeup" : "wrong"); startSteal(choice, timedOut); return; }
     sfx(right ? "correct" : lost ? "lose" : timedOut ? "timeup" : "wrong");
 
     if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
@@ -625,6 +664,7 @@
     const tf = p.type === "tf";
     const correct = tf ? (p.answer ? "True" : "False") : p.answer;
     game.steal = null;
+    game.chain = null;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
 
     // Explanation card.
@@ -644,49 +684,118 @@
   }
 
   /* ---------- steals ---------- */
-  // After a miss on an ingredient question, the next team gets one shot with
-  // the wrong pick crossed out. It's worth half the points, and a missed
-  // steal costs the same amount. 10 seconds if the timer is on.
+  // A miss triggers a big WRONG!, then a "Steal it?" screen. Whoever shouts
+  // first gets picked on the remote (one remote can't tell who pressed it).
+  // Each team gets one try per question; every steal is worth half the last
+  // one, a missed steal loses that much, and the chain runs until someone
+  // gets it or nobody's left. 10 seconds per steal if the timer is on.
   function canSteal(p) {
     return settings.steal && game.teams > 1 && p.type !== "tf";
   }
-  function startSteal(missed, timedOut) {
-    const value = Math.max(1, Math.ceil(points() / 2));
-    const team = (game.team + 1) % game.teams;
-    game.steal = { team, value, missedBy: game.team, missed, timedOut };
+  function plural(n) { return `${n} point${n === 1 ? "" : "s"}`; }
+  function firstMiss(choice, timedOut) {
+    const p = game.deck[game.index];
+    game.chain = {
+      value: Math.max(1, Math.ceil(points() / 2)),
+      tried: new Set([game.team]),
+      removed: timedOut ? [] : [choice],
+      missText: timedOut ? "Time's up!" : `Nope — you said ${choice}.`,
+      steals: 0
+    };
+    sfx(timedOut ? "timeup" : "wrong");
+    showWrong(`${TEAM_NAMES[game.team]} ${timedOut ? "ran out of time" : `said ${choice}`}`, () => offerSteal(p));
+  }
+  function showWrong(sub, then) {
+    const pop = $("#wrong-pop");
+    $("#wrong-sub").textContent = sub;
+    pop.hidden = false;
+    game.locked = true;   // no clicks or keys while WRONG! is on screen
+    pop.classList.remove("go"); void pop.offsetWidth; pop.classList.add("go");
+    setTimeout(() => {
+      pop.hidden = true;
+      game.locked = false;
+      if (current === "s-round" && game.chain) then();
+    }, 1600);
+  }
+  function offerSteal(p) {
+    const ch = game.chain;
+    const left = game.options.filter((o) => !ch.removed.includes(o));
+    const teams = Array.from({ length: game.teams }, (_, i) => i).filter((i) => !ch.tried.has(i));
+    if (!teams.length || left.length <= 1) { nobodyGotIt(p); return; }
+    $("#steal-kicker").textContent = ch.steals ? "Still up for grabs!" : "Up for grabs!";
+    $("#steal-sub").textContent = `First team to shout gets it — worth ${plural(ch.value)}. Miss it and lose ${ch.value}.`;
+    const box = $("#steal-teams");
+    box.innerHTML = "";
+    teams.forEach((i, k) => {
+      const b = document.createElement("button");
+      b.className = "btn focusable steal-team";
+      b.dataset.action = "stealer"; b.dataset.team = i;
+      b.style.setProperty("--team", TEAM_COLORS[i]);
+      b.textContent = `${k + 1}. ${TEAM_NAMES[i]} steals`;
+      box.appendChild(b);
+    });
+    const no = document.createElement("button");
+    no.className = "btn focusable"; no.dataset.action = "no-steal";
+    no.textContent = "No steal — show the answer";
+    box.appendChild(no);
+    $("#m-steal").hidden = false;
+    setFocus($(".focusable", box));
+    startMusic("suspense");
+    sfx("steal");
+  }
+  function startSteal(team) {
+    const ch = game.chain;
+    $("#m-steal").hidden = true;
+    game.steal = { team, value: ch.value };
+    ch.tried.add(team); ch.steals++;
     $("#turn").textContent = TEAM_NAMES[team] + " — steal it!";
     $("#turn").style.color = TEAM_COLORS[team];
     const st = $("#stakes");
     st.hidden = false; st.className = "stakes is-steal";
-    st.textContent = `Win ${value} · miss = −${value}`;
+    st.textContent = `Win ${ch.value} · miss = −${ch.value}`;
     $$("#answers .answer").forEach((b) => {
-      if (b.dataset.choice === missed) { b.disabled = true; b.classList.add("struck"); }
+      const gone = ch.removed.includes(b.dataset.choice);
+      b.disabled = gone; b.classList.toggle("struck", gone);
     });
     $("#reveal").disabled = true;
     const t = $("#help-text");
     t.className = "help-text";
-    t.innerHTML = `${TEAM_NAMES[game.team]} ${timedOut ? "ran out of time" : "missed"}. Steal round: ingredient help is free.`;
-    $("#worth").textContent = `Steal: ${value} point${value === 1 ? "" : "s"}`;
+    t.textContent = "Steal round: tapping an ingredient for help is free.";
+    $("#worth").textContent = `Steal: ${plural(ch.value)}`;
     renderScores();
     $$("#scores .score").forEach((d, i) => d.classList.toggle("on", i === team));
-    sfx("steal");
     setFocus($$("#answers .answer").find((b) => !b.disabled));
-    startMusic();
+    startMusic("suspense");
     startTimer(STEAL_SECONDS);
   }
   function finishSteal(choice, right, timedOut) {
-    const s = game.steal;
-    const lost = right ? 0 : Math.min(s.value, game.scores[s.team]);
-    game.scores[s.team] += right ? s.value : -lost;
-    sfx(right ? "correct" : lost ? "lose" : timedOut ? "timeup" : "wrong");
-    if (right) confetti(90, [TEAM_COLORS_HEX[s.team]]);
-    const name = TEAM_NAMES[s.team];
+    const s = game.steal, ch = game.chain, name = TEAM_NAMES[s.team];
+    if (right) {
+      game.scores[s.team] += s.value;
+      sfx("correct");
+      confetti(110, [TEAM_COLORS_HEX[s.team]]);
+      const v = $("#verdict");
+      v.className = "verdict good";
+      v.textContent = `${name} steals it! +${plural(s.value)}`;
+      showResult(game.deck[game.index]);
+      return;
+    }
+    const lost = Math.min(s.value, game.scores[s.team]);
+    game.scores[s.team] -= lost;
+    sfx(lost ? "lose" : timedOut ? "timeup" : "wrong");
+    if (!timedOut) ch.removed.push(choice);
+    game.steal = null;
+    ch.value = Math.max(1, Math.ceil(ch.value / 2));
+    renderScores();
+    showWrong(`${name} ${timedOut ? "ran out of time" : `said ${choice}`}` + (lost ? ` — loses ${plural(lost)}` : ""),
+      () => offerSteal(game.deck[game.index]));
+  }
+  function nobodyGotIt(p) {
+    $("#m-steal").hidden = true;
     const v = $("#verdict");
-    v.className = "verdict " + (right ? "good" : "bad");
-    v.textContent = right ? `${name} steals it! +${s.value} point${s.value === 1 ? "" : "s"}`
-      : (timedOut ? `Time's up on the steal! ` : `Steal missed — ${name} said ${choice}. `) +
-        (lost ? `${name} loses ${lost} point${lost === 1 ? "" : "s"}.` : "No points to lose.");
-    showResult(game.deck[game.index]);
+    v.className = "verdict bad";
+    v.textContent = game.chain && game.chain.steals ? "Nobody got it!" : game.chain ? game.chain.missText : "Nobody got it!";
+    showResult(p);
   }
 
   function renderWatch(p) {
@@ -847,13 +956,15 @@
   }
   function closeQuit() {
     modal.hidden = true; setFocus(focusBeforeModal);
-    if (current === "s-round") { startMusic(); resumeTimer(); }
+    if (current === "s-round") { startMusic(game.steal || !$("#m-steal").hidden ? "suspense" : "main"); resumeTimer(); }
   }
 
   /* ---------- actions ---------- */
+  const LOCKABLE = new Set(["answer", "reveal", "help", "menu"]);
   const QUIET = new Set(["answer", "reveal", "help", "wager", "sound", "music"]);
   function act(el) {
     if (!el) return;
+    if (game && game.locked && LOCKABLE.has(el.dataset.action)) return;
     if (!QUIET.has(el.dataset.action)) sfx("click");
     if (el.dataset.teams) { pick(el, "teams"); return; }
     if (el.dataset.rounds) { pick(el, "rounds"); return; }
@@ -872,6 +983,8 @@
       case "next": next(); break;
       case "new-dare": showDare(); break;
       case "help": help(Number(el.dataset.i)); break;
+      case "stealer": startSteal(Number(el.dataset.team)); break;
+      case "no-steal": nobodyGotIt(game.deck[game.index]); break;
       case "wager": placeWager(Number(el.dataset.choice)); break;
       case "quit-yes": modal.hidden = true; show("s-title"); break;
       case "menu": openQuit(); break;
@@ -897,7 +1010,8 @@
 
   /* ---------- remote / keyboard navigation ---------- */
   let focused = null;
-  function scope() { return modal.hidden ? $("#" + current) : modal; }
+  function anyModal() { return $$(".modal").find((m) => !m.hidden) || null; }
+  function scope() { return anyModal() || $("#" + current); }
   function focusables() {
     return $$(".focusable", scope()).filter((el) => !el.disabled && el.offsetParent !== null);
   }
@@ -939,7 +1053,9 @@
   }
 
   function back() {
+    if (game && game.locked) return;
     if (!modal.hidden) { closeQuit(); return; }
+    if (!$("#m-steal").hidden) return;   // pick a team or "No steal"
     if (current === "s-round" || current === "s-result") { openQuit(); return; }
     if (current === "s-setup") { act({ dataset: { action: "books" } }); return; }
     if (current !== "s-title") { show("s-title"); return; }
@@ -961,7 +1077,13 @@
     if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) act(focused); return; }
     if (k === "back") { e.preventDefault(); back(); return; }
     if (e.key === "m" || e.key === "M") { setSound(!soundOn); return; }
-    if (current === "s-round" && modal.hidden) {
+    if (!$("#m-steal").hidden && modal.hidden) {
+      const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
+      const b = n >= 0 && $$("#steal-teams .steal-team")[n];
+      if (b) { setFocus(b); act(b); }
+      return;
+    }
+    if (current === "s-round" && !anyModal()) {
       const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
       if (n >= 0) { const b = $$("#answers .answer")[n]; if (b) { setFocus(b); act(b); } return; }
       if (e.key === "r" || e.key === "R") { reveal(); return; }

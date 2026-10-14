@@ -306,11 +306,8 @@ button{font:inherit;color:inherit;cursor:pointer;}
 
 /* ---------- answer timer ---------- */
 .label-head{position:relative;align-items:center;}
-.clock{font-size:30px;font-weight:800;letter-spacing:0;color:var(--label-ink);margin-left:auto;margin-right:16px;
-  font-variant-numeric:tabular-nums;}
-.clock.urgent{color:var(--warn-ink);}
-.clock[hidden],.timer-bar[hidden]{display:none;}
-.timer-bar{position:absolute;left:0;bottom:-8px;height:8px;width:100%;background:#3F8F62;transition:width .1s linear;}
+.clock-ring[hidden],.timer-bar[hidden]{display:none;}
+.timer-bar{position:absolute;left:0;bottom:-11px;height:14px;border-radius:7px;width:100%;background:#3F8F62;transition:width .1s linear;}
 .timer-bar.urgent{background:var(--warn-ink);animation:blink .5s steps(2) infinite;}
 @keyframes blink{50%{opacity:.4;}}
 @media (prefers-reduced-motion: reduce){.timer-bar.urgent{animation:none;}}
@@ -336,3 +333,38 @@ button{font:inherit;color:inherit;cursor:pointer;}
 /* ---------- steals ---------- */
 .stakes.is-steal{color:#1A1C1E;background:var(--pop);border-color:var(--pop);}
 .answer.struck{opacity:.35;text-decoration:line-through 5px;}
+
+/* ---------- big countdown circle (top-right corner of the label) ---------- */
+.label-card{position:relative;}
+.clock-ring{position:absolute;top:-46px;right:-52px;width:150px;height:150px;border-radius:50%;background:var(--label);
+  box-shadow:0 14px 34px -10px rgba(0,0,0,.6);display:grid;place-items:center;z-index:3;}
+.clock-ring svg{position:absolute;inset:8px;width:134px;height:134px;transform:rotate(-90deg);}
+.clock-ring circle{fill:none;stroke-width:12;}
+.clock-ring .track{stroke:#DCD9CF;}
+.clock-ring .prog{stroke:#3F8F62;stroke-linecap:round;stroke-dasharray:326.7;stroke-dashoffset:0;transition:stroke-dashoffset .1s linear,stroke .2s;}
+#clock-num{position:relative;font-size:60px;font-weight:800;color:var(--label-ink);font-variant-numeric:tabular-nums;}
+.clock-ring.urgent .prog{stroke:var(--warn-ink);}
+.clock-ring.urgent #clock-num{color:var(--warn-ink);}
+.clock-ring.urgent{animation:throb 1s ease-in-out infinite;}
+@keyframes throb{50%{transform:scale(1.12);}}
+@media (prefers-reduced-motion: reduce){.clock-ring.urgent{animation:none;}}
+
+/* ---------- WRONG! pop-up ---------- */
+.wrong-pop{position:absolute;inset:0;z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(60,8,6,.55);pointer-events:none;}
+.wrong-pop[hidden]{display:none;}
+.wrong-pop b{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:300px;line-height:1;color:#fff;
+  background:var(--bad);padding:20px 90px 40px;border-radius:40px;transform:rotate(-6deg);
+  box-shadow:0 0 0 16px rgba(255,255,255,.9),0 40px 80px -20px rgba(0,0,0,.7);}
+.wrong-pop span{margin-top:56px;font-size:52px;font-weight:800;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.6);}
+.wrong-pop.go b{animation:stamp .45s cubic-bezier(.2,1.6,.4,1) both;}
+@keyframes stamp{0%{transform:scale(2.4) rotate(-6deg);opacity:0;}100%{transform:scale(1) rotate(-6deg);opacity:1;}}
+@media (prefers-reduced-motion: reduce){.wrong-pop.go b{animation:none;}}
+
+/* ---------- Steal it? ---------- */
+.steal-box{min-width:900px;}
+.steal-kicker{font-size:32px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--pop);margin:0;}
+.steal-box h3{font-size:110px;margin:6px 0 10px;}
+.steal-sub{font-size:34px;color:var(--ink-soft);margin:0 0 36px;}
+.btn.steal-team{background:var(--team);color:#1A1C1E;box-shadow:none;font-size:44px;}
+.label-card.timed .label-head{padding-right:96px;}

@@ -42,7 +42,7 @@
       <li><b>Read the 3 ingredients</b> and guess the product. <i>Snack or Shampoo?</i></li>
       <li><b>Need a hint?</b> Reveal another ingredient, or tap one to see what it is. Each costs 1 point.</li>
       <li><b>Right answer = points.</b> Wrong answer = zero. <i>And a little shame.</i></li>
-      <li><b>Steal!</b> Miss it and the next team gets one shot for half the points. Miss the steal, lose them. <i>Ouch.</i></li>
+      <li><b>Steal!</b> Miss it and the first team to shout gets a shot for half the points. Miss, lose them. <i>Ouch.</i></li>
       <li><span class="hl-warn">Red</span> ingredients are worth knowing about. <span class="hl-unknown">Amber</span> ones are kept secret.</li>
       <li><b>Points go up</b> every round, and your last round counts double. <i>Comebacks happen.</i></li>
       <li><b>Hard mode</b> starts with the weird chemicals and pays more. Timer optional. <i>Sweating too.</i></li>
@@ -129,9 +129,12 @@
       <div class="label-card">
         <div class="label-head">
           <span>INGREDIENTS:</span>
-          <span id="clock" class="clock" hidden></span>
           <span id="worth" class="worth"></span>
           <i id="timer-bar" class="timer-bar" hidden></i>
+        </div>
+        <div class="clock-ring" id="clock" hidden>
+          <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="52"></circle><circle class="prog" id="clock-prog" cx="60" cy="60" r="52"></circle></svg>
+          <span id="clock-num"></span>
         </div>
         <ol id="ingredients" class="ingredients"></ol>
         <p id="statement" class="statement" hidden></p>
@@ -208,6 +211,20 @@
   </section>
 
   <!-- QUIT CONFIRM -->
+  <div class="wrong-pop" id="wrong-pop" hidden>
+    <b>WRONG!</b>
+    <span id="wrong-sub"></span>
+  </div>
+
+  <div class="modal" id="m-steal" hidden>
+    <div class="modal-box steal-box">
+      <p class="steal-kicker" id="steal-kicker"></p>
+      <h3>Steal it?</h3>
+      <p class="steal-sub" id="steal-sub"></p>
+      <div class="menu-list" id="steal-teams"></div>
+    </div>
+  </div>
+
   <div class="modal" id="m-quit" hidden>
     <div class="modal-box">
       <h3>Game paused</h3>

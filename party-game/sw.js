@@ -1,6 +1,6 @@
 // Lets the game install to a phone's home screen and play offline.
 // Bump VERSION whenever the game files change so players get the update.
-const VERSION = "party-game-2";
+const VERSION = "party-game-3";
 const FILES = [
   "./",
   "apple-touch-icon.png",

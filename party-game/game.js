@@ -685,7 +685,7 @@
     const t = $("#help-text");
     t.className = "help-text";
     const cost = isFinal(game.index) ? 2 : 1;
-    t.innerHTML = `Click an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
+    t.innerHTML = `◀ to an ingredient, OK to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
   }
   function help(i) {
     const p = game.deck[game.index];
@@ -871,7 +871,7 @@
     $("#reveal").disabled = true;
     const t = $("#help-text");
     t.className = "help-text";
-    t.textContent = "Steal round: clicking an ingredient for help is free.";
+    t.textContent = "Steal round: ingredient help is free.";
     $("#worth").textContent = `Steal: ${plural(ch.value)}`;
     renderScores();
     $$("#scores .score").forEach((d, i) => d.classList.toggle("on", i === team));

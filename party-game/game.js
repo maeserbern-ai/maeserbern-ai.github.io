@@ -377,7 +377,8 @@
 
     const v = $("#verdict");
     v.className = "verdict " + (right ? "good" : "bad");
-    v.textContent = right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}`
+    v.textContent = right && wager && !pts ? "Correct! You bet 0, so your score stays the same."
+      : right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}`
       : lost ? `Nope — you said ${choice}. You lose ${lost} point${lost === 1 ? "" : "s"}.`
       : `Nope — you said ${choice}.`;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
@@ -407,19 +408,25 @@
   function renderWatch(p) {
     const list = $("#watch-list");
     list.innerHTML = "";
-    const seen = new Set();
+    // Group ingredients that share a tag ("Red 40, Yellow 5, Blue 1 — Synthetic dye").
+    const groups = new Map();
     (p.ingredients || []).forEach((ing) => {
       const info = watchInfo(ing);
-      if (!info || seen.has(ing)) return;
-      seen.add(ing);
+      if (!info) return;
+      const key = info.level + "|" + info.tag;
+      if (!groups.has(key)) groups.set(key, { level: info.level, tag: info.tag, names: [] });
+      if (!groups.get(key).names.includes(ing)) groups.get(key).names.push(ing);
+    });
+    groups.forEach((g) => {
       const li = document.createElement("li");
-      li.className = info.level;
+      li.className = g.level;
       li.innerHTML = "<b></b><small></small>";
-      li.firstChild.textContent = ing;
-      li.lastChild.textContent = info.tag;
+      li.firstChild.textContent = g.names.join(", ");
+      li.lastChild.textContent = g.tag;
       list.appendChild(li);
     });
     $("#watch").hidden = !list.children.length;
+    $("#r-side").classList.toggle("solo", !list.children.length);
   }
 
   function next() {

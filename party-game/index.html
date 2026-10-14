@@ -22,7 +22,8 @@
     <div class="title-wrap">
       <p class="series">Ingredient Dictionary</p>
       <h1 class="logo">The <span>Party</span> Game</h1>
-      <p class="tag"><b>Snack or shampoo?</b> Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
+      <p class="hook">Snack or shampoo?</p>
+      <p class="tag">Read the ingredient list. Guess the product.<br />Fewer clues, more points.</p>
       <div class="row">
         <button class="btn primary focusable" data-action="books">Play</button>
         <button class="btn focusable" data-action="howto">How to play</button>
@@ -132,7 +133,7 @@
   <!-- RESULT -->
   <section class="screen" id="s-result">
     <div class="result">
-     <div>
+     <div class="r-main">
       <p id="verdict" class="verdict"></p>
       <h2 id="r-answer" class="r-answer"></h2>
       <p id="r-kind" class="r-kind"></p>
@@ -142,17 +143,19 @@
           <h3 id="r-spot-name"></h3>
           <p id="r-spot-note"></p>
         </div>
-        <div class="watch" id="watch" hidden>
-          <span class="spot-tag">Ingredients to know about</span>
-          <ul id="watch-list"></ul>
-        </div>
         <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button></div>
       </div>
      </div>
+     <aside class="r-side" id="r-side">
+      <div class="watch" id="watch" hidden>
+        <span class="spot-tag">Ingredients to know about</span>
+        <ul id="watch-list"></ul>
+      </div>
       <a class="r-book" id="r-book" target="_blank" rel="noopener">
         <img id="r-cover" alt="" />
         <span>Learn more in<br /><b id="r-book-title"></b></span>
       </a>
+     </aside>
     </div>
   </section>
 

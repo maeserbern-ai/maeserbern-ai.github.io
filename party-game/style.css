@@ -54,7 +54,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
   position:relative;z-index:2;}
 
 /* ---------- title ---------- */
-#s-title{justify-content:center;padding-bottom:150px;}
+#s-title{justify-content:center;padding-bottom:110px;}
 .title-wrap{max-width:1500px;}
 .logo{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:230px;line-height:.9;margin:0 0 36px;letter-spacing:-.02em;}
 .logo span{color:var(--pop);font-style:italic;}
@@ -263,3 +263,30 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .hud.crowded .score{padding:8px 16px;font-size:30px;gap:10px;}
 .hud.crowded .round-book{font-size:22px;}
 .hud.crowded .progress{font-size:26px;}
+
+/* ---------- title hook line ---------- */
+.hook{font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:600;font-size:72px;line-height:1.1;
+  color:var(--ink);margin:0 0 18px;}
+.hook + .tag{margin-top:0;}
+
+/* ---------- answer screen: roomier two-column layout ---------- */
+#s-result .result{grid-template-columns:minmax(0,1fr) 600px;gap:88px;align-items:center;}
+#s-result .verdict{margin:0 0 14px;}
+#s-result .r-answer{margin:0 0 26px;}
+#s-result .r-kind{margin:0 0 40px;}
+#s-result .spot{margin:0 0 52px;padding:34px 44px;}
+#s-result .spot h3{margin:10px 0 14px;}
+#s-result .spot p{line-height:1.45;}
+.r-side{display:flex;flex-direction:column;gap:44px;}
+.r-side .watch{background:var(--bg-2);border-radius:20px;padding:30px 34px;margin:0;}
+.r-side .watch ul{flex-direction:column;flex-wrap:nowrap;gap:14px;margin-top:18px;}
+.r-side .watch li{display:block;background:none;border:0;border-left:6px solid rgba(224,106,95,.85);
+  border-radius:0;padding:4px 0 4px 18px;font-size:30px;line-height:1.25;}
+.r-side .watch li small{display:block;font-size:24px;margin-top:2px;}
+.r-side .watch li.unknown{background:none;border-left-color:var(--gold);}
+.r-side .r-book{flex-direction:row;text-align:left;gap:28px;font-size:28px;}
+.r-side .r-book img{width:150px;}
+.r-side.solo .r-book{flex-direction:column;text-align:center;font-size:30px;}
+.r-side.solo .r-book img{width:300px;}
+#s-title .logo{font-size:206px;margin-bottom:56px;}
+#s-title .logo span{margin-right:.1em;}

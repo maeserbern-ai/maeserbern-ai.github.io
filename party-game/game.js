@@ -87,6 +87,41 @@
     if (audio.state === "suspended") audio.resume();
     return audio;
   }
+  // iPhones mute Web Audio when the silent switch is on. On the first tap we
+  // put the page in "playback" mode (like a video) and keep a silent audio
+  // track running so sound and music play through the speaker.
+  let unlocked = false, silentTrack = null;
+  function silentWavUrl() {
+    const rate = 8000, n = rate, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
+    const str = (o, t) => { for (let i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); };
+    str(0, "RIFF"); v.setUint32(4, 36 + n, true); str(8, "WAVE"); str(12, "fmt ");
+    v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+    v.setUint32(24, rate, true); v.setUint32(28, rate, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true);
+    str(36, "data"); v.setUint32(40, n, true);
+    for (let i = 0; i < n; i++) v.setUint8(44 + i, 128);
+    return URL.createObjectURL(new Blob([buf], { type: "audio/wav" }));
+  }
+  function unlockAudio() {
+    if (unlocked) return;
+    unlocked = true;
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* older browsers */ }
+    try {
+      silentTrack = document.createElement("audio");
+      silentTrack.src = silentWavUrl();
+      silentTrack.loop = true;
+      silentTrack.setAttribute("playsinline", "");
+      silentTrack.setAttribute("x-webkit-airplay", "deny");
+      const p = silentTrack.play();
+      if (p && p.catch) p.catch(() => { unlocked = false; });
+    } catch (e) { unlocked = false; }
+    try {
+      const a = audioCtx(), b = a.createBuffer(1, 1, 22050), src = a.createBufferSource();
+      src.buffer = b; src.connect(a.destination); src.start(0);
+    } catch (e) { /* sound is optional */ }
+  }
+  ["pointerdown", "touchend", "keydown", "click"].forEach((ev) =>
+    document.addEventListener(ev, unlockAudio, { capture: true, passive: true }));
+
   // One note: frequency (or [from, to] for a slide), start offset, length.
   function tone(freq, at, dur, type = "triangle", vol = 0.3, opts = {}) {
     const a = audioCtx(), t = a.currentTime + at;
@@ -268,8 +303,9 @@
 
   // If the TV or phone switches away, pause the clock and the music.
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { stopMusic(); pauseTimer(); }
-    else if (current === "s-round" && game && $("#m-quit").hidden) {
+    if (document.hidden) { stopMusic(); pauseTimer(); if (silentTrack) silentTrack.pause(); }
+    if (!document.hidden && silentTrack && unlocked) silentTrack.play().catch(() => {});
+    if (!document.hidden && current === "s-round" && game && $("#m-quit").hidden) {
       resumeTimer();
       startMusic(game.steal || !$("#m-steal").hidden ? "suspense" : "main");
     }

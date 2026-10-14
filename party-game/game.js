@@ -144,59 +144,80 @@
     if (!soundOn) return;
     try { SFX[name](); } catch (e) { /* sound is optional */ }
   }
-  /* ---------- thinking music (original tune, synthesized) ---------- */
-  // A light tick-tock tune that loops while a question is on screen. It is an
-  // original melody written for this game — not any TV show's theme.
+  /* ---------- game-show music (original tune, synthesized) ---------- */
+  // An upbeat, swinging quiz-show groove: drums, walking bass, chord stabs and
+  // a brassy lead over a I–vi–ii–V progression. Original melody written for
+  // this game — not any TV show's theme.
   let musicOn = true;
   try { musicOn = localStorage.getItem("idpg-music") !== "off"; } catch (e) { /* storage blocked */ }
-  const BEAT = 60 / 112;   // seconds per beat (112 bpm)
-  // [melody note (Hz or 0 for rest), bass note] per beat, 8 bars of 4 beats.
-  const N = { F2: 87.3, A2: 110, Bb1: 58.3, Bb2: 116.5, C2: 65.4, C3: 130.8, D2: 73.4, G2: 98,
-    A4: 440, Bb4: 466.2, C5: 523.3, D5: 587.3, E5: 659.3, F5: 698.5, G5: 784, A5: 880 };
-  const TUNE = [
-    ["A4", "F2"], ["C5", 0], ["F5", "C3"], ["C5", 0],
-    ["D5", "D2"], ["F5", 0], ["A5", "A2"], ["F5", 0],
-    ["G5", "C2"], ["E5", 0], ["C5", "G2"], ["E5", 0],
-    ["F5", "F2"], [0, 0], ["C5", "C3"], ["A4", 0],
-    ["Bb4", "Bb1"], ["D5", 0], ["F5", "F2"], ["D5", 0],
-    ["A4", "F2"], ["C5", 0], ["F5", "C3"], ["A5", 0],
-    ["G5", "C2"], ["F5", 0], ["E5", "G2"], ["G5", 0],
-    ["F5", "F2"], [0, 0], [0, "C3"], [0, 0]
+  const BPM = 132, BEAT = 60 / BPM, SWING = 0.62;   // offbeat eighths land 62% through the beat
+  const hz = (n) => 440 * Math.pow(2, (n - 69) / 12);   // MIDI note number -> Hz
+  // MIDI numbers: C4=60. Melody is 8 eighth-notes per bar (0 = rest).
+  const LEAD = [
+    [67, 0, 72, 0, 76, 0, 74, 72],   // C
+    [76, 0, 0, 72, 69, 0, 72, 0],    // Am
+    [74, 0, 77, 0, 81, 0, 79, 77],   // Dm
+    [76, 0, 74, 0, 71, 0, 67, 0],    // G7
+    [67, 0, 72, 0, 76, 0, 79, 0],    // C
+    [81, 0, 79, 76, 72, 0, 76, 0],   // Am
+    [77, 0, 76, 0, 74, 0, 77, 81],   // Dm
+    [79, 0, 0, 0, 71, 0, 74, 0]      // G7
   ];
-  let music = null;   // { timer, step, next, bus }
+  const BASS = [[36, 40, 43, 45], [33, 36, 40, 43], [38, 41, 45, 48], [31, 35, 38, 41]];   // walking quarters
+  const CHORDS = [[60, 64, 67], [57, 60, 64], [62, 65, 69], [59, 62, 65, 67]];            // C, Am, Dm, G7
+  let music = null;   // { timer, step, barStart, bus }
   function startMusic() {
     if (music || !soundOn || !musicOn) return;
     try {
       const a = audioCtx();
       const bus = a.createGain();
-      bus.gain.value = 0.32;
+      bus.gain.value = 0.3;
       bus.connect(master);
-      music = { step: 0, next: a.currentTime + 0.1, bus };
-      const play = (f, t, dur, type, vol) => {
-        const o = a.createOscillator(), g = a.createGain();
-        o.type = type; o.frequency.value = f;
+      const env = (node, t, vol, dur, attack = 0.005) => {
+        const g = a.createGain();
         g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(vol, t + 0.008);
+        g.gain.exponentialRampToValueAtTime(vol, t + attack);
         g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-        o.connect(g).connect(bus); o.start(t); o.stop(t + dur + 0.02);
+        node.connect(g).connect(bus);
       };
-      const tick = (t, hi) => {
-        const len = Math.floor(a.sampleRate * 0.03), buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
-        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
-        const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
-        src.buffer = buf; f.type = "highpass"; f.frequency.value = hi ? 7000 : 4500; g.gain.value = hi ? 0.18 : 0.1;
-        src.connect(f).connect(g).connect(bus); src.start(t);
+      const osc = (type, f, t, dur, vol, lp) => {
+        const o = a.createOscillator(); o.type = type; o.frequency.value = f;
+        let n = o;
+        if (lp) { const fl = a.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.value = lp; o.connect(fl); n = fl; }
+        env(n, t, vol, dur); o.start(t); o.stop(t + dur + 0.03);
       };
+      const noiseBuf = (() => { const len = a.sampleRate * 0.25, b = a.createBuffer(1, len, a.sampleRate), d = b.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1; return b; })();
+      const hit = (t, type, freq, vol, dur) => {
+        const src = a.createBufferSource(), f = a.createBiquadFilter();
+        src.buffer = noiseBuf; f.type = type; f.frequency.value = freq;
+        src.connect(f); env(f, t, vol, dur, 0.002); src.start(t); src.stop(t + dur + 0.02);
+      };
+      const kick = (t) => { const o = a.createOscillator(); o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12); env(o, t, 0.9, 0.16, 0.002); o.start(t); o.stop(t + 0.2); };
+      const snare = (t) => { hit(t, "bandpass", 1900, 0.45, 0.13); osc("triangle", 190, t, 0.08, 0.25); };
+      const hat = (t, open) => hit(t, "highpass", 8000, open ? 0.14 : 0.09, open ? 0.12 : 0.035);
+      const brass = (n, t, dur) => {   // two slightly detuned saws through a filter = cheesy TV brass
+        [0, 6].forEach((cents) => { const o = a.createOscillator(); o.type = "sawtooth"; o.frequency.value = hz(n); o.detune.value = cents;
+          const fl = a.createBiquadFilter(); fl.type = "lowpass"; fl.frequency.setValueAtTime(900, t); fl.frequency.linearRampToValueAtTime(2600, t + 0.05);
+          o.connect(fl); env(fl, t, 0.16, dur, 0.02); o.start(t); o.stop(t + dur + 0.03); });
+      };
+      music = { step: 0, barStart: a.currentTime + 0.12, bus };
       music.timer = setInterval(() => {
-        // schedule a little ahead so timing stays steady
-        while (music && music.next < a.currentTime + 0.25) {
-          const [mel, bass] = TUNE[music.step % TUNE.length], t = music.next;
-          if (mel) { play(N[mel], t, BEAT * 0.55, "triangle", 0.5); play(N[mel] * 2, t, BEAT * 0.25, "sine", 0.08); }
-          if (bass) play(N[bass], t, BEAT * 0.9, "sine", 0.55);
-          tick(t, true); tick(t + BEAT / 2, false);
-          music.step++; music.next += BEAT;
+        // schedule each bar a little ahead so timing stays tight
+        while (music && music.barStart < a.currentTime + 0.4) {
+          const bar = music.step % LEAD.length, chord = bar % 4, t0 = music.barStart;
+          for (let beat = 0; beat < 4; beat++) {
+            const on = t0 + beat * BEAT, off = on + BEAT * SWING;
+            if (beat % 2 === 0) kick(on); else snare(on);
+            hat(on, false); hat(off, beat === 3);
+            osc("triangle", hz(BASS[chord][beat]), on, BEAT * 0.85, 0.5, 900);
+            if (beat === 1 || beat === 3) CHORDS[chord].forEach((n) => osc("square", hz(n), off, 0.12, 0.05, 1800));
+            [LEAD[bar][beat * 2], LEAD[bar][beat * 2 + 1]].forEach((n, k) => {
+              if (n) brass(n, k ? off : on, (k ? BEAT * (1 - SWING) : BEAT * SWING) * 0.95);
+            });
+          }
+          music.step++; music.barStart += BEAT * 4;
         }
-      }, 60);
+      }, 80);
     } catch (e) { music = null; }
   }
   function stopMusic() {

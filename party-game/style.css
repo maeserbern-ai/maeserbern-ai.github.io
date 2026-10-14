@@ -327,8 +327,8 @@ button{font:inherit;color:inherit;cursor:pointer;}
 #s-howto .hint{font-size:28px;margin:0 0 30px;}
 
 /* ---------- how to play: bullet list ---------- */
-.steps{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:16px;max-width:1600px;}
-.steps li{position:relative;padding-left:52px;font-size:36px;line-height:1.35;color:var(--ink-soft);}
+.steps{list-style:none;margin:0 0 30px;padding:0;display:flex;flex-direction:column;gap:18px;}
+.steps li{position:relative;padding-left:52px;font-size:36px;line-height:1.35;color:var(--ink-soft);white-space:nowrap;}
 .steps li::before{content:"";position:absolute;left:8px;top:.5em;width:18px;height:18px;border-radius:50%;background:var(--pop);}
 .steps b{color:var(--ink);}
 .steps i{color:var(--gold);font-style:italic;}

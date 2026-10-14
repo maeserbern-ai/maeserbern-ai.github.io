@@ -382,3 +382,4 @@ button.order-card.focus:not(.picked){box-shadow:inset 0 0 0 6px var(--team),0 0 
 .order-card b{font-family:"Fraunces",serif;font-weight:900;font-size:56px;line-height:1.05;}
 .order-tip{font-size:34px;max-width:1400px;margin:0 0 40px;color:var(--muted);}
 .next-dot{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin:0 .3em 0 .25em;vertical-align:-.05em;box-shadow:0 0 0 3px rgba(0,0,0,.35);}
+.card-foot .btn.small{white-space:nowrap;padding:18px 30px;}

@@ -288,6 +288,7 @@
     timer = { total, left: total, last: performance.now(), id: 0, lastSec: null };
     $("#clock").hidden = false; $("#timer-bar").hidden = false; $(".label-card").classList.add("timed");
     resumeTimer();
+    if (game) updateExtend();
   }
   function resumeTimer() {
     if (!timer) return;
@@ -301,6 +302,7 @@
     if (timer) clearInterval(timer.id);
     timer = null;
     $("#clock").hidden = true; $("#timer-bar").hidden = true; $(".label-card").classList.remove("timed");
+    $("#extend").hidden = true;
   }
   function tickTimer() {
     const now = performance.now();
@@ -516,6 +518,7 @@
     const list = $("#ingredients");
     list.innerHTML = "";
     game.helped = new Set();
+    game.extended = false;
     resetHelp();
     (p.ingredients || []).forEach((ing, i) => {
       const li = document.createElement("li");
@@ -608,9 +611,36 @@
     const i = game.index, p = game.deck[i];
     if (isWager(i)) return game.wager || 0;
     const reveals = p.type === "tf" ? 0 : game.shown - Math.min(START_SHOWN, p.ingredients.length);
-    const pts = Math.max(1, basePoints(i) - reveals - game.helped.size);
+    const pts = Math.max(1, basePoints(i) - reveals - game.helped.size - (game.extended ? extendCost(i) : 0));
     return isFinal(i) ? pts * 2 : pts;
   }
+  // +15 seconds costs more as the points go up: 1 point, then 2, 3... each lap
+  // (and the final round doubles it, like everything else).
+  const EXTEND_SECONDS = 15;
+  function extendCost(i) { return 1 + lapOf(i); }
+  function canExtend() {
+    return settings.timer && timer && !game.extended && !game.steal && !isWager(game.index);
+  }
+  function updateExtend() {
+    const b = $("#extend"), show = !!canExtend();
+    if (!show && b === focused) setFocus($("#answers .answer"));
+    b.hidden = !show;
+    if (show) {
+      const cost = extendCost(game.index) * (isFinal(game.index) ? 2 : 1);
+      b.textContent = `+${EXTEND_SECONDS} sec · −${cost} pt${cost === 1 ? "" : "s"}`;
+    }
+  }
+  function extendTime() {
+    if (!canExtend()) return;
+    game.extended = true;
+    timer.left += EXTEND_SECONDS * 1000;
+    timer.total = Math.max(timer.total, timer.left);
+    timer.lastSec = null;
+    sfx("bet");
+    updateWorth();
+    updateExtend();
+  }
+
   function showStakes() {
     const i = game.index, el = $("#stakes");
     el.className = "stakes";
@@ -655,7 +685,7 @@
     const t = $("#help-text");
     t.className = "help-text";
     const cost = isFinal(game.index) ? 2 : 1;
-    t.innerHTML = `Tap an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
+    t.innerHTML = `Click an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
   }
   function help(i) {
     const p = game.deck[game.index];
@@ -685,6 +715,7 @@
       ? (game.wager === null ? "Bet first" : `Bet: ${pts} point${pts === 1 ? "" : "s"}`)
       : `Worth ${pts} point${pts === 1 ? "" : "s"}`;
     $("#reveal").disabled = p.type === "tf" || game.shown >= p.ingredients.length;
+    updateExtend();
   }
 
   function reveal() {
@@ -840,7 +871,7 @@
     $("#reveal").disabled = true;
     const t = $("#help-text");
     t.className = "help-text";
-    t.textContent = "Steal round: tapping an ingredient for help is free.";
+    t.textContent = "Steal round: clicking an ingredient for help is free.";
     $("#worth").textContent = `Steal: ${plural(ch.value)}`;
     renderScores();
     $$("#scores .score").forEach((d, i) => d.classList.toggle("on", i === team));
@@ -1041,7 +1072,7 @@
   }
 
   /* ---------- actions ---------- */
-  const LOCKABLE = new Set(["answer", "reveal", "help", "menu"]);
+  const LOCKABLE = new Set(["answer", "reveal", "help", "menu", "extend"]);
   const QUIET = new Set(["answer", "reveal", "help", "wager", "sound", "music"]);
   function act(el) {
     if (!el) return;
@@ -1065,6 +1096,7 @@
       case "color": toggleColor(Number(el.dataset.color)); break;
       case "setup": show("s-setup", '#s-setup [data-action="start"]'); break;
       case "reveal": reveal(); break;
+      case "extend": extendTime(); break;
       case "answer": answer(el.dataset.choice); break;
       case "next": next(); break;
       case "new-dare": showDare(); break;

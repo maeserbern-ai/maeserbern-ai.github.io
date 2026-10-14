@@ -46,7 +46,7 @@
       <li><span class="hl-warn">Red</span> ingredients are worth knowing about. <span class="hl-unknown">Amber</span> ones are kept secret.</li>
       <li><b>Points go up</b> every round, and your last round counts double. <i>Comebacks happen.</i></li>
       <li><b>Hard mode</b> starts with the weird chemicals and pays more. <i>Sweating optional.</i></li>
-      <li><b>Timer</b> (optional): Easy 60 seconds, Medium 45, Hard 30. Steals get 10. <i>Tick tock.</i></li>
+      <li><b>Timer</b> (optional): Easy 60 sec, Medium 45, Hard 30, steals 10. Buy +15 sec once.</li>
       <li><b>Finale:</b> bet your points on toilet paper trivia. Lowest score does a dare. <i>Yes, really.</i></li>
     </ul>
     <p class="hint">Remote: <b>arrows</b> to move, the <b>center OK button</b> to pick. Pass it to the team whose turn it is. <b>Back</b> pauses the game.</p>
@@ -150,10 +150,11 @@
         <p id="statement" class="statement" hidden></p>
         <div class="help" id="help">
           <p class="legend"><span class="key warn">!</span> worth knowing <span class="key unknown">?</span> not fully disclosed</p>
-          <p id="help-text" class="help-text">Tap an ingredient to see what it is <span>(−1 point)</span></p>
+          <p id="help-text" class="help-text">Click an ingredient to see what it is <span>(−1 point)</span></p>
         </div>
         <div class="card-foot">
-          <button id="reveal" class="btn small focusable" data-action="reveal">Reveal next ingredient <kbd>R</kbd></button>
+          <button id="reveal" class="btn small focusable" data-action="reveal">Reveal one more</button>
+          <button id="extend" class="btn small focusable" data-action="extend" hidden>+15 sec</button>
           <button class="btn small ghost focusable" data-action="menu">Menu</button>
         </div>
       </div>

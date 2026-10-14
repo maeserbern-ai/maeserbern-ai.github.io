@@ -55,11 +55,13 @@
 
   /* ---------- screens ---------- */
   let current = "s-title";
+  // Screens before the game starts play the theme as opening music.
+  const MENU_SCREENS = ["s-title", "s-books", "s-howto", "s-setup", "s-order"];
   function show(id, focusSel) {
     $("#m-steal").hidden = true;
     $$(".screen").forEach((s) => s.classList.toggle("active", s.id === id));
     current = id;
-    if (id !== "s-round") { stopMusic(); stopTimer(); }
+    if (id !== "s-round") { stopTimer(); if (MENU_SCREENS.includes(id)) startMusic("main"); else stopMusic(); }
     const target = (focusSel && $(focusSel)) || focusables()[0];
     setFocus(target);
   }
@@ -90,6 +92,8 @@
   // iPhones mute Web Audio when the silent switch is on. On the first tap we
   // put the page in "playback" mode (like a video) and keep a silent audio
   // track running so sound and music play through the speaker.
+  // Set "playback" right away, before any sound is made, so it takes effect.
+  try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* older browsers */ }
   let unlocked = false, silentTrack = null;
   function silentWavUrl() {
     const rate = 8000, n = rate, buf = new ArrayBuffer(44 + n), v = new DataView(buf);
@@ -112,14 +116,17 @@
       silentTrack.setAttribute("playsinline", "");
       silentTrack.setAttribute("x-webkit-airplay", "deny");
       const p = silentTrack.play();
-      if (p && p.catch) p.catch(() => { unlocked = false; });
+      // Once the track is playing, restart Web Audio so it picks up playback mode.
+      if (p && p.then) p.then(() => { if (audio) audio.suspend().then(() => audio.resume()).catch(() => {}); },
+                            () => { unlocked = false; });
     } catch (e) { unlocked = false; }
     try {
       const a = audioCtx(), b = a.createBuffer(1, 1, 22050), src = a.createBufferSource();
       src.buffer = b; src.connect(a.destination); src.start(0);
     } catch (e) { /* sound is optional */ }
+    if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
   }
-  ["pointerdown", "touchend", "keydown", "click"].forEach((ev) =>
+  ["touchend", "click", "keydown"].forEach((ev) =>
     document.addEventListener(ev, unlockAudio, { capture: true, passive: true }));
 
   // One note: frequency (or [from, to] for a slide), start offset, length.
@@ -220,7 +227,7 @@
     try {
       const a = audioCtx();
       const bus = a.createGain();
-      bus.gain.value = 0.3;
+      bus.gain.value = 0.14;   // keep the music under the sound effects
       bus.connect(master);
       const env = (node, t, vol, dur, attack = 0.005) => {
         const g = a.createGain();
@@ -305,6 +312,7 @@
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) { stopMusic(); pauseTimer(); if (silentTrack) silentTrack.pause(); }
     if (!document.hidden && silentTrack && unlocked) silentTrack.play().catch(() => {});
+    if (!document.hidden && MENU_SCREENS.includes(current)) startMusic("main");
     if (!document.hidden && current === "s-round" && game && $("#m-quit").hidden) {
       resumeTimer();
       startMusic(game.steal || !$("#m-steal").hidden ? "suspense" : "main");
@@ -327,6 +335,7 @@
     try { localStorage.setItem("idpg-music", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='music']").forEach((b) => { b.textContent = on ? "Music: On" : "Music: Off"; });
     if (!on) stopMusic();
+    else if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
   }
 
   /* ---------- answer timer ---------- */
@@ -374,6 +383,7 @@
     try { localStorage.setItem("idpg-sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='sound']").forEach((b) => { b.textContent = on ? "Sound: On" : "Sound: Off"; });
     if (!on) stopMusic();
+    else if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
     else if (current === "s-round" && modal.hidden) startMusic(game && (game.steal || !$("#m-steal").hidden) ? "suspense" : "main");
     if (on && audio) sfx("click");
   }

@@ -2,10 +2,14 @@ import React from "react";
 import { Linking, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { WebView } from "react-native-webview";
+import { setAudioModeAsync } from "expo-audio";
 import GAME_HTML from "./game-html";
 
 // The whole game (from the website's party-game folder) is bundled into the app,
 // so it plays offline. Book links open in Safari instead of replacing the game.
+// Play music and sound even when the iPhone's silent switch is on.
+setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
+
 export default function App() {
   return (
     <View style={styles.root}>

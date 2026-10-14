@@ -3,7 +3,7 @@
     "name": "Ingredient Party Game",
     "slug": "ingredient-party-game",
     "version": "1.0.0",
-    "orientation": "landscape",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#16211C",

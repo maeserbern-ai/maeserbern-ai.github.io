@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.PartyGame" parent="android:Theme.Material.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@color/stage</item>
+        <item name="android:colorBackground">@color/stage</item>
+        <item name="android:statusBarColor">@color/stage</item>
+        <item name="android:navigationBarColor">@color/stage</item>
+    </style>
+    <color name="stage">#16211C</color>
+</resources>

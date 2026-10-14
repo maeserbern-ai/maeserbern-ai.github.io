@@ -41,10 +41,9 @@ This folder already contains `config.xml`, which makes it a Samsung TV app.
 
 ## 4. Google TV / Android TV and Amazon Fire TV
 
-These stores need an Android app. The easiest route is a small "wrapper" app that
-shows this web game full-screen (a WebView). You already have a Google Play
-developer account, and an Amazon developer account is free. Ask Claude to build
-the Android TV wrapper as the next step.
+The Android app in `../android` covers Android phones, Google TV / Android TV and
+Fire TV. GitHub builds it automatically; see `../android/README.md` for test
+installs, the one-time upload key, and the Google Play and Amazon Appstore steps.
 
 ## 5. Apple TV
 

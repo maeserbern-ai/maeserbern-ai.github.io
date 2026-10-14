@@ -1250,12 +1250,13 @@
     try {
       if (window.tizen) tizen.application.getCurrentApplication().exit();
       else if (window.webOS && webOS.platformBack) webOS.platformBack();
+      else if (window.AndroidApp) AndroidApp.exit();
     } catch (e) { /* not on a TV */ }
   }
 
   const KEYS = {
     37: "left", 38: "up", 39: "right", 40: "down",
-    13: "ok",
+    13: "ok", 23: "ok",   // Enter, Android TV / Fire TV center button
     8: "back", 27: "back", 461: "back", 10009: "back"   // Backspace, Esc, LG Back, Samsung Back
   };
   document.addEventListener("keydown", (e) => {
@@ -1281,6 +1282,9 @@
   try {
     if (window.tizen && tizen.tvinputdevice) ["1", "2", "3", "4"].forEach((k) => tizen.tvinputdevice.registerKey(k));
   } catch (e) { /* not on a Samsung TV */ }
+
+  // The Android app routes the remote's Back button here.
+  window.tvBack = back;
 
   setSound(soundOn);
   setMusic(musicOn);

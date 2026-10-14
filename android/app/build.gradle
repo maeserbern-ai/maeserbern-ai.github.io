@@ -1,0 +1,58 @@
+plugins {
+    id "com.android.application"
+}
+
+// Signing for store uploads comes from environment variables (GitHub secrets).
+def keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+
+android {
+    namespace "io.github.maeserbern.ingredientpartygame"
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "io.github.maeserbern.ingredientpartygame"
+        minSdk 23
+        targetSdk 36
+        versionCode Integer.parseInt(System.getenv("VERSION_CODE") ?: "1")
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        if (keystorePath) {
+            release {
+                storeFile file(keystorePath)
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (keystorePath) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // The game itself is the website's party-game folder, bundled so it works offline.
+    sourceSets {
+        main {
+            assets.srcDirs = ["../../party-game"]
+        }
+    }
+    // TV-store packaging files from the folder aren't needed inside the app.
+    androidResources {
+        ignoreAssetsPattern "!*.md:!config.xml:!appinfo.json:!icon-*.png:!.*"
+    }
+}
+
+dependencies {
+    implementation "androidx.webkit:webkit:1.12.1"
+    implementation "androidx.activity:activity:1.9.3"
+}

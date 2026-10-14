@@ -48,7 +48,7 @@ android {
     }
     // TV-store packaging files from the folder aren't needed inside the app.
     androidResources {
-        ignoreAssetsPattern "!*.md:!config.xml:!appinfo.json:!icon-*.png:!.*"
+        ignoreAssetsPattern "!*.md:!config.xml:!appinfo.json:!sw.js:!manifest.webmanifest:!.*"
     }
 }
 

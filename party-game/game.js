@@ -1286,6 +1286,11 @@
   // The Android app routes the remote's Back button here.
   window.tvBack = back;
 
+  // On the website, save the game for offline play and home-screen installs.
+  if ("serviceWorker" in navigator && location.protocol === "https:" && location.hostname.endsWith("github.io") && !window.ReactNativeWebView) {
+    navigator.serviceWorker.register("sw.js").catch(() => { /* offline play is optional */ });
+  }
+
   setSound(soundOn);
   setMusic(musicOn);
   show("s-title");

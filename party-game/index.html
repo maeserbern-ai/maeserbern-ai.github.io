@@ -2,18 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
 <title>Ingredient Dictionary: The Party Game</title>
 <meta name="description" content="Snack or Shampoo? A living-room party game from the Ingredient Dictionary books by Maeser: guess the product from its ingredient list." />
 <meta property="og:title" content="Ingredient Dictionary: The Party Game" />
 <meta property="og:description" content="Snack or Shampoo? Guess the product from its ingredient list." />
 <link rel="icon" href="icon-130.png" />
+<!-- Installable on phones and tablets (Add to Home Screen) and playable offline. -->
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Party Game" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#16211C" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@500;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<div class="rotate" aria-hidden="true"><b>↻</b>Turn your phone sideways to play</div>
 <div id="stage">
   <canvas id="confetti" width="1920" height="1080" aria-hidden="true"></canvas>
 

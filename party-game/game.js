@@ -403,9 +403,31 @@
       deck,
       index: 0,
       scores: new Array(settings.teams).fill(0),
-      teams: settings.teams
+      teams: settings.teams,
+      turnOrder: shuffle([...Array(settings.teams).keys()])
     };
-    startRound();
+    if (game.teams > 1) showOrder(); else startRound();
+  }
+
+  // The TV shuffles who goes first, then shows the order so each group can
+  // claim a color before the first question.
+  function showOrder() {
+    const list = $("#order-list");
+    list.innerHTML = "";
+    game.turnOrder.forEach((t, k) => {
+      const li = document.createElement("li");
+      li.style.setProperty("--team", TEAM_COLORS[t]);
+      li.innerHTML = `<span class="order-n">${["1st", "2nd", "3rd", "4th"][k]}</span><b>${TEAM_NAMES[t]}</b>`;
+      list.appendChild(li);
+    });
+    show("s-order", '#s-order [data-action="go"]');
+    sfx("move");
+  }
+  function reshuffle() {
+    let next = shuffle(game.turnOrder.slice());
+    if (next.join() === game.turnOrder.join()) next = next.slice(1).concat(next[0]);
+    game.turnOrder = next;
+    showOrder();
   }
 
   // A single book keeps every answer choice in that book's world (all beauty
@@ -423,7 +445,7 @@
     game.shown = tf ? 0 : Math.min(START_SHOWN, p.ingredients.length);
     game.order = tf ? [] : revealOrder(p.ingredients.length);
     game.options = choicesFor(p);
-    game.team = game.index % game.teams;
+    game.team = game.turnOrder[game.index % game.teams];
     $(".label-card").classList.toggle("tf", tf);
     $("#answers").classList.toggle("tf", tf);
     $(".label-head span").textContent = tf ? "TRUE OR FALSE?" : "INGREDIENTS:";
@@ -723,7 +745,7 @@
     const teams = Array.from({ length: game.teams }, (_, i) => i).filter((i) => !ch.tried.has(i));
     if (!teams.length || left.length <= 1) { nobodyGotIt(p); return; }
     $("#steal-kicker").textContent = ch.steals ? "Still up for grabs!" : "Up for grabs!";
-    $("#steal-sub").textContent = `First team to shout gets it — worth ${plural(ch.value)}. Miss it and lose ${ch.value}.`;
+    $("#steal-sub").textContent = `First team to yell “STEAL!” gets it — worth ${plural(ch.value)}. Miss it and lose ${ch.value}.`;
     const box = $("#steal-teams");
     box.innerHTML = "";
     teams.forEach((i, k) => {
@@ -731,7 +753,7 @@
       b.className = "btn focusable steal-team";
       b.dataset.action = "stealer"; b.dataset.team = i;
       b.style.setProperty("--team", TEAM_COLORS[i]);
-      b.textContent = `${k + 1}. ${TEAM_NAMES[i]} steals`;
+      b.textContent = `${TEAM_NAMES[i]} yelled first`;
       box.appendChild(b);
     });
     const no = document.createElement("button");
@@ -834,7 +856,8 @@
       box.innerHTML = `<div class="score on" style="color:${TEAM_COLORS[0]}"><i></i><span>${game.scores[0]} pts</span></div>`;
       return;
     }
-    game.scores.forEach((s, i) => {
+    game.turnOrder.forEach((i) => {
+      const s = game.scores[i];
       const d = document.createElement("div");
       d.className = "score" + (i === game.team ? " on" : "");
       d.style.color = TEAM_COLORS[i];
@@ -978,6 +1001,9 @@
       case "howto": show("s-howto"); break;
       case "title": show("s-title"); break;
       case "start": startGame(); break;
+      case "go": startRound(); break;
+      case "reshuffle": reshuffle(); break;
+      case "setup": show("s-setup", '#s-setup [data-action="start"]'); break;
       case "reveal": reveal(); break;
       case "answer": answer(el.dataset.choice); break;
       case "next": next(); break;
@@ -1058,6 +1084,7 @@
     if (!$("#m-steal").hidden) return;   // pick a team or "No steal"
     if (current === "s-round" || current === "s-result") { openQuit(); return; }
     if (current === "s-setup") { act({ dataset: { action: "books" } }); return; }
+    if (current === "s-order") { act({ dataset: { action: "setup" } }); return; }
     if (current !== "s-title") { show("s-title"); return; }
     // On the title screen, Back exits the app on TVs that allow it.
     try {

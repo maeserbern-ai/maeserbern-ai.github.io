@@ -38,17 +38,17 @@
   <section class="screen" id="s-howto">
     <h2 class="h2 howto-title">How to play</h2>
     <ul class="steps">
-      <li><b>Pick a book</b> (or mix them all) and split into teams. <i>Choose wisely.</i></li>
+      <li><b>Split into teams</b> and pick a book. The TV shuffles who goes first. <i>No arguing.</i></li>
       <li><b>Read the 3 ingredients</b> and guess the product. <i>Snack or Shampoo?</i></li>
-      <li><b>Need a hint?</b> Reveal another ingredient, or tap one to see what it is. Each costs 1 point.</li>
+      <li><b>Need a hint?</b> Reveal another ingredient, or click one to see what it is. Each costs 1 point.</li>
       <li><b>Right answer = points.</b> Wrong answer = zero. <i>And a little shame.</i></li>
-      <li><b>Steal!</b> Miss it and the first team to shout gets a shot for half the points. Miss, lose them. <i>Ouch.</i></li>
+      <li><b>Steal!</b> Miss it and the first team to yell <b>“STEAL!”</b> tries for half the points. Miss, lose them.</li>
       <li><span class="hl-warn">Red</span> ingredients are worth knowing about. <span class="hl-unknown">Amber</span> ones are kept secret.</li>
       <li><b>Points go up</b> every round, and your last round counts double. <i>Comebacks happen.</i></li>
       <li><b>Hard mode</b> starts with the weird chemicals and pays more. Timer optional. <i>Sweating too.</i></li>
       <li><b>Finale:</b> bet your points on toilet paper trivia. Lowest score does a dare. <i>Yes, really.</i></li>
     </ul>
-    <p class="hint">Remote: arrows + OK. <b>Menu</b> or Back pauses, mutes or switches games. Keyboard: 1–4 answer, R reveal, M mute.</p>
+    <p class="hint">Remote: <b>arrows</b> to move, the <b>center OK button</b> to pick. Pass it to the team whose turn it is. <b>Back</b> pauses the game.</p>
     <div class="row"><button class="btn primary focusable" data-action="books">Let's play</button>
     <button class="btn focusable" data-action="title">Back</button></div>
   </section>
@@ -116,6 +116,17 @@
     </div>
     <div class="row"><button class="btn primary focusable" data-action="start">Start game</button>
     <button class="btn focusable" data-action="books">Back</button></div>
+  </section>
+
+  <!-- TURN ORDER -->
+  <section class="screen" id="s-order">
+    <p class="series small">The TV shuffled the teams</p>
+    <h2 class="h2 tight">Here's who goes first</h2>
+    <ol class="order-list" id="order-list"></ol>
+    <p class="order-tip">Each team claims a color. Pass the remote to whoever's turn it is — or let one person be the host.</p>
+    <div class="row"><button class="btn primary focusable" data-action="go">Let's go</button>
+    <button class="btn focusable" data-action="reshuffle">Shuffle again</button>
+    <button class="btn focusable" data-action="setup">Back</button></div>
   </section>
 
   <!-- ROUND -->

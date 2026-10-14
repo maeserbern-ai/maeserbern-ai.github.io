@@ -418,6 +418,222 @@ const PUZZLES = [
   }
 ];
 
+/* ---------- more puzzles for every book ---------- */
+PUZZLES.push(
+  // It's Not Food
+  {
+    answer: "Chocolate sandwich cookies",
+    options: ["Brownie mix", "Chocolate sandwich cookies", "Chocolate protein bar", "Hot cocoa mix"],
+    kind: "food", book: "food",
+    ingredients: ["Sugar", "Unbleached enriched flour", "Palm and/or canola oil", "Cocoa (processed with alkali)", "High fructose corn syrup", "Leavening (baking soda and/or calcium phosphate)", "Salt", "Soy lecithin", "Vanillin (artificial flavor)"],
+    spotlight: { name: "Cocoa processed with alkali", note: "Also called Dutch-process cocoa. The alkali darkens the color and mellows the taste — and strips out much of cocoa's natural antioxidants." }
+  },
+  {
+    answer: "Chicken nuggets",
+    options: ["Fish sticks", "Mozzarella sticks", "Chicken nuggets", "Onion rings"],
+    kind: "food", book: "food",
+    ingredients: ["White boneless chicken", "Water", "Vegetable oil", "Enriched flour", "Yellow corn flour", "Modified food starch", "Salt", "Leavening (baking soda, sodium aluminum phosphate)", "Spices", "Yeast extract", "Natural flavor", "Dextrose", "Citric acid", "Dimethylpolysiloxane"],
+    spotlight: { name: "Dimethylpolysiloxane", note: "A silicone added to frying oil so it doesn't foam up. It's the same family of silicone used in caulk and conditioner." }
+  },
+  {
+    answer: "Strawberry yogurt",
+    options: ["Strawberry milkshake", "Strawberry jam", "Strawberry ice cream", "Strawberry yogurt"],
+    kind: "food", book: "food",
+    ingredients: ["Cultured low fat milk", "Sugar", "Strawberries", "Modified corn starch", "Kosher gelatin", "Natural flavor", "Carmine (color)", "Vitamin A acetate", "Vitamin D3"],
+    spotlight: { name: "Carmine", note: "A bright red color made from crushed cochineal bugs. It's natural — but it's not vegetarian, and some people are allergic to it." }
+  },
+  {
+    answer: "Pancake syrup",
+    options: ["Pancake syrup", "Pure maple syrup", "Molasses", "Chocolate syrup"],
+    kind: "food", book: "food",
+    ingredients: ["Corn syrup", "High fructose corn syrup", "Water", "Cellulose gum", "Caramel color", "Salt", "Natural and artificial flavor", "Sodium benzoate", "Sorbic acid", "Sodium hexametaphosphate"],
+    spotlight: { name: "Natural and artificial flavor", note: "There's no maple at all. \"Table syrup\" is corn syrup colored brown and flavored to taste like maple." }
+  },
+  {
+    answer: "Orange drink mix",
+    options: ["Orange juice", "Orange soda", "Orange drink mix", "Orange gelatin"],
+    kind: "food", book: "food",
+    ingredients: ["Sugar", "Fructose", "Citric acid", "Calcium phosphate", "Potassium citrate", "Ascorbic acid", "Natural flavor", "Gum arabic", "Xanthan gum", "Yellow 5", "Yellow 6", "BHA"],
+    spotlight: { name: "Sugar and fructose", note: "Two kinds of sugar come first. The orange comes from flavoring and two synthetic dyes — not from oranges." }
+  },
+
+  // It's Not Beauty
+  {
+    answer: "Antiperspirant stick",
+    options: ["Lip balm", "Glue stick", "Antiperspirant stick", "Solid perfume"],
+    kind: "not", book: "beauty",
+    ingredients: ["Aluminum zirconium tetrachlorohydrex GLY", "Cyclopentasiloxane", "Stearyl alcohol", "PPG-14 butyl ether", "Talc", "Hydrogenated castor oil", "Fragrance", "Behenyl alcohol"],
+    spotlight: { name: "Aluminum zirconium tetrachlorohydrex GLY", note: "An aluminum salt that forms tiny plugs in sweat ducts so you sweat less. Deodorant alone just covers the smell." }
+  },
+  {
+    answer: "Nail polish remover",
+    options: ["Rubbing alcohol", "Paint thinner", "Nail polish remover", "Hand sanitizer"],
+    kind: "not", book: "beauty",
+    ingredients: ["Acetone", "Water", "Glycerin", "Propylene carbonate", "Fragrance", "Denatonium benzoate", "Red 33"],
+    spotlight: { name: "Denatonium benzoate", note: "The most bitter chemical known. It's added so anyone who takes a sip — especially a child — spits it right out." }
+  },
+  {
+    answer: "Sunscreen lotion",
+    options: ["Sunscreen lotion", "Hand lotion", "Aloe vera gel", "Diaper rash cream"],
+    kind: "not", book: "beauty",
+    ingredients: ["Avobenzone (3%)", "Homosalate (10%)", "Octisalate (5%)", "Octocrylene (10%)", "Water", "Glycerin", "Styrene/acrylates copolymer", "Silica", "Dimethicone", "Phenoxyethanol", "Fragrance", "Tocopherol"],
+    spotlight: { name: "Homosalate", note: "A chemical UV filter. The FDA has asked makers for more safety data, and Europe now limits how much can be used." }
+  },
+  {
+    answer: "Hairspray",
+    options: ["Dry shampoo", "Spray deodorant", "Hairspray", "Air freshener"],
+    kind: "not", book: "beauty",
+    ingredients: ["Alcohol denat.", "Dimethyl ether", "Octylacrylamide/acrylates copolymer", "Aminomethyl propanol", "Fragrance", "Panthenol"],
+    spotlight: { name: "Octylacrylamide/acrylates copolymer", note: "A plastic-like film that dries stiff on each hair. That's the \"hold.\"" }
+  },
+  {
+    answer: "Liquid foundation",
+    options: ["Liquid foundation", "Sunscreen lotion", "Chocolate pudding", "Diaper rash cream"],
+    kind: "not", book: "beauty",
+    ingredients: ["Water", "Cyclopentasiloxane", "Titanium dioxide", "Glycerin", "Dimethicone", "Iron oxides", "Mica", "Phenoxyethanol", "Fragrance"],
+    spotlight: { name: "Iron oxides", note: "Purified rust. Red, yellow and black iron oxides are mixed to match skin tones." }
+  },
+
+  // It's Not Clean
+  {
+    answer: "Laundry stain remover spray",
+    options: ["Laundry stain remover spray", "Glass cleaner", "Fabric softener", "Dish soap"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "C12-15 pareth-7", "Enzymes (protease, amylase)", "Propylene glycol", "Sodium citrate", "Fragrance", "Methylisothiazolinone"],
+    spotlight: { name: "Enzymes (protease, amylase)", note: "Proteins that break down stains the way your stomach breaks down food — protease eats grass and blood, amylase eats starch." }
+  },
+  {
+    answer: "Oven cleaner",
+    options: ["Oven cleaner", "Shaving cream", "Drain cleaner gel", "Carpet foam"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Sodium hydroxide", "Butane", "Monoethanolamine", "Diethylene glycol monobutyl ether", "Sodium lauryl sulfate", "Isobutane"],
+    spotlight: { name: "Sodium hydroxide", note: "Lye. It turns baked-on grease into soap so it wipes away — and it can burn skin and eyes, so gloves on." }
+  },
+  {
+    answer: "Disinfecting wipes",
+    options: ["Baby wipes", "Disinfecting wipes", "Makeup wipes", "Hand sanitizer"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Alkyl dimethyl benzyl ammonium chloride", "Alkyl dimethyl ethylbenzyl ammonium chloride", "Propylene glycol", "Fragrance", "Polyester/polypropylene wipe"],
+    spotlight: { name: "Alkyl dimethyl benzyl ammonium chloride", note: "A \"quat\" disinfectant. It kills germs — and leaves a film behind, which is why labels say to rinse food surfaces." }
+  },
+  {
+    answer: "Furniture polish spray",
+    options: ["Hairspray", "Cooking spray", "Furniture polish spray", "Air freshener"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Isoparaffinic hydrocarbon", "Dimethicone", "Butane", "Propane", "Sorbitan oleate", "Fragrance"],
+    spotlight: { name: "Dimethicone", note: "A silicone that leaves a glossy, slippery film — the same ingredient that makes hair conditioner feel smooth." }
+  },
+  {
+    answer: "Bar soap",
+    options: ["Bar soap", "Candle", "Bath bomb", "Cheese block"],
+    kind: "not", book: "clean",
+    ingredients: ["Sodium tallowate", "Sodium cocoate", "Water", "Glycerin", "Fragrance", "Sodium chloride", "Tetrasodium EDTA", "Titanium dioxide"],
+    spotlight: { name: "Sodium tallowate", note: "Soap made from beef fat (tallow) mixed with lye. Old-fashioned soap has been made this way for centuries." }
+  },
+  {
+    answer: "Fabric odor spray",
+    options: ["Fabric odor spray", "Glass cleaner", "Hair detangler", "Linen water"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Alcohol", "Hydroxypropyl beta-cyclodextrin", "Fragrance", "Citric acid", "Benzisothiazolinone"],
+    spotlight: { name: "Hydroxypropyl beta-cyclodextrin", note: "A ring-shaped sugar molecule made from corn starch. Odor molecules get trapped inside the ring — then fragrance covers the rest." }
+  },
+  {
+    answer: "Dishwasher rinse aid",
+    options: ["Dishwasher rinse aid", "Mouthwash", "Window cleaner", "Sports drink"],
+    kind: "not", book: "clean",
+    ingredients: ["Water", "Citric acid", "Nonionic surfactant", "Sodium cumenesulfonate", "Methylisothiazolinone", "Blue dye"],
+    spotlight: { name: "Nonionic surfactant", note: "It makes water slide off dishes in a sheet instead of drying in spots. The label doesn't have to say exactly which one." }
+  },
+
+  // It's Not for Kids
+  {
+    answer: "Tear-free baby shampoo",
+    options: ["Bubble bath", "Tear-free baby shampoo", "Dish soap", "Hand soap"],
+    kind: "not", book: "kids",
+    ingredients: ["Water", "Cocamidopropyl betaine", "PEG-80 sorbitan laurate", "Sodium trideceth sulfate", "Glycerin", "Polyquaternium-10", "Fragrance", "Sodium benzoate", "Citric acid"],
+    spotlight: { name: "Cocamidopropyl betaine", note: "A mild foaming agent from coconut oil — yet it was named \"Allergen of the Year\" in 2004 by the American Contact Dermatitis Society." }
+  },
+  {
+    answer: "Baby wipes",
+    options: ["Baby wipes", "Disinfecting wipes", "Makeup wipes", "Paper towels"],
+    kind: "not", book: "kids",
+    ingredients: ["Water", "Glycerin", "Polysorbate 20", "Aloe barbadensis leaf juice", "Tocopheryl acetate", "Sodium benzoate", "Citric acid", "Phenoxyethanol", "Fragrance"],
+    spotlight: { name: "Phenoxyethanol", note: "A preservative in many baby products. France advises against it in wipes and creams used on the diaper area of children under 3." }
+  },
+  {
+    answer: "Kids' bubble-gum toothpaste",
+    options: ["Bubble gum", "Kids' bubble-gum toothpaste", "Strawberry frosting", "Lip gloss"],
+    kind: "not", book: "kids",
+    ingredients: ["Sorbitol", "Water", "Hydrated silica", "Glycerin", "Sodium lauryl sulfate", "Flavor", "Cellulose gum", "Sodium saccharin", "Titanium dioxide", "Red 33", "Sodium fluoride"],
+    spotlight: { name: "Sodium fluoride", note: "It strengthens teeth, but kids shouldn't swallow it. That's why young children get just a rice-grain or pea-sized smear." }
+  },
+  {
+    answer: "Chocolate milk",
+    options: ["Chocolate pudding", "Hot cocoa mix", "Chocolate milk", "Chocolate syrup"],
+    kind: "food", book: "kids",
+    ingredients: ["Low fat milk", "Sugar", "Cocoa (processed with alkali)", "Salt", "Carrageenan", "Natural flavor", "Vitamin A palmitate", "Vitamin D3"],
+    spotlight: { name: "Carrageenan", note: "A seaweed thickener that keeps the cocoa from sinking to the bottom. Scientists still debate its effect on the gut." }
+  },
+  {
+    answer: "Children's fever medicine",
+    options: ["Cough syrup", "Fruit punch", "Children's fever medicine", "Strawberry milk"],
+    kind: "not", book: "kids",
+    ingredients: ["Acetaminophen", "Purified water", "High fructose corn syrup", "Sorbitol", "Glycerin", "Propylene glycol", "Microcrystalline cellulose", "Xanthan gum", "Sucralose", "Butylparaben", "Sodium benzoate", "Flavors", "Red 40"],
+    spotlight: { name: "Butylparaben", note: "A paraben preservative. The EU limits how much can be used in cosmetics and bans it in leave-on products for babies' diaper areas." }
+  },
+  {
+    answer: "Kids' bubble bath",
+    options: ["Kids' bubble bath", "Dish soap", "Strawberry milk", "Bath bomb"],
+    kind: "not", book: "kids",
+    ingredients: ["Water", "Sodium laureth sulfate", "Cocamidopropyl betaine", "Sodium chloride", "Fragrance", "Glycol distearate", "Citric acid", "Red 33", "Methylisothiazolinone"],
+    spotlight: { name: "Sodium laureth sulfate", note: "The foaming detergent that makes mountains of bubbles. Pediatricians warn long bubble baths can irritate young children's skin." }
+  },
+
+  // Your Home Is Not Safe
+  {
+    answer: "Antifreeze",
+    options: ["Sports drink", "Antifreeze", "Windshield washer fluid", "Mouthwash"],
+    kind: "not", book: "home",
+    ingredients: ["Ethylene glycol", "Diethylene glycol", "Water", "Sodium 2-ethylhexanoate", "Sodium benzoate", "Denatonium benzoate", "Dye"],
+    spotlight: { name: "Ethylene glycol", note: "It tastes sweet, which makes it dangerous to pets and kids. A bittering agent is added so it tastes awful." }
+  },
+  {
+    answer: "Windshield washer fluid",
+    options: ["Windshield washer fluid", "Glass cleaner", "Sports drink", "Antifreeze"],
+    kind: "not", book: "home",
+    ingredients: ["Water", "Methanol", "Nonionic surfactant", "Blue dye"],
+    spotlight: { name: "Methanol", note: "Wood alcohol. It keeps the fluid from freezing — and swallowing even a little can cause blindness." }
+  },
+  {
+    answer: "Scented candle",
+    options: ["Crayon", "Scented candle", "Lip balm", "Bar soap"],
+    kind: "not", book: "home",
+    ingredients: ["Paraffin wax", "Soy wax", "Fragrance", "Stearic acid", "Dye", "Cotton wick"],
+    spotlight: { name: "Paraffin wax", note: "A petroleum wax. When it burns, it gives off soot along with whatever is in the fragrance." }
+  },
+  {
+    answer: "Air freshener spray",
+    options: ["Hairspray", "Air freshener spray", "Furniture polish spray", "Cooking spray"],
+    kind: "not", book: "home",
+    ingredients: ["Water", "Propellant (butane, propane)", "Fragrance", "Triethylene glycol", "Polysorbate 80", "Sodium benzoate"],
+    spotlight: { name: "Triethylene glycol", note: "Sprayed into the air to kill some airborne germs. It's also used to dry out natural gas in pipelines." }
+  },
+  {
+    answer: "Ice melt",
+    options: ["Bath salts", "Ice melt", "Rock candy", "Garden fertilizer"],
+    kind: "not", book: "home",
+    ingredients: ["Sodium chloride", "Calcium chloride", "Magnesium chloride", "Potassium chloride", "Blue colorant"],
+    spotlight: { name: "Calcium chloride", note: "It actually heats up as it dissolves, so it melts ice fast. It can also dry out and crack pets' paws." }
+  },
+  {
+    answer: "Latex wall paint",
+    options: ["Latex wall paint", "Toothpaste", "School glue", "Sunscreen lotion"],
+    kind: "not", book: "home",
+    ingredients: ["Water", "Titanium dioxide", "Acrylic polymer", "Calcium carbonate", "Kaolin clay", "Propylene glycol", "Ammonia", "Biocide"],
+    spotlight: { name: "Titanium dioxide", note: "The bright white in white paint — the same mineral used to whiten toothpaste and candy coatings." }
+  }
+);
+
 /* ---------- What Is Toilet Paper? — true or false round ----------
    Toilet paper has no ingredient label, so this book plays as true/false. */
 const TRUE_FALSE = [
@@ -444,7 +660,23 @@ const TRUE_FALSE = [
   { statement: "Scented toilet paper can irritate sensitive skin.", answer: true,
     explain: "Added fragrance is one of the most common causes of skin irritation, and toilet paper touches very sensitive skin." },
   { statement: "The original 1891 toilet-roll patent drawing shows the paper hanging \"over,\" not \"under.\"", answer: true,
-    explain: "Seth Wheeler's patent drawing shows the loose end hanging over the front of the roll. Debate settled?" }
+    explain: "Seth Wheeler's patent drawing shows the loose end hanging over the front of the roll. Debate settled?" },
+  { statement: "A 1930s toilet paper brand advertised itself as \"splinter-free.\"", answer: true,
+    explain: "Early paper could contain bits of wood. One brand made \"splinter-free\" a selling point in the 1930s." },
+  { statement: "Most toilet paper sold in the US is made from recycled paper.", answer: false,
+    explain: "Most US toilet paper is made from new (virgin) wood pulp. Recycled rolls are a small share of sales." },
+  { statement: "Toilet paper sheets have gotten smaller over the years.", answer: true,
+    explain: "Many brands have quietly shrunk sheet sizes and sheet counts while keeping the price the same." },
+  { statement: "Bamboo toilet paper is always chemical-free.", answer: false,
+    explain: "Bamboo still has to be pulped and is often bleached. Testers have even found PFAS markers in some bamboo brands." },
+  { statement: "In March 2020, US toilet paper sales more than doubled in some weeks.", answer: true,
+    explain: "Panic buying at the start of the pandemic sent sales soaring for weeks and emptied store shelves." },
+  { statement: "\"Two-ply\" means two layers of paper pressed together.", answer: true,
+    explain: "Each sheet is two thin layers bonded together, which makes it softer and stronger than one thick layer." },
+  { statement: "Ancient Romans used a sponge on a stick instead of toilet paper.", answer: true,
+    explain: "It was called a tersorium — a sea sponge on a stick, rinsed in water or vinegar and shared." },
+  { statement: "Toilet paper companies must list the chemicals used to make it.", answer: false,
+    explain: "There's no ingredient label on toilet paper. Makers don't have to disclose what goes into it." }
 ];
 TRUE_FALSE.forEach((q) => { q.type = "tf"; q.book = "tp"; PUZZLES.push(q); });
 
@@ -478,17 +710,32 @@ const WATCH = [
   [/quaternary ammonium|diethylester dimethyl ammonium/i, "Can irritate airways"],
   [/limonene/i, "Can form formaldehyde indoors"],
   [/hexoxyethanol/i, "Harsh solvent"],
-  [/caramel color/i, "May contain 4-MEI"]
+  [/caramel color/i, "May contain 4-MEI"],
+  [/carmine/i, "Made from insects"],
+  [/acetone/i, "Flammable solvent"],
+  [/homosalate/i, "FDA wants more safety data"],
+  [/octocrylene/i, "Can break down to benzophenone"],
+  [/cyclopentasiloxane/i, "Restricted in the EU"],
+  [/dimethyl ether/i, "Flammable gas"],
+  [/benzyl ammonium chloride/i, "Can irritate airways"],
+  [/monoethanolamine/i, "Skin irritant"],
+  [/diethylene glycol monobutyl ether/i, "Harsh solvent"],
+  [/^ethylene glycol|^diethylene glycol$/i, "Poisonous — tastes sweet"],
+  [/methanol/i, "Poisonous — can cause blindness"],
+  [/^ammonia/i, "Harsh fumes"],
+  [/benzisothiazolinone/i, "Skin allergen"],
+  [/aluminum zirconium/i, "Debated aluminum salt"]
 ];
 // Ingredients whose real contents the label doesn't spell out.
 const UNDISCLOSED = [
   [/^fragrance/i, "Secret scent recipe"],
-  [/flavou?r|flavorings/i, "Secret flavor recipe"],
+  [/^(natural |artificial |natural and artificial )?flavou?r|flavorings|smoke flavor/i, "Secret flavor recipe"],
   [/gum base/i, "Secret blend"],
   [/^spices?$/i, "Spices not named"],
   [/blue dye|^dye$|colorants?$/i, "Dye not named"],
   [/meat by-products/i, "Animal not named"],
-  [/nonionic surfactant|fabric softening agents/i, "Chemical not named"]
+  [/nonionic surfactant|fabric softening agents/i, "Chemical not named"],
+  [/biocide/i, "Chemical not named"]
 ];
 // { level: "warn" | "unknown", tag } or null
 function watchInfo(ingredient) {

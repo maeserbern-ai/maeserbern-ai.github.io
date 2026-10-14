@@ -56,22 +56,90 @@
     setFocus(target);
   }
 
-  /* ---------- tiny sound effects (Web Audio, no files) ---------- */
-  let audio = null;
-  function beep(freqs, dur = 0.12) {
-    try {
-      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
-      freqs.forEach((f, i) => {
-        const o = audio.createOscillator(), g = audio.createGain();
-        const t = audio.currentTime + i * dur;
-        o.type = "triangle"; o.frequency.value = f;
-        g.gain.setValueAtTime(0.0001, t);
-        g.gain.exponentialRampToValueAtTime(0.25, t + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-        o.connect(g).connect(audio.destination);
-        o.start(t); o.stop(t + dur + 0.02);
-      });
-    } catch (e) { /* sound is optional */ }
+  /* ---------- sound effects (synthesized with Web Audio, no files) ---------- */
+  // Every effect is built from simple tones and filtered noise, so there are no
+  // audio files to license or load. Sound can be muted from the title screen,
+  // the in-game menu, or the M key; the choice is remembered on this device.
+  let audio = null, master = null;
+  let soundOn = true;
+  try { soundOn = localStorage.getItem("idpg-sound") !== "off"; } catch (e) { /* storage blocked */ }
+
+  function audioCtx() {
+    if (!audio) {
+      audio = new (window.AudioContext || window.webkitAudioContext)();
+      master = audio.createGain();
+      master.gain.value = 0.55;
+      master.connect(audio.destination);
+    }
+    if (audio.state === "suspended") audio.resume();
+    return audio;
+  }
+  // One note: frequency (or [from, to] for a slide), start offset, length.
+  function tone(freq, at, dur, type = "triangle", vol = 0.3, opts = {}) {
+    const a = audioCtx(), t = a.currentTime + at;
+    const o = a.createOscillator(), g = a.createGain();
+    o.type = type;
+    if (Array.isArray(freq)) {
+      o.frequency.setValueAtTime(freq[0], t);
+      o.frequency.exponentialRampToValueAtTime(freq[1], t + dur);
+    } else o.frequency.setValueAtTime(freq, t);
+    if (opts.vibrato) {
+      const lfo = a.createOscillator(), lg = a.createGain();
+      lfo.frequency.value = opts.vibrato; lg.gain.value = 8;
+      lfo.connect(lg).connect(o.frequency); lfo.start(t); lfo.stop(t + dur + 0.05);
+    }
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + (opts.attack || 0.01));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    let node = o;
+    if (opts.lowpass) {
+      const f = a.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = opts.lowpass;
+      node.connect(f); node = f;
+    }
+    node.connect(g).connect(master);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+  // A burst of filtered noise — used for swishes, drums and applause.
+  function noise(at, dur, freq, vol = 0.2, type = "bandpass", q = 1) {
+    const a = audioCtx(), t = a.currentTime + at;
+    const len = Math.max(1, Math.floor(a.sampleRate * dur));
+    const buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const src = a.createBufferSource(), f = a.createBiquadFilter(), g = a.createGain();
+    src.buffer = buf; f.type = type; f.frequency.value = freq; f.Q.value = q;
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(f).connect(g).connect(master);
+    src.start(t); src.stop(t + dur + 0.02);
+  }
+  const SFX = {
+    move()    { tone(1200, 0, 0.03, "sine", 0.05); },
+    click()   { tone([700, 500], 0, 0.06, "sine", 0.12); },
+    reveal()  { tone([900, 420], 0, 0.09, "sine", 0.22); noise(0, 0.05, 2500, 0.05); },
+    help()    { noise(0, 0.22, 1800, 0.18, "bandpass", 0.8); tone([500, 760], 0.02, 0.16, "sine", 0.08); },
+    correct() { [1047, 1319, 1568, 2093].forEach((f, i) => { tone(f, i * 0.07, 0.35, "triangle", 0.22); tone(f * 2, i * 0.07, 0.2, "sine", 0.05); }); },
+    wrong()   { tone(150, 0, 0.28, "square", 0.16, { lowpass: 900 }); tone(110, 0.3, 0.42, "square", 0.16, { lowpass: 700 }); },
+    bet()     { tone(988, 0, 0.09, "square", 0.12, { lowpass: 4000 }); tone(1319, 0.09, 0.45, "square", 0.12, { lowpass: 4000 }); noise(0.09, 0.12, 6000, 0.05, "highpass"); },
+    lose()    { [392, 370, 349, 294].forEach((f, i) => tone(f, i * 0.32, i === 3 ? 0.9 : 0.3, "sawtooth", 0.14, { lowpass: 1200, vibrato: i === 3 ? 6 : 0 })); },
+    drumroll(len = 1.1) { for (let t = 0; t < len; t += 0.045) noise(t, 0.06, 180, 0.12 + 0.12 * (t / len), "lowpass"); noise(len, 0.35, 120, 0.4, "lowpass"); },
+    fanfare(at = 0) {
+      [[523, 0], [659, 0.14], [784, 0.28]].forEach(([f, d]) => tone(f, at + d, 0.18, "sawtooth", 0.12, { lowpass: 2400 }));
+      [523, 659, 784, 1047].forEach((f) => tone(f, at + 0.44, 0.9, "sawtooth", 0.09, { lowpass: 2400, attack: 0.03 }));
+    },
+    applause(at = 0, len = 2.2) { for (let t = 0; t < len; t += 0.012) noise(at + t + Math.random() * 0.01, 0.03, 1500 + Math.random() * 2500, 0.06 * (1 - t / len) + 0.01); },
+    final()   { SFX.drumroll(0.9); SFX.fanfare(1.0); },
+    win()     { SFX.fanfare(0); SFX.applause(0.4); },
+    dare()    { tone([660, 520], 0, 0.18, "sine", 0.2); tone([520, 330], 0.2, 0.3, "sine", 0.2); }
+  };
+  function sfx(name) {
+    if (!soundOn) return;
+    try { SFX[name](); } catch (e) { /* sound is optional */ }
+  }
+  function setSound(on) {
+    soundOn = on;
+    try { localStorage.setItem("idpg-sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
+    $$("[data-action='sound']").forEach((b) => { b.textContent = on ? "Sound: On" : "Sound: Off"; });
+    if (on && audio) sfx("click");
   }
 
   /* ---------- book picker ---------- */
@@ -207,12 +275,24 @@
       list.appendChild(li);
     });
 
+    fitIngredients();
     game.wager = null;
     if (isWager(game.index)) askWager(p);
     else renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
 
     updateWorth();
     show("s-round", "#answers .answer");
+  }
+
+  // Long labels shrink their text so every ingredient stays on screen.
+  function fitIngredients() {
+    const list = $("#ingredients");
+    let size = 34;
+    list.style.fontSize = size + "px";
+    while (list.scrollHeight > list.clientHeight + 1 && size > 22) {
+      size -= 2;
+      list.style.fontSize = size + "px";
+    }
   }
 
   function renderAnswers(items) {
@@ -252,7 +332,7 @@
   function placeWager(amount) {
     const p = game.deck[game.index];
     game.wager = amount;
-    beep([392, 523], 0.1);
+    sfx("bet");
     $("#answers").classList.add("tf");
     $("#statement").textContent = p.statement;
     renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
@@ -282,7 +362,7 @@
     if (isFinal(i)) {
       el.textContent = isWager(i) ? "Place your bet" : "Final round ×2";
       el.classList.add("is-final");
-      if (i % game.teams === 0) { beep([523, 784, 1047], 0.12); confetti(90, ["#F2C46B", "#E07A55"]); }
+      if (i % game.teams === 0) { sfx("final"); confetti(90, ["#F2C46B", "#E07A55"]); }
     } else if (lapOf(i) > 0) {
       el.textContent = `Points are up +${lapOf(i)}`;
     }
@@ -326,7 +406,7 @@
     const p = game.deck[game.index];
     const ing = p.ingredients[i];
     const first = !game.helped.has(i);
-    if (first && points() > 1) beep([440]);
+    if (first) sfx("help");
     game.helped.add(i);
     const info = watchInfo(ing);
     const t = $("#help-text");
@@ -357,8 +437,9 @@
     li.removeAttribute("aria-hidden");
     li.textContent = "";
     li.appendChild(ingredientButton(p.ingredients[idx], idx));
+    fitIngredients();
     game.shown++;
-    beep([520]);
+    sfx("reveal");
     updateWorth();
     if ($("#reveal").disabled) setFocus($("#answers .answer"));
   }
@@ -372,7 +453,8 @@
     const pts = right ? points() : 0;
     const lost = wager && !right ? Math.min(game.wager, game.scores[game.team]) : 0;
     game.scores[game.team] += pts - lost;
-    beep(right ? [660, 880] : [300, 200], 0.16);
+    sfx(right ? "correct" : lost ? "lose" : "wrong");
+
     if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
 
     const v = $("#verdict");
@@ -506,7 +588,8 @@
     $("#f-link").href = bk ? bk.url : SERIES.url;
     $("#f-link").innerHTML = bk ? `Get ${bk.name} on Amazon &rarr;` : "See all the books &rarr;";
 
-    beep([523, 659, 784, 1047], 0.13);
+    sfx("win");
+    if (who) setTimeout(() => current === "s-final" && sfx("dare"), 2600);
     show("s-final", '#s-final [data-action="start"]');
     const winColors = game.teams === 1 || winners.length > 1 ? TEAM_COLORS_HEX : [TEAM_COLORS_HEX[winners[0].i]];
     confetti(260, winColors.concat(["#F2C46B", "#F4F3EE"]));
@@ -551,7 +634,7 @@
     if (bits.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, 1920, 1080); }
   }
 
-  /* ---------- quit confirm ---------- */
+  /* ---------- pause menu (Menu button or the remote's Back key) ---------- */
   const modal = $("#m-quit");
   let focusBeforeModal = null;
   function openQuit() {
@@ -562,8 +645,10 @@
   function closeQuit() { modal.hidden = true; setFocus(focusBeforeModal); }
 
   /* ---------- actions ---------- */
+  const QUIET = new Set(["answer", "reveal", "help", "wager", "sound"]);
   function act(el) {
     if (!el) return;
+    if (!QUIET.has(el.dataset.action)) sfx("click");
     if (el.dataset.teams) { pick(el, "teams"); return; }
     if (el.dataset.rounds) { pick(el, "rounds"); return; }
     if (el.dataset.dare) { pick(el, "dare"); return; }
@@ -581,6 +666,9 @@
       case "help": help(Number(el.dataset.i)); break;
       case "wager": placeWager(Number(el.dataset.choice)); break;
       case "quit-yes": modal.hidden = true; show("s-title"); break;
+      case "menu": openQuit(); break;
+      case "sound": setSound(!soundOn); break;
+      case "change-game": modal.hidden = true; show("s-books", `#book-list [data-book="${settings.book}"]`); break;
       case "quit-no": closeQuit(); break;
     }
   }
@@ -638,7 +726,7 @@
       return best;
     };
     const best = pickBest(true) || (dir === "up" || dir === "down" ? pickBest(false) : null);
-    if (best) setFocus(best);
+    if (best) { setFocus(best); sfx("move"); }
   }
 
   function back() {
@@ -663,6 +751,7 @@
     if (k === "left" || k === "right" || k === "up" || k === "down") { e.preventDefault(); move(k); return; }
     if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) act(focused); return; }
     if (k === "back") { e.preventDefault(); back(); return; }
+    if (e.key === "m" || e.key === "M") { setSound(!soundOn); return; }
     if (current === "s-round" && modal.hidden) {
       const n = e.keyCode >= 49 && e.keyCode <= 52 ? e.keyCode - 49 : e.keyCode >= 97 && e.keyCode <= 100 ? e.keyCode - 97 : -1;
       if (n >= 0) { const b = $$("#answers .answer")[n]; if (b) { setFocus(b); act(b); } return; }
@@ -675,5 +764,6 @@
     if (window.tizen && tizen.tvinputdevice) ["1", "2", "3", "4"].forEach((k) => tizen.tvinputdevice.registerKey(k));
   } catch (e) { /* not on a Samsung TV */ }
 
+  setSound(soundOn);
   show("s-title");
 })();

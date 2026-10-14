@@ -295,3 +295,11 @@ button{font:inherit;color:inherit;cursor:pointer;}
 #s-final .row .btn{font-size:34px;padding:22px 40px;}
 #s-final .row{gap:22px;flex-wrap:nowrap;}
 .get-book{font-size:26px;white-space:nowrap;}
+
+/* ---------- menu button + pause menu ---------- */
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:auto;}
+.label-card .btn.ghost{background:transparent;color:var(--label-ink);box-shadow:inset 0 0 0 3px rgba(26,28,30,.35);}
+.label-card.tf .card-foot{justify-content:flex-end;}
+.btn.ghost-dark{font-size:34px;padding:22px 44px;background:transparent;box-shadow:inset 0 0 0 3px rgba(244,243,238,.25);}
+.menu-list{display:flex;flex-direction:column;gap:22px;min-width:640px;}
+.menu-list .btn{width:100%;}

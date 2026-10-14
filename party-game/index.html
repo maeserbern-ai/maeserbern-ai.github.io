@@ -27,6 +27,7 @@
       <div class="row">
         <button class="btn primary focusable" data-action="books">Play</button>
         <button class="btn focusable" data-action="howto">How to play</button>
+        <button class="btn focusable" data-action="sound">Sound: On</button>
       </div>
     </div>
     <p class="credit">From the <b>Ingredient Dictionary</b> book series by Maeser</p>
@@ -49,7 +50,7 @@
       <li><b class="hl-warn">Red</b> ingredients are worth knowing about. <b class="hl-unknown">Amber</b> ones hide what's really inside.</li>
       <li>Watch out — it might not be food at all.</li>
     </ol>
-    <p class="hint">Use the arrows on your remote and press OK. On a keyboard, 1–4 picks an answer and R reveals.</p>
+    <p class="hint">Use the arrows on your remote and press OK. Press <b>Menu</b> (or Back) any time to pause, turn the sound off, or switch games. On a keyboard: 1–4 answers, R reveals, M mutes.</p>
     <div class="row"><button class="btn primary focusable" data-action="books">Let's play</button>
     <button class="btn focusable" data-action="title">Back</button></div>
   </section>
@@ -124,7 +125,10 @@
           <p class="legend"><span class="key warn">!</span> worth knowing <span class="key unknown">?</span> not fully disclosed</p>
           <p id="help-text" class="help-text">Tap an ingredient to see what it is <span>(−1 point)</span></p>
         </div>
-        <button id="reveal" class="btn small focusable" data-action="reveal">Reveal next ingredient <kbd>R</kbd></button>
+        <div class="card-foot">
+          <button id="reveal" class="btn small focusable" data-action="reveal">Reveal next ingredient <kbd>R</kbd></button>
+          <button class="btn small ghost focusable" data-action="menu">Menu</button>
+        </div>
       </div>
       <div class="answers" id="answers"></div>
     </div>
@@ -143,7 +147,8 @@
           <h3 id="r-spot-name"></h3>
           <p id="r-spot-note"></p>
         </div>
-        <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button></div>
+        <div class="row"><button class="btn primary focusable" data-action="next" id="next-btn">Next</button>
+        <button class="btn ghost-dark focusable" data-action="menu">Menu</button></div>
       </div>
      </div>
      <aside class="r-side" id="r-side">
@@ -192,9 +197,13 @@
   <!-- QUIT CONFIRM -->
   <div class="modal" id="m-quit" hidden>
     <div class="modal-box">
-      <h3>Quit this game?</h3>
-      <div class="row"><button class="btn primary focusable" data-action="quit-yes">Quit</button>
-      <button class="btn focusable" data-action="quit-no">Keep playing</button></div>
+      <h3>Game paused</h3>
+      <div class="menu-list">
+        <button class="btn primary focusable" data-action="quit-no">Resume game</button>
+        <button class="btn focusable" data-action="sound">Sound: On</button>
+        <button class="btn focusable" data-action="change-game">Change game or options</button>
+        <button class="btn focusable" data-action="quit-yes">Quit to main menu</button>
+      </div>
     </div>
   </div>
 

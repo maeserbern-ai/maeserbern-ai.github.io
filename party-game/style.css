@@ -332,3 +332,7 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .steps li::before{content:"";position:absolute;left:8px;top:.5em;width:18px;height:18px;border-radius:50%;background:var(--pop);}
 .steps b{color:var(--ink);}
 .steps i{color:var(--gold);font-style:italic;}
+
+/* ---------- steals ---------- */
+.stakes.is-steal{color:#1A1C1E;background:var(--pop);border-color:var(--pop);}
+.answer.struck{opacity:.35;text-decoration:line-through 5px;}

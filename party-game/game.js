@@ -12,7 +12,8 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1, timer: 0 };
+  const settings = { teams: 2, rounds: 5, book: "all", dare: 1, level: 1, timer: 0, steal: 1 };
+  const STEAL_SECONDS = 10;
   const TIMER_SECONDS = { 1: 60, 2: 45, 3: 30 };   // Easy / Medium / Hard
 
   // Silly, safe dares for the last-place team. Nothing here involves eating or
@@ -137,6 +138,7 @@
     final()   { SFX.drumroll(0.9); SFX.fanfare(1.0); },
     win()     { SFX.fanfare(0); SFX.applause(0.4); },
     dare()    { tone([660, 520], 0, 0.18, "sine", 0.2); tone([520, 330], 0.2, 0.3, "sine", 0.2); },
+    steal()   { [784, 988, 1175].forEach((f, i) => tone(f, 0.25 + i * 0.07, 0.14, "square", 0.1, { lowpass: 3000 })); },
     tick()    { tone(1760, 0, 0.06, "square", 0.08, { lowpass: 3000 }); },
     timeup()  { tone(880, 0, 0.12, "square", 0.14, { lowpass: 2500 }); tone(880, 0.16, 0.12, "square", 0.14, { lowpass: 2500 }); tone(880, 0.32, 0.4, "square", 0.14, { lowpass: 2500 }); }
   };
@@ -240,10 +242,10 @@
 
   /* ---------- answer timer ---------- */
   let timer = null;   // { left (ms), last, id }
-  function startTimer() {
+  function startTimer(seconds) {
     stopTimer();
     if (!settings.timer || current !== "s-round") return;
-    const total = TIMER_SECONDS[settings.level] * 1000;
+    const total = (seconds || TIMER_SECONDS[settings.level]) * 1000;
     timer = { total, left: total, last: performance.now(), id: 0, lastSec: null };
     $("#clock").hidden = false; $("#timer-bar").hidden = false;
     resumeTimer();
@@ -415,6 +417,7 @@
 
     fitIngredients();
     game.wager = null;
+    game.steal = null;
     if (isWager(game.index)) askWager(p);
     else renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
 
@@ -545,10 +548,16 @@
   }
   function help(i) {
     const p = game.deck[game.index];
+    if (game.steal) { showHelpText(p.ingredients[i]); return; }
     const ing = p.ingredients[i];
     const first = !game.helped.has(i);
     if (first) sfx("help");
     game.helped.add(i);
+    showHelpText(ing);
+    $$("#ingredients .ing").forEach((b) => b.classList.toggle("looked", game.helped.has(Number(b.dataset.i))));
+    updateWorth();
+  }
+  function showHelpText(ing) {
     const info = watchInfo(ing);
     const t = $("#help-text");
     t.className = "help-text on" + (info ? " " + info.level : "");
@@ -556,8 +565,6 @@
     t.querySelector("b").textContent = ing + ":";
     t.querySelector(".what").textContent = glossaryFor(ing);
     if (info) t.querySelector("em").textContent = info.tag;
-    $$("#ingredients .ing").forEach((b) => b.classList.toggle("looked", game.helped.has(Number(b.dataset.i))));
-    updateWorth();
   }
 
   function updateWorth() {
@@ -570,6 +577,7 @@
   }
 
   function reveal() {
+    if (game.steal) return;
     const p = game.deck[game.index];
     if (p.type === "tf" || game.shown >= p.ingredients.length) return;
     const idx = game.order[game.shown];
@@ -592,10 +600,12 @@
     const tf = p.type === "tf";
     const correct = tf ? (p.answer ? "True" : "False") : p.answer;
     const right = choice === correct;
+    if (game.steal) { finishSteal(choice, right, timedOut); return; }
     const wager = isWager(game.index);
     const pts = right ? points() : 0;
     const lost = wager && !right ? Math.min(game.wager, game.scores[game.team]) : 0;
     game.scores[game.team] += pts - lost;
+    if (!right && canSteal(p)) { sfx(timedOut ? "timeup" : "wrong"); startSteal(choice, timedOut); return; }
     sfx(right ? "correct" : lost ? "lose" : timedOut ? "timeup" : "wrong");
 
     if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
@@ -607,6 +617,14 @@
       : timedOut ? (lost ? `Time's up! You lose ${lost} point${lost === 1 ? "" : "s"}.` : "Time's up!")
       : lost ? `Nope — you said ${choice}. You lose ${lost} point${lost === 1 ? "" : "s"}.`
       : `Nope — you said ${choice}.`;
+    showResult(p);
+  }
+
+  // Fills in the answer screen (answer, spotlight, watch list, book) and shows it.
+  function showResult(p) {
+    const tf = p.type === "tf";
+    const correct = tf ? (p.answer ? "True" : "False") : p.answer;
+    game.steal = null;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
 
     // Explanation card.
@@ -623,6 +641,52 @@
     $("#next-btn").textContent = game.index + 1 >= game.deck.length ? "See final scores" : "Next round";
 
     show("s-result", "#next-btn");
+  }
+
+  /* ---------- steals ---------- */
+  // After a miss on an ingredient question, the next team gets one shot with
+  // the wrong pick crossed out. It's worth half the points, and a missed
+  // steal costs the same amount. 10 seconds if the timer is on.
+  function canSteal(p) {
+    return settings.steal && game.teams > 1 && p.type !== "tf";
+  }
+  function startSteal(missed, timedOut) {
+    const value = Math.max(1, Math.ceil(points() / 2));
+    const team = (game.team + 1) % game.teams;
+    game.steal = { team, value, missedBy: game.team, missed, timedOut };
+    $("#turn").textContent = TEAM_NAMES[team] + " — steal it!";
+    $("#turn").style.color = TEAM_COLORS[team];
+    const st = $("#stakes");
+    st.hidden = false; st.className = "stakes is-steal";
+    st.textContent = `Win ${value} · miss = −${value}`;
+    $$("#answers .answer").forEach((b) => {
+      if (b.dataset.choice === missed) { b.disabled = true; b.classList.add("struck"); }
+    });
+    $("#reveal").disabled = true;
+    const t = $("#help-text");
+    t.className = "help-text";
+    t.innerHTML = `${TEAM_NAMES[game.team]} ${timedOut ? "ran out of time" : "missed"}. Steal round: ingredient help is free.`;
+    $("#worth").textContent = `Steal: ${value} point${value === 1 ? "" : "s"}`;
+    renderScores();
+    $$("#scores .score").forEach((d, i) => d.classList.toggle("on", i === team));
+    sfx("steal");
+    setFocus($$("#answers .answer").find((b) => !b.disabled));
+    startMusic();
+    startTimer(STEAL_SECONDS);
+  }
+  function finishSteal(choice, right, timedOut) {
+    const s = game.steal;
+    const lost = right ? 0 : Math.min(s.value, game.scores[s.team]);
+    game.scores[s.team] += right ? s.value : -lost;
+    sfx(right ? "correct" : lost ? "lose" : timedOut ? "timeup" : "wrong");
+    if (right) confetti(90, [TEAM_COLORS_HEX[s.team]]);
+    const name = TEAM_NAMES[s.team];
+    const v = $("#verdict");
+    v.className = "verdict " + (right ? "good" : "bad");
+    v.textContent = right ? `${name} steals it! +${s.value} point${s.value === 1 ? "" : "s"}`
+      : (timedOut ? `Time's up on the steal! ` : `Steal missed — ${name} said ${choice}. `) +
+        (lost ? `${name} loses ${lost} point${lost === 1 ? "" : "s"}.` : "No points to lose.");
+    showResult(game.deck[game.index]);
   }
 
   function renderWatch(p) {
@@ -796,6 +860,7 @@
     if (el.dataset.dare) { pick(el, "dare"); return; }
     if (el.dataset.level) { pick(el, "level"); return; }
     if (el.dataset.timer) { pick(el, "timer"); return; }
+    if (el.dataset.steal) { pick(el, "steal"); return; }
     if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
       case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;
@@ -821,7 +886,7 @@
     settings[key] = Number(el.dataset[key]);
     updateTotal();
     // Guide the remote: teams -> rounds -> dare -> Start.
-    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-level].selected", level: "#s-setup [data-timer].selected", timer: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
+    const nextFocus = { teams: "#s-setup [data-rounds].selected", rounds: "#s-setup [data-level].selected", level: "#s-setup [data-timer].selected", timer: "#s-setup [data-steal].selected", steal: "#s-setup [data-dare].selected", dare: '#s-setup [data-action="start"]' };
     setFocus($(nextFocus[key]));
   }
 

@@ -255,3 +255,11 @@ button{font:inherit;color:inherit;cursor:pointer;}
 @media (prefers-reduced-motion: reduce){.stakes.is-final{animation:none;}}
 .chip small{font-size:.6em;font-weight:800;color:var(--gold);margin-left:6px;}
 .chip.selected small{color:#8A5A00;}
+
+/* 3-4 teams: tighten the header so scores, banner and book name all fit */
+.hud.crowded{gap:20px;}
+.hud.crowded .turn{font-size:50px;}
+.hud.crowded .scores{gap:10px;}
+.hud.crowded .score{padding:8px 16px;font-size:30px;gap:10px;}
+.hud.crowded .round-book{font-size:22px;}
+.hud.crowded .progress{font-size:26px;}

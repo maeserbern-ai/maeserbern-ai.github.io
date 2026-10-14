@@ -187,6 +187,7 @@
     $("#help").hidden = tf;
     $("#statement").textContent = tf ? p.statement : "";
 
+    $(".hud").classList.toggle("crowded", game.teams >= 3);
     $("#turn").textContent = game.teams === 1 ? "Your turn" : TEAM_NAMES[game.team] + "'s turn";
     $("#turn").style.color = TEAM_COLORS[game.team];
     $("#progress").innerHTML = `<span class="round-book"></span><br />Round ${game.index + 1} of ${game.deck.length}`;
@@ -206,20 +207,57 @@
       list.appendChild(li);
     });
 
-    const box = $("#answers");
-    box.innerHTML = "";
-    game.options.forEach((opt, i) => {
-      const b = document.createElement("button");
-      b.className = "answer focusable";
-      b.dataset.action = "answer";
-      b.dataset.choice = opt;
-      b.innerHTML = `<span class="n">${i + 1}</span><span></span>`;
-      b.lastChild.textContent = opt;
-      box.appendChild(b);
-    });
+    game.wager = null;
+    if (isWager(game.index)) askWager(p);
+    else renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
 
     updateWorth();
     show("s-round", "#answers .answer");
+  }
+
+  function renderAnswers(items) {
+    const box = $("#answers");
+    box.innerHTML = "";
+    items.forEach((it, i) => {
+      const b = document.createElement("button");
+      b.className = "answer focusable";
+      b.dataset.action = it.action;
+      b.dataset.choice = it.value;
+      b.innerHTML = `<span class="n">${i + 1}</span><span></span>`;
+      b.lastChild.textContent = it.label;
+      box.appendChild(b);
+    });
+  }
+
+  /* ---------- toilet paper finale: bet before you see the question ---------- */
+  // A right answer wins the bet, a wrong answer loses it (scores never go
+  // below zero). Teams with few points can still bet up to 10.
+  function isWager(i) { return isFinal(i) && game.deck[i].type === "tf"; }
+  function wagerOptions(score) {
+    const base = Math.max(score, 10);
+    const amounts = [0, Math.ceil(base / 4), Math.ceil(base / 2), base];
+    return amounts.filter((a, i) => amounts.indexOf(a) === i);
+  }
+  function askWager(p) {
+    const score = game.scores[game.team];
+    $("#answers").classList.remove("tf");
+    $("#statement").textContent = `Place your bet! You have ${score} point${score === 1 ? "" : "s"}. ` +
+      "Get it right and win your bet. Get it wrong and lose it.";
+    const opts = wagerOptions(score);
+    renderAnswers(opts.map((a, i) => ({
+      action: "wager", value: String(a),
+      label: a === 0 ? "Play it safe — bet 0" : a === score ? `All in — bet ${a}` : `Bet ${a}`
+    })));
+  }
+  function placeWager(amount) {
+    const p = game.deck[game.index];
+    game.wager = amount;
+    beep([392, 523], 0.1);
+    $("#answers").classList.add("tf");
+    $("#statement").textContent = p.statement;
+    renderAnswers(game.options.map((o) => ({ label: o, action: "answer", value: o })));
+    updateWorth();
+    setFocus($("#answers .answer"));
   }
 
   // Rising stakes: every full lap of turns adds +1 to what a question is worth,
@@ -233,6 +271,7 @@
   }
   function points() {
     const i = game.index, p = game.deck[i];
+    if (isWager(i)) return game.wager || 0;
     const reveals = p.type === "tf" ? 0 : game.shown - Math.min(START_SHOWN, p.ingredients.length);
     const pts = Math.max(1, basePoints(i) - reveals - game.helped.size);
     return isFinal(i) ? pts * 2 : pts;
@@ -241,7 +280,7 @@
     const i = game.index, el = $("#stakes");
     el.className = "stakes";
     if (isFinal(i)) {
-      el.textContent = game.deck[i].type === "tf" && game.book !== "tp" ? "Toilet paper finale ×2" : "Final round ×2";
+      el.textContent = isWager(i) ? "Place your bet" : "Final round ×2";
       el.classList.add("is-final");
       if (i % game.teams === 0) { beep([523, 784, 1047], 0.12); confetti(90, ["#F2C46B", "#E07A55"]); }
     } else if (lapOf(i) > 0) {
@@ -303,7 +342,9 @@
   function updateWorth() {
     const p = game.deck[game.index];
     const pts = points();
-    $("#worth").textContent = `Worth ${pts} point${pts === 1 ? "" : "s"}`;
+    $("#worth").textContent = isWager(game.index)
+      ? (game.wager === null ? "Bet first" : `Bet: ${pts} point${pts === 1 ? "" : "s"}`)
+      : `Worth ${pts} point${pts === 1 ? "" : "s"}`;
     $("#reveal").disabled = p.type === "tf" || game.shown >= p.ingredients.length;
   }
 
@@ -327,14 +368,18 @@
     const tf = p.type === "tf";
     const correct = tf ? (p.answer ? "True" : "False") : p.answer;
     const right = choice === correct;
+    const wager = isWager(game.index);
     const pts = right ? points() : 0;
-    game.scores[game.team] += pts;
+    const lost = wager && !right ? Math.min(game.wager, game.scores[game.team]) : 0;
+    game.scores[game.team] += pts - lost;
     beep(right ? [660, 880] : [300, 200], 0.16);
     if (right) confetti(70, [TEAM_COLORS_HEX[game.team]]);
 
     const v = $("#verdict");
     v.className = "verdict " + (right ? "good" : "bad");
-    v.textContent = right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}` : `Nope — you said ${choice}.`;
+    v.textContent = right ? `Correct! +${pts} point${pts === 1 ? "" : "s"}`
+      : lost ? `Nope — you said ${choice}. You lose ${lost} point${lost === 1 ? "" : "s"}.`
+      : `Nope — you said ${choice}.`;
     $("#r-answer").textContent = tf ? `${correct}.` : correct;
     const k = $("#r-kind");
     k.hidden = tf || !kindMatters(game.book);
@@ -399,7 +444,8 @@
   }
 
   function maxPoints() {
-    return game.deck.reduce((sum, p, i) => sum + basePoints(i) * (isFinal(i) ? 2 : 1), 0);
+    // Bets don't count toward the maximum — they depend on the score so far.
+    return game.deck.reduce((sum, p, i) => sum + (isWager(i) ? 0 : basePoints(i) * (isFinal(i) ? 2 : 1)), 0);
   }
 
   function finish() {
@@ -408,8 +454,7 @@
     const winners = order.filter((o) => o.s === top);
     const w = $("#winner");
     if (game.teams === 1) {
-      const max = maxPoints();
-      w.textContent = `${top} of ${max} points!`;
+      w.textContent = `You scored ${top} point${top === 1 ? "" : "s"}!`;
       w.style.color = "";
     } else if (winners.length > 1) {
       w.textContent = "It's a tie!";
@@ -527,6 +572,7 @@
       case "next": next(); break;
       case "new-dare": showDare(); break;
       case "help": help(Number(el.dataset.i)); break;
+      case "wager": placeWager(Number(el.dataset.choice)); break;
       case "quit-yes": modal.hidden = true; show("s-title"); break;
       case "quit-no": closeQuit(); break;
     }

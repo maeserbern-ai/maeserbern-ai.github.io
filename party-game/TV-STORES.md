@@ -63,7 +63,7 @@ shows the start of a real-style ingredient list — candy, cleaners, shampoo, do
 treats, whipped cream and more. Pick a deck from any Ingredient Dictionary book —
 It's Not Food, It's Not Beauty, It's Not Clean, It's Not for Kids or Your Home Is
 Not Safe — or mix them all. Every game ends with a What Is Toilet Paper?
-true-or-false finale for double points. Pick Easy, Medium or Hard — harder
+true-or-false finale where teams bet their points. Pick Easy, Medium or Hard — harder
 levels start from the obscure chemicals at the bottom of the label and score more.
 Stuck on an ingredient? Tap it to see what it is. Red and amber highlights
 show which ingredients are worth knowing about and which hide what's inside. Guess the product with as few clues as possible to

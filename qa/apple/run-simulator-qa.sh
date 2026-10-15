@@ -17,9 +17,11 @@ else
 fi
 cd "$APP_DIR"
 npm ci
+node "$ROOT/qa/apple/check-native-dependencies.mjs"
 if [ "$QA_PLATFORM" = "ios" ]; then npm run bundle-game; fi
 npx expo prebuild --platform ios --no-install
 npx pod-install ios
+ruby -ryaml -e 'pods = YAML.load_file("ios/Podfile.lock").fetch("PODS").flat_map { |p| p.is_a?(Hash) ? p.keys : [p] }; abort "ExpoAsset native pod is missing" unless pods.any? { |p| p.start_with?("ExpoAsset (") }'
 WORKSPACE=$(find "$PWD/ios" -maxdepth 1 -name '*.xcworkspace' -print -quit)
 SCHEME=$(basename "$WORKSPACE" .xcworkspace)
 DERIVED="$RUNNER_TEMP/game-$QA_PLATFORM"

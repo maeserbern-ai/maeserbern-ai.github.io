@@ -11,8 +11,8 @@ import { COVERS, QR, LOGO } from "./src/images";
 import { initAudio, playSfx, startMusic as playMusic, stopMusic as haltMusic } from "./src/sound";
 import { load, save } from "./src/storage";
 
-const MENU_SCREENS = ["title", "books", "howto", "setup", "order"];
-const DEFAULT_FOCUS = { title: "title-play", howto: "howto-play", result: "next", final: "final-start", round: "answer-0" };
+const MENU_SCREENS = ["title", "books", "howto", "privacy", "setup", "order"];
+const DEFAULT_FOCUS = { title: "title-play", howto: "howto-play", privacy: "privacy-back", result: "next", final: "final-start", round: "answer-0" };
 const LOCKABLE = new Set(["answer", "reveal", "help", "menu", "extend"]);
 const QUIET = new Set(["answer", "reveal", "help", "wager", "sound", "music"]);
 
@@ -338,6 +338,7 @@ export default function App() {
       case "book": chooseBook(arg); break;
       case "books": show("books"); break;
       case "howto": show("howto"); break;
+      case "privacy": show("privacy"); break;
       case "title": show("title"); break;
       case "start": startGame(); break;
       case "go": startRound(); break;
@@ -411,6 +412,7 @@ export default function App() {
   switch (S.screen) {
     case "title": body = <TitleScreen S={S} A={A} />; break;
     case "howto": body = <HowToScreen A={A} />; break;
+    case "privacy": body = <PrivacyScreen A={A} />; break;
     case "books": body = <BooksScreen A={A} />; break;
     case "setup": body = <SetupScreen S={S} A={A} />; break;
     case "order": body = <OrderScreen S={S} A={A} />; break;
@@ -452,7 +454,31 @@ function TitleScreen({ S, A }) {
         <Btn id="title-sound" label={`Sound: ${onOff(S.soundOn)}`} onPress={A("sound")} />
         <Btn id="title-music" label={`Music: ${onOff(S.musicOn)}`} onPress={A("music")} />
       </Row>
-      <View style={st.credit}><T style={st.creditText}>From the <T style={[st.creditText, { color: C.inkSoft, fontWeight: "800" }]}>Ingredient Dictionary</T> book series by Maeser</T></View>
+      <View style={st.credit}>
+        <Row>
+          <T style={st.creditText}>From the <T style={[st.creditText, { color: C.inkSoft, fontWeight: "800" }]}>Ingredient Dictionary</T> book series by Maeser</T>
+          <Btn id="title-privacy" small label="Privacy" onPress={A("privacy")} />
+        </Row>
+      </View>
+    </View>
+  );
+}
+
+function PrivacyScreen({ A }) {
+  return (
+    <View style={{ flex: 1, justifyContent: "center" }}>
+      <T serif style={st.h2}>Privacy</T>
+      <T style={{ fontSize: 36, lineHeight: 54, marginBottom: 32 }}>
+        Ingredient Party Game does not collect or transmit your personal data. There are no accounts, analytics tools, or advertising trackers.
+      </T>
+      <T style={{ fontSize: 36, lineHeight: 54, marginBottom: 32 }}>
+        Sound and music preferences and a history of puzzles already shown are saved only on this device. These records are not sent to us or synced to other devices.
+      </T>
+      <T style={{ fontSize: 36, lineHeight: 54, marginBottom: 32 }}>
+        The game works offline. Optional book QR codes lead to external websites with their own privacy practices. Buying a book never unlocks game content.
+      </T>
+      <T style={{ fontSize: 32, lineHeight: 48, marginBottom: 40 }}>Privacy policy and contact: maeserbern-ai.github.io/#privacy</T>
+      <Row><Btn id="privacy-back" primary label="Back" onPress={A("title")} /></Row>
     </View>
   );
 }

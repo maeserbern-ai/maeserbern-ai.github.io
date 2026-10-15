@@ -3,7 +3,7 @@
     "name": "Ingredient Party Game",
     "slug": "ingredient-party-game",
     "version": "1.0.0",
-    "orientation": "default",
+    "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#16211C",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
@@ -22,6 +22,21 @@
         "UIStatusBarHidden": true,
         "UIViewControllerBasedStatusBarAppearance": false
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5c765c38-7e1b-4b4c-9f50-5187865a7235"
+      }
+    },
+    "owner": "maeserbern-ai"
   }
 }

@@ -1,0 +1,42 @@
+name: Isolated Apple Simulator QA
+
+on:
+  push:
+    branches: ["codex/ingredient-apple-simulator-qa-20261015"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  simulator:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ios, tvos]
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      CI: "1"
+      EXPO_NO_TELEMETRY: "1"
+      QA_PLATFORM: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Prepare simulator tooling
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes
+          command -v xcodegen || brew install xcodegen
+      - name: Build and test actual app screens
+        run: bash qa/apple/run-simulator-qa.sh
+      - name: Preserve screenshots and test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingredient-game-${{ matrix.platform }}-simulator-qa
+          path: qa-output/
+          retention-days: 14
+          if-no-files-found: error

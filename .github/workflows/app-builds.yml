@@ -6,6 +6,7 @@ name: App builds
 
 on:
   push:
+    branches-ignore: ["codex/ingredient-apple-simulator-qa-*"]
     paths:
       - "android/**"
       - "party-game/**"

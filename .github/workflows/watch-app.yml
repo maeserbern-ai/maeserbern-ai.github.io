@@ -6,6 +6,7 @@ name: Apple Watch app
 
 on:
   push:
+    branches-ignore: ["codex/ingredient-apple-simulator-qa-*"]
     paths:
       - "watch-app/**"
       - "party-game/puzzles.js"

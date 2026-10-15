@@ -312,7 +312,10 @@ button{font:inherit;color:inherit;cursor:pointer;}
 @keyframes blink{50%{opacity:.4;}}
 @media (prefers-reduced-motion: reduce){.timer-bar.urgent{animation:none;}}
 #s-setup .h2{margin-bottom:26px;}
-#s-setup .setup{gap:22px 120px;margin-bottom:30px;}
+#s-setup .setup{grid-template-columns:auto auto auto;grid-template-rows:repeat(3,auto);grid-auto-flow:column;gap:22px 100px;margin-bottom:30px;}
+#s-setup .setup .total{grid-row:4;}
+#s-setup .setup .row{flex-wrap:nowrap;gap:20px;}
+#s-setup .chip{min-width:124px;padding:22px 32px;font-size:40px;}
 
 /* ---------- how to play: six short cards ---------- */
 .howto-title{margin:0 0 24px;}

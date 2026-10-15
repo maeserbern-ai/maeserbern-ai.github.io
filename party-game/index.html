@@ -48,7 +48,8 @@
     <ul class="steps">
       <li><b>Split into teams</b> and pick your colors. The TV shuffles who goes first. <i>No arguing.</i></li>
       <li><b>Read the 3 ingredients</b> and guess the product. <i>Snack or Shampoo?</i></li>
-      <li><b>Need a hint?</b> Select a covered box to uncover it, or an ingredient to see what it is. −1 point each.</li>
+      <li><b>Look it up — free.</b> Select any ingredient to see its definition. It costs nothing.</li>
+      <li><b>Need another clue?</b> Press <b>Next ingredient</b> or select a covered box to reveal one more (−1 point).</li>
       <li><b>Right answer = points.</b> Wrong answer = zero. <i>And a little shame.</i></li>
       <li><b>Steal!</b> Miss it and the first team to yell <b>“STEAL!”</b> tries for half the points. Miss, lose them.</li>
       <li><span class="hl-warn">Red</span> ingredients are worth knowing about. <span class="hl-unknown">Amber</span> ones are kept secret.</li>
@@ -103,8 +104,8 @@
       <div class="setting">
         <span class="label">Answer timer</span>
         <div class="row" data-group="timer">
-          <button class="chip focusable selected" data-timer="0">Off</button>
           <button class="chip focusable" data-timer="1">On</button>
+          <button class="chip focusable selected" data-timer="0">Off</button>
         </div>
       </div>
       <div class="setting">
@@ -119,6 +120,20 @@
         <div class="row" data-group="dare">
           <button class="chip focusable selected" data-dare="1">On</button>
           <button class="chip focusable" data-dare="0">Off</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Sound</span>
+        <div class="row" data-group="sfx">
+          <button class="chip focusable selected" data-sfx="1">On</button>
+          <button class="chip focusable" data-sfx="0">Off</button>
+        </div>
+      </div>
+      <div class="setting">
+        <span class="label">Music</span>
+        <div class="row" data-group="tune">
+          <button class="chip focusable selected" data-tune="1">On</button>
+          <button class="chip focusable" data-tune="0">Off</button>
         </div>
       </div>
       <p class="total" id="setup-total"></p>
@@ -158,7 +173,7 @@
         <p id="statement" class="statement" hidden></p>
         <div class="help" id="help">
           <p class="legend"><span class="key warn">!</span> worth knowing <span class="key unknown">?</span> not fully disclosed</p>
-          <p id="help-text" class="help-text">Select an ingredient to see what it is <span>(−1 point)</span></p>
+          <p id="help-text" class="help-text">Select an ingredient to see what it is <span>(free)</span></p>
         </div>
         <div class="card-foot">
           <button id="reveal" class="btn small ghost focusable" data-action="reveal">Next ingredient</button>

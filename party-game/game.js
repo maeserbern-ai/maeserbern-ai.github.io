@@ -223,7 +223,7 @@
   function startMusic(mode = "main") {
     if (music && music.mode === mode) return;
     if (music) stopMusic();
-    if (!soundOn || !musicOn) return;
+    if (!musicOn) return;
     try {
       const a = audioCtx();
       const bus = a.createGain();
@@ -334,6 +334,7 @@
     musicOn = on;
     try { localStorage.setItem("idpg-music", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='music']").forEach((b) => { b.textContent = on ? "Music: On" : "Music: Off"; });
+    $$("#s-setup [data-tune]").forEach((c) => c.classList.toggle("selected", (c.dataset.tune === "1") === on));
     if (!on) stopMusic();
     else if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
   }
@@ -382,9 +383,7 @@
     soundOn = on;
     try { localStorage.setItem("idpg-sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='sound']").forEach((b) => { b.textContent = on ? "Sound: On" : "Sound: Off"; });
-    if (!on) stopMusic();
-    else if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
-    else if (current === "s-round" && modal.hidden) startMusic(game && (game.steal || !$("#m-steal").hidden) ? "suspense" : "main");
+    $$("#s-setup [data-sfx]").forEach((c) => c.classList.toggle("selected", (c.dataset.sfx === "1") === on));
     if (on && audio) sfx("click");
   }
 
@@ -497,7 +496,8 @@
       picked.length === n ? `Every team has a color. Now shuffle to see who goes first!`
         : `Pick ${n} colors — one for each team. ${picked.length} of ${n} picked.`,
       `<button class="btn primary focusable" data-action="shuffle-order">Shuffle the order</button>
-       <button class="btn focusable" data-action="setup">Back</button>`);
+       <button class="btn focusable" data-action="setup">Back</button>
+       <button class="btn focusable" data-action="title">Menu</button>`);
     TEAM_NAMES.forEach((name, c) => {
       const b = document.createElement("button");
       const on = picked.includes(c);
@@ -531,7 +531,8 @@
       "Pass the remote to whoever's turn it is — or let one person be the host.",
       `<button class="btn primary focusable" data-action="go">Let's go</button>
        <button class="btn focusable" data-action="shuffle-order">Shuffle again</button>
-       <button class="btn focusable" data-action="pick-colors">Change colors</button>`);
+       <button class="btn focusable" data-action="pick-colors">Back</button>
+       <button class="btn focusable" data-action="title">Menu</button>`);
     game.turnOrder.forEach((t, k) => {
       const d = document.createElement("div");
       d.className = "order-card";
@@ -672,7 +673,7 @@
     const i = game.index, p = game.deck[i];
     if (isWager(i)) return game.wager || 0;
     const reveals = p.type === "tf" ? 0 : game.shown - Math.min(START_SHOWN, p.ingredients.length);
-    const pts = Math.max(1, basePoints(i) - reveals - game.helped.size - (game.extended ? extendCost(i) : 0));
+    const pts = Math.max(1, basePoints(i) - reveals - (game.extended ? extendCost(i) : 0));
     return isFinal(i) ? pts * 2 : pts;
   }
   // +15 seconds costs more as the points go up: 1 point, then 2, 3... each lap
@@ -732,7 +733,7 @@
 
   /* ---------- ingredient help during a question ---------- */
   // Each visible ingredient is a button. Red = worth knowing about,
-  // amber = not fully disclosed. Looking one up costs a point (once each).
+  // amber = not fully disclosed. Looking one up is free.
   function ingredientButton(ing, i) {
     const b = document.createElement("button");
     const info = watchInfo(ing);
@@ -745,8 +746,7 @@
   function resetHelp() {
     const t = $("#help-text");
     t.className = "help-text";
-    const cost = isFinal(game.index) ? 2 : 1;
-    t.innerHTML = `Select an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
+    t.innerHTML = "Select an ingredient to see what it is <span>(free)</span>";
   }
   function help(i) {
     const p = game.deck[game.index];
@@ -1193,6 +1193,8 @@
     if (el.dataset.level) { pick(el, "level"); return; }
     if (el.dataset.timer) { pick(el, "timer"); return; }
     if (el.dataset.steal) { pick(el, "steal"); return; }
+    if (el.dataset.sfx) { setSound(el.dataset.sfx === "1"); return; }
+    if (el.dataset.tune) { setMusic(el.dataset.tune === "1"); return; }
     if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
       case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;
@@ -1290,7 +1292,7 @@
     if (!$("#m-steal").hidden) return;   // pick a team or "No steal"
     if (current === "s-round" || current === "s-result") { openQuit(); return; }
     if (current === "s-setup") { act({ dataset: { action: "books" } }); return; }
-    if (current === "s-order") { act({ dataset: { action: "setup" } }); return; }
+    if (current === "s-order") { act({ dataset: { action: $('#s-order [data-action="go"]') ? "pick-colors" : "setup" } }); return; }
     if (current !== "s-title") { show("s-title"); return; }
     // On the title screen, Back exits the app on TVs that allow it.
     try {

@@ -47,7 +47,7 @@ final class GameScreensTests: XCTestCase {
     }
 
     func foodBook() {
-        let button = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "It's Not Food")).firstMatch
+        let button = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "It's Not Food")).firstMatch
         XCTAssertTrue(button.waitForExistence(timeout: 15))
         button.tap()
         expect("Game setup")

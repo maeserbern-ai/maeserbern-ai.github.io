@@ -1,9 +1,13 @@
 name: Isolated Apple Simulator QA
 
 on:
-  push:
-    branches: ["codex/ingredient-apple-simulator-qa-20261015"]
   workflow_dispatch:
+    inputs:
+      platform:
+        description: Simulator platform to verify
+        type: choice
+        options: [both, ios, tvos]
+        default: both
 
 permissions:
   contents: read
@@ -13,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ios, tvos]
+        platform: ${{ fromJSON(inputs.platform == 'both' && '["ios","tvos"]' || format('["{0}"]', inputs.platform)) }}
     runs-on: macos-15
     timeout-minutes: 60
     env:

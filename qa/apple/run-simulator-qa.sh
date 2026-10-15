@@ -31,6 +31,10 @@ xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -configuration Release \
 APP=$(find "$DERIVED/Build/Products/Release-$SDK" -maxdepth 1 -name '*.app' -print -quit)
 test -n "$APP"
 /usr/libexec/PlistBuddy -c Print "$APP/Info.plist" > "$ROOT/qa-output/built-app-info.txt"
+EXECUTABLE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$APP/Info.plist")
+tar -czf "$ROOT/qa-output/simulator-app.tar.gz" -C "$(dirname "$APP")" "$(basename "$APP")"
+find "$PWD/ios" -name AppDelegate.swift -not -path '*/Pods/*' -exec cp {} "$ROOT/qa-output/AppDelegate.swift" \;
+test -s "$APP/main.jsbundle"
 cd "$ROOT/qa/apple"
 node -e 'const fs=require("fs"); const platform=process.env.QA_PLATFORM==="tvos"?"tvOS":"iOS"; fs.writeFileSync("project.json", JSON.stringify({name:"GameQA",options:{deploymentTarget:{[platform]:"15.1"}},targets:{GameQA:{type:"bundle.ui-testing",platform,sources:["GameScreensTests.swift"],settings:{base:{PRODUCT_BUNDLE_IDENTIFIER:"io.github.maeserbern.ingredientpartygame.uitests",GENERATE_INFOPLIST_FILE:"YES",SWIFT_VERSION:"5.0",CODE_SIGNING_ALLOWED:"NO"}}}},schemes:{GameQA:{build:{targets:{GameQA:"all"}},test:{targets:["GameQA"]}}}}))'
 xcodegen generate --spec project.json
@@ -41,6 +45,14 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   xcrun simctl bootstatus "$DEVICE" -b
   xcrun simctl status_bar "$DEVICE" override --time '9:41' --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100 || true
   xcrun simctl install "$DEVICE" "$APP"
+  xcrun simctl spawn "$DEVICE" log stream --level debug --style compact \
+    --predicate "process == '$EXECUTABLE' OR eventMessage CONTAINS[c] 'io.github.maeserbern.ingredientpartygame'" \
+    > "$ROOT/qa-output/$TAG-runtime.log" 2>&1 &
+  LOG_PID=$!
+  xcrun simctl launch --terminate-running-process "$DEVICE" io.github.maeserbern.ingredientpartygame \
+    > "$ROOT/qa-output/$TAG-manual-launch.txt" 2>&1 || true
+  sleep 5
+  xcrun simctl io "$DEVICE" screenshot "$ROOT/qa-output/$TAG-before-xctest.png" || true
   set +e
   xcodebuild test -project GameQA.xcodeproj -scheme GameQA -configuration Debug \
     -destination "platform=$XCODE_PLATFORM Simulator,id=$DEVICE" \
@@ -51,6 +63,8 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   set -e
   tail -n 70 "$ROOT/qa-output/$TAG-test.log"
   xcrun xcresulttool export attachments --path "$ROOT/qa-output/$TAG.xcresult" --output-path "$ROOT/qa-output/$TAG-images" || true
+  xcrun xcresulttool export diagnostics --path "$ROOT/qa-output/$TAG.xcresult" --output-path "$ROOT/qa-output/$TAG-diagnostics" || true
+  kill "$LOG_PID" || true
   xcrun simctl shutdown "$DEVICE" || true
   if [ "$RESULT" -ne 0 ]; then FAILED=1; fi
 done < "$ROOT/qa-output/devices.tsv"

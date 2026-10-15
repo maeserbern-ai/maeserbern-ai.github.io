@@ -15,6 +15,15 @@ else
   XCODE_PLATFORM=iOS
   SDK=iphonesimulator
 fi
+git ls-tree -r HEAD "$APP_DIR" party-game | shasum -a 256 | awk '{print $1}' > qa-output/source-digest.txt
+if [ -f qa-reuse/simulator-app.tar.gz ]; then
+  git -C qa-reuse-source ls-tree -r HEAD "$APP_DIR" party-game | shasum -a 256 | awk '{print $1}' > qa-reuse/source-digest.txt
+  cmp qa-output/source-digest.txt qa-reuse/source-digest.txt || { echo 'Refusing a compiled app from different game source'; exit 1; }
+  mkdir -p "$RUNNER_TEMP/reused-$QA_PLATFORM"
+  tar -xzf qa-reuse/simulator-app.tar.gz -C "$RUNNER_TEMP/reused-$QA_PLATFORM"
+  APP=$(find "$RUNNER_TEMP/reused-$QA_PLATFORM" -maxdepth 1 -name '*.app' -print -quit)
+  cp qa-reuse/simulator-app.tar.gz qa-output/
+else
 cd "$APP_DIR"
 npm ci
 node "$ROOT/qa/apple/check-native-dependencies.mjs"
@@ -36,6 +45,10 @@ test -n "$APP"
 EXECUTABLE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$APP/Info.plist")
 tar -czf "$ROOT/qa-output/simulator-app.tar.gz" -C "$(dirname "$APP")" "$(basename "$APP")"
 find "$PWD/ios" -name AppDelegate.swift -not -path '*/Pods/*' -exec cp {} "$ROOT/qa-output/AppDelegate.swift" \;
+fi
+test -n "$APP"
+EXECUTABLE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$APP/Info.plist")
+/usr/libexec/PlistBuddy -c Print "$APP/Info.plist" > "$ROOT/qa-output/built-app-info.txt"
 test -s "$APP/main.jsbundle"
 cd "$ROOT/qa/apple"
 node -e 'const fs=require("fs"); const platform=process.env.QA_PLATFORM==="tvos"?"tvOS":"iOS"; fs.writeFileSync("project.json", JSON.stringify({name:"GameQA",options:{deploymentTarget:{[platform]:"15.1"}},targets:{GameQA:{type:"bundle.ui-testing",platform,sources:["GameScreensTests.swift"],settings:{base:{PRODUCT_BUNDLE_IDENTIFIER:"io.github.maeserbern.ingredientpartygame.uitests",GENERATE_INFOPLIST_FILE:"YES",SWIFT_VERSION:"5.0",CODE_SIGNING_ALLOWED:"NO"}}}},schemes:{GameQA:{build:{targets:{GameQA:"all"}},test:{targets:["GameQA"]}}}}))'

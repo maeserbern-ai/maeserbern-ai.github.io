@@ -8,9 +8,14 @@ on:
         type: choice
         options: [both, ios, tvos]
         default: both
+      reuse_run_id:
+        description: Optional prior QA run with identical game source
+        type: string
+        default: ""
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   simulator:
@@ -29,6 +34,33 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Verify compiled app provenance
+        if: inputs.reuse_run_id != ''
+        id: prior
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {data: run} = await github.rest.actions.getWorkflowRun({
+              ...context.repo, run_id: context.payload.inputs.reuse_run_id
+            });
+            if (run.head_branch !== 'codex/ingredient-apple-simulator-qa-20261015' ||
+                run.path !== '.github/workflows/apple-simulator-qa.yml') {
+              throw new Error('Only this isolated QA workflow can supply a compiled app');
+            }
+            core.setOutput('sha', run.head_sha);
+      - uses: actions/checkout@v4
+        if: inputs.reuse_run_id != ''
+        with:
+          ref: ${{ steps.prior.outputs.sha }}
+          path: qa-reuse-source
+      - name: Retrieve matching compiled simulator app
+        if: inputs.reuse_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: ingredient-game-${{ matrix.platform }}-simulator-qa
+          path: qa-reuse/
+          run-id: ${{ inputs.reuse_run_id }}
+          github-token: ${{ github.token }}
       - name: Prepare simulator tooling
         run: |
           xcodebuild -version

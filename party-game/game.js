@@ -457,12 +457,30 @@
     return a;
   }
 
+  // No repeats: each phone/TV remembers which puzzles it has shown and deals
+  // unseen ones first. Once a book runs out, that book starts over.
+  const puzzleKey = (p) => p.book + "|" + (p.statement || p.answer);
+  let seen = new Set();
+  try { seen = new Set(JSON.parse(localStorage.getItem("idpg-seen") || "[]")); } catch (e) { /* storage blocked */ }
+  function saveSeen() {
+    try { localStorage.setItem("idpg-seen", JSON.stringify([...seen])); } catch (e) { /* storage blocked */ }
+  }
+  function dealFresh(pool, n) {
+    let hand = shuffle(pool.filter((p) => !seen.has(puzzleKey(p)))).slice(0, n);
+    if (hand.length < n) {
+      pool.forEach((p) => seen.delete(puzzleKey(p)));
+      hand = shuffle(hand.concat(shuffle(pool.filter((p) => !hand.includes(p))).slice(0, n - hand.length)));
+      saveSeen();
+    }
+    return hand;
+  }
+
   function startGame() {
     bits = [];   // clear any confetti still falling from the last game
     const pool = mainPool(settings.book);
     const perTeam = turnsPerTeam();
-    let deck = shuffle(pool.slice()).slice(0, perTeam * settings.teams);
-    if (hasFinale(settings.book)) deck = deck.concat(shuffle(deckFor("tp").slice()).slice(0, settings.teams));
+    let deck = dealFresh(pool, perTeam * settings.teams);
+    if (hasFinale(settings.book)) deck = deck.concat(dealFresh(deckFor("tp"), settings.teams));
     game = {
       book: settings.book,
       deck,
@@ -555,6 +573,7 @@
 
   function startRound() {
     const p = game.deck[game.index];
+    seen.add(puzzleKey(p)); saveSeen();
     const tf = p.type === "tf";
     game.shown = tf ? 0 : Math.min(START_SHOWN, p.ingredients.length);
     game.order = tf ? [] : revealOrder(p.ingredients.length);

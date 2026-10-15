@@ -672,7 +672,7 @@
     const i = game.index, p = game.deck[i];
     if (isWager(i)) return game.wager || 0;
     const reveals = p.type === "tf" ? 0 : game.shown - Math.min(START_SHOWN, p.ingredients.length);
-    const pts = Math.max(1, basePoints(i) - reveals - game.helped.size - (game.extended ? extendCost(i) : 0));
+    const pts = Math.max(1, basePoints(i) - reveals - (game.extended ? extendCost(i) : 0));
     return isFinal(i) ? pts * 2 : pts;
   }
   // +15 seconds costs more as the points go up: 1 point, then 2, 3... each lap
@@ -732,7 +732,7 @@
 
   /* ---------- ingredient help during a question ---------- */
   // Each visible ingredient is a button. Red = worth knowing about,
-  // amber = not fully disclosed. Looking one up costs a point (once each).
+  // amber = not fully disclosed. Looking one up is free.
   function ingredientButton(ing, i) {
     const b = document.createElement("button");
     const info = watchInfo(ing);
@@ -745,8 +745,7 @@
   function resetHelp() {
     const t = $("#help-text");
     t.className = "help-text";
-    const cost = isFinal(game.index) ? 2 : 1;
-    t.innerHTML = `Select an ingredient to see what it is <span>(−${cost} point${cost > 1 ? "s" : ""})</span>`;
+    t.innerHTML = "Select an ingredient to see what it is <span>(free)</span>";
   }
   function help(i) {
     const p = game.deck[game.index];

@@ -29,6 +29,7 @@ jobs:
       CI: "1"
       EXPO_NO_TELEMETRY: "1"
       QA_PLATFORM: ${{ matrix.platform }}
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

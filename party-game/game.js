@@ -497,7 +497,8 @@
       picked.length === n ? `Every team has a color. Now shuffle to see who goes first!`
         : `Pick ${n} colors — one for each team. ${picked.length} of ${n} picked.`,
       `<button class="btn primary focusable" data-action="shuffle-order">Shuffle the order</button>
-       <button class="btn focusable" data-action="setup">Back</button>`);
+       <button class="btn focusable" data-action="setup">Back</button>
+       <button class="btn focusable" data-action="title">Menu</button>`);
     TEAM_NAMES.forEach((name, c) => {
       const b = document.createElement("button");
       const on = picked.includes(c);
@@ -531,7 +532,8 @@
       "Pass the remote to whoever's turn it is — or let one person be the host.",
       `<button class="btn primary focusable" data-action="go">Let's go</button>
        <button class="btn focusable" data-action="shuffle-order">Shuffle again</button>
-       <button class="btn focusable" data-action="pick-colors">Change colors</button>`);
+       <button class="btn focusable" data-action="pick-colors">Back</button>
+       <button class="btn focusable" data-action="title">Menu</button>`);
     game.turnOrder.forEach((t, k) => {
       const d = document.createElement("div");
       d.className = "order-card";
@@ -1289,7 +1291,7 @@
     if (!$("#m-steal").hidden) return;   // pick a team or "No steal"
     if (current === "s-round" || current === "s-result") { openQuit(); return; }
     if (current === "s-setup") { act({ dataset: { action: "books" } }); return; }
-    if (current === "s-order") { act({ dataset: { action: "setup" } }); return; }
+    if (current === "s-order") { act({ dataset: { action: $('#s-order [data-action="go"]') ? "pick-colors" : "setup" } }); return; }
     if (current !== "s-title") { show("s-title"); return; }
     // On the title screen, Back exits the app on TVs that allow it.
     try {

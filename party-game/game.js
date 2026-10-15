@@ -223,7 +223,7 @@
   function startMusic(mode = "main") {
     if (music && music.mode === mode) return;
     if (music) stopMusic();
-    if (!soundOn || !musicOn) return;
+    if (!musicOn) return;
     try {
       const a = audioCtx();
       const bus = a.createGain();
@@ -334,6 +334,7 @@
     musicOn = on;
     try { localStorage.setItem("idpg-music", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='music']").forEach((b) => { b.textContent = on ? "Music: On" : "Music: Off"; });
+    $$("#s-setup [data-tune]").forEach((c) => c.classList.toggle("selected", (c.dataset.tune === "1") === on));
     if (!on) stopMusic();
     else if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
   }
@@ -382,9 +383,7 @@
     soundOn = on;
     try { localStorage.setItem("idpg-sound", on ? "on" : "off"); } catch (e) { /* storage blocked */ }
     $$("[data-action='sound']").forEach((b) => { b.textContent = on ? "Sound: On" : "Sound: Off"; });
-    if (!on) stopMusic();
-    else if (MENU_SCREENS.includes(current) && modal.hidden) startMusic("main");
-    else if (current === "s-round" && modal.hidden) startMusic(game && (game.steal || !$("#m-steal").hidden) ? "suspense" : "main");
+    $$("#s-setup [data-sfx]").forEach((c) => c.classList.toggle("selected", (c.dataset.sfx === "1") === on));
     if (on && audio) sfx("click");
   }
 
@@ -1194,6 +1193,8 @@
     if (el.dataset.level) { pick(el, "level"); return; }
     if (el.dataset.timer) { pick(el, "timer"); return; }
     if (el.dataset.steal) { pick(el, "steal"); return; }
+    if (el.dataset.sfx) { setSound(el.dataset.sfx === "1"); return; }
+    if (el.dataset.tune) { setMusic(el.dataset.tune === "1"); return; }
     if (el.dataset.book) { chooseBook(el.dataset.book); return; }
     switch (el.dataset.action) {
       case "books": show("s-books", `#book-list [data-book="${settings.book}"]`); break;

@@ -20,7 +20,12 @@ source_tree() {
   git -C "$1" ls-tree -r HEAD "$APP_DIR" party-game | awk -F '\t' -v platform="$QA_PLATFORM" 'platform != "tvos" || $2 != "party-game/style.css"'
 }
 source_tree . | shasum -a 256 | awk '{print $1}' > qa-output/source-digest.txt
+if [ "$QA_PLATFORM" = "tvos" ] && [ "${QA_FOCUS_PROBE:-false}" = "true" ]; then
+  test ! -f qa-reuse/simulator-app.tar.gz || { echo 'Diagnostic build cannot reuse another app'; exit 1; }
+  node qa/apple/install-tv-focus-probe.mjs
+fi
 if [ -f qa-reuse/simulator-app.tar.gz ]; then
+  test ! -f qa-reuse/DIAGNOSTIC-BUILD-NOT-FOR-RELEASE.txt || { echo 'Refusing diagnostic app reuse'; exit 1; }
   source_tree qa-reuse-source | shasum -a 256 | awk '{print $1}' > qa-reuse/source-digest.txt
   cmp qa-output/source-digest.txt qa-reuse/source-digest.txt || { echo 'Refusing a compiled app from different game source'; exit 1; }
   mkdir -p "$RUNNER_TEMP/reused-$QA_PLATFORM"

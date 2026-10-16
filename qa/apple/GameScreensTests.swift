@@ -166,6 +166,45 @@ final class GameScreensTests: XCTestCase {
 
 #if os(tvOS)
 final class TVRemoteControlTests: XCTestCase {
+    func testFocusIsolationProbes() throws {
+        let app = XCUIApplication(bundleIdentifier: "io.github.maeserbern.ingredientpartygame")
+        var results: [String] = []
+        for mode in ["basic", "events", "game-buttons", "overlay", "audio"] {
+            app.launchArguments = ["-IPGQAProbe", mode, "-UIFocusLoggingEnabled", "YES"]
+            app.launch()
+            let title = app.staticTexts["Probe: \(mode)"]
+            if !title.waitForExistence(timeout: 15) {
+                app.terminate()
+                if mode == "basic" { throw XCTSkip("Diagnostic probe is not included in this build") }
+                XCTFail("Missing probe: \(mode)")
+                continue
+            }
+            Thread.sleep(forTimeInterval: 1)
+            let focused = app.descendants(matching: .any)
+                .matching(NSPredicate(format: "hasFocus == true")).firstMatch
+            let initial = focused.exists ? focused.label : "none"
+            XCUIRemote.shared.press(.right, forDuration: 0.2)
+            Thread.sleep(forTimeInterval: 1)
+            let after = focused.exists ? focused.label : "none"
+            results.append("\(mode): \(initial) -> \(after)")
+            let tree = XCTAttachment(string: app.debugDescription)
+            tree.name = "probe-\(mode)-tree"
+            tree.lifetime = .keepAlways
+            add(tree)
+            let image = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+            image.name = "probe-\(mode)-screen"
+            image.lifetime = .keepAlways
+            add(image)
+            app.terminate()
+        }
+        let report = XCTAttachment(string: results.joined(separator: "\n"))
+        report.name = "focus-probe-results"
+        report.lifetime = .keepAlways
+        add(report)
+        print("FOCUS_PROBE_RESULTS\n" + results.joined(separator: "\n"))
+        // Observations are diagnostic only; the real game navigation test remains the gate.
+    }
+
     func testSystemSettingsRemoteInput() {
         let settings = XCUIApplication(bundleIdentifier: "com.apple.TVSettings")
         settings.launch()

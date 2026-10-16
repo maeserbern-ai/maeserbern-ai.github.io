@@ -45,18 +45,18 @@ export function F({ id, onPress, style, focusedStyle, children, focusable = true
     <Pressable
       ref={ref}
       hasTVPreferredFocus={preferred}
+      tvParallaxProperties={{ magnification: scale }}
       onFocus={() => { setFocused(true); ctx.onFocused(id); }}
       onBlur={() => setFocused(false)}
       onPress={onPress}
-      style={[style, focused && { transform: [{ scale }], zIndex: 2 }, focused && focusedStyle]}
+      style={[style, focused && focusedStyle]}
     >
       {typeof children === "function" ? children({ focused }) : children}
-      {focused ? (
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, {
+      <View pointerEvents="none" style={[StyleSheet.absoluteFill, {
           top: -ringWidth, left: -ringWidth, right: -ringWidth, bottom: -ringWidth,
-          borderRadius: radius + ringWidth, borderWidth: ringWidth, borderColor: C.gold
-        }]} />
-      ) : null}
+          borderRadius: radius + ringWidth, borderWidth: ringWidth, borderColor: C.gold,
+          opacity: focused ? 1 : 0
+      }]} />
     </Pressable>
   );
 }

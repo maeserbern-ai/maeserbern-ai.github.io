@@ -70,6 +70,7 @@ final class GameScreensTests: XCTestCase {
         shot("02-instructions")
         tap("Let's play")
         expect("Pick your book")
+        Thread.sleep(forTimeInterval: 3)
         shot("03-books")
         foodBook()
         tap("Solo")

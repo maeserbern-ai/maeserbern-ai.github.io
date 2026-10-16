@@ -1,0 +1,5 @@
+node_modules/
+*.xcodeproj/
+project.json
+watch-project.json
+watch-build-project.json

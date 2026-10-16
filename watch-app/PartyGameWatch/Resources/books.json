@@ -1,0 +1,51 @@
+[
+  {
+    "id": "food",
+    "name": "It's Not Food",
+    "url": "https://www.amazon.com/dp/B0H28XN7Z1",
+    "coverAsset": "book-food",
+    "qrAsset": "qr-food"
+  },
+  {
+    "id": "beauty",
+    "name": "It's Not Beauty",
+    "url": "https://www.amazon.com/dp/B0H3P2TDX4",
+    "coverAsset": "book-beauty",
+    "qrAsset": "qr-beauty"
+  },
+  {
+    "id": "clean",
+    "name": "It's Not Clean",
+    "url": "https://www.amazon.com/dp/B0H3TLXQDP",
+    "coverAsset": "book-clean",
+    "qrAsset": "qr-clean"
+  },
+  {
+    "id": "kids",
+    "name": "It's Not for Kids",
+    "url": "https://www.amazon.com/dp/B0H7T981KL",
+    "coverAsset": "book-kids",
+    "qrAsset": "qr-kids"
+  },
+  {
+    "id": "home",
+    "name": "Your Home Is Not Safe",
+    "url": "https://www.amazon.com/dp/B0H4LTY2FJ",
+    "coverAsset": "book-home",
+    "qrAsset": "qr-home"
+  },
+  {
+    "id": "tp",
+    "name": "What Is Toilet Paper?",
+    "url": "https://www.amazon.com/dp/B0HCDRY91D",
+    "coverAsset": "book-tp",
+    "qrAsset": "qr-tp"
+  },
+  {
+    "id": "all",
+    "name": "All the books",
+    "url": "https://maeserbern-ai.github.io/#books",
+    "coverAsset": null,
+    "qrAsset": "qr-all"
+  }
+]

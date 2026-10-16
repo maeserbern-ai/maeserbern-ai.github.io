@@ -6,7 +6,7 @@ on:
       platform:
         description: Simulator platform to verify
         type: choice
-        options: [both, ios, tvos]
+        options: [both, ios, tvos, watch]
         default: both
       reuse_run_id:
         description: Optional prior QA run with identical game source
@@ -73,7 +73,12 @@ jobs:
           xcrun simctl list runtimes
           command -v xcodegen || brew install xcodegen
       - name: Build and test actual app screens
-        run: bash qa/apple/run-simulator-qa.sh
+        run: |
+          if [ "$QA_PLATFORM" = watch ]; then
+            bash qa/apple/build-watch-qa.sh
+          else
+            bash qa/apple/run-simulator-qa.sh
+          fi
       - name: Preserve screenshots and test evidence
         if: always()
         uses: actions/upload-artifact@v4

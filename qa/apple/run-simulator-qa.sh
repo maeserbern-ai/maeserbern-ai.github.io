@@ -105,8 +105,9 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   xcrun simctl shutdown "$DEVICE" || true
   if [ "$RESULT" -ne 0 ]; then FAILED=1; fi
 done < "$ROOT/qa-output/devices.tsv"
-if [ "$QA_PLATFORM" = "ios" ] && [ -d "$APP/Watch" ]; then
+if [ "$QA_PLATFORM" = "ios" ]; then
   cd "$ROOT"
+  test -d "$APP/Watch" || { echo 'Required embedded Watch app is missing'; exit 1; }
   bash qa/apple/run-watch-qa.sh "$APP" || FAILED=1
 fi
 exit "$FAILED"

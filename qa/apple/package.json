@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "check:books": "node check-book-links.cjs"
+  },
+  "devDependencies": {
+    "jsqr": "1.4.0",
+    "sharp": "0.34.5"
+  }
+}

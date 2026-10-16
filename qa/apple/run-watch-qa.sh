@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 ROOT="$PWD"
-IOS_APP="$1"
-WATCH_APP=$(find "$IOS_APP/Watch" -maxdepth 1 -name '*.app' -print -quit)
+if [ -d "$1/Watch" ]; then
+  WATCH_APP=$(find "$1/Watch" -maxdepth 1 -name '*.app' -print -quit)
+else
+  WATCH_APP="$1"
+fi
 test -n "$WATCH_APP"
 test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$WATCH_APP/Info.plist")" = io.github.maeserbern.ingredientpartygame.watch
 test "$(/usr/libexec/PlistBuddy -c 'Print WKCompanionAppBundleIdentifier' "$WATCH_APP/Info.plist")" = io.github.maeserbern.ingredientpartygame

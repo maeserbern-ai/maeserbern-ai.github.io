@@ -2,6 +2,7 @@ import SwiftUI
 
 struct StartView: View {
     @EnvironmentObject private var game: GameState
+    @State private var showingBooks = false
 
     var body: some View {
         ScrollView {
@@ -29,9 +30,20 @@ struct StartView: View {
                     stat("Total score", value: game.totalScore)
                     stat("Best streak", value: game.bestStreak)
                 }
+
+                Button {
+                    showingBooks = true
+                } label: {
+                    Label("Books", systemImage: "books.vertical")
+                }
+                .buttonStyle(PillButtonStyle())
+                .accessibilityIdentifier("watch-books")
             }
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 4)
+        }
+        .sheet(isPresented: $showingBooks) {
+            BooksView()
         }
     }
 

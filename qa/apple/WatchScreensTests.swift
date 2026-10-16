@@ -33,7 +33,9 @@ final class WatchScreensTests: XCTestCase {
         reveal("watch-play").tap()
         XCTAssertTrue(app.buttons["watch-ingredient-0"].waitForExistence(timeout: 10))
         capture("02-watch-ingredients")
-        reveal("watch-more").tap()
+        if app.buttons["watch-more"].isEnabled {
+            reveal("watch-more").tap()
+        }
         reveal("watch-guess").tap()
         XCTAssertTrue(app.staticTexts["What is it?"].waitForExistence(timeout: 10))
         capture("03-watch-answers")
@@ -50,5 +52,29 @@ final class WatchScreensTests: XCTestCase {
         XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 20))
         reveal("watch-play").tap()
         XCTAssertTrue(app.buttons["watch-ingredient-0"].waitForExistence(timeout: 10))
+    }
+
+    func testAllBookDestinationsAndCodes() {
+        for id in ["food", "beauty", "clean", "kids", "home", "tp", "all"] {
+            app.terminate()
+            app.launch()
+            reveal("watch-books").tap()
+            let entry = app.buttons["watch-book-\(id)"]
+            for _ in 0..<12 {
+                if entry.exists && entry.isHittable { break }
+                app.swipeUp()
+            }
+            XCTAssertTrue(entry.exists && entry.isHittable, "Book missing: \(id)")
+            entry.tap()
+            let link = app.buttons["watch-book-link-\(id)"]
+            XCTAssertTrue(link.waitForExistence(timeout: 10), "Missing book link: \(id)")
+            reveal("watch-book-qr-\(id)").tap()
+            let code = app.images["watch-book-code-\(id)"]
+            XCTAssertTrue(code.waitForExistence(timeout: 10), "Missing QR code: \(id)")
+            XCTAssertGreaterThan(code.frame.width, 80)
+            XCTAssertGreaterThan(code.frame.height, 80)
+            XCTAssertTrue(app.frame.contains(code.frame), "QR code clipped: \(id)")
+            capture("05-watch-book-\(id)")
+        }
     }
 }

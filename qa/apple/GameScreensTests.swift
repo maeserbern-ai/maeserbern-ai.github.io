@@ -127,6 +127,72 @@ final class GameScreensTests: XCTestCase {
         Thread.sleep(forTimeInterval: 0.5)
     }
 
+    func focusedId(_ id: String, timeout: TimeInterval = 8) {
+        let target = app.descendants(matching: .any).matching(NSPredicate(format: "identifier == %@ AND hasFocus == true", id)).firstMatch
+        XCTAssertTrue(target.waitForExistence(timeout: timeout), "Remote focus did not reach control: \(id)")
+    }
+
+    func testSoloCompleteGameAndReplay() {
+        expect("Play")
+        focusedId("title-play")
+        select()
+        focusedId("book-all")
+        select()
+        focusedId("teams-2")
+        XCUIRemote.shared.press(.left, forDuration: 0.2)
+        focusedId("teams-1")
+        select()
+        focusedId("rounds-5")
+        XCUIRemote.shared.press(.left, forDuration: 0.2)
+        focusedId("rounds-3")
+        select()
+        for id in ["level-1", "timer-0", "steal-1", "dare-1", "setup-start"] {
+            focusedId(id)
+            select()
+        }
+        for round in 1...4 {
+            expect("Round \(round) of 4")
+            focusedId("answer-0")
+            // Move in both directions, including the confetti-filled final lap.
+            XCUIRemote.shared.press(.down, forDuration: 0.2)
+            focusedId("answer-1")
+            XCUIRemote.shared.press(.up, forDuration: 0.2)
+            focusedId("answer-0")
+            if round == 4 {
+                select() // The finale first asks for a wager of game points.
+                focusedId("answer-0")
+                expect("True")
+                shot("09-finale")
+            }
+            select()
+            focusedId("next", timeout: 15)
+            if round == 1 { shot("08-result") }
+            select()
+        }
+        expect("Game over")
+        focusedId("final-start")
+        XCUIRemote.shared.press(.right, forDuration: 0.2)
+        focusedId("final-books")
+        XCUIRemote.shared.press(.left, forDuration: 0.2)
+        focusedId("final-start")
+        shot("10-final-scores")
+        select()
+        expect("Round 1 of 4")
+        focusedId("answer-0")
+        XCUIRemote.shared.press(.menu)
+        expect("Game paused")
+        focusedId("quit-no")
+        for _ in 0..<6 {
+            let quit = app.descendants(matching: .any).matching(NSPredicate(format: "identifier == 'quit-yes' AND hasFocus == true")).firstMatch
+            if quit.exists { break }
+            XCUIRemote.shared.press(.down, forDuration: 0.2)
+        }
+        focusedId("quit-yes")
+        select()
+        expect("Play")
+        focusedId("title-play")
+    }
+
     func testRemoteScreensAndPause() {
         expect("Play")
         focused("Play")
@@ -158,7 +224,9 @@ final class GameScreensTests: XCTestCase {
         XCUIRemote.shared.press(.menu)
         expect("Game paused")
         shot("07-pause")
+        focused("Resume game")
         select()
+        XCTAssertTrue(text("Game paused").waitForNonExistence(timeout: 5), "Pause dialog did not close")
         expect("Next ingredient")
     }
     #endif
@@ -204,7 +272,7 @@ final class TVRemoteControlTests: XCTestCase {
         report.lifetime = .keepAlways
         add(report)
         print("FOCUS_PROBE_RESULTS\n" + results.joined(separator: "\n"))
-        // Observations are diagnostic only; the real game navigation test remains the gate.
+        // Both the controls and the real game's remote navigation must pass.
     }
 
     func testSystemSettingsRemoteInput() {

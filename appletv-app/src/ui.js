@@ -44,6 +44,7 @@ export function F({ id, onPress, style, focusedStyle, children, focusable = true
   return (
     <Pressable
       ref={ref}
+      testID={id}
       hasTVPreferredFocus={preferred}
       tvParallaxProperties={{ magnification: scale }}
       onFocus={() => { setFocused(true); ctx.onFocused(id); }}

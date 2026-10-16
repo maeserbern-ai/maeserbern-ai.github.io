@@ -5,10 +5,10 @@ final class GameScreensTests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        app.launch()
         #if os(iOS)
         XCUIDevice.shared.orientation = .landscapeLeft
         #endif
+        app.launch()
     }
 
     override func tearDownWithError() throws {
@@ -29,7 +29,7 @@ final class GameScreensTests: XCTestCase {
     }
 
     func shot(_ name: String) {
-        let screenshot = app.screenshot()
+        let screenshot = XCUIScreen.main.screenshot()
         XCTAssertGreaterThan(screenshot.image.size.width, 0)
         XCTAssertGreaterThan(screenshot.image.size.height, 0)
         let attachment = XCTAttachment(screenshot: screenshot)
@@ -73,9 +73,11 @@ final class GameScreensTests: XCTestCase {
         tap("Menu")
         expect("Game paused")
         tap("Resume game")
+        XCTAssertTrue(text("Game paused").waitForNonExistence(timeout: 5), "Pause dialog did not close")
         expect("Next ingredient")
         let answer = app.buttons.matching(NSPredicate(format: "label MATCHES %@", "^1\\s*.+")).firstMatch
         XCTAssertTrue(answer.waitForExistence(timeout: 10), "Missing first answer option")
+        XCTAssertTrue(answer.isHittable)
         answer.tap()
         expect("Next round", timeout: 15)
         shot("06-result")
@@ -96,17 +98,29 @@ final class GameScreensTests: XCTestCase {
         expect("Game paused")
         shot("08-pause")
         tap("Resume game")
+        XCTAssertTrue(text("Game paused").waitForNonExistence(timeout: 5), "Pause dialog did not close")
         expect("Next ingredient")
     }
     #endif
 
     #if os(tvOS)
-    func select() { XCUIRemote.shared.press(.select) }
+    func focused(_ label: String, timeout: TimeInterval = 5) {
+        let target = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@ AND hasFocus == true", label)).firstMatch
+        XCTAssertTrue(target.waitForExistence(timeout: timeout), "Remote focus did not reach: \(label)")
+    }
+
+    func select() {
+        XCUIRemote.shared.press(.select)
+        // Focus animations complete asynchronously after a remote action.
+        Thread.sleep(forTimeInterval: 0.5)
+    }
 
     func testRemoteScreensAndPause() {
         expect("Play")
+        focused("Play")
         shot("01-title")
         XCUIRemote.shared.press(.right)
+        focused("How to play")
         select()
         expect("Let's play")
         shot("02-instructions")

@@ -73,7 +73,10 @@ export default function App() {
     S.lastFocused = id;
     // Focus arrived where the game asked: stop preferring it, so later re-renders
     // never pull focus back while the players move around.
-    if (id === S.focus.target) S.focus = { target: null, nonce: S.focus.nonce };
+    if (id === S.focus.target) {
+      S.focus = { target: null, nonce: S.focus.nonce };
+      render();
+    }
   }, []);
 
   /* ---------- screens ---------- */

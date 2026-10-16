@@ -56,6 +56,11 @@ final class GameScreensTests: XCTestCase {
     func testSoloScreensAndAnswer() {
         expect("Play")
         XCTAssertGreaterThan(app.frame.width, app.frame.height)
+        let play = app.buttons["Play"]
+        let ready = NSPredicate(format: "isHittable == true")
+        expectation(for: ready, evaluatedWith: play)
+        waitForExpectations(timeout: 20)
+        Thread.sleep(forTimeInterval: 0.5)
         shot("01-title")
         tap("How to play")
         expect("Let's play")
@@ -119,6 +124,10 @@ final class GameScreensTests: XCTestCase {
         expect("Play")
         focused("Play")
         shot("01-title")
+        XCUIRemote.shared.press(.right)
+        focused("How to play")
+        XCUIRemote.shared.press(.left)
+        focused("Play")
         XCUIRemote.shared.press(.right)
         focused("How to play")
         select()

@@ -89,7 +89,10 @@ final class GameScreensTests: XCTestCase {
         XCTAssertTrue(answer.isHittable)
         answer.tap()
         expect("Next round", timeout: 15)
+        Thread.sleep(forTimeInterval: 2)
         shot("06-result")
+        tap("Next round")
+        expect("Next ingredient")
     }
 
     func testTeamOrderAndPause() {
@@ -160,3 +163,26 @@ final class GameScreensTests: XCTestCase {
     }
     #endif
 }
+
+#if os(tvOS)
+final class TVRemoteControlTests: XCTestCase {
+    func testSystemSettingsRemoteInput() {
+        let settings = XCUIApplication(bundleIdentifier: "com.apple.TVSettings")
+        settings.launch()
+        defer { settings.terminate() }
+        let focused = settings.descendants(matching: .any)
+            .matching(NSPredicate(format: "hasFocus == true")).firstMatch
+        XCTAssertTrue(focused.waitForExistence(timeout: 15))
+        let initial = focused.label
+        XCTAssertFalse(initial.isEmpty)
+        XCUIRemote.shared.press(.down, forDuration: 0.2)
+        let moved = NSPredicate { _, _ in focused.exists && focused.label != initial }
+        expectation(for: moved, evaluatedWith: settings)
+        waitForExpectations(timeout: 10)
+        let evidence = XCTAttachment(string: "Initial focus: \(initial)\nAfter down: \(focused.label)\n\(settings.debugDescription)")
+        evidence.name = "system-remote-control"
+        evidence.lifetime = .keepAlways
+        add(evidence)
+    }
+}
+#endif

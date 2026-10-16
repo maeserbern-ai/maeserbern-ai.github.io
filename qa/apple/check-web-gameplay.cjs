@@ -8,8 +8,13 @@ async function main() {
   const { default: html } = await import(pathToFileURL(path.join(root, 'apple-app/game-html.js')));
   const browser = await webkit.launch();
   try {
-    for (const book of ['food', 'tp']) {
-      const page = await browser.newPage({ viewport: { width: 1376, height: 1032 } });
+    const cases = ['food', 'beauty', 'clean', 'kids', 'home', 'tp', 'all']
+      .flatMap(book => [
+        { book, device: 'iphone', width: 956, height: 440 },
+        { book, device: 'ipad', width: 1376, height: 1032 }
+      ]);
+    for (const { book, device, width, height } of cases) {
+      const page = await browser.newPage({ viewport: { width, height } });
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       await page.setContent(html, { waitUntil: 'load' });
@@ -43,7 +48,7 @@ async function main() {
       await page.locator('[data-action="quit-yes"]').click();
       await page.locator('#s-title.active').waitFor();
       assert.deepEqual(errors, []);
-      console.log(JSON.stringify({ engine: 'webkit', book, answered, wagers, replayAndQuit: 'passed', errors }));
+      console.log(JSON.stringify({ engine: 'webkit', device, book, answered, wagers, replayAndQuit: 'passed', errors }));
       await page.close();
     }
   } finally {

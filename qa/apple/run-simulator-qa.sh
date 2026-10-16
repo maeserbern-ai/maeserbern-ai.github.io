@@ -15,9 +15,13 @@ else
   XCODE_PLATFORM=iOS
   SDK=iphonesimulator
 fi
-git ls-tree -r HEAD "$APP_DIR" party-game | shasum -a 256 | awk '{print $1}' > qa-output/source-digest.txt
+# The native TV port never imports the web stylesheet.
+source_tree() {
+  git -C "$1" ls-tree -r HEAD "$APP_DIR" party-game | awk -F '\t' -v platform="$QA_PLATFORM" 'platform != "tvos" || $2 != "party-game/style.css"'
+}
+source_tree . | shasum -a 256 | awk '{print $1}' > qa-output/source-digest.txt
 if [ -f qa-reuse/simulator-app.tar.gz ]; then
-  git -C qa-reuse-source ls-tree -r HEAD "$APP_DIR" party-game | shasum -a 256 | awk '{print $1}' > qa-reuse/source-digest.txt
+  source_tree qa-reuse-source | shasum -a 256 | awk '{print $1}' > qa-reuse/source-digest.txt
   cmp qa-output/source-digest.txt qa-reuse/source-digest.txt || { echo 'Refusing a compiled app from different game source'; exit 1; }
   mkdir -p "$RUNNER_TEMP/reused-$QA_PLATFORM"
   tar -xzf qa-reuse/simulator-app.tar.gz -C "$RUNNER_TEMP/reused-$QA_PLATFORM"

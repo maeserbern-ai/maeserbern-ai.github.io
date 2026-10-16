@@ -7,6 +7,8 @@ final class GameScreensTests: XCTestCase {
         continueAfterFailure = false
         #if os(iOS)
         XCUIDevice.shared.orientation = .landscapeLeft
+        #elseif os(tvOS)
+        app.launchArguments = ["-UIFocusLoggingEnabled", "YES"]
         #endif
         app.launch()
     }
@@ -125,11 +127,11 @@ final class GameScreensTests: XCTestCase {
         expect("Play")
         focused("Play")
         shot("01-title")
-        XCUIRemote.shared.press(.right)
+        XCUIRemote.shared.press(.right, forDuration: 0.2)
         focused("How to play")
-        XCUIRemote.shared.press(.left)
+        XCUIRemote.shared.press(.left, forDuration: 0.2)
         focused("Play")
-        XCUIRemote.shared.press(.right)
+        XCUIRemote.shared.press(.right, forDuration: 0.2)
         focused("How to play")
         select()
         expect("Let's play")

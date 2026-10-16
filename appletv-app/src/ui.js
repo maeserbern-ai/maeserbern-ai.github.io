@@ -107,11 +107,9 @@ export function Stamp({ pop }) {
 // animated view. Bursts are capped so older Apple TVs stay smooth.
 const MAX_PIECES = 90;
 export function Confetti({ bursts }) {
-  return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-      {bursts.map((b) => <Burst key={b.id} burst={b} />)}
-    </View>
-  );
+  // A full-screen native View occludes tvOS focus candidates, even with
+  // pointerEvents="none". Keep decoration as individual stage-level pieces.
+  return bursts.map((b) => <Burst key={b.id} burst={b} />);
 }
 function Burst({ burst }) {
   const pieces = useRef(null);
@@ -135,7 +133,7 @@ function Burst({ burst }) {
       Animated.timing(p.v, { toValue: 1, duration: p.dur, easing: Easing.in(Easing.quad), useNativeDriver: true }))).start();
   }, []);
   return pieces.current.map((p, i) => (
-    <Animated.View key={i} style={{
+    <Animated.View key={i} pointerEvents="none" accessible={false} style={{
       position: "absolute", left: p.x, top: p.y, width: p.w, height: p.h, backgroundColor: p.c,
       transform: [
         { translateY: p.v.interpolate({ inputRange: [0, 1], outputRange: [0, p.fall] }) },

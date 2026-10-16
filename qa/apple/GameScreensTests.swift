@@ -187,6 +187,8 @@ final class TVRemoteControlTests: XCTestCase {
             Thread.sleep(forTimeInterval: 1)
             let after = focused.exists ? focused.label : "none"
             results.append("\(mode): \(initial) -> \(after)")
+            XCTAssertEqual(initial, "First", "Unexpected initial focus in \(mode)")
+            XCTAssertEqual(after, "Second", "Right arrow blocked in \(mode)")
             let tree = XCTAttachment(string: app.debugDescription)
             tree.name = "probe-\(mode)-tree"
             tree.lifetime = .keepAlways

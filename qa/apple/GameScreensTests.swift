@@ -29,6 +29,7 @@ final class GameScreensTests: XCTestCase {
     }
 
     func shot(_ name: String) {
+        Thread.sleep(forTimeInterval: 0.5)
         let screenshot = XCUIScreen.main.screenshot()
         XCTAssertGreaterThan(screenshot.image.size.width, 0)
         XCTAssertGreaterThan(screenshot.image.size.height, 0)

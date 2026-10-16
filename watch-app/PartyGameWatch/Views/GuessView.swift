@@ -11,11 +11,12 @@ struct GuessView: View {
                     .font(.system(.title3, design: .serif, weight: .bold))
                     .foregroundStyle(Theme.ink)
 
-                ForEach(game.options, id: \.self) { option in
+                ForEach(Array(game.options.enumerated()), id: \.element) { index, option in
                     Button(option) {
                         game.guess(option)
                     }
                     .buttonStyle(PillButtonStyle(fill: Theme.button, text: Theme.ink, ringOnPress: true))
+                    .accessibilityIdentifier("watch-answer-\(index)")
                 }
 
                 Button {
@@ -28,6 +29,7 @@ struct GuessView: View {
                         .padding(.vertical, 4)
                 }
                 .buttonStyle(.plain)
+                .accessibilityIdentifier("watch-back-to-clues")
             }
             .padding(.horizontal, 2)
         }

@@ -17,7 +17,7 @@ else
 fi
 # The native TV port never imports the web stylesheet.
 source_tree() {
-  git -C "$1" ls-tree -r HEAD "$APP_DIR" party-game | awk -F '\t' -v platform="$QA_PLATFORM" 'platform != "tvos" || $2 != "party-game/style.css"'
+  git -C "$1" ls-tree -r HEAD "$APP_DIR" party-game $([ "$QA_PLATFORM" = "ios" ] && echo watch-app) | awk -F '\t' -v platform="$QA_PLATFORM" 'platform != "tvos" || $2 != "party-game/style.css"'
 }
 source_tree . | shasum -a 256 | awk '{print $1}' > qa-output/source-digest.txt
 if [ "$QA_PLATFORM" = "tvos" ] && [ "${QA_FOCUS_PROBE:-false}" = "true" ]; then
@@ -105,4 +105,8 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   xcrun simctl shutdown "$DEVICE" || true
   if [ "$RESULT" -ne 0 ]; then FAILED=1; fi
 done < "$ROOT/qa-output/devices.tsv"
+if [ "$QA_PLATFORM" = "ios" ] && [ -d "$APP/Watch" ]; then
+  cd "$ROOT"
+  bash qa/apple/run-watch-qa.sh "$APP" || FAILED=1
+fi
 exit "$FAILED"

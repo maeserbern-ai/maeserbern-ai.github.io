@@ -31,6 +31,7 @@ struct ResultView: View {
                         game.nextPuzzle()
                     }
                     .buttonStyle(PillButtonStyle(fill: Theme.terracotta, text: Theme.labelInk))
+                    .accessibilityIdentifier("watch-next")
 
                     Text("Total \(game.totalScore)  ·  Streak \(game.streak)")
                         .font(.system(size: 11, weight: .semibold))
@@ -46,6 +47,7 @@ struct ResultView: View {
                             .padding(.vertical, 4)
                     }
                     .buttonStyle(.plain)
+                    .accessibilityIdentifier("watch-home")
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 2)

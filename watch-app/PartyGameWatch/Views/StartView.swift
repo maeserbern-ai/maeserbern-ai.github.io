@@ -22,6 +22,7 @@ struct StartView: View {
                     game.play()
                 }
                 .buttonStyle(PillButtonStyle(fill: Theme.terracotta, text: Theme.labelInk))
+                .accessibilityIdentifier("watch-play")
                 .disabled(!game.hasPuzzles)
 
                 HStack(spacing: 6) {

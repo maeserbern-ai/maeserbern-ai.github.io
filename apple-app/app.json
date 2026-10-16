@@ -13,6 +13,7 @@
       "backgroundColor": "#16211C"
     },
     "ios": {
+      "appleTeamId": "LX23QQML6M",
       "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
       "buildNumber": "2",
       "supportsTablet": true,
@@ -24,6 +25,7 @@
       }
     },
     "plugins": [
+      ["@bacons/apple-targets", {"root": "../watch-app", "match": "PartyGameWatch"}],
       [
         "expo-audio",
         {

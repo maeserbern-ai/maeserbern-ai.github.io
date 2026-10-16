@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-16",
+  "releaseReady": false,
+  "iphoneAndIpad": {
+    "runId": "38921363020",
+    "sourceCommit": "6461032",
+    "compiledAppSourceRun": "38917612199",
+    "nativeTestsPassed": 4,
+    "nativeTestsFailed": 0,
+    "devices": ["iPhone 16 Pro Max", "iPad Pro 13-inch (M5)"],
+    "runtime": "iOS 26.2",
+    "screenshots": {"iphone": 8, "ipad": 8, "allVisuallyReviewed": true, "pixelPreservationVerified": true},
+    "artifactName": "ingredient-game-ios-simulator-qa"
+  },
+  "completeGameBrowserChecks": {
+    "passed": 14,
+    "books": ["food", "beauty", "clean", "kids", "home", "tp", "all"],
+    "viewports": ["iPhone", "iPad"],
+    "engine": "WebKit 26.5",
+    "scope": "Complete solo game through points-only finale, final scores, replay and quit. Browser evidence is not native-device certification."
+  },
+  "appleTv": {
+    "lastRunId": "38923407032",
+    "testedCommit": "54f4849",
+    "nativeBuild": "succeeded",
+    "gameTest": "failed",
+    "failure": "XCUIRemote Right does not move focus from Play to How to play.",
+    "systemSettingsControlTest": "passed",
+    "legacyRendererExperiment": "Did not resolve the same failure. Configuration restored to newArchEnabled true after the experiment.",
+    "earlierFailedChecks": ["38919400483", "38921339879", "38922645147"],
+    "artifactName": "ingredient-game-tvos-simulator-qa",
+    "storeScreenshotsApproved": false,
+    "experimentalTvUiChangesPromotedToRelease": false
+  },
+  "releaseBlockers": [
+    "Resolve and pass Apple TV directional navigation tests before claiming TV readiness.",
+    "Replace the signed builds that predate the verified ExpoAsset dependency fix; selected build 2 is not QA-approved.",
+    "Upload and verify screenshot delivery and order after the required checks.",
+    "Mac, Vision Pro and Watch runtime behavior was not certified by these iPhone/iPad/tvOS jobs. No Duo simulator was available."
+  ],
+  "submissionMade": false,
+  "branchMerged": false,
+  "signingSecretsAdded": false,
+  "deploymentPerformed": false,
+  "otherAppsChanged": false
+}

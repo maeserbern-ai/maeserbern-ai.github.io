@@ -8,6 +8,14 @@ final class WatchScreensTests: XCTestCase {
         app.launch()
     }
 
+    override func tearDownWithError() throws {
+        let tree = XCTAttachment(string: app.debugDescription)
+        tree.name = "watch-accessibility-tree"
+        tree.lifetime = .keepAlways
+        add(tree)
+        capture("watch-final-state")
+    }
+
     func reveal(_ id: String) -> XCUIElement {
         let button = app.buttons[id]
         XCTAssertTrue(button.waitForExistence(timeout: 15), "Missing \(id)")
@@ -60,14 +68,19 @@ final class WatchScreensTests: XCTestCase {
             app.launch()
             reveal("watch-books").tap()
             let entry = app.buttons["watch-book-\(id)"]
-            for _ in 0..<12 {
+            for _ in 0..<24 {
                 if entry.exists && entry.isHittable { break }
-                app.swipeUp()
+                let above = entry.exists && entry.frame.midY < app.frame.midY
+                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.4 : 0.75))
+                let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.75 : 0.4))
+                start.press(forDuration: 0.2, thenDragTo: end)
             }
             XCTAssertTrue(entry.exists && entry.isHittable, "Book missing: \(id)")
             entry.tap()
             let link = app.buttons["watch-book-link-\(id)"]
             XCTAssertTrue(link.waitForExistence(timeout: 10), "Missing book link: \(id)")
+            reveal("watch-book-link-\(id)")
+            capture("05-watch-book-detail-\(id)")
             reveal("watch-book-qr-\(id)").tap()
             let code = app.images["watch-book-code-\(id)"]
             XCTAssertTrue(code.waitForExistence(timeout: 10), "Missing QR code: \(id)")

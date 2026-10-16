@@ -70,22 +70,25 @@ private struct BookCodeView: View {
     let book: Book
 
     var body: some View {
-        ScrollView {
+        GeometryReader { geometry in
+            let side = max(1, min(160, geometry.size.width - 16, geometry.size.height - 40))
             VStack(spacing: 8) {
                 Image(book.qrAsset)
                     .interpolation(.none)
                     .resizable()
                     .scaledToFit()
-                    .frame(maxWidth: 160)
+                    .frame(width: side, height: side)
                     .background(.white)
                     .accessibilityLabel("QR link for \(book.name)")
                     .accessibilityIdentifier("watch-book-code-\(book.id)")
                 Text(book.name)
-                    .font(.footnote)
+                    .font(.caption2)
                     .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.8)
             }
+            .frame(width: geometry.size.width, height: geometry.size.height)
         }
-        .navigationTitle("Book QR code")
+        .navigationTitle("Book QR")
     }
 }

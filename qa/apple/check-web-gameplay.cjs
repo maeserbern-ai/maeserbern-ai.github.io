@@ -1,11 +1,14 @@
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const fs = require('node:fs');
 const { pathToFileURL } = require('node:url');
 const { webkit } = require('playwright');
 
 async function main() {
   const root = path.resolve(__dirname, '../..');
   const { default: html } = await import(pathToFileURL(path.join(root, 'apple-app/game-html.js')));
+  const books = JSON.parse(fs.readFileSync(path.join(root, 'watch-app/PartyGameWatch/Resources/books.json'), 'utf8'));
+  const bookUrls = new Map(books.map(book => [book.id, book.url]));
   const browser = await webkit.launch();
   try {
     const cases = ['food', 'beauty', 'clean', 'kids', 'home', 'tp', 'all']
@@ -35,6 +38,8 @@ async function main() {
         }
         await page.locator('#answers [data-action="answer"]').first().click();
         await page.locator('#s-result.active').waitFor();
+        const resultUrl = await page.locator('#r-book').getAttribute('href');
+        assert.ok(books.some(entry => entry.url === resultUrl && entry.id !== 'all'), 'Result screen must link to a known book');
         answered += 1;
         await page.locator('#next-btn').click();
         await page.waitForFunction(() => document.querySelector('#s-final.active, #s-round.active'));
@@ -42,13 +47,14 @@ async function main() {
       assert.ok(answered >= 3);
       assert.equal(wagers, 1, 'The points-only finale must be playable');
       assert.ok((await page.locator('#winner').innerText()).trim());
+      assert.equal(await page.locator('#f-link').getAttribute('href'), bookUrls.get(book));
       await page.locator('#s-final [data-action="start"]').click();
       await page.locator('#s-round.active').waitFor();
       await page.locator('#s-round [data-action="menu"]').click();
       await page.locator('[data-action="quit-yes"]').click();
       await page.locator('#s-title.active').waitFor();
       assert.deepEqual(errors, []);
-      console.log(JSON.stringify({ engine: 'webkit', device, book, answered, wagers, replayAndQuit: 'passed', errors }));
+      console.log(JSON.stringify({ engine: 'webkit', device, book, answered, wagers, bookLinks: 'passed', replayAndQuit: 'passed', errors }));
       await page.close();
     }
   } finally {

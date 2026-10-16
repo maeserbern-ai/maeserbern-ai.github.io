@@ -53,6 +53,14 @@ test -s "$APP/main.jsbundle"
 cd "$ROOT/qa/apple"
 node -e 'const fs=require("fs"); const platform=process.env.QA_PLATFORM==="tvos"?"tvOS":"iOS"; fs.writeFileSync("project.json", JSON.stringify({name:"GameQA",options:{deploymentTarget:{[platform]:"15.1"}},targets:{GameQA:{type:"bundle.ui-testing",platform,sources:["GameScreensTests.swift"],settings:{base:{PRODUCT_BUNDLE_IDENTIFIER:"io.github.maeserbern.ingredientpartygame.uitests",GENERATE_INFOPLIST_FILE:"YES",SWIFT_VERSION:"5.0",CODE_SIGNING_ALLOWED:"NO"}}}},schemes:{GameQA:{build:{targets:{GameQA:"all"}},test:{targets:["GameQA"]}}}}))'
 xcodegen generate --spec project.json
+FIRST_ID=$(awk 'NR==1 {print $2}' "$ROOT/qa-output/devices.tsv")
+xcodebuild build-for-testing -project GameQA.xcodeproj -scheme GameQA -configuration Debug \
+  -destination "platform=$XCODE_PLATFORM Simulator,id=$FIRST_ID" \
+  -derivedDataPath "$RUNNER_TEMP/qa-$QA_PLATFORM" CODE_SIGNING_ALLOWED=NO \
+  > "$ROOT/qa-output/test-runner-build.log" 2>&1 || { tail -n 80 "$ROOT/qa-output/test-runner-build.log"; exit 1; }
+TEST_RUNNER=$(find "$RUNNER_TEMP/qa-$QA_PLATFORM/Build/Products/Debug-$SDK" -maxdepth 1 -name '*-Runner.app' -print -quit)
+test -n "$TEST_RUNNER"
+RUNNER_ID=$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$TEST_RUNNER/Info.plist")
 FAILED=0
 while IFS=$'\t' read -r TAG DEVICE NAME; do
   echo "Testing $NAME ($DEVICE)"
@@ -60,6 +68,10 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   xcrun simctl bootstatus "$DEVICE" -b
   xcrun simctl status_bar "$DEVICE" override --time '9:41' --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100 || true
   xcrun simctl install "$DEVICE" "$APP"
+  # Let the simulator register the UI runner before Xcode asks FrontBoard to launch it.
+  xcrun simctl install "$DEVICE" "$TEST_RUNNER"
+  xcrun simctl get_app_container "$DEVICE" "$RUNNER_ID" app
+  sleep 3
   xcrun simctl spawn "$DEVICE" log stream --level debug --style compact \
     --predicate "process == '$EXECUTABLE' OR eventMessage CONTAINS[c] 'io.github.maeserbern.ingredientpartygame'" \
     > "$ROOT/qa-output/$TAG-runtime.log" 2>&1 &
@@ -69,8 +81,9 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   sleep 5
   xcrun simctl io "$DEVICE" screenshot "$ROOT/qa-output/$TAG-before-xctest.png" || true
   set +e
-  xcodebuild test -project GameQA.xcodeproj -scheme GameQA -configuration Debug \
+  xcodebuild test-without-building -project GameQA.xcodeproj -scheme GameQA -configuration Debug \
     -destination "platform=$XCODE_PLATFORM Simulator,id=$DEVICE" \
+    -parallel-testing-enabled NO \
     -resultBundlePath "$ROOT/qa-output/$TAG.xcresult" \
     -derivedDataPath "$RUNNER_TEMP/qa-$QA_PLATFORM" \
     CODE_SIGNING_ALLOWED=NO > "$ROOT/qa-output/$TAG-test.log" 2>&1

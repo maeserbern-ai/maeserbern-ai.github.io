@@ -387,6 +387,8 @@ export default function App() {
 
   /* ---------- lifecycle ---------- */
   useEffect(() => {
+    // Keep remote arrow presses available to the native tvOS focus engine.
+    if (Platform.isTV) TVEventControl.disableGestureHandlersCancelTouches();
     initAudio();
     startMusic("main");
     const sub = BackHandler.addEventListener("hardwareBackPress", () => backRef.current());
@@ -401,6 +403,7 @@ export default function App() {
     });
     return () => {
       sub.remove(); app.remove();
+      if (Platform.isTV) TVEventControl.enableGestureHandlersCancelTouches();
       S.timeouts.forEach(clearTimeout);
       stopTimer(); stopMusic();
     };

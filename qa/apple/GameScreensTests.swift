@@ -166,7 +166,10 @@ final class GameScreensTests: XCTestCase {
             }
             select()
             focusedId("next", timeout: 15)
-            if round == 1 { shot("08-result") }
+            if round == 1 {
+                Thread.sleep(forTimeInterval: 5.5)
+                shot("08-result")
+            }
             select()
         }
         expect("Game over")

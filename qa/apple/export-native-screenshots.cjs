@@ -9,6 +9,7 @@ const [sourceArg, outputArg, platform] = process.argv.slice(2);
 assert.ok(sourceArg && outputArg && ['ios', 'tvos'].includes(platform), 'Usage: node export-native-screenshots.cjs SOURCE OUTPUT ios|tvos');
 const source = path.resolve(sourceArg);
 const output = path.resolve(outputArg);
+assert.ok(!fs.existsSync(path.join(source, 'DIAGNOSTIC-BUILD-NOT-FOR-RELEASE.txt')), 'Diagnostic builds cannot supply store screenshots');
 assert.ok(!fs.existsSync(output), 'Use a new output folder; existing images will not be overwritten');
 const devices = platform === 'ios'
   ? [['iphone', 2868, 1320], ['ipad', 2752, 2064]]

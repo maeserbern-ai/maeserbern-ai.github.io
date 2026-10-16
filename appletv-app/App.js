@@ -805,7 +805,7 @@ function RoundScreen({ S, A, overlay }) {
               <F key={it.action + i} id={`answer-${i}`} radius={24} focusable={!overlay && !struck} onPress={A(it.action, it.value)}
                 style={[st.answer, { backgroundColor: C.a[i % 4] }, tfLayout && { justifyContent: "center" }, struck && { opacity: 0.35 }]}>
                 {!tfLayout ? <View style={st.answerN}><T style={st.answerNText}>{i + 1}</T></View> : null}
-                <T style={[st.answerText, tfLayout && { fontSize: 72, flex: 0 }, struck && { textDecorationLine: "line-through" }]}>{it.label}</T>
+                <T style={[st.answerText, tfLayout && { fontSize: 72, lineHeight: 88, flex: 0 }, struck && { textDecorationLine: "line-through" }]}>{it.label}</T>
               </F>
             );
           })}

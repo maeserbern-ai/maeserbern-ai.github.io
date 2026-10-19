@@ -1,5 +1,8 @@
 name: Isolated Android Device QA
 on:
+  push:
+    branches: [codex/ingredient-apple-simulator-qa-20261015]
+    paths: [android/**, .github/workflows/android-device-qa.yml]
   workflow_dispatch:
 permissions:
   contents: read

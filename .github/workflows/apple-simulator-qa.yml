@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         platform: ${{ fromJSON(inputs.platform == 'both' && '["ios","tvos"]' || format('["{0}"]', inputs.platform)) }}
-    runs-on: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern' || matrix.platform == 'watch-icons') && 'xcode-27' || 'macos-15' }}
+    runs-on: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern') && 'xcode-27' || 'macos-15' }}
     timeout-minutes: 60
     env:
       CI: "1"
@@ -36,7 +36,7 @@ jobs:
       QA_REQUIRE_DUO: ${{ matrix.platform == 'ios-modern' && 'true' || 'false' }}
       QA_WATCH_RUNTIME: ${{ matrix.platform == 'ios-modern' && '27-0' || '26-2' }}
       QA_FOCUS_PROBE: ${{ inputs.focus_probe }}
-      DEVELOPER_DIR: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern' || matrix.platform == 'watch-icons') && '/Applications/Xcode_27.1.app/Contents/Developer' || '/Applications/Xcode_26.2.app/Contents/Developer' }}
+      DEVELOPER_DIR: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern') && '/Applications/Xcode_27.1.app/Contents/Developer' || '/Applications/Xcode_26.2.app/Contents/Developer' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

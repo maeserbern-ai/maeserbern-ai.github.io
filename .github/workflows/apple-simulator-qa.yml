@@ -6,7 +6,7 @@ on:
       platform:
         description: Simulator platform to verify
         type: choice
-        options: [both, ios, tvos, watch]
+        options: [both, ios, tvos, watch, inventory]
         default: both
       reuse_run_id:
         description: Optional prior QA run with identical game source
@@ -27,14 +27,14 @@ jobs:
       fail-fast: false
       matrix:
         platform: ${{ fromJSON(inputs.platform == 'both' && '["ios","tvos"]' || format('["{0}"]', inputs.platform)) }}
-    runs-on: macos-15
+    runs-on: ${{ matrix.platform == 'inventory' && 'xcode-27' || 'macos-15' }}
     timeout-minutes: 60
     env:
       CI: "1"
       EXPO_NO_TELEMETRY: "1"
       QA_PLATFORM: ${{ matrix.platform }}
       QA_FOCUS_PROBE: ${{ inputs.focus_probe }}
-      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
+      DEVELOPER_DIR: ${{ matrix.platform == 'inventory' && '/Applications/Xcode_27.1.app/Contents/Developer' || '/Applications/Xcode_26.2.app/Contents/Developer' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -71,8 +71,17 @@ jobs:
         run: |
           xcodebuild -version
           xcrun simctl list runtimes
-          command -v xcodegen || brew install xcodegen
+          if [ "$QA_PLATFORM" = inventory ]; then
+            mkdir -p qa-output
+            xcodebuild -version > qa-output/xcode-version.txt
+            xcodebuild -showsdks > qa-output/sdks.txt
+            xcrun simctl list --json > qa-output/simulator-inventory.json
+            xcrun simctl help > qa-output/simctl-help.txt
+          else
+            command -v xcodegen || brew install xcodegen
+          fi
       - name: Build and test actual app screens
+        if: matrix.platform != 'inventory'
         run: |
           if [ "$QA_PLATFORM" = watch ]; then
             bash qa/apple/build-watch-qa.sh

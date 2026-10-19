@@ -74,12 +74,15 @@ final class WatchScreensTests: XCTestCase {
             XCTAssertTrue(list.waitForExistence(timeout: 10))
             let entry = list.cells.matching(NSPredicate(format: "label == %@", title)).firstMatch
             let visibleTop = app.navigationBars.firstMatch.frame.maxY
-            for _ in 0..<24 {
+            for attempt in 0..<24 {
+                print("Book \(id), attempt \(attempt), frame \(entry.exists ? entry.frame.debugDescription : "absent"), top \(visibleTop), list \(list.frame)")
                 if entry.exists && entry.frame.height > 0 && entry.frame.midY > visibleTop + 8 && entry.frame.midY < list.frame.maxY - 24 { break }
                 let above = entry.exists && entry.frame.height > 0 && entry.frame.midY <= visibleTop + 8
                 let start = list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.45 : 0.7))
                 let end = list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.7 : 0.45))
-                start.press(forDuration: 0.2, thenDragTo: end)
+                // Stop the drag before release so list momentum cannot skip a row.
+                start.press(forDuration: 0.1, thenDragTo: end,
+                            withVelocity: XCUIGestureVelocity(rawValue: 80), thenHoldForDuration: 0.3)
             }
             XCTAssertTrue(entry.exists && entry.frame.height > 0, "Book missing: \(id)")
             XCTAssertGreaterThan(entry.frame.midY, visibleTop + 8)

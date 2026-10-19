@@ -6,14 +6,14 @@ const { pathToFileURL } = require('node:url');
 const sharp = require('sharp');
 
 const [sourceArg, outputArg, platform] = process.argv.slice(2);
-assert.ok(sourceArg && outputArg && ['ios', 'tvos'].includes(platform), 'Usage: node export-native-screenshots.cjs SOURCE OUTPUT ios|tvos');
+assert.ok(sourceArg && outputArg && ['ios', 'tvos', 'watch'].includes(platform), 'Usage: node export-native-screenshots.cjs SOURCE OUTPUT ios|tvos|watch');
 const source = path.resolve(sourceArg);
 const output = path.resolve(outputArg);
 assert.ok(!fs.existsSync(path.join(source, 'DIAGNOSTIC-BUILD-NOT-FOR-RELEASE.txt')), 'Diagnostic builds cannot supply store screenshots');
 assert.ok(!fs.existsSync(output), 'Use a new output folder; existing images will not be overwritten');
 const devices = platform === 'ios'
   ? [['iphone', 2868, 1320], ['ipad', 2752, 2064]]
-  : [['apple-tv', 1920, 1080]];
+  : platform === 'watch' ? [['watch-large', 422, 514]] : [['apple-tv', 1920, 1080]];
 const hash = buffer => crypto.createHash('sha256').update(buffer).digest('hex');
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 
@@ -22,6 +22,10 @@ async function main() {
     const log = fs.readFileSync(path.join(source, `${tag}-test.log`), 'utf8');
     assert.match(log, /\*\* TEST(?: EXECUTE)? SUCCEEDED \*\*/, `${tag}: native test success is required`);
   }
+  if (platform === 'watch') {
+    const codes = JSON.parse(fs.readFileSync(path.join(source, 'book-qr-capture-verification.json'), 'utf8'));
+    assert.ok(codes.passed && codes.count === 14, 'Both Watch sizes must pass all seven book QR checks');
+  }
   fs.mkdirSync(output, { recursive: true });
   const manifest = [];
   const sections = [];
@@ -29,9 +33,12 @@ async function main() {
     const imageDir = path.join(source, `${tag}-images`);
     const results = JSON.parse(fs.readFileSync(path.join(imageDir, 'manifest.json'), 'utf8'));
     const shots = results.flatMap(test => test.attachments)
-      .filter(shot => /^store-\d\d-.*\.png$/.test(shot.suggestedHumanReadableName))
+      .filter(shot => platform === 'watch'
+        ? /^store-(0[1-4]-watch-|05-watch-book-detail-food_)/.test(shot.suggestedHumanReadableName)
+        : /^store-\d\d-.*\.png$/.test(shot.suggestedHumanReadableName))
       .sort((a, b) => a.suggestedHumanReadableName.localeCompare(b.suggestedHumanReadableName));
     assert.ok(shots.length >= 3 && shots.length <= 10, `${tag}: unexpected screenshot count`);
+    if (platform === 'watch') assert.equal(shots.length, 5, 'Expected four gameplay screens and one book detail');
     const folder = `${tag}-${width}x${height}`;
     fs.mkdirSync(path.join(output, folder));
     const rows = [];

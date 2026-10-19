@@ -36,17 +36,25 @@ public class AdaptiveGameTest {
         device.executeShellCommand("am force-stop " + GAME);
         device.setOrientationNatural();
         resumeGame();
+        UiObject2 fullscreenTip = device.wait(Until.findObject(By.pkg("com.android.systemui").text("Got it")), 5000);
+        if (fullscreenTip != null) {
+            fullscreenTip.click();
+            assertTrue("System fullscreen notice did not close", device.wait(Until.gone(By.pkg("com.android.systemui").text("Got it")), 5000));
+        }
         expect("^Play$");
     }
 
     @After public void cleanup() throws Exception {
-        shot("final-state");
-        ByteArrayOutputStream hierarchy = new ByteArrayOutputStream();
-        device.dumpWindowHierarchy(hierarchy);
-        String encoded = Base64.encodeToString(hierarchy.toByteArray(), Base64.NO_WRAP);
-        device.executeShellCommand("printf %s " + encoded + " | base64 -d > " + EVIDENCE + "/window-hierarchy.xml");
-        device.executeShellCommand("wm size reset");
-        device.unfreezeRotation();
+        try {
+            shot("final-state");
+            ByteArrayOutputStream hierarchy = new ByteArrayOutputStream();
+            device.dumpWindowHierarchy(hierarchy);
+            String encoded = Base64.encodeToString(hierarchy.toByteArray(), Base64.NO_WRAP);
+            device.executeShellCommand("sh -c 'printf %s " + encoded + " | base64 -d > " + EVIDENCE + "/window-hierarchy.xml'");
+        } finally {
+            device.executeShellCommand("wm size reset");
+            device.unfreezeRotation();
+        }
     }
 
     private UiObject2 expect(String regex) {
@@ -62,7 +70,7 @@ public class AdaptiveGameTest {
         device.waitForIdle();
         String path = EVIDENCE + "/" + name + ".png";
         device.executeShellCommand("screencap -p " + path);
-        assertTrue("Screenshot not captured", device.executeShellCommand("test -s " + path + " && echo OK").contains("OK"));
+        assertTrue("Screenshot not captured", device.executeShellCommand("sh -c 'test -s " + path + " && echo OK'").contains("OK"));
     }
 
     @Test public void rotationResizeAndBackgroundKeepGame() throws Exception {

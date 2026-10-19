@@ -36,10 +36,10 @@ public class AdaptiveGameTest {
         device.executeShellCommand("am force-stop " + GAME);
         device.setOrientationNatural();
         resumeGame();
-        UiObject2 fullscreenTip = device.wait(Until.findObject(By.pkg("com.android.systemui").text("Got it")), 5000);
+        UiObject2 fullscreenTip = device.wait(Until.findObject(By.res("android:id/ok").text("Got it")), 5000);
         if (fullscreenTip != null) {
             fullscreenTip.click();
-            assertTrue("System fullscreen notice did not close", device.wait(Until.gone(By.pkg("com.android.systemui").text("Got it")), 5000));
+            assertTrue("System fullscreen notice did not close", device.wait(Until.gone(By.res("android:id/ok").text("Got it")), 5000));
         }
         expect("^Play$");
     }

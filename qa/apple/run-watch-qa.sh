@@ -7,6 +7,7 @@ else
   WATCH_APP="$1"
 fi
 test -n "$WATCH_APP"
+test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleIcons:CFBundlePrimaryIcon:CFBundleIconName' "$WATCH_APP/Info.plist")" = AppIcon
 test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$WATCH_APP/Info.plist")" = io.github.maeserbern.ingredientpartygame.watch
 test "$(/usr/libexec/PlistBuddy -c 'Print WKCompanionAppBundleIdentifier' "$WATCH_APP/Info.plist")" = io.github.maeserbern.ingredientpartygame
 test "$(/usr/libexec/PlistBuddy -c 'Print WKRunsIndependentlyOfCompanionApp' "$WATCH_APP/Info.plist")" = true

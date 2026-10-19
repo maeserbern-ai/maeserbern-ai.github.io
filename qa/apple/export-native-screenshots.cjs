@@ -6,14 +6,15 @@ const { pathToFileURL } = require('node:url');
 const sharp = require('sharp');
 
 const [sourceArg, outputArg, platform] = process.argv.slice(2);
-assert.ok(sourceArg && outputArg && ['ios', 'tvos', 'watch'].includes(platform), 'Usage: node export-native-screenshots.cjs SOURCE OUTPUT ios|tvos|watch');
+assert.ok(sourceArg && outputArg && ['ios', 'tvos', 'watch', 'duo'].includes(platform), 'Usage: node export-native-screenshots.cjs SOURCE OUTPUT ios|tvos|watch|duo');
 const source = path.resolve(sourceArg);
 const output = path.resolve(outputArg);
 assert.ok(!fs.existsSync(path.join(source, 'DIAGNOSTIC-BUILD-NOT-FOR-RELEASE.txt')), 'Diagnostic builds cannot supply store screenshots');
 assert.ok(!fs.existsSync(output), 'Use a new output folder; existing images will not be overwritten');
 const devices = platform === 'ios'
   ? [['iphone', 2868, 1320], ['ipad', 2752, 2064]]
-  : platform === 'watch' ? [['watch-large', 422, 514]] : [['apple-tv', 1920, 1080]];
+  : platform === 'watch' ? [['watch-large', 422, 514]]
+    : platform === 'duo' ? [['duo', null, null]] : [['apple-tv', 1920, 1080]];
 const hash = buffer => crypto.createHash('sha256').update(buffer).digest('hex');
 const escape = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
 
@@ -29,7 +30,9 @@ async function main() {
   fs.mkdirSync(output, { recursive: true });
   const manifest = [];
   const sections = [];
-  for (const [tag, width, height] of devices) {
+  for (const [tag, requiredWidth, requiredHeight] of devices) {
+    let width = requiredWidth;
+    let height = requiredHeight;
     const imageDir = path.join(source, `${tag}-images`);
     const results = JSON.parse(fs.readFileSync(path.join(imageDir, 'manifest.json'), 'utf8'));
     const shots = results.flatMap(test => test.attachments)
@@ -39,6 +42,13 @@ async function main() {
       .sort((a, b) => a.suggestedHumanReadableName.localeCompare(b.suggestedHumanReadableName));
     assert.ok(shots.length >= 3 && shots.length <= 10, `${tag}: unexpected screenshot count`);
     if (platform === 'watch') assert.equal(shots.length, 5, 'Expected four gameplay screens and one book detail');
+    if (platform === 'duo') {
+      assert.equal(shots.length, 8, 'Expected eight native Duo screens');
+      const size = (await sharp(path.join(imageDir, shots[0].exportedFileName)).metadata()).autoOrient;
+      assert.ok([[2034, 1398], [2853, 2007]].some(([w, h]) => w === size.width && h === size.height),
+        'Duo capture must use an actual supported landscape display size; never resize it to fit');
+      ({ width, height } = size);
+    }
     const folder = `${tag}-${width}x${height}`;
     fs.mkdirSync(path.join(output, folder));
     const rows = [];

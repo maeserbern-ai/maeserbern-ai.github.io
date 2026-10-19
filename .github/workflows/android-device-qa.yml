@@ -2,7 +2,7 @@ name: Isolated Android Device QA
 on:
   push:
     branches: [codex/ingredient-apple-simulator-qa-20261015]
-    paths: [android/**, .github/workflows/android-device-qa.yml]
+    paths: [android/**, qa/android/**, .github/workflows/android-device-qa.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -35,14 +35,15 @@ jobs:
           arch: x86_64
           profile: ${{ matrix.profile }}
           disable-animations: true
-          script: gradle -p android --no-daemon connectedQaAndroidTest
+          script: bash qa/android/run-device-qa.sh
       - name: Preserve test evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: android-device-qa-${{ matrix.profile }}
           path: |
-            android/app/build/reports/androidTests/
-            android/app/build/outputs/androidTest-results/
+            android/deviceqa/build/reports/androidTests/
+            android/deviceqa/build/outputs/androidTest-results/
             android/app/build/outputs/mapping/qa/
+            qa-output/android/
           if-no-files-found: warn

@@ -15,6 +15,7 @@ if (platform === 'tvos') {
   pick('iphone', [/^iPhone 16 Pro Max$/, /^iPhone 17 Pro Max$/, /iPhone.*Pro Max/]);
   pick('ipad', [/iPad Pro 13-inch/, /iPad Pro.*12.9/]);
   const duo = devices.find(d => /Duo/i.test(d.name) && d.runtime.includes('.iOS-'));
+  if (process.env.QA_REQUIRE_DUO === 'true' && !duo) throw new Error('Required iPhone Duo simulator is unavailable');
   if (duo) selected.push({ tag: 'duo', ...duo });
 }
 fs.writeFileSync('qa-output/devices-selected.json', JSON.stringify(selected, null, 2));

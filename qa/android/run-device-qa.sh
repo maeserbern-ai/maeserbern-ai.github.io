@@ -2,7 +2,7 @@
 set -euo pipefail
 mkdir -p qa-output/android
 collect_evidence() {
-  adb pull /sdcard/Android/data/io.github.maeserbern.ingredientpartygame.deviceqa/files/screens qa-output/android/ || true
+  adb pull /sdcard/Download/ingredient-device-qa qa-output/android/ || true
   adb logcat -d -t 2500 > qa-output/android/logcat.txt || true
 }
 trap collect_evidence EXIT

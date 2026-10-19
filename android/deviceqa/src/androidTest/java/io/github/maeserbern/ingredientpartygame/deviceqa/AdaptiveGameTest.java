@@ -1,13 +1,14 @@
 package io.github.maeserbern.ingredientpartygame.deviceqa;
 
 import android.content.Intent;
+import android.util.Base64;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject2;
 import androidx.test.uiautomator.Until;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.util.regex.Pattern;
 import org.junit.After;
 import org.junit.Before;
@@ -19,7 +20,7 @@ import static org.junit.Assert.*;
 public class AdaptiveGameTest {
     private static final String GAME = "io.github.maeserbern.ingredientpartygame";
     private UiDevice device;
-    private File evidence;
+    private static final String EVIDENCE = "/sdcard/Download/ingredient-device-qa";
 
     private void resumeGame() {
         Intent intent = new Intent(Intent.ACTION_MAIN)
@@ -31,8 +32,7 @@ public class AdaptiveGameTest {
 
     @Before public void launch() throws Exception {
         device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        evidence = new File(InstrumentationRegistry.getInstrumentation().getTargetContext().getExternalFilesDir(null), "screens");
-        assertTrue(evidence.isDirectory() || evidence.mkdirs());
+        device.executeShellCommand("mkdir -p " + EVIDENCE);
         device.executeShellCommand("am force-stop " + GAME);
         device.setOrientationNatural();
         resumeGame();
@@ -41,7 +41,10 @@ public class AdaptiveGameTest {
 
     @After public void cleanup() throws Exception {
         shot("final-state");
-        device.dumpWindowHierarchy(new File(evidence, "window-hierarchy.xml"));
+        ByteArrayOutputStream hierarchy = new ByteArrayOutputStream();
+        device.dumpWindowHierarchy(hierarchy);
+        String encoded = Base64.encodeToString(hierarchy.toByteArray(), Base64.NO_WRAP);
+        device.executeShellCommand("printf %s " + encoded + " | base64 -d > " + EVIDENCE + "/window-hierarchy.xml");
         device.executeShellCommand("wm size reset");
         device.unfreezeRotation();
     }
@@ -55,9 +58,11 @@ public class AdaptiveGameTest {
         return element;
     }
 
-    private void shot(String name) {
+    private void shot(String name) throws Exception {
         device.waitForIdle();
-        assertTrue("Screenshot not captured", device.takeScreenshot(new File(evidence, name + ".png")));
+        String path = EVIDENCE + "/" + name + ".png";
+        device.executeShellCommand("screencap -p " + path);
+        assertTrue("Screenshot not captured", device.executeShellCommand("test -s " + path + " && echo OK").contains("OK"));
     }
 
     @Test public void rotationResizeAndBackgroundKeepGame() throws Exception {

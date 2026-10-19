@@ -36,6 +36,7 @@ else
 cd "$APP_DIR"
 npm ci
 node "$ROOT/qa/apple/check-native-dependencies.mjs"
+if [ "$QA_PLATFORM" = "ios" ]; then node --test "$ROOT/qa/apple/scene-lifecycle.test.cjs"; fi
 if [ "$QA_PLATFORM" = "ios" ]; then npm run bundle-game; fi
 npx expo prebuild --platform ios --no-install
 npx pod-install ios
@@ -58,6 +59,9 @@ fi
 test -n "$APP"
 EXECUTABLE=$(/usr/libexec/PlistBuddy -c 'Print CFBundleExecutable' "$APP/Info.plist")
 /usr/libexec/PlistBuddy -c Print "$APP/Info.plist" > "$ROOT/qa-output/built-app-info.txt"
+if [ "$QA_PLATFORM" = "ios" ]; then
+  /usr/libexec/PlistBuddy -c 'Print UIApplicationSceneManifest:UISceneConfigurations:UIWindowSceneSessionRoleApplication:0:UISceneDelegateClassName' "$APP/Info.plist" | grep -F GameSceneDelegate
+fi
 test -s "$APP/main.jsbundle"
 cd "$ROOT/qa/apple"
 node -e 'const fs=require("fs"); const platform=process.env.QA_PLATFORM==="tvos"?"tvOS":"iOS"; fs.writeFileSync("project.json", JSON.stringify({name:"GameQA",options:{deploymentTarget:{[platform]:"15.1"}},targets:{GameQA:{type:"bundle.ui-testing",platform,sources:["GameScreensTests.swift"],settings:{base:{PRODUCT_BUNDLE_IDENTIFIER:"io.github.maeserbern.ingredientpartygame.uitests",GENERATE_INFOPLIST_FILE:"YES",SWIFT_VERSION:"5.0",CODE_SIGNING_ALLOWED:"NO"}}}},schemes:{GameQA:{build:{targets:{GameQA:"all"}},test:{targets:["GameQA"]}}}}))'

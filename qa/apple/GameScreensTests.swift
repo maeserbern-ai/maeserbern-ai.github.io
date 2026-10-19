@@ -56,6 +56,23 @@ final class GameScreensTests: XCTestCase {
         expect("Game setup")
     }
 
+    func testBackgroundResumeKeepsGame() {
+        expect("Play")
+        tap("Play")
+        foodBook()
+        tap("Solo")
+        tap("Start game")
+        expect("Next ingredient")
+        XCUIDevice.shared.press(.home)
+        XCTAssertTrue(app.wait(for: .runningBackground, timeout: 10))
+        app.activate()
+        expect("Next ingredient")
+        tap("Menu")
+        expect("Game paused")
+        tap("Resume game")
+        expect("Next ingredient")
+    }
+
     func testSoloScreensAndAnswer() {
         expect("Play")
         XCTAssertGreaterThan(app.frame.width, app.frame.height)

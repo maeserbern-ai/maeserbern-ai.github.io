@@ -1,7 +1,7 @@
 package io.github.maeserbern.ingredientpartygame.deviceqa;
 
 import android.content.Intent;
-import android.util.Base64;
+import android.util.Log;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
@@ -49,8 +49,10 @@ public class AdaptiveGameTest {
             shot("final-state");
             ByteArrayOutputStream hierarchy = new ByteArrayOutputStream();
             device.dumpWindowHierarchy(hierarchy);
-            String encoded = Base64.encodeToString(hierarchy.toByteArray(), Base64.NO_WRAP);
-            device.executeShellCommand("sh -c 'printf %s " + encoded + " | base64 -d > " + EVIDENCE + "/window-hierarchy.xml'");
+            String xml = hierarchy.toString("UTF-8");
+            for (int offset = 0; offset < xml.length(); offset += 3000) {
+                Log.i("IngredientDeviceQA", xml.substring(offset, Math.min(offset + 3000, xml.length())));
+            }
         } finally {
             device.executeShellCommand("wm size reset");
             device.unfreezeRotation();
@@ -70,7 +72,8 @@ public class AdaptiveGameTest {
         device.waitForIdle();
         String path = EVIDENCE + "/" + name + ".png";
         device.executeShellCommand("screencap -p " + path);
-        assertTrue("Screenshot not captured", device.executeShellCommand("sh -c 'test -s " + path + " && echo OK'").contains("OK"));
+        String bytes = device.executeShellCommand("stat -c %s " + path).trim();
+        assertTrue("Screenshot not captured: " + bytes, bytes.matches("[0-9]+") && Long.parseLong(bytes) > 1000);
     }
 
     @Test public void rotationResizeAndBackgroundKeepGame() throws Exception {

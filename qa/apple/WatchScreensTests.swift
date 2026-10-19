@@ -63,23 +63,33 @@ final class WatchScreensTests: XCTestCase {
     }
 
     func testAllBookDestinationsAndCodes() {
-        for id in ["food", "beauty", "clean", "kids", "home", "tp", "all"] {
+        for (id, title) in [("food", "It's Not Food"), ("beauty", "It's Not Beauty"),
+                            ("clean", "It's Not Clean"), ("kids", "It's Not for Kids"),
+                            ("home", "Your Home Is Not Safe"), ("tp", "What Is Toilet Paper?"),
+                            ("all", "All the books")] {
             app.terminate()
             app.launch()
             reveal("watch-books").tap()
-            let entry = app.buttons["watch-book-\(id)"]
+            let list = app.collectionViews.firstMatch
+            XCTAssertTrue(list.waitForExistence(timeout: 10))
+            let entry = list.cells.matching(NSPredicate(format: "label == %@", title)).firstMatch
+            let visibleTop = app.navigationBars.firstMatch.frame.maxY
             for _ in 0..<24 {
-                if entry.exists && entry.isHittable { break }
-                let above = entry.exists && entry.frame.midY < app.frame.midY
-                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.4 : 0.75))
-                let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.75 : 0.4))
+                if entry.exists && entry.frame.height > 0 && entry.frame.midY > visibleTop + 8 && entry.frame.midY < list.frame.maxY - 24 { break }
+                let above = entry.exists && entry.frame.height > 0 && entry.frame.midY <= visibleTop + 8
+                let start = list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.45 : 0.7))
+                let end = list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: above ? 0.7 : 0.45))
                 start.press(forDuration: 0.2, thenDragTo: end)
             }
-            XCTAssertTrue(entry.exists && entry.isHittable, "Book missing: \(id)")
-            entry.tap()
+            XCTAssertTrue(entry.exists && entry.frame.height > 0, "Book missing: \(id)")
+            XCTAssertGreaterThan(entry.frame.midY, visibleTop + 8)
+            XCTAssertLessThan(entry.frame.midY, list.frame.maxY - 24)
+            // SwiftUI can report a recycled row's inner button as unhittable.
+            // Tap the visible cell and require its exact book destination below.
+            entry.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
             let link = app.buttons["watch-book-link-\(id)"]
             XCTAssertTrue(link.waitForExistence(timeout: 10), "Missing book link: \(id)")
-            reveal("watch-book-link-\(id)")
+            _ = reveal("watch-book-link-\(id)")
             capture("05-watch-book-detail-\(id)")
             reveal("watch-book-qr-\(id)").tap()
             let code = app.images["watch-book-code-\(id)"]

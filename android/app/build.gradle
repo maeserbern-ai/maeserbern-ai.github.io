@@ -41,6 +41,7 @@ android {
             signingConfig signingConfigs.debug
             debuggable true
             matchingFallbacks = ['release']
+            testProguardFiles 'proguard-android-test.pro'
         }
     }
     testBuildType "qa"

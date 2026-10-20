@@ -20,6 +20,11 @@ on:
         description: Retest only the embedded Watch app (requires identical compiled iOS app)
         type: boolean
         default: false
+      watch_size:
+        description: Watch size to test
+        type: choice
+        options: [both, small, large]
+        default: both
 
 permissions:
   contents: read
@@ -41,6 +46,7 @@ jobs:
       QA_WATCH_RUNTIME: ${{ matrix.platform == 'ios-modern' && '27-0' || '26-2' }}
       QA_FOCUS_PROBE: ${{ inputs.focus_probe }}
       QA_WATCH_ONLY: ${{ inputs.watch_only }}
+      QA_WATCH_SIZE: ${{ inputs.watch_size }}
       DEVELOPER_DIR: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern') && '/Applications/Xcode_27.1.app/Contents/Developer' || '/Applications/Xcode_26.2.app/Contents/Developer' }}
     steps:
       - uses: actions/checkout@v4

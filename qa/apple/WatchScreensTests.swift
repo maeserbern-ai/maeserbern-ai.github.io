@@ -17,14 +17,15 @@ final class WatchScreensTests: XCTestCase {
     }
 
     func reveal(_ id: String) -> XCUIElement {
-        let button = app.buttons[id]
-        XCTAssertTrue(button.waitForExistence(timeout: 15), "Missing \(id)")
+        // SwiftUI Link is exposed as a Link on watchOS 27 and a Button on 26.
+        let element = app.descendants(matching: .any).matching(identifier: id).firstMatch
+        XCTAssertTrue(element.waitForExistence(timeout: 15), "Missing \(id)")
         for _ in 0..<10 {
-            if button.isHittable { return button }
+            if element.isHittable { return element }
             app.swipeUp()
         }
         XCTFail("Cannot reach \(id)")
-        return button
+        return element
     }
 
     func capture(_ name: String) {
@@ -90,7 +91,7 @@ final class WatchScreensTests: XCTestCase {
             // SwiftUI can report a recycled row's inner button as unhittable.
             // Tap the visible cell and require its exact book destination below.
             entry.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
-            let link = app.buttons["watch-book-link-\(id)"]
+            let link = app.descendants(matching: .any).matching(identifier: "watch-book-link-\(id)").firstMatch
             XCTAssertTrue(link.waitForExistence(timeout: 10), "Missing book link: \(id)")
             _ = reveal("watch-book-link-\(id)")
             capture("05-watch-book-detail-\(id)")

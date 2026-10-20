@@ -16,6 +16,10 @@ on:
         description: Include diagnostic TV controls (never for store screenshots)
         type: boolean
         default: false
+      watch_only:
+        description: Retest only the embedded Watch app (requires identical compiled iOS app)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -36,6 +40,7 @@ jobs:
       QA_REQUIRE_DUO: ${{ matrix.platform == 'ios-modern' && 'true' || 'false' }}
       QA_WATCH_RUNTIME: ${{ matrix.platform == 'ios-modern' && '27-0' || '26-2' }}
       QA_FOCUS_PROBE: ${{ inputs.focus_probe }}
+      QA_WATCH_ONLY: ${{ inputs.watch_only }}
       DEVELOPER_DIR: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern') && '/Applications/Xcode_27.1.app/Contents/Developer' || '/Applications/Xcode_26.2.app/Contents/Developer' }}
     steps:
       - uses: actions/checkout@v4
@@ -87,8 +92,10 @@ jobs:
         run: |
           if [ "$QA_REQUIRE_DUO" = true ]; then
             mkdir -p qa-output
-            xcodebuild -downloadPlatform iOS -buildVersion 27.1 2>&1 | tee qa-output/duo-runtime-download.log
-            xcrun simctl create 'Ingredient QA iPhone Duo' com.apple.CoreSimulator.SimDeviceType.iPhone-Duo com.apple.CoreSimulator.SimRuntime.iOS-27-1
+            if [ "$QA_WATCH_ONLY" != true ]; then
+              xcodebuild -downloadPlatform iOS -buildVersion 27.1 2>&1 | tee qa-output/duo-runtime-download.log
+              xcrun simctl create 'Ingredient QA iPhone Duo' com.apple.CoreSimulator.SimDeviceType.iPhone-Duo com.apple.CoreSimulator.SimRuntime.iOS-27-1
+            fi
             xcodebuild -downloadPlatform watchOS -buildVersion 27.0 2>&1 | tee qa-output/watch-runtime-download.log
           fi
           if [ "$QA_PLATFORM" = watch-icons ]; then

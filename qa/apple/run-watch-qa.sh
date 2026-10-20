@@ -29,6 +29,7 @@ while IFS=$'\t' read -r TAG DEVICE NAME; do
   set +e
   xcodebuild test-without-building -project WatchQA.xcodeproj -scheme WatchQA -configuration Debug \
     -destination "platform=watchOS Simulator,id=$DEVICE" -parallel-testing-enabled NO \
+    -collect-test-diagnostics never \
     -resultBundlePath "$ROOT/qa-output/$TAG.xcresult" -derivedDataPath "$RUNNER_TEMP/qa-watch" \
     CODE_SIGNING_ALLOWED=NO > "$ROOT/qa-output/$TAG-test.log" 2>&1
   RESULT=$?

@@ -3,8 +3,14 @@ set -euo pipefail
 ROOT="$PWD"
 mkdir -p qa-output
 xcrun simctl list devices available --json > qa-output/devices-available.json
-node qa/apple/select-devices.mjs qa-output/devices-available.json "$QA_PLATFORM" > qa-output/devices.tsv
-cat qa-output/devices.tsv
+if [ "${QA_WATCH_ONLY:-false}" = true ]; then
+  test "$QA_PLATFORM" = ios && test -f qa-reuse/simulator-app.tar.gz || {
+    echo 'Watch-only QA requires an existing compiled iOS app'; exit 1;
+  }
+else
+  node qa/apple/select-devices.mjs qa-output/devices-available.json "$QA_PLATFORM" > qa-output/devices.tsv
+  cat qa-output/devices.tsv
+fi
 if [ "$QA_PLATFORM" = "tvos" ]; then
   APP_DIR=appletv-app
   XCODE_PLATFORM=tvOS
@@ -63,6 +69,11 @@ if [ "$QA_PLATFORM" = "ios" ]; then
   /usr/libexec/PlistBuddy -c 'Print UIApplicationSceneManifest:UISceneConfigurations:UIWindowSceneSessionRoleApplication:0:UISceneDelegateClassName' "$APP/Info.plist" | grep -F GameSceneDelegate
 fi
 test -s "$APP/main.jsbundle"
+if [ "${QA_WATCH_ONLY:-false}" = true ]; then
+  cd "$ROOT"
+  bash qa/apple/run-watch-qa.sh "$APP"
+  exit $?
+fi
 cd "$ROOT/qa/apple"
 node -e 'const fs=require("fs"); const platform=process.env.QA_PLATFORM==="tvos"?"tvOS":"iOS"; fs.writeFileSync("project.json", JSON.stringify({name:"GameQA",options:{deploymentTarget:{[platform]:"15.1"}},targets:{GameQA:{type:"bundle.ui-testing",platform,sources:["GameScreensTests.swift"],settings:{base:{PRODUCT_BUNDLE_IDENTIFIER:"io.github.maeserbern.ingredientpartygame.uitests",GENERATE_INFOPLIST_FILE:"YES",SWIFT_VERSION:"5.0",CODE_SIGNING_ALLOWED:"NO"}}}},schemes:{GameQA:{build:{targets:{GameQA:"all"}},test:{targets:["GameQA"]}}}}))'
 xcodegen generate --spec project.json

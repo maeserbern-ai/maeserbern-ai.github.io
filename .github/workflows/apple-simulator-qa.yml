@@ -89,6 +89,7 @@ jobs:
             mkdir -p qa-output
             xcodebuild -downloadPlatform iOS -buildVersion 27.1 2>&1 | tee qa-output/duo-runtime-download.log
             xcrun simctl create 'Ingredient QA iPhone Duo' com.apple.CoreSimulator.SimDeviceType.iPhone-Duo com.apple.CoreSimulator.SimRuntime.iOS-27-1
+            xcodebuild -downloadPlatform watchOS -buildVersion 27.0 2>&1 | tee qa-output/watch-runtime-download.log
           fi
           if [ "$QA_PLATFORM" = watch-icons ]; then
             bash qa/apple/check-watch-icons.sh

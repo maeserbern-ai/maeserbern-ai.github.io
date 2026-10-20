@@ -63,9 +63,18 @@ final class GameScreensTests: XCTestCase {
         tap("Solo")
         tap("Start game")
         expect("Next ingredient")
-        XCUIDevice.shared.press(.home)
-        XCTAssertTrue(app.wait(for: .runningBackground, timeout: 10))
+        // Activating another app also covers simulators whose Home action is ignored.
+        let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
+        settings.activate()
+        XCTAssertTrue(settings.wait(for: .runningForeground, timeout: 15))
+        let backgrounded = NSPredicate { _, _ in
+            self.app.state == .runningBackground || self.app.state == .runningBackgroundSuspended
+        }
+        XCTAssertEqual(XCTWaiter.wait(for: [
+            XCTNSPredicateExpectation(predicate: backgrounded, object: app)
+        ], timeout: 15), .completed, "Game did not enter the background; state: \(app.state)")
         app.activate()
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 15))
         expect("Next ingredient")
         tap("Menu")
         expect("Game paused")

@@ -103,6 +103,16 @@ jobs:
               xcrun simctl create 'Ingredient QA iPhone Duo' com.apple.CoreSimulator.SimDeviceType.iPhone-Duo com.apple.CoreSimulator.SimRuntime.iOS-27-1
             fi
             xcodebuild -downloadPlatform watchOS -buildVersion 27.0 2>&1 | tee qa-output/watch-runtime-download.log
+            if [ "$QA_WATCH_ONLY" = true ]; then
+              # Reimport Apple's runtime when the runner's cached Cryptex mount is unavailable.
+              WATCH_RUNTIME_EXPORT="$RUNNER_TEMP/ingredient-watch-runtime"
+              mkdir -p "$WATCH_RUNTIME_EXPORT"
+              xcodebuild -downloadPlatform watchOS -buildVersion 27.0 -exportPath "$WATCH_RUNTIME_EXPORT" 2>&1 | tee qa-output/watch-runtime-export.log
+              WATCH_RUNTIME_FILE=$(find "$WATCH_RUNTIME_EXPORT" -maxdepth 2 \( -name '*.dmg' -o -name '*.exportedBundle' \) -print -quit)
+              test -n "$WATCH_RUNTIME_FILE"
+              xcodebuild -importPlatform "$WATCH_RUNTIME_FILE" 2>&1 | tee qa-output/watch-runtime-import.log
+              xcrun simctl list runtimes --json > qa-output/watch-runtime-after-import.json
+            fi
           fi
           if [ "$QA_PLATFORM" = watch-icons ]; then
             bash qa/apple/check-watch-icons.sh

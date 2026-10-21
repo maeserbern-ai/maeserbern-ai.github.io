@@ -10,8 +10,7 @@ adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-android
 adb shell am instrument -w -r "$PKG.test/androidx.test.runner.AndroidJUnitRunner" | tee "$OUT/instrument.txt"
 adb exec-out run-as "$PKG" tar -c -C files widget-previews > "$OUT/previews.tar" || true
 tar -xf "$OUT/previews.tar" -C "$OUT" || true
-adb pull /sdcard/Download/android-booklink-row.png "$OUT/" || true
-adb pull /sdcard/Download/android-booklink-qr.png "$OUT/" || true
+for f in $(adb shell ls /sdcard/Download | tr -d '\r' | grep '^android-'); do adb pull "/sdcard/Download/$f" "$OUT/" || true; done
 ls -la "$OUT" "$OUT/widget-previews" || true
 cat "$OUT/widget-previews/android-booklink.txt" || true
 grep -q '^OK (' "$OUT/instrument.txt"

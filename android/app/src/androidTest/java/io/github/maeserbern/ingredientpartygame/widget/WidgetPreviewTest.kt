@@ -18,6 +18,13 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Intent
+import androidx.test.uiautomator.By
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
+import java.util.regex.Pattern
 import java.io.File
 import java.io.FileOutputStream
 
@@ -96,46 +103,80 @@ class WidgetPreviewTest {
         }
     }
 
-    /** Taps the book row and the QR code on the large widget; Amazon must open in the browser. */
-    @Test fun bookLinkOpensAmazon() = runBlocking {
+    /**
+     * The real thing on the emulator's launcher: pins the widget to the home screen,
+     * taps an answer on it, then taps the book row and the QR code. Each tap on the
+     * book must bring up the browser (or Amazon app) that handles the Amazon link.
+     */
+    @Test fun homeScreenWidgetAnswersAndOpensAmazon() {
         val deck = DailyDeck.get(context)
         val day = dayShowing(deck, 3)
         DailyClock.dayOverride = day
-        val book = deck.bookFor(deck.puzzleForDay(day)!!)!!
-        val intent = bookIntent(book)
-        assertEquals(book.url, intent.dataString)
-        // Asked through the shell: the app itself needs no <queries>, because the widget
-        // hands the intent to the system, which picks the browser / Amazon app.
+        DailyStateStore.save(context, DailyState(lastPlayedDay = day - 1, streak = 4))
+        val puzzle = deck.puzzleForDay(day)!!
+        val book = deck.bookFor(puzzle)!!
+        assertEquals(book.url, bookIntent(book).dataString)
+        val device = UiDevice.getInstance(instrumentation)
+        val log = StringBuilder("book=${book.url}\n")
+        // Asked through the shell: the app needs no <queries>; the launcher starts the intent.
         val handlers = shell("cmd package query-activities --brief -a android.intent.action.VIEW " +
             "-c android.intent.category.BROWSABLE -d ${book.url}")
         val browsers = Regex("""([a-zA-Z0-9_.]+)/""").findAll(handlers).map { it.groupValues[1] }.toSet()
-        val views = LabelOfTheDayWidget().compose(context, size = sizes.getValue("large"))
-        val log = StringBuilder("book=${book.url}\nhandlers=${browsers.joinToString()}\n")
+        log.append("handlers=${browsers.joinToString()}\n")
         assertTrue("a browser can open ${book.url}: $handlers", browsers.isNotEmpty())
-        for (description in listOf(book.name, "QR code for ${book.name} on Amazon")) {
-            browsers.forEach { shell("am force-stop $it") }
-            Thread.sleep(1500)
-            var clicked = false
-            instrumentation.runOnMainSync {
-                val parent = FrameLayout(context)
-                val root = views.apply(context, parent)
-                parent.addView(root)
-                val target = findByDescription(root, description)
-                var v: View? = target
-                while (v != null && !v.hasOnClickListeners()) v = v.parent as? View
-                clicked = v?.performClick() == true
-            }
-            assertTrue("tap target for '$description' has a click action", clicked)
-            var found = false
-            for (i in 0 until 20) {
-                Thread.sleep(1000)
-                val dump = shell("dumpsys activity activities")
-                if (dump.contains(book.url.removePrefix("https://"))) { found = true; break }
-            }
-            log.append("tap '$description' -> browser shows ${book.url}: $found\n")
-            assertTrue("tapping '$description' opened ${book.url}", found)
-            shell("screencap -p /sdcard/Download/android-booklink-${if (description == book.name) "row" else "qr"}.png")
+
+        // Pinning needs the app in the foreground.
+        context.startActivity(Intent(Intent.ACTION_MAIN).setClassName(context, "${context.packageName}.MainActivity")
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        Thread.sleep(4000)
+        device.wait(Until.findObject(By.text("Got it")), 3000)?.click()
+        val manager = AppWidgetManager.getInstance(context)
+        assertTrue("launcher supports pinning", manager.isRequestPinAppWidgetSupported)
+        instrumentation.runOnMainSync {
+            manager.requestPinAppWidget(ComponentName(context, LabelOfTheDayReceiver::class.java), null, null)
         }
+        val add = device.wait(Until.findObject(By.text(Pattern.compile("(?i)(add( to home screen| automatically)?)"))), 15000)
+        assertNotNull("pin dialog shown", add)
+        add!!.click()
+        Thread.sleep(2000)
+        device.pressHome()
+        val bookLine = device.wait(Until.findObject(By.textContains("on Amazon")), 20000)
+        assertNotNull("widget with the book link is on the home screen", bookLine)
+        Thread.sleep(1500)
+        shell("screencap -p /sdcard/Download/android-home-widget-new.png")
+
+        // Answer right on the widget.
+        val right = device.findObject(By.textStartsWith(puzzle.options[puzzle.answer]))
+        assertNotNull("answer button '${puzzle.options[puzzle.answer]}' on the widget", right)
+        right!!.click()
+        assertNotNull("CORRECT! stamp after tapping the answer", device.wait(Until.findObject(By.text("CORRECT!")), 15000))
+        assertEquals(puzzle.answer, DailyStateStore.load(context).choiceOn(day))
+        log.append("tap answer '${puzzle.options[puzzle.answer]}' -> CORRECT! shown, streak ${DailyStateStore.load(context).streak}\n")
+        Thread.sleep(1500)
+        shell("screencap -p /sdcard/Download/android-home-widget-correct.png")
+
+        for ((label, selector) in listOf(
+            "row" to By.textContains("on Amazon"),
+            "qr" to By.desc("QR code for ${book.name} on Amazon"),
+        )) {
+            browsers.forEach { shell("am force-stop $it") }
+            device.pressHome()
+            val target = device.wait(Until.findObject(selector), 10000)
+            assertNotNull("book $label on the widget", target)
+            target!!.click()
+            var opened: String? = null
+            for (i in 0 until 25) {
+                Thread.sleep(1000)
+                val top = shell("dumpsys activity activities").lines()
+                    .firstOrNull { it.contains("topResumedActivity") || it.contains("mResumedActivity") } ?: ""
+                opened = browsers.firstOrNull { top.contains(it) }
+                if (opened != null) break
+            }
+            log.append("tap book $label -> browser in front: ${opened ?: "none"}\n")
+            shell("screencap -p /sdcard/Download/android-booklink-$label.png")
+            assertNotNull("tapping the book $label opened the browser for ${book.url}", opened)
+        }
+        device.pressHome()
         File(out, "android-booklink.txt").writeText(log.toString())
     }
 

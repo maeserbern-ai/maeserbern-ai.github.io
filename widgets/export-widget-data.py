@@ -9,9 +9,9 @@ Reads party-game/puzzles.js (all 105 puzzles: 85 "which product is it?" labels a
 covers from the same BOOKS table the game uses. Nothing is maintained by hand.
 
 Writes:
-    ios-widgets/PartyGameWidgets/Resources/daily.json
-    ios-widgets/PartyGameWidgets/Assets.xcassets/cover-<book>.imageset/   (needs Pillow)
-    ios-widgets/PartyGameWidgets/Assets.xcassets/qr-<book>.imageset/      (from party-game/qr-<book>.svg)
+    watch-app/PartyGameWidgets/Resources/daily.json
+    watch-app/PartyGameWidgets/Assets.xcassets/cover-<book>.imageset/   (needs Pillow)
+    watch-app/PartyGameWidgets/Assets.xcassets/qr-<book>.imageset/      (from party-game/qr-<book>.svg)
     android/app/src/main/res/raw/daily_puzzles.json
     android/app/src/main/res/drawable-nodpi/widget_cover_<book>.jpg      (needs Pillow)
     android/app/src/main/res/drawable-nodpi/widget_qr_<book>.png
@@ -23,7 +23,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAME = os.path.join(ROOT, "party-game")
-IOS = os.path.join(ROOT, "ios-widgets", "PartyGameWidgets")
+IOS = os.path.join(ROOT, "watch-app", "PartyGameWidgets")
 ANDROID_RES = os.path.join(ROOT, "android", "app", "src", "main", "res")
 
 # Everyone sees the same puzzle on the same calendar day: the deck is shuffled once

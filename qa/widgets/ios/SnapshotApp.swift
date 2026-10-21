@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// Test-only iOS app: renders the real widget views from ios-widgets/PartyGameWidgets
+// Test-only iOS app: renders the real widget views from watch-app/PartyGameWidgets
 // (same Swift files, fonts, covers and daily.json) at each widget family's size,
 // for each state, and saves PNGs to Documents/widget-snapshots. Never shipped.
 

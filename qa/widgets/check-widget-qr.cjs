@@ -7,12 +7,12 @@ const mods = path.resolve(process.argv[2] || 'qa/apple/node_modules');
 const jsQR = require(path.join(mods, 'jsqr'));
 const sharp = require(path.join(mods, 'sharp'));
 const root = path.resolve(__dirname, '..', '..');
-const deck = JSON.parse(fs.readFileSync(path.join(root, 'ios-widgets/PartyGameWidgets/Resources/daily.json'), 'utf8'));
+const deck = JSON.parse(fs.readFileSync(path.join(root, 'watch-app/PartyGameWidgets/Resources/daily.json'), 'utf8'));
 (async () => {
   const results = [];
   for (const [key, book] of Object.entries(deck.books)) {
     for (const file of [
-      `ios-widgets/PartyGameWidgets/Assets.xcassets/qr-${key}.imageset/qr-${key}.png`,
+      `watch-app/PartyGameWidgets/Assets.xcassets/qr-${key}.imageset/qr-${key}.png`,
       `android/app/src/main/res/drawable-nodpi/widget_qr_${key}.png`,
     ]) {
       const { data, info } = await sharp(path.join(root, file)).extend({ top: 40, bottom: 40, left: 40, right: 40, background: '#ffffff' })

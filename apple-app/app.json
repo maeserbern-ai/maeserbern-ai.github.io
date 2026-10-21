@@ -28,7 +28,7 @@
     "plugins": [
       "./plugins/with-scene-lifecycle.cjs",
       "./plugins/with-book-links.cjs",
-      ["@bacons/apple-targets", {"root": "../@(watch-app|ios-widgets)", "match": "@(PartyGameWatch|PartyGameWidgets)"}],
+      ["@bacons/apple-targets", {"root": "../watch-app", "match": "@(PartyGameWatch|PartyGameWidgets)"}],
       [
         "expo-audio",
         {

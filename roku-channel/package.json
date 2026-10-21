@@ -1,0 +1,14 @@
+{
+  "name": "ingredient-party-game-roku",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Roku channel (BrightScript + SceneGraph) for Ingredient Dictionary The Party Game by Maeser",
+  "scripts": {
+    "lint": "bsc --project bsconfig.json",
+    "data": "node tools/build-data.js"
+  },
+  "devDependencies": {
+    "@rokucommunity/bslint": "0.8.47",
+    "brighterscript": "0.73.7"
+  }
+}

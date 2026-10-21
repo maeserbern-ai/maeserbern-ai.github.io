@@ -1,5 +1,7 @@
 plugins {
     id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "org.jetbrains.kotlin.plugin.compose"
 }
 
 // Signing for store uploads comes from environment variables (GitHub secrets).
@@ -13,8 +15,10 @@ android {
         applicationId "io.github.maeserbern.ingredientpartygame"
         minSdk 23
         targetSdk 36
-        versionCode Integer.parseInt(System.getenv("VERSION_CODE") ?: "1")
-        versionName "1.0"
+        // Play has versionCode 22 (1.0); the widget update is 1.1 / 23 or later.
+        versionCode Integer.parseInt(System.getenv("VERSION_CODE") ?: "23")
+        versionName "1.1"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -47,6 +51,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    buildFeatures {
+        compose true
+    }
 
     // The game itself is the website's party-game folder, bundled so it works offline.
     sourceSets {
@@ -60,9 +67,23 @@ android {
     }
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
 dependencies {
     // Keeps the Kotlin runtime pulled in by AndroidX on one version.
-    implementation platform("org.jetbrains.kotlin:kotlin-bom:1.8.22")
+    implementation platform("org.jetbrains.kotlin:kotlin-bom:2.1.21")
     implementation "androidx.webkit:webkit:1.12.1"
     implementation "androidx.activity:activity:1.9.3"
+    // "Label of the Day" home-screen widget.
+    implementation "androidx.glance:glance-appwidget:1.1.1"
+    implementation "androidx.datastore:datastore-preferences:1.1.1"
+
+    // Renders the widget previews on an emulator (widgets workflow).
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test.ext:junit:1.2.1"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
 }

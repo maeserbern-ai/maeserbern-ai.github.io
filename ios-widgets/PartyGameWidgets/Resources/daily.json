@@ -1,0 +1,2443 @@
+{
+ "version": 1,
+ "epoch": "2026-01-01",
+ "seed": 20261113,
+ "count": 105,
+ "order": [
+  67,
+  3,
+  37,
+  60,
+  87,
+  21,
+  64,
+  99,
+  22,
+  96,
+  20,
+  72,
+  32,
+  11,
+  15,
+  88,
+  35,
+  54,
+  28,
+  46,
+  53,
+  65,
+  24,
+  81,
+  101,
+  59,
+  2,
+  41,
+  51,
+  47,
+  90,
+  95,
+  45,
+  89,
+  48,
+  50,
+  97,
+  74,
+  43,
+  84,
+  42,
+  23,
+  38,
+  12,
+  75,
+  58,
+  10,
+  86,
+  33,
+  30,
+  92,
+  18,
+  0,
+  61,
+  57,
+  9,
+  103,
+  44,
+  79,
+  63,
+  16,
+  78,
+  85,
+  8,
+  5,
+  13,
+  31,
+  52,
+  40,
+  19,
+  66,
+  68,
+  77,
+  94,
+  102,
+  91,
+  70,
+  6,
+  93,
+  27,
+  82,
+  36,
+  71,
+  56,
+  7,
+  34,
+  39,
+  25,
+  104,
+  14,
+  55,
+  26,
+  73,
+  4,
+  49,
+  100,
+  69,
+  76,
+  1,
+  80,
+  17,
+  98,
+  62,
+  29,
+  83
+ ],
+ "books": {
+  "food": {
+   "name": "It's Not Food",
+   "title": "Ingredient Dictionary: It's Not Food",
+   "url": "https://www.amazon.com/dp/B0H28XN7Z1",
+   "cover": "cover-food",
+   "coverFile": "covers/it-s-not-food.jpg",
+   "qr": "qr-food",
+   "qrFile": "qr-food.svg"
+  },
+  "beauty": {
+   "name": "It's Not Beauty",
+   "title": "Ingredient Dictionary: It's Not Beauty",
+   "url": "https://www.amazon.com/dp/B0H3P2TDX4",
+   "cover": "cover-beauty",
+   "coverFile": "covers/it-s-not-beauty.jpg",
+   "qr": "qr-beauty",
+   "qrFile": "qr-beauty.svg"
+  },
+  "clean": {
+   "name": "It's Not Clean",
+   "title": "Ingredient Dictionary: It's Not Clean",
+   "url": "https://www.amazon.com/dp/B0H3TLXQDP",
+   "cover": "cover-clean",
+   "coverFile": "covers/it-s-not-clean.jpg",
+   "qr": "qr-clean",
+   "qrFile": "qr-clean.svg"
+  },
+  "kids": {
+   "name": "It's Not for Kids",
+   "title": "Ingredient Dictionary: It's Not for Kids",
+   "url": "https://www.amazon.com/dp/B0H7T981KL",
+   "cover": "cover-kids",
+   "coverFile": "covers/it-s-not-for-kids.jpg",
+   "qr": "qr-kids",
+   "qrFile": "qr-kids.svg"
+  },
+  "home": {
+   "name": "Your Home Is Not Safe",
+   "title": "Ingredient Dictionary: Your Home Is Not Safe",
+   "url": "https://www.amazon.com/dp/B0H4LTY2FJ",
+   "cover": "cover-home",
+   "coverFile": "covers/your-home-is-not-safe.jpg",
+   "qr": "qr-home",
+   "qrFile": "qr-home.svg"
+  },
+  "tp": {
+   "name": "What Is Toilet Paper?",
+   "title": "Ingredient Dictionary: What Is Toilet Paper?",
+   "url": "https://www.amazon.com/dp/B0HCDRY91D",
+   "cover": "cover-tp",
+   "coverFile": "covers/what-is-toilet-paper.jpg",
+   "qr": "qr-tp",
+   "qrFile": "qr-tp.svg"
+  }
+ },
+ "puzzles": [
+  {
+   "id": 0,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Car wax",
+    "Gummy bears",
+    "Cough drops",
+    "Vitamin gummies"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Corn syrup",
+    "Sugar",
+    "Gelatin",
+    "Dextrose",
+    "Citric acid",
+    "Natural and artificial flavors",
+    "Starch",
+    "Vegetable oil",
+    "Carnauba wax",
+    "Red 40",
+    "Yellow 5",
+    "Blue 1"
+   ]
+  },
+  {
+   "id": 1,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Cake frosting",
+    "Marshmallow fluff",
+    "Toothpaste",
+    "Hand cream"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Sorbitol",
+    "Water",
+    "Hydrated silica",
+    "Sodium lauryl sulfate",
+    "Flavor",
+    "Sodium phosphate",
+    "Cellulose gum",
+    "Sodium saccharin",
+    "Titanium dioxide",
+    "Sodium fluoride"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Dish soap",
+    "Bubble bath",
+    "Laundry detergent",
+    "Dandruff shampoo"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Water",
+    "Sodium laureth sulfate",
+    "Sodium lauryl sulfate",
+    "Glycol distearate",
+    "Cocamide MEA",
+    "Zinc pyrithione",
+    "Sodium chloride",
+    "Dimethicone",
+    "Fragrance",
+    "Sodium benzoate"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Lip balm",
+    "Birthday candle",
+    "Crayon",
+    "Baby oil"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Petrolatum",
+    "Lanolin",
+    "Paraffin",
+    "Mineral oil",
+    "Beeswax",
+    "Camphor",
+    "Menthol",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Cheddar cheese",
+    "Individually wrapped cheese slices",
+    "Mac & cheese powder",
+    "Cheese dip"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Milk",
+    "Whey",
+    "Milk protein concentrate",
+    "Milkfat",
+    "Sodium citrate",
+    "Salt",
+    "Calcium phosphate",
+    "Lactic acid",
+    "Sorbic acid",
+    "Apocarotenal (color)",
+    "Annatto (color)",
+    "Enzymes",
+    "Cheese culture"
+   ]
+  },
+  {
+   "id": 5,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Shampoo",
+    "Dish soap",
+    "Hand soap",
+    "Bubble bath"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Sodium lauryl sulfate",
+    "Lauramine oxide",
+    "Sodium chloride",
+    "Alcohol denat.",
+    "PPG-26",
+    "Fragrance",
+    "Methylisothiazolinone",
+    "Colorants"
+   ]
+  },
+  {
+   "id": 6,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Mayonnaise",
+    "Hand lotion",
+    "Ranch dressing",
+    "Sour cream dip"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Soybean oil",
+    "Water",
+    "Egg yolk",
+    "Sugar",
+    "Salt",
+    "Cultured nonfat buttermilk",
+    "Natural flavors",
+    "Spices",
+    "Dried garlic",
+    "Dried onion",
+    "Vinegar",
+    "Xanthan gum",
+    "Monosodium glutamate",
+    "Sorbic acid",
+    "Calcium disodium EDTA"
+   ]
+  },
+  {
+   "id": 7,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Ranch dressing",
+    "Mayonnaise",
+    "Sunscreen",
+    "Hand lotion"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Water",
+    "Glycerin",
+    "Mineral oil",
+    "Stearic acid",
+    "Cetyl alcohol",
+    "Glyceryl stearate",
+    "Dimethicone",
+    "Petrolatum",
+    "Fragrance",
+    "Carbomer",
+    "Methylparaben",
+    "Propylparaben"
+   ]
+  },
+  {
+   "id": 8,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Vanilla frosting",
+    "Shaving cream",
+    "Hand lotion",
+    "Whipped topping"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Sugar",
+    "Palm oil",
+    "Water",
+    "Corn syrup",
+    "Corn starch",
+    "Salt",
+    "Mono- and diglycerides",
+    "Polysorbate 60",
+    "Natural and artificial flavor",
+    "Sodium stearoyl lactylate",
+    "Citric acid",
+    "Potassium sorbate",
+    "Soy lecithin"
+   ]
+  },
+  {
+   "id": 9,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Spray whipped cream",
+    "Frosting",
+    "Shaving cream",
+    "Body lotion"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Stearic acid",
+    "Triethanolamine",
+    "Laureth-23",
+    "Isobutane",
+    "Propane",
+    "Fragrance",
+    "Sorbitol"
+   ]
+  },
+  {
+   "id": 10,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Shaving cream",
+    "Spray whipped cream",
+    "Hair mousse",
+    "Coffee creamer"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Cream",
+    "Water",
+    "Sugar",
+    "Corn syrup",
+    "Nonfat milk",
+    "Natural flavor",
+    "Mono- and diglycerides",
+    "Carrageenan",
+    "Nitrous oxide (propellant)"
+   ]
+  },
+  {
+   "id": 11,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Real whipped cream",
+    "Hair conditioner",
+    "Shaving cream",
+    "Frozen whipped topping"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Water",
+    "Hydrogenated vegetable oil (coconut and palm kernel)",
+    "High fructose corn syrup",
+    "Corn syrup",
+    "Skim milk",
+    "Light cream",
+    "Sodium caseinate",
+    "Natural and artificial flavor",
+    "Xanthan and guar gums",
+    "Polysorbate 60",
+    "Sorbitan monostearate",
+    "Beta carotene (color)"
+   ]
+  },
+  {
+   "id": 12,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Hair conditioner",
+    "Frozen whipped topping",
+    "Shampoo",
+    "Body wash"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Cetearyl alcohol",
+    "Behentrimonium chloride",
+    "Stearamidopropyl dimethylamine",
+    "Dimethicone",
+    "Glycerin",
+    "Fragrance",
+    "Citric acid",
+    "Benzyl alcohol",
+    "Phenoxyethanol"
+   ]
+  },
+  {
+   "id": 13,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Iced tea",
+    "Root beer",
+    "Rust remover",
+    "Diet cola"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Carbonated water",
+    "Caramel color",
+    "Aspartame",
+    "Phosphoric acid",
+    "Potassium benzoate",
+    "Natural flavors",
+    "Citric acid",
+    "Caffeine"
+   ]
+  },
+  {
+   "id": 14,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Diet cola",
+    "Glass cleaner",
+    "Toilet bowl cleaner",
+    "Mouthwash"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Hydrochloric acid",
+    "Lauramine oxide",
+    "Xanthan gum",
+    "Fragrance",
+    "Colorant"
+   ]
+  },
+  {
+   "id": 15,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Sports drink",
+    "Mint liqueur",
+    "Mouthwash",
+    "Glass cleaner"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Alcohol (21.6%)",
+    "Sorbitol",
+    "Flavor",
+    "Poloxamer 407",
+    "Benzoic acid",
+    "Eucalyptol",
+    "Methyl salicylate",
+    "Thymol",
+    "Menthol",
+    "Sodium benzoate",
+    "Sodium saccharin",
+    "Green 3"
+   ]
+  },
+  {
+   "id": 16,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Mouthwash",
+    "Window cleaner",
+    "Sports drink",
+    "Lemonade powder"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Sugar",
+    "Dextrose",
+    "Citric acid",
+    "Salt",
+    "Sodium citrate",
+    "Monopotassium phosphate",
+    "Gum arabic",
+    "Glycerol ester of rosin",
+    "Natural flavor",
+    "Yellow 6"
+   ]
+  },
+  {
+   "id": 17,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Glass cleaner",
+    "Sports drink",
+    "Mouthwash",
+    "Blue raspberry slushie"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "2-Hexoxyethanol",
+    "Isopropanolamine",
+    "Sodium dodecylbenzene sulfonate",
+    "Ammonium hydroxide",
+    "Fragrance",
+    "Blue dye"
+   ]
+  },
+  {
+   "id": 18,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Dog treats",
+    "Fruity cereal rings",
+    "Granola",
+    "Bird seed"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Sugar",
+    "Corn flour blend",
+    "Wheat flour",
+    "Whole grain oat flour",
+    "Hydrogenated vegetable oil",
+    "Oat fiber",
+    "Soluble corn fiber",
+    "Salt",
+    "Natural flavor",
+    "Red 40",
+    "Yellow 5",
+    "Blue 1",
+    "Yellow 6",
+    "BHT (for freshness)"
+   ]
+  },
+  {
+   "id": 19,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Beef jerky",
+    "Bacon bits",
+    "Bacon-style dog treats",
+    "Fruit leather"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Ground wheat",
+    "Corn gluten meal",
+    "Water",
+    "Sugar",
+    "Glycerin",
+    "Soy grits",
+    "Bacon fat (preserved with BHA)",
+    "Salt",
+    "Phosphoric acid",
+    "Sorbic acid",
+    "Calcium propionate",
+    "Natural smoke flavor",
+    "Red 40",
+    "Yellow 5",
+    "Yellow 6",
+    "Blue 1"
+   ]
+  },
+  {
+   "id": 20,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Croutons",
+    "Fish food flakes",
+    "Bacon-style dog treats",
+    "Imitation bacon bits"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Defatted soy flour",
+    "Soybean oil",
+    "Salt",
+    "Caramel color",
+    "Natural and artificial flavor",
+    "Yeast extract",
+    "Red 40"
+   ]
+  },
+  {
+   "id": 21,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Fish food flakes",
+    "Bread crumbs",
+    "Fish oil capsules",
+    "Imitation bacon bits"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Fish meal",
+    "Shrimp meal",
+    "Wheat flour",
+    "Soybean meal",
+    "Fish oil",
+    "Brewers dried yeast",
+    "Spirulina",
+    "Algae meal",
+    "Ascorbic acid",
+    "Ethoxyquin"
+   ]
+  },
+  {
+   "id": 22,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Powdered milk",
+    "Baby powder",
+    "Powdered coffee creamer",
+    "Pancake mix"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Corn syrup solids",
+    "Hydrogenated vegetable oil (coconut and/or palm kernel)",
+    "Sodium caseinate",
+    "Mono- and diglycerides",
+    "Dipotassium phosphate",
+    "Sodium aluminosilicate",
+    "Artificial flavor",
+    "Annatto color"
+   ]
+  },
+  {
+   "id": 23,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Cornstarch",
+    "Powdered sugar",
+    "Baby powder",
+    "Dry shampoo"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Zea mays (corn) starch",
+    "Tricalcium phosphate",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 24,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Spray deodorant",
+    "Cooking spray",
+    "Hairspray",
+    "Dry shampoo"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Butane",
+    "Isobutane",
+    "Propane",
+    "Alcohol denat.",
+    "Oryza sativa (rice) starch",
+    "Fragrance",
+    "Isopropyl myristate",
+    "Distearyldimonium chloride",
+    "Silica"
+   ]
+  },
+  {
+   "id": 25,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Cooking spray",
+    "Dry shampoo",
+    "Furniture polish",
+    "Hairspray"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Canola oil",
+    "Soy lecithin",
+    "Dimethyl silicone",
+    "Rosemary extract",
+    "Propellant (butane, propane)"
+   ]
+  },
+  {
+   "id": 26,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Gummy candy",
+    "Dishwasher tablet",
+    "Laundry detergent pod",
+    "Bath bomb"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Propylene glycol",
+    "C12-15 pareth-9",
+    "Linear alkylbenzene sulfonate",
+    "Glycerin",
+    "Water",
+    "Ethanolamine",
+    "Citric acid",
+    "Enzymes",
+    "Fragrance",
+    "Polyvinyl alcohol (film)"
+   ]
+  },
+  {
+   "id": 27,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Antacid tablet",
+    "Baking powder",
+    "Bath bomb",
+    "Fizzy candy"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Sodium bicarbonate",
+    "Citric acid",
+    "Magnesium sulfate",
+    "Corn starch",
+    "Coconut oil",
+    "Fragrance",
+    "Colorants"
+   ]
+  },
+  {
+   "id": 28,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Bath bomb",
+    "Antacid tablet",
+    "Laundry booster",
+    "Baking powder"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Sodium bicarbonate",
+    "Sodium aluminum sulfate",
+    "Corn starch",
+    "Monocalcium phosphate"
+   ]
+  },
+  {
+   "id": 29,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Instant ramen seasoning packet",
+    "Bouillon cube",
+    "Taco seasoning",
+    "Bath salts"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Salt",
+    "Monosodium glutamate",
+    "Sugar",
+    "Hydrolyzed soy protein",
+    "Garlic powder",
+    "Onion powder",
+    "Spices",
+    "Disodium inosinate",
+    "Disodium guanylate",
+    "Caramel color"
+   ]
+  },
+  {
+   "id": 30,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Sea salt",
+    "Instant ramen seasoning packet",
+    "Road salt",
+    "Bath salts"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Magnesium sulfate",
+    "Sodium chloride",
+    "Fragrance",
+    "Mica",
+    "Colorants"
+   ]
+  },
+  {
+   "id": 31,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Multivitamin",
+    "Energy drink",
+    "Sports drink",
+    "Cough syrup"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Carbonated water",
+    "Sucrose",
+    "Glucose",
+    "Citric acid",
+    "Natural flavors",
+    "Taurine",
+    "Sodium citrate",
+    "Panax ginseng extract",
+    "Caffeine",
+    "Sorbic acid",
+    "Niacinamide",
+    "Sucralose",
+    "Inositol",
+    "Guarana extract",
+    "Pyridoxine hydrochloride",
+    "Cyanocobalamin"
+   ]
+  },
+  {
+   "id": 32,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Fruit punch",
+    "Mouthwash",
+    "Energy drink",
+    "Cough syrup"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Water",
+    "High fructose corn syrup",
+    "Glycerin",
+    "Propylene glycol",
+    "Sorbitol",
+    "Dextromethorphan HBr",
+    "Citric acid",
+    "Sodium benzoate",
+    "Flavor",
+    "Red 40"
+   ]
+  },
+  {
+   "id": 33,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Rubber cement",
+    "Chewing gum",
+    "Mint candies",
+    "Lip balm"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Sugar",
+    "Gum base",
+    "Corn syrup",
+    "Dextrose",
+    "Glycerol",
+    "Natural and artificial flavors",
+    "Soy lecithin",
+    "Yellow 5 Lake",
+    "BHT"
+   ]
+  },
+  {
+   "id": 34,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Sunscreen",
+    "Cream cheese",
+    "Diaper rash cream",
+    "Vanilla frosting"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Zinc oxide (40%)",
+    "Petrolatum",
+    "Cod liver oil",
+    "Lanolin",
+    "Talc",
+    "Water",
+    "Fragrance",
+    "Methylparaben",
+    "BHA"
+   ]
+  },
+  {
+   "id": 35,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Canned dog food",
+    "Hot dogs",
+    "Chicken nuggets",
+    "Canned meat loaf"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Mechanically separated chicken",
+    "Pork",
+    "Water",
+    "Corn syrup",
+    "Salt",
+    "Potassium lactate",
+    "Sodium phosphates",
+    "Flavorings",
+    "Sodium diacetate",
+    "Sodium erythorbate",
+    "Sodium nitrite",
+    "Extractives of paprika"
+   ]
+  },
+  {
+   "id": 36,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Hot dogs",
+    "Beef stew",
+    "Canned dog food",
+    "Liver pâté"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water sufficient for processing",
+    "Meat by-products",
+    "Chicken",
+    "Liver",
+    "Wheat gluten",
+    "Corn starch",
+    "Guar gum",
+    "Salt",
+    "Potassium chloride",
+    "Caramel color",
+    "Vitamins and minerals"
+   ]
+  },
+  {
+   "id": 37,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Barbecue sauce",
+    "Pizza sauce",
+    "Ketchup",
+    "Red food coloring"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Tomato concentrate",
+    "Distilled vinegar",
+    "High fructose corn syrup",
+    "Corn syrup",
+    "Salt",
+    "Spice",
+    "Onion powder",
+    "Natural flavoring"
+   ]
+  },
+  {
+   "id": 38,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Aloe vera gel",
+    "Hair gel",
+    "Hand sanitizer",
+    "Mouthwash"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Ethyl alcohol (70%)",
+    "Water",
+    "Glycerin",
+    "Propylene glycol",
+    "Fragrance",
+    "Isopropyl myristate",
+    "Tocopheryl acetate",
+    "Aloe barbadensis leaf juice",
+    "Carbomer",
+    "Aminomethyl propanol"
+   ]
+  },
+  {
+   "id": 39,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Grape jelly",
+    "Hand sanitizer",
+    "Hair gel",
+    "Aloe vera gel"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "PVP",
+    "Triethanolamine",
+    "Carbomer",
+    "Polysorbate 20",
+    "Glycerin",
+    "Fragrance",
+    "Methylparaben"
+   ]
+  },
+  {
+   "id": 40,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Grape juice",
+    "Hair gel",
+    "Cough syrup",
+    "Grape jelly"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Grape juice",
+    "High fructose corn syrup",
+    "Corn syrup",
+    "Fruit pectin",
+    "Citric acid",
+    "Sodium citrate"
+   ]
+  },
+  {
+   "id": 41,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Contact lens solution",
+    "Liquid bleach",
+    "Salt water",
+    "Glass cleaner"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Sodium hypochlorite",
+    "Sodium chloride",
+    "Sodium hydroxide",
+    "Sodium carbonate",
+    "Sodium chlorate",
+    "Sodium polyacrylate"
+   ]
+  },
+  {
+   "id": 42,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Dish soap",
+    "Fabric softener",
+    "Liquid laundry detergent",
+    "Shampoo"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Sodium laureth sulfate",
+    "C12-15 pareth-7",
+    "Sodium citrate",
+    "Propylene glycol",
+    "Linear alkylbenzene sulfonate",
+    "Enzymes (protease, amylase)",
+    "Optical brightener",
+    "Fragrance",
+    "Colorant"
+   ]
+  },
+  {
+   "id": 43,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Hair conditioner",
+    "Fabric softener",
+    "Hand lotion",
+    "Liquid laundry detergent"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Diethylester dimethyl ammonium chloride",
+    "Fragrance",
+    "Calcium chloride",
+    "Formic acid",
+    "Silicone",
+    "Dye"
+   ]
+  },
+  {
+   "id": 44,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Bath salts",
+    "Baking powder",
+    "Powdered drink mix",
+    "Dishwasher detergent powder"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Sodium carbonate",
+    "Sodium percarbonate",
+    "Sodium citrate",
+    "Sodium silicate",
+    "Enzymes",
+    "Nonionic surfactant",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 45,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Orange soda",
+    "Citrus all-purpose cleaner",
+    "Sports drink",
+    "Air freshener"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Alkyl polyglucoside",
+    "Sodium citrate",
+    "Limonene",
+    "Fragrance",
+    "Methylisothiazolinone"
+   ]
+  },
+  {
+   "id": 46,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Antacid tablets",
+    "Baby powder",
+    "Scouring powder",
+    "Baking soda"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Calcium carbonate",
+    "Sodium carbonate",
+    "Sodium dichloroisocyanurate",
+    "Sodium dodecylbenzene sulfonate",
+    "Fragrance",
+    "Dye"
+   ]
+  },
+  {
+   "id": 47,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Liquid hand soap",
+    "Shampoo",
+    "Bubble bath",
+    "Dish soap"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Sodium laureth sulfate",
+    "Cocamidopropyl betaine",
+    "Sodium chloride",
+    "Glycerin",
+    "Fragrance",
+    "Citric acid",
+    "DMDM hydantoin",
+    "Tetrasodium EDTA",
+    "Benzalkonium chloride"
+   ]
+  },
+  {
+   "id": 48,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Gummy bears",
+    "Fruit leather",
+    "Fruit snacks",
+    "Kids' gummy vitamins"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Fruit puree (apple)",
+    "Corn syrup",
+    "Sugar",
+    "Modified corn starch",
+    "Gelatin",
+    "Citric acid",
+    "Lactic acid",
+    "Ascorbic acid",
+    "Natural flavor",
+    "Vitamin A palmitate",
+    "Carnauba wax",
+    "Coconut oil",
+    "Red 40",
+    "Blue 1"
+   ]
+  },
+  {
+   "id": 49,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Cheddar cheese",
+    "Nacho cheese dip",
+    "Cheese puff dust",
+    "Boxed mac & cheese powder"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Whey",
+    "Milkfat",
+    "Milk protein concentrate",
+    "Salt",
+    "Sodium triphosphate",
+    "Citric acid",
+    "Lactic acid",
+    "Sodium phosphate",
+    "Calcium phosphate",
+    "Paprika",
+    "Turmeric",
+    "Annatto (color)",
+    "Enzymes",
+    "Cheese culture"
+   ]
+  },
+  {
+   "id": 50,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Kids' gummy vitamins",
+    "Fruit snacks",
+    "Cough drops",
+    "Gummy bears"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Glucose syrup",
+    "Sugar",
+    "Water",
+    "Gelatin",
+    "Citric acid",
+    "Natural flavors",
+    "Vitamin C",
+    "Vitamin E",
+    "Vitamin A",
+    "Zinc",
+    "Coconut oil",
+    "Carnauba wax",
+    "Black carrot juice (color)"
+   ]
+  },
+  {
+   "id": 51,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "100% apple juice",
+    "Sports drink",
+    "Fruit punch juice box",
+    "Cough syrup"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "High fructose corn syrup",
+    "Concentrated juices (pear, grape, apple)",
+    "Citric acid",
+    "Natural flavors",
+    "Ascorbic acid",
+    "Red 40",
+    "Blue 1"
+   ]
+  },
+  {
+   "id": 52,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Liquid bleach",
+    "Toilet bowl cleaner",
+    "Drain cleaner gel",
+    "Glass cleaner"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Sodium hypochlorite",
+    "Sodium hydroxide",
+    "Sodium silicate",
+    "Lauramine oxide",
+    "Sodium xylenesulfonate"
+   ]
+  },
+  {
+   "id": 53,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Hummingbird nectar",
+    "Pancake syrup",
+    "Liquid ant bait",
+    "Eye drops"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Sugar",
+    "Water",
+    "Borax (sodium tetraborate)"
+   ]
+  },
+  {
+   "id": 54,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Makeup wipes",
+    "Dryer sheets",
+    "Facial tissues",
+    "Coffee filters"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Polyester sheet",
+    "Fabric softening agents (quaternary ammonium)",
+    "Fatty acid",
+    "Clay",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 55,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Breakfast cereal",
+    "Croutons",
+    "Dry cat food",
+    "Bird seed"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Chicken by-product meal",
+    "Ground yellow corn",
+    "Corn gluten meal",
+    "Animal fat (preserved with mixed tocopherols)",
+    "Brewers rice",
+    "Natural flavor",
+    "Fish meal",
+    "Salt",
+    "Taurine",
+    "Vitamins and minerals"
+   ]
+  },
+  {
+   "id": 56,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Brownie mix",
+    "Chocolate sandwich cookies",
+    "Chocolate protein bar",
+    "Hot cocoa mix"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Sugar",
+    "Unbleached enriched flour",
+    "Palm and/or canola oil",
+    "Cocoa (processed with alkali)",
+    "High fructose corn syrup",
+    "Leavening (baking soda and/or calcium phosphate)",
+    "Salt",
+    "Soy lecithin",
+    "Vanillin (artificial flavor)"
+   ]
+  },
+  {
+   "id": 57,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Fish sticks",
+    "Mozzarella sticks",
+    "Chicken nuggets",
+    "Onion rings"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "White boneless chicken",
+    "Water",
+    "Vegetable oil",
+    "Enriched flour",
+    "Yellow corn flour",
+    "Modified food starch",
+    "Salt",
+    "Leavening (baking soda, sodium aluminum phosphate)",
+    "Spices",
+    "Yeast extract",
+    "Natural flavor",
+    "Dextrose",
+    "Citric acid",
+    "Dimethylpolysiloxane"
+   ]
+  },
+  {
+   "id": 58,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Strawberry milkshake",
+    "Strawberry jam",
+    "Strawberry ice cream",
+    "Strawberry yogurt"
+   ],
+   "answer": 3,
+   "ingredients": [
+    "Cultured low fat milk",
+    "Sugar",
+    "Strawberries",
+    "Modified corn starch",
+    "Kosher gelatin",
+    "Natural flavor",
+    "Carmine (color)",
+    "Vitamin A acetate",
+    "Vitamin D3"
+   ]
+  },
+  {
+   "id": 59,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Pancake syrup",
+    "Pure maple syrup",
+    "Molasses",
+    "Chocolate syrup"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Corn syrup",
+    "High fructose corn syrup",
+    "Water",
+    "Cellulose gum",
+    "Caramel color",
+    "Salt",
+    "Natural and artificial flavor",
+    "Sodium benzoate",
+    "Sorbic acid",
+    "Sodium hexametaphosphate"
+   ]
+  },
+  {
+   "id": 60,
+   "type": "mc",
+   "book": "food",
+   "statement": "",
+   "options": [
+    "Orange juice",
+    "Orange soda",
+    "Orange drink mix",
+    "Orange gelatin"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Sugar",
+    "Fructose",
+    "Citric acid",
+    "Calcium phosphate",
+    "Potassium citrate",
+    "Ascorbic acid",
+    "Natural flavor",
+    "Gum arabic",
+    "Xanthan gum",
+    "Yellow 5",
+    "Yellow 6",
+    "BHA"
+   ]
+  },
+  {
+   "id": 61,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Lip balm",
+    "Glue stick",
+    "Antiperspirant stick",
+    "Solid perfume"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Aluminum zirconium tetrachlorohydrex GLY",
+    "Cyclopentasiloxane",
+    "Stearyl alcohol",
+    "PPG-14 butyl ether",
+    "Talc",
+    "Hydrogenated castor oil",
+    "Fragrance",
+    "Behenyl alcohol"
+   ]
+  },
+  {
+   "id": 62,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Rubbing alcohol",
+    "Paint thinner",
+    "Nail polish remover",
+    "Hand sanitizer"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Acetone",
+    "Water",
+    "Glycerin",
+    "Propylene carbonate",
+    "Fragrance",
+    "Denatonium benzoate",
+    "Red 33"
+   ]
+  },
+  {
+   "id": 63,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Sunscreen lotion",
+    "Hand lotion",
+    "Aloe vera gel",
+    "Diaper rash cream"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Avobenzone (3%)",
+    "Homosalate (10%)",
+    "Octisalate (5%)",
+    "Octocrylene (10%)",
+    "Water",
+    "Glycerin",
+    "Styrene/acrylates copolymer",
+    "Silica",
+    "Dimethicone",
+    "Phenoxyethanol",
+    "Fragrance",
+    "Tocopherol"
+   ]
+  },
+  {
+   "id": 64,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Dry shampoo",
+    "Spray deodorant",
+    "Hairspray",
+    "Air freshener"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Alcohol denat.",
+    "Dimethyl ether",
+    "Octylacrylamide/acrylates copolymer",
+    "Aminomethyl propanol",
+    "Fragrance",
+    "Panthenol"
+   ]
+  },
+  {
+   "id": 65,
+   "type": "mc",
+   "book": "beauty",
+   "statement": "",
+   "options": [
+    "Liquid foundation",
+    "Sunscreen lotion",
+    "Chocolate pudding",
+    "Diaper rash cream"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Cyclopentasiloxane",
+    "Titanium dioxide",
+    "Glycerin",
+    "Dimethicone",
+    "Iron oxides",
+    "Mica",
+    "Phenoxyethanol",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 66,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Laundry stain remover spray",
+    "Glass cleaner",
+    "Fabric softener",
+    "Dish soap"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "C12-15 pareth-7",
+    "Enzymes (protease, amylase)",
+    "Propylene glycol",
+    "Sodium citrate",
+    "Fragrance",
+    "Methylisothiazolinone"
+   ]
+  },
+  {
+   "id": 67,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Oven cleaner",
+    "Shaving cream",
+    "Drain cleaner gel",
+    "Carpet foam"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Sodium hydroxide",
+    "Butane",
+    "Monoethanolamine",
+    "Diethylene glycol monobutyl ether",
+    "Sodium lauryl sulfate",
+    "Isobutane"
+   ]
+  },
+  {
+   "id": 68,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Baby wipes",
+    "Disinfecting wipes",
+    "Makeup wipes",
+    "Hand sanitizer"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Alkyl dimethyl benzyl ammonium chloride",
+    "Alkyl dimethyl ethylbenzyl ammonium chloride",
+    "Propylene glycol",
+    "Fragrance",
+    "Polyester/polypropylene wipe"
+   ]
+  },
+  {
+   "id": 69,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Hairspray",
+    "Cooking spray",
+    "Furniture polish spray",
+    "Air freshener"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Water",
+    "Isoparaffinic hydrocarbon",
+    "Dimethicone",
+    "Butane",
+    "Propane",
+    "Sorbitan oleate",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 70,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Bar soap",
+    "Candle",
+    "Bath bomb",
+    "Cheese block"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Sodium tallowate",
+    "Sodium cocoate",
+    "Water",
+    "Glycerin",
+    "Fragrance",
+    "Sodium chloride",
+    "Tetrasodium EDTA",
+    "Titanium dioxide"
+   ]
+  },
+  {
+   "id": 71,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Fabric odor spray",
+    "Glass cleaner",
+    "Hair detangler",
+    "Linen water"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Alcohol",
+    "Hydroxypropyl beta-cyclodextrin",
+    "Fragrance",
+    "Citric acid",
+    "Benzisothiazolinone"
+   ]
+  },
+  {
+   "id": 72,
+   "type": "mc",
+   "book": "clean",
+   "statement": "",
+   "options": [
+    "Dishwasher rinse aid",
+    "Mouthwash",
+    "Window cleaner",
+    "Sports drink"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Citric acid",
+    "Nonionic surfactant",
+    "Sodium cumenesulfonate",
+    "Methylisothiazolinone",
+    "Blue dye"
+   ]
+  },
+  {
+   "id": 73,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Bubble bath",
+    "Tear-free baby shampoo",
+    "Dish soap",
+    "Hand soap"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Cocamidopropyl betaine",
+    "PEG-80 sorbitan laurate",
+    "Sodium trideceth sulfate",
+    "Glycerin",
+    "Polyquaternium-10",
+    "Fragrance",
+    "Sodium benzoate",
+    "Citric acid"
+   ]
+  },
+  {
+   "id": 74,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Baby wipes",
+    "Disinfecting wipes",
+    "Makeup wipes",
+    "Paper towels"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Glycerin",
+    "Polysorbate 20",
+    "Aloe barbadensis leaf juice",
+    "Tocopheryl acetate",
+    "Sodium benzoate",
+    "Citric acid",
+    "Phenoxyethanol",
+    "Fragrance"
+   ]
+  },
+  {
+   "id": 75,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Bubble gum",
+    "Kids' bubble-gum toothpaste",
+    "Strawberry frosting",
+    "Lip gloss"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Sorbitol",
+    "Water",
+    "Hydrated silica",
+    "Glycerin",
+    "Sodium lauryl sulfate",
+    "Flavor",
+    "Cellulose gum",
+    "Sodium saccharin",
+    "Titanium dioxide",
+    "Red 33",
+    "Sodium fluoride"
+   ]
+  },
+  {
+   "id": 76,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Chocolate pudding",
+    "Hot cocoa mix",
+    "Chocolate milk",
+    "Chocolate syrup"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Low fat milk",
+    "Sugar",
+    "Cocoa (processed with alkali)",
+    "Salt",
+    "Carrageenan",
+    "Natural flavor",
+    "Vitamin A palmitate",
+    "Vitamin D3"
+   ]
+  },
+  {
+   "id": 77,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Cough syrup",
+    "Fruit punch",
+    "Children's fever medicine",
+    "Strawberry milk"
+   ],
+   "answer": 2,
+   "ingredients": [
+    "Acetaminophen",
+    "Purified water",
+    "High fructose corn syrup",
+    "Sorbitol",
+    "Glycerin",
+    "Propylene glycol",
+    "Microcrystalline cellulose",
+    "Xanthan gum",
+    "Sucralose",
+    "Butylparaben",
+    "Sodium benzoate",
+    "Flavors",
+    "Red 40"
+   ]
+  },
+  {
+   "id": 78,
+   "type": "mc",
+   "book": "kids",
+   "statement": "",
+   "options": [
+    "Kids' bubble bath",
+    "Dish soap",
+    "Strawberry milk",
+    "Bath bomb"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Sodium laureth sulfate",
+    "Cocamidopropyl betaine",
+    "Sodium chloride",
+    "Fragrance",
+    "Glycol distearate",
+    "Citric acid",
+    "Red 33",
+    "Methylisothiazolinone"
+   ]
+  },
+  {
+   "id": 79,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Sports drink",
+    "Antifreeze",
+    "Windshield washer fluid",
+    "Mouthwash"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Ethylene glycol",
+    "Diethylene glycol",
+    "Water",
+    "Sodium 2-ethylhexanoate",
+    "Sodium benzoate",
+    "Denatonium benzoate",
+    "Dye"
+   ]
+  },
+  {
+   "id": 80,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Windshield washer fluid",
+    "Glass cleaner",
+    "Sports drink",
+    "Antifreeze"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Methanol",
+    "Nonionic surfactant",
+    "Blue dye"
+   ]
+  },
+  {
+   "id": 81,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Crayon",
+    "Scented candle",
+    "Lip balm",
+    "Bar soap"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Paraffin wax",
+    "Soy wax",
+    "Fragrance",
+    "Stearic acid",
+    "Dye",
+    "Cotton wick"
+   ]
+  },
+  {
+   "id": 82,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Hairspray",
+    "Air freshener spray",
+    "Furniture polish spray",
+    "Cooking spray"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Water",
+    "Propellant (butane, propane)",
+    "Fragrance",
+    "Triethylene glycol",
+    "Polysorbate 80",
+    "Sodium benzoate"
+   ]
+  },
+  {
+   "id": 83,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Bath salts",
+    "Ice melt",
+    "Rock candy",
+    "Garden fertilizer"
+   ],
+   "answer": 1,
+   "ingredients": [
+    "Sodium chloride",
+    "Calcium chloride",
+    "Magnesium chloride",
+    "Potassium chloride",
+    "Blue colorant"
+   ]
+  },
+  {
+   "id": 84,
+   "type": "mc",
+   "book": "home",
+   "statement": "",
+   "options": [
+    "Latex wall paint",
+    "Toothpaste",
+    "School glue",
+    "Sunscreen lotion"
+   ],
+   "answer": 0,
+   "ingredients": [
+    "Water",
+    "Titanium dioxide",
+    "Acrylic polymer",
+    "Calcium carbonate",
+    "Kaolin clay",
+    "Propylene glycol",
+    "Ammonia",
+    "Biocide"
+   ]
+  },
+  {
+   "id": 85,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Most toilet paper starts out as trees.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 86,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Toilet paper is naturally white.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  },
+  {
+   "id": 87,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Scientists have found PFAS \"forever chemicals\" in toilet paper.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 88,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Recycled toilet paper can contain traces of BPA.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 89,
+   "type": "tf",
+   "book": "tp",
+   "statement": "\"Flushable\" wipes break down in pipes just like toilet paper.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  },
+  {
+   "id": 90,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Toilet paper is designed to fall apart when it gets wet.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 91,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Packaged toilet paper has been sold in the US since the 1850s.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 92,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Most people in the world use toilet paper.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  },
+  {
+   "id": 93,
+   "type": "tf",
+   "book": "tp",
+   "statement": "The average American uses more than 100 rolls of toilet paper a year.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 94,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Brown, unbleached toilet paper is dirtier than white toilet paper.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  },
+  {
+   "id": 95,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Scented toilet paper can irritate sensitive skin.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 96,
+   "type": "tf",
+   "book": "tp",
+   "statement": "The original 1891 toilet-roll patent drawing shows the paper hanging \"over,\" not \"under.\"",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 97,
+   "type": "tf",
+   "book": "tp",
+   "statement": "A 1930s toilet paper brand advertised itself as \"splinter-free.\"",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 98,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Most toilet paper sold in the US is made from recycled paper.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  },
+  {
+   "id": 99,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Toilet paper sheets have gotten smaller over the years.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 100,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Bamboo toilet paper is always chemical-free.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  },
+  {
+   "id": 101,
+   "type": "tf",
+   "book": "tp",
+   "statement": "In March 2020, US toilet paper sales more than doubled in some weeks.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 102,
+   "type": "tf",
+   "book": "tp",
+   "statement": "\"Two-ply\" means two layers of paper pressed together.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 103,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Ancient Romans used a sponge on a stick instead of toilet paper.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 0,
+   "ingredients": []
+  },
+  {
+   "id": 104,
+   "type": "tf",
+   "book": "tp",
+   "statement": "Toilet paper companies must list the chemicals used to make it.",
+   "options": [
+    "True",
+    "False"
+   ],
+   "answer": 1,
+   "ingredients": []
+  }
+ ]
+}

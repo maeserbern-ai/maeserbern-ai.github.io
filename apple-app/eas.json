@@ -9,7 +9,7 @@
       "ios": { "simulator": false }
     },
     "production": {
-      "autoIncrement": true,
+      "autoIncrement": false,
       "ios": {
         "simulator": false,
         "image": "macos-tahoe-26.6-xcode-27.1"

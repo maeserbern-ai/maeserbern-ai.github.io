@@ -1,0 +1,25 @@
+# XcodeGen spec for the test-only widget snapshot app (CI only, never shipped).
+name: WidgetSnapshots
+options:
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  WidgetSnapshots:
+    type: application
+    platform: iOS
+    sources:
+      - path: SnapshotApp.swift
+      - path: ../../../ios-widgets/PartyGameWidgets
+        excludes:
+          - PartyGameWidgets.swift
+          - Info.plist
+          - expo-target.config.js
+          - "Fonts/*.txt"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.maeserbern.ingredientpartygame.widgetsnapshots
+        GENERATE_INFOPLIST_FILE: "YES"
+        INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SWIFT_VERSION: "5.0"
+        CODE_SIGNING_ALLOWED: "NO"

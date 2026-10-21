@@ -2,7 +2,8 @@
   "expo": {
     "name": "Ingredient Party Game",
     "slug": "ingredient-party-game",
-    "version": "1.0.0",
+    "scheme": "ingredientparty",
+    "version": "1.1.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -15,7 +16,7 @@
     "ios": {
       "appleTeamId": "LX23QQML6M",
       "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
-      "buildNumber": "6",
+      "buildNumber": "7",
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
@@ -26,7 +27,8 @@
     },
     "plugins": [
       "./plugins/with-scene-lifecycle.cjs",
-      ["@bacons/apple-targets", {"root": "../watch-app", "match": "PartyGameWatch"}],
+      "./plugins/with-book-links.cjs",
+      ["@bacons/apple-targets", {"root": "../@(watch-app|ios-widgets)", "match": "@(PartyGameWatch|PartyGameWidgets)"}],
       [
         "expo-audio",
         {

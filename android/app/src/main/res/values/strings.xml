@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ingredient Dictionary: The Party Game</string>
+    <string name="widget_name">Label of the Day</string>
+    <string name="widget_description">Snack or Shampoo? Read today\'s label and tap your answer.</string>
 </resources>

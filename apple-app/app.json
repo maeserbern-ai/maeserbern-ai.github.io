@@ -15,7 +15,7 @@
     "ios": {
       "appleTeamId": "LX23QQML6M",
       "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
-      "buildNumber": "2",
+      "buildNumber": "6",
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {

@@ -27,7 +27,7 @@ enum Renderer {
     static let large = CGSize(width: 364, height: 382)
     static let rect = CGSize(width: 172, height: 76)
     static let circular = CGSize(width: 76, height: 76)
-    static let inline = CGSize(width: 260, height: 26)
+    static let inline = CGSize(width: 300, height: 26)
 
     static func renderAll() -> String {
         let fm = FileManager.default

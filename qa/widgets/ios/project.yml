@@ -24,3 +24,25 @@ targets:
         SWIFT_VERSION: "5.0"
         CODE_SIGNING_ALLOWED: "NO"
         ASSETCATALOG_COMPILER_APPICON_NAME: ""
+  BookLinkUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: BookLinkUITests.swift
+    dependencies:
+      - target: WidgetSnapshots
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.maeserbern.ingredientpartygame.booklinkuitests
+        TEST_TARGET_NAME: WidgetSnapshots
+        GENERATE_INFOPLIST_FILE: "YES"
+        SWIFT_VERSION: "5.0"
+        CODE_SIGNING_ALLOWED: "NO"
+schemes:
+  WidgetSnapshots:
+    build:
+      targets:
+        WidgetSnapshots: all
+        BookLinkUITests: [test]
+    test:
+      targets: [BookLinkUITests]

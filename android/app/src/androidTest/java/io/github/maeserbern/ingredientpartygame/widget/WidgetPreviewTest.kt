@@ -104,12 +104,16 @@ class WidgetPreviewTest {
         val book = deck.bookFor(deck.puzzleForDay(day)!!)!!
         val intent = bookIntent(book)
         assertEquals(book.url, intent.dataString)
-        val handler = context.packageManager.resolveActivity(intent, 0)
-        assertNotNull("a browser can open ${book.url}", handler)
+        // Asked through the shell: the app itself needs no <queries>, because the widget
+        // hands the intent to the system, which picks the browser / Amazon app.
+        val handlers = shell("cmd package query-activities --brief -a android.intent.action.VIEW " +
+            "-c android.intent.category.BROWSABLE -d ${book.url}")
+        val browsers = Regex("""([a-zA-Z0-9_.]+)/""").findAll(handlers).map { it.groupValues[1] }.toSet()
         val views = LabelOfTheDayWidget().compose(context, size = sizes.getValue("large"))
-        val log = StringBuilder("book=${book.url}\nhandler=${handler!!.activityInfo.packageName}\n")
+        val log = StringBuilder("book=${book.url}\nhandlers=${browsers.joinToString()}\n")
+        assertTrue("a browser can open ${book.url}: $handlers", browsers.isNotEmpty())
         for (description in listOf(book.name, "QR code for ${book.name} on Amazon")) {
-            instrumentation.uiAutomation.executeShellCommand("am force-stop ${handler.activityInfo.packageName}").close()
+            browsers.forEach { shell("am force-stop $it") }
             Thread.sleep(1500)
             var clicked = false
             instrumentation.runOnMainSync {

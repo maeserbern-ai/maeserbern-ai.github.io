@@ -314,9 +314,10 @@ struct MediumLabelView: View {
                 }
                 HStack(alignment: .top, spacing: 8) {
                     LabelCard(header: puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS", text: puzzle.fullLabel,
-                              textSize: 9, headerSize: 6.5, lineLimit: puzzle.isTrueFalse ? 4 : 4, padding: 6)
+                              textSize: 9, headerSize: 6.5, lineLimit: 3, padding: 6)
                         .frame(width: 128)
                         .frame(maxHeight: 72, alignment: .top)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         .overlay(alignment: .topTrailing) {
                             if let correct = entry.correct {
                                 Stamp(correct: correct, size: 14).offset(x: 10, y: 18)

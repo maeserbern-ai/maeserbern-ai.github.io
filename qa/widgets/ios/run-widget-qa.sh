@@ -110,20 +110,16 @@ if [ -n "$APP" ] && [ -d "$APP" ]; then
   sleep 3
   LINKS="$OUT/snapshots/widget-links.txt"
   test -s "$LINKS"
-  # Cold start: the game is not running when the widget link arrives.
-  FIRST=$(head -n 1 "$LINKS")
-  xcrun simctl terminate "$DEV" "$BID" || true
-  xcrun simctl terminate "$DEV" com.apple.mobilesafari || true
-  sleep 2
-  xcrun simctl openurl "$DEV" "$FIRST"
-  sleep 12
-  xcrun simctl io "$DEV" screenshot "$OUT/book-link-cold-start.png"
-  # Warm: every book's link while the game is open.
-  while read -r LINK; do
-    xcrun simctl launch "$DEV" "$BID" > /dev/null; sleep 4
-    xcrun simctl openurl "$DEV" "$LINK"; sleep 6
-  done < "$LINKS"
-  xcrun simctl io "$DEV" screenshot "$OUT/book-link-warm-last.png"
+  # A UI test hands each widget book link to the game the way a widget tap does
+  # (first one on a cold start) and waits for Safari; screenshots are attachments.
+  cd qa/widgets/ios
+  TEST_RESULT=0
+  TEST_RUNNER_BOOK_LINKS="$(tr '\n' ' ' < "$LINKS")" xcodebuild test -project WidgetSnapshots.xcodeproj \
+    -scheme WidgetSnapshots -destination "platform=iOS Simulator,id=$DEV" -derivedDataPath "$RUNNER_TEMP/snap" \
+    -resultBundlePath "$OUT/book-links.xcresult" CODE_SIGNING_ALLOWED=NO > "$OUT/book-links-test.log" 2>&1 || TEST_RESULT=$?
+  tail -n 30 "$OUT/book-links-test.log"
+  xcrun xcresulttool export attachments --path "$OUT/book-links.xcresult" --output-path "$OUT/book-link-screens" || true
+  cd "$ROOT"
   sleep 2
   kill "$LOG_PID" || true
   cat "$OUT/book-link.log"
@@ -136,10 +132,11 @@ for l in links:
     target = urllib.parse.parse_qs(urllib.parse.urlparse(l).query)["u"][0]
     if f"opened=true {target}" not in log: missing.append(target)
 cold = urllib.parse.parse_qs(urllib.parse.urlparse(links[0]).query)["u"][0]
-if log.count(f"opened=true {cold}") < 2: missing.append("cold start " + cold)
+
 print("book links opened by UIApplication.open:", len(links) - len([m for m in missing if not m.startswith("cold")]), "of", len(links))
 sys.exit(1 if missing else 0)
 PY
+  test "$TEST_RESULT" -eq 0
 ) || fail "book links"
 fi
 

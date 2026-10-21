@@ -39,7 +39,8 @@ jobs:
       - name: Zip the channel
         run: |
           rm -f ingredient-party-game-roku.zip
-          zip -r -X ingredient-party-game-roku.zip manifest source components images fonts data sounds
+          # -D: no directory entries (files only), which every Roku installer and simulator reads.
+          zip -r -X -D ingredient-party-game-roku.zip manifest source components images fonts data sounds
           unzip -l ingredient-party-game-roku.zip | tail -1
           size=$(stat -c %s ingredient-party-game-roku.zip)
           echo "Zip size: $size bytes"

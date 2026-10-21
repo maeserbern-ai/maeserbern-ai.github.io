@@ -288,6 +288,21 @@ button{font:inherit;color:inherit;cursor:pointer;}
 .r-side .r-book img{width:230px;flex:none;}
 .r-side.solo .r-book{flex-direction:column;text-align:center;font-size:30px;}
 .r-side.solo .r-book img{width:300px;}
+/* Small QR on the answer screen's book card (same codes as the final screen). */
+.r-book-text{display:flex;flex-direction:column;align-items:flex-start;}
+.r-side.solo .r-book-text{align-items:center;}
+.r-book .r-qr{display:block;width:150px;height:150px;margin-top:20px;padding:8px;background:var(--label);
+  border-radius:14px;box-sizing:border-box;}
+.r-side .r-book .r-qr img{display:block;width:100%;height:100%;aspect-ratio:auto;object-fit:contain;background:none;
+  border-radius:0;box-shadow:none;}
+.r-qr-cap{display:block;margin-top:10px;font-size:22px;font-weight:700;line-height:1.3;color:var(--muted);}
+/* Book link can't open here (TV without a browser, blocked pop-up): point at the QR instead. */
+.qr-hint[hidden]{display:none;}
+.f-qr-hint{margin:18px 0 0;font-size:28px;font-weight:800;color:#3F5D4F;}
+.qr-hint.nudge{color:var(--gold);}
+.f-qr-hint.nudge{color:#B5654A;}
+.qr-box.nudge{animation:qr-nudge 0.7s ease-in-out 3;box-shadow:0 0 0 6px var(--gold);border-radius:14px;}
+@keyframes qr-nudge{50%{transform:scale(1.08);box-shadow:0 0 0 14px var(--gold);}}
 #s-title .logo{font-size:206px;margin-bottom:56px;}
 #s-title .logo span{margin-right:.1em;}
 .dare-head{display:flex;align-items:center;justify-content:space-between;gap:24px;}

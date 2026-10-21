@@ -208,7 +208,11 @@
       </div>
       <a class="r-book" id="r-book" target="_blank" rel="noopener">
         <img id="r-cover" alt="" />
-        <span>Learn more in<br /><b id="r-book-title"></b></span>
+        <span class="r-book-text">Learn more in<br /><b id="r-book-title"></b>
+          <!-- Same QR as the final screen, so TVs without a browser can still reach the book. -->
+          <span class="r-qr qr-box"><img id="r-qr" alt="QR code to the book" /></span>
+          <small class="qr-hint r-qr-cap" id="r-qr-cap" data-default="Scan with your phone">Scan with your phone</small>
+        </span>
       </a>
      </aside>
     </div>
@@ -234,12 +238,13 @@
       </div>
       <aside class="promo">
         <p class="promo-kicker">What's really in your stuff?</p>
-        <div class="qr-wrap">
+        <div class="qr-wrap qr-box">
           <img id="f-qr" class="f-qr" alt="QR code to the book" />
           <img id="f-cover" class="qr-cover" alt="" />
         </div>
         <p class="promo-title">Scan to get<br /><b id="f-title"></b></p>
         <a id="f-link" class="get-book" target="_blank" rel="noopener"></a>
+        <p class="qr-hint f-qr-hint" id="f-qr-hint" hidden></p>
       </aside>
     </div>
   </section>

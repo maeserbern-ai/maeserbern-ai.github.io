@@ -1,0 +1,251 @@
+{
+ "warn": [
+  {
+   "pattern": "red 40|yellow 5|yellow 6|blue 1\\b|green 3",
+   "flags": "i",
+   "text": "Synthetic dye"
+  },
+  {
+   "pattern": "\\bbha\\b",
+   "flags": "i",
+   "text": "Possible carcinogen"
+  },
+  {
+   "pattern": "\\bbht\\b",
+   "flags": "i",
+   "text": "Debated preservative"
+  },
+  {
+   "pattern": "paraben",
+   "flags": "i",
+   "text": "Paraben preservative"
+  },
+  {
+   "pattern": "methylisothiazolinone",
+   "flags": "i",
+   "text": "Skin allergen"
+  },
+  {
+   "pattern": "dmdm hydantoin",
+   "flags": "i",
+   "text": "Releases formaldehyde"
+  },
+  {
+   "pattern": "sodium lauryl sulfate",
+   "flags": "i",
+   "text": "Skin irritant"
+  },
+  {
+   "pattern": "sodium laureth sulfate",
+   "flags": "i",
+   "text": "Can carry 1,4-dioxane"
+  },
+  {
+   "pattern": "triethanolamine",
+   "flags": "i",
+   "text": "Skin irritant"
+  },
+  {
+   "pattern": "titanium dioxide",
+   "flags": "i",
+   "text": "Banned in EU food"
+  },
+  {
+   "pattern": "aspartame",
+   "flags": "i",
+   "text": "Possible carcinogen (IARC)"
+  },
+  {
+   "pattern": "sodium nitrite",
+   "flags": "i",
+   "text": "Can form nitrosamines"
+  },
+  {
+   "pattern": "high fructose corn syrup",
+   "flags": "i",
+   "text": "Highly processed sugar"
+  },
+  {
+   "pattern": "hydrogenated vegetable oil",
+   "flags": "i",
+   "text": "Hardened oil"
+  },
+  {
+   "pattern": "mineral oil|petrolatum|paraffin|petroleum",
+   "flags": "i",
+   "text": "Petroleum-based"
+  },
+  {
+   "pattern": "\\btalc\\b",
+   "flags": "i",
+   "text": "Asbestos risk if impure"
+  },
+  {
+   "pattern": "hydrochloric acid|sodium hydroxide|ammonium hydroxide",
+   "flags": "i",
+   "text": "Corrosive"
+  },
+  {
+   "pattern": "sodium hypochlorite|dichloroisocyanurate",
+   "flags": "i",
+   "text": "Bleach — never mix"
+  },
+  {
+   "pattern": "ethoxyquin",
+   "flags": "i",
+   "text": "Restricted in the EU"
+  },
+  {
+   "pattern": "borax",
+   "flags": "i",
+   "text": "Toxic if swallowed"
+  },
+  {
+   "pattern": "butane|propane",
+   "flags": "i",
+   "text": "Flammable gas"
+  },
+  {
+   "pattern": "optical brightener",
+   "flags": "i",
+   "text": "Stays on fabric"
+  },
+  {
+   "pattern": "benzalkonium chloride",
+   "flags": "i",
+   "text": "Skin irritant"
+  },
+  {
+   "pattern": "quaternary ammonium|diethylester dimethyl ammonium",
+   "flags": "i",
+   "text": "Can irritate airways"
+  },
+  {
+   "pattern": "limonene",
+   "flags": "i",
+   "text": "Can form formaldehyde indoors"
+  },
+  {
+   "pattern": "hexoxyethanol",
+   "flags": "i",
+   "text": "Harsh solvent"
+  },
+  {
+   "pattern": "caramel color",
+   "flags": "i",
+   "text": "May contain 4-MEI"
+  },
+  {
+   "pattern": "carmine",
+   "flags": "i",
+   "text": "Made from insects"
+  },
+  {
+   "pattern": "acetone",
+   "flags": "i",
+   "text": "Flammable solvent"
+  },
+  {
+   "pattern": "homosalate",
+   "flags": "i",
+   "text": "FDA wants more safety data"
+  },
+  {
+   "pattern": "octocrylene",
+   "flags": "i",
+   "text": "Can break down to benzophenone"
+  },
+  {
+   "pattern": "cyclopentasiloxane",
+   "flags": "i",
+   "text": "Restricted in the EU"
+  },
+  {
+   "pattern": "dimethyl ether",
+   "flags": "i",
+   "text": "Flammable gas"
+  },
+  {
+   "pattern": "benzyl ammonium chloride",
+   "flags": "i",
+   "text": "Can irritate airways"
+  },
+  {
+   "pattern": "monoethanolamine",
+   "flags": "i",
+   "text": "Skin irritant"
+  },
+  {
+   "pattern": "diethylene glycol monobutyl ether",
+   "flags": "i",
+   "text": "Harsh solvent"
+  },
+  {
+   "pattern": "^ethylene glycol|^diethylene glycol$",
+   "flags": "i",
+   "text": "Poisonous — tastes sweet"
+  },
+  {
+   "pattern": "methanol",
+   "flags": "i",
+   "text": "Poisonous — can cause blindness"
+  },
+  {
+   "pattern": "^ammonia",
+   "flags": "i",
+   "text": "Harsh fumes"
+  },
+  {
+   "pattern": "benzisothiazolinone",
+   "flags": "i",
+   "text": "Skin allergen"
+  },
+  {
+   "pattern": "aluminum zirconium",
+   "flags": "i",
+   "text": "Debated aluminum salt"
+  }
+ ],
+ "undisclosed": [
+  {
+   "pattern": "^fragrance",
+   "flags": "i",
+   "text": "Secret scent recipe"
+  },
+  {
+   "pattern": "^(natural |artificial |natural and artificial )?flavou?r|flavorings|smoke flavor",
+   "flags": "i",
+   "text": "Secret flavor recipe"
+  },
+  {
+   "pattern": "gum base",
+   "flags": "i",
+   "text": "Secret blend"
+  },
+  {
+   "pattern": "^spices?$",
+   "flags": "i",
+   "text": "Spices not named"
+  },
+  {
+   "pattern": "blue dye|^dye$|colorants?$",
+   "flags": "i",
+   "text": "Dye not named"
+  },
+  {
+   "pattern": "meat by-products",
+   "flags": "i",
+   "text": "Animal not named"
+  },
+  {
+   "pattern": "nonionic surfactant|fabric softening agents",
+   "flags": "i",
+   "text": "Chemical not named"
+  },
+  {
+   "pattern": "biocide",
+   "flags": "i",
+   "text": "Chemical not named"
+  }
+ ]
+}

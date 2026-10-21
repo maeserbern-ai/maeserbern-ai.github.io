@@ -1,0 +1,2289 @@
+[
+ {
+  "answer": "Gummy bears",
+  "options": [
+   "Car wax",
+   "Gummy bears",
+   "Cough drops",
+   "Vitamin gummies"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Corn syrup",
+   "Sugar",
+   "Gelatin",
+   "Dextrose",
+   "Citric acid",
+   "Natural and artificial flavors",
+   "Starch",
+   "Vegetable oil",
+   "Carnauba wax",
+   "Red 40",
+   "Yellow 5",
+   "Blue 1"
+  ],
+  "spotlight": {
+   "name": "Carnauba wax",
+   "note": "A wax from Brazilian palm leaves. It gives gummies their shine — and it's also a classic ingredient in car wax and shoe polish."
+  }
+ },
+ {
+  "answer": "Toothpaste",
+  "options": [
+   "Cake frosting",
+   "Marshmallow fluff",
+   "Toothpaste",
+   "Hand cream"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Sorbitol",
+   "Water",
+   "Hydrated silica",
+   "Sodium lauryl sulfate",
+   "Flavor",
+   "Sodium phosphate",
+   "Cellulose gum",
+   "Sodium saccharin",
+   "Titanium dioxide",
+   "Sodium fluoride"
+  ],
+  "spotlight": {
+   "name": "Sorbitol",
+   "note": "A sugar alcohol that keeps the paste moist and sweet. It's the same sweetener found in sugar-free gum and candy."
+  }
+ },
+ {
+  "answer": "Dandruff shampoo",
+  "options": [
+   "Dish soap",
+   "Bubble bath",
+   "Laundry detergent",
+   "Dandruff shampoo"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "Sodium laureth sulfate",
+   "Sodium lauryl sulfate",
+   "Glycol distearate",
+   "Cocamide MEA",
+   "Zinc pyrithione",
+   "Sodium chloride",
+   "Dimethicone",
+   "Fragrance",
+   "Sodium benzoate"
+  ],
+  "spotlight": {
+   "name": "Sodium chloride",
+   "note": "That's plain table salt. Shampoo makers add it to make the liquid thicker."
+  }
+ },
+ {
+  "answer": "Lip balm",
+  "options": [
+   "Lip balm",
+   "Birthday candle",
+   "Crayon",
+   "Baby oil"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Petrolatum",
+   "Lanolin",
+   "Paraffin",
+   "Mineral oil",
+   "Beeswax",
+   "Camphor",
+   "Menthol",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Lanolin",
+   "note": "A waxy grease that comes from sheep's wool. Sheep make it to waterproof their coats."
+  }
+ },
+ {
+  "answer": "Individually wrapped cheese slices",
+  "options": [
+   "Cheddar cheese",
+   "Individually wrapped cheese slices",
+   "Mac & cheese powder",
+   "Cheese dip"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Milk",
+   "Whey",
+   "Milk protein concentrate",
+   "Milkfat",
+   "Sodium citrate",
+   "Salt",
+   "Calcium phosphate",
+   "Lactic acid",
+   "Sorbic acid",
+   "Apocarotenal (color)",
+   "Annatto (color)",
+   "Enzymes",
+   "Cheese culture"
+  ],
+  "spotlight": {
+   "name": "Sodium citrate",
+   "note": "An emulsifying salt that makes slices melt perfectly smooth. With all the extras, many are legally labeled \"cheese product,\" not cheese."
+  }
+ },
+ {
+  "answer": "Dish soap",
+  "options": [
+   "Shampoo",
+   "Dish soap",
+   "Hand soap",
+   "Bubble bath"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Sodium lauryl sulfate",
+   "Lauramine oxide",
+   "Sodium chloride",
+   "Alcohol denat.",
+   "PPG-26",
+   "Fragrance",
+   "Methylisothiazolinone",
+   "Colorants"
+  ],
+  "spotlight": {
+   "name": "Methylisothiazolinone",
+   "note": "A preservative that's a common skin allergen. The EU banned it from leave-on cosmetics, but it still shows up in rinse-off products and cleaners."
+  }
+ },
+ {
+  "answer": "Ranch dressing",
+  "options": [
+   "Mayonnaise",
+   "Hand lotion",
+   "Ranch dressing",
+   "Sour cream dip"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Soybean oil",
+   "Water",
+   "Egg yolk",
+   "Sugar",
+   "Salt",
+   "Cultured nonfat buttermilk",
+   "Natural flavors",
+   "Spices",
+   "Dried garlic",
+   "Dried onion",
+   "Vinegar",
+   "Xanthan gum",
+   "Monosodium glutamate",
+   "Sorbic acid",
+   "Calcium disodium EDTA"
+  ],
+  "spotlight": {
+   "name": "Calcium disodium EDTA",
+   "note": "A preservative that grabs onto metals so flavors don't go stale. Doctors use the same compound to treat lead poisoning."
+  }
+ },
+ {
+  "answer": "Hand lotion",
+  "options": [
+   "Ranch dressing",
+   "Mayonnaise",
+   "Sunscreen",
+   "Hand lotion"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "Glycerin",
+   "Mineral oil",
+   "Stearic acid",
+   "Cetyl alcohol",
+   "Glyceryl stearate",
+   "Dimethicone",
+   "Petrolatum",
+   "Fragrance",
+   "Carbomer",
+   "Methylparaben",
+   "Propylparaben"
+  ],
+  "spotlight": {
+   "name": "Stearic acid",
+   "note": "A fatty acid from plant or animal fat. It's also what makes candles and bar soap hard."
+  }
+ },
+ {
+  "answer": "Vanilla frosting",
+  "options": [
+   "Vanilla frosting",
+   "Shaving cream",
+   "Hand lotion",
+   "Whipped topping"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Sugar",
+   "Palm oil",
+   "Water",
+   "Corn syrup",
+   "Corn starch",
+   "Salt",
+   "Mono- and diglycerides",
+   "Polysorbate 60",
+   "Natural and artificial flavor",
+   "Sodium stearoyl lactylate",
+   "Citric acid",
+   "Potassium sorbate",
+   "Soy lecithin"
+  ],
+  "spotlight": {
+   "name": "Polysorbate 60",
+   "note": "An emulsifier that keeps oil and water mixed. You'll find the same family of ingredients in lotions and creams."
+  }
+ },
+ {
+  "answer": "Shaving cream",
+  "options": [
+   "Spray whipped cream",
+   "Frosting",
+   "Shaving cream",
+   "Body lotion"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "Stearic acid",
+   "Triethanolamine",
+   "Laureth-23",
+   "Isobutane",
+   "Propane",
+   "Fragrance",
+   "Sorbitol"
+  ],
+  "spotlight": {
+   "name": "Isobutane and propane",
+   "note": "The same gases used in camping stoves. In a can, they're what puff the cream into foam."
+  }
+ },
+ {
+  "answer": "Spray whipped cream",
+  "options": [
+   "Shaving cream",
+   "Spray whipped cream",
+   "Hair mousse",
+   "Coffee creamer"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Cream",
+   "Water",
+   "Sugar",
+   "Corn syrup",
+   "Nonfat milk",
+   "Natural flavor",
+   "Mono- and diglycerides",
+   "Carrageenan",
+   "Nitrous oxide (propellant)"
+  ],
+  "spotlight": {
+   "name": "Nitrous oxide",
+   "note": "Also known as laughing gas — the same gas a dentist uses. It whips the cream as it leaves the can."
+  }
+ },
+ {
+  "answer": "Frozen whipped topping",
+  "options": [
+   "Real whipped cream",
+   "Hair conditioner",
+   "Shaving cream",
+   "Frozen whipped topping"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Water",
+   "Hydrogenated vegetable oil (coconut and palm kernel)",
+   "High fructose corn syrup",
+   "Corn syrup",
+   "Skim milk",
+   "Light cream",
+   "Sodium caseinate",
+   "Natural and artificial flavor",
+   "Xanthan and guar gums",
+   "Polysorbate 60",
+   "Sorbitan monostearate",
+   "Beta carotene (color)"
+  ],
+  "spotlight": {
+   "name": "Light cream",
+   "note": "It's sixth on the list. The tub is mostly water, oil and syrup — cream makes up only a tiny part."
+  }
+ },
+ {
+  "answer": "Hair conditioner",
+  "options": [
+   "Hair conditioner",
+   "Frozen whipped topping",
+   "Shampoo",
+   "Body wash"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "Cetearyl alcohol",
+   "Behentrimonium chloride",
+   "Stearamidopropyl dimethylamine",
+   "Dimethicone",
+   "Glycerin",
+   "Fragrance",
+   "Citric acid",
+   "Benzyl alcohol",
+   "Phenoxyethanol"
+  ],
+  "spotlight": {
+   "name": "Cetearyl alcohol",
+   "note": "Despite the name, it's not drying like rubbing alcohol. It's a waxy \"fatty alcohol\" from coconut or palm that makes conditioner creamy."
+  }
+ },
+ {
+  "answer": "Diet cola",
+  "options": [
+   "Iced tea",
+   "Root beer",
+   "Rust remover",
+   "Diet cola"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Carbonated water",
+   "Caramel color",
+   "Aspartame",
+   "Phosphoric acid",
+   "Potassium benzoate",
+   "Natural flavors",
+   "Citric acid",
+   "Caffeine"
+  ],
+  "spotlight": {
+   "name": "Phosphoric acid",
+   "note": "It gives cola its tang. It's also the main ingredient in many rust removers."
+  }
+ },
+ {
+  "answer": "Toilet bowl cleaner",
+  "options": [
+   "Diet cola",
+   "Glass cleaner",
+   "Toilet bowl cleaner",
+   "Mouthwash"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water",
+   "Hydrochloric acid",
+   "Lauramine oxide",
+   "Xanthan gum",
+   "Fragrance",
+   "Colorant"
+  ],
+  "spotlight": {
+   "name": "Hydrochloric acid",
+   "note": "The same acid your stomach makes to digest food. Never mix it with bleach — together they release toxic gas."
+  }
+ },
+ {
+  "answer": "Mouthwash",
+  "options": [
+   "Sports drink",
+   "Mint liqueur",
+   "Mouthwash",
+   "Glass cleaner"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "Alcohol (21.6%)",
+   "Sorbitol",
+   "Flavor",
+   "Poloxamer 407",
+   "Benzoic acid",
+   "Eucalyptol",
+   "Methyl salicylate",
+   "Thymol",
+   "Menthol",
+   "Sodium benzoate",
+   "Sodium saccharin",
+   "Green 3"
+  ],
+  "spotlight": {
+   "name": "Alcohol (21.6%)",
+   "note": "That's about 43 proof — stronger than most wine. It's why the classic version burns."
+  }
+ },
+ {
+  "answer": "Sports drink",
+  "options": [
+   "Mouthwash",
+   "Window cleaner",
+   "Sports drink",
+   "Lemonade powder"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Water",
+   "Sugar",
+   "Dextrose",
+   "Citric acid",
+   "Salt",
+   "Sodium citrate",
+   "Monopotassium phosphate",
+   "Gum arabic",
+   "Glycerol ester of rosin",
+   "Natural flavor",
+   "Yellow 6"
+  ],
+  "spotlight": {
+   "name": "Glycerol ester of rosin",
+   "note": "Made from pine tree rosin. It keeps the flavor oils from floating to the top of the bottle."
+  }
+ },
+ {
+  "answer": "Glass cleaner",
+  "options": [
+   "Glass cleaner",
+   "Sports drink",
+   "Mouthwash",
+   "Blue raspberry slushie"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water",
+   "2-Hexoxyethanol",
+   "Isopropanolamine",
+   "Sodium dodecylbenzene sulfonate",
+   "Ammonium hydroxide",
+   "Fragrance",
+   "Blue dye"
+  ],
+  "spotlight": {
+   "name": "Ammonium hydroxide",
+   "note": "Ammonia dissolved in water — it's what cuts the streaks. Never mix it with bleach."
+  }
+ },
+ {
+  "answer": "Fruity cereal rings",
+  "options": [
+   "Dog treats",
+   "Fruity cereal rings",
+   "Granola",
+   "Bird seed"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Sugar",
+   "Corn flour blend",
+   "Wheat flour",
+   "Whole grain oat flour",
+   "Hydrogenated vegetable oil",
+   "Oat fiber",
+   "Soluble corn fiber",
+   "Salt",
+   "Natural flavor",
+   "Red 40",
+   "Yellow 5",
+   "Blue 1",
+   "Yellow 6",
+   "BHT (for freshness)"
+  ],
+  "spotlight": {
+   "name": "BHT",
+   "note": "A preservative that stops fats from going rancid. The same antioxidant is also added to rubber, plastics and jet fuel."
+  }
+ },
+ {
+  "answer": "Bacon-style dog treats",
+  "options": [
+   "Beef jerky",
+   "Bacon bits",
+   "Bacon-style dog treats",
+   "Fruit leather"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Ground wheat",
+   "Corn gluten meal",
+   "Water",
+   "Sugar",
+   "Glycerin",
+   "Soy grits",
+   "Bacon fat (preserved with BHA)",
+   "Salt",
+   "Phosphoric acid",
+   "Sorbic acid",
+   "Calcium propionate",
+   "Natural smoke flavor",
+   "Red 40",
+   "Yellow 5",
+   "Yellow 6",
+   "Blue 1"
+  ],
+  "spotlight": {
+   "name": "Red 40",
+   "note": "The same dye used in candy. Dogs don't care what color their treats are — the color is there for the humans."
+  }
+ },
+ {
+  "answer": "Imitation bacon bits",
+  "options": [
+   "Croutons",
+   "Fish food flakes",
+   "Bacon-style dog treats",
+   "Imitation bacon bits"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Defatted soy flour",
+   "Soybean oil",
+   "Salt",
+   "Caramel color",
+   "Natural and artificial flavor",
+   "Yeast extract",
+   "Red 40"
+  ],
+  "spotlight": {
+   "name": "Defatted soy flour",
+   "note": "There's no bacon in them at all. They're crunchy bits of flavored, colored soy."
+  }
+ },
+ {
+  "answer": "Fish food flakes",
+  "options": [
+   "Fish food flakes",
+   "Bread crumbs",
+   "Fish oil capsules",
+   "Imitation bacon bits"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Fish meal",
+   "Shrimp meal",
+   "Wheat flour",
+   "Soybean meal",
+   "Fish oil",
+   "Brewers dried yeast",
+   "Spirulina",
+   "Algae meal",
+   "Ascorbic acid",
+   "Ethoxyquin"
+  ],
+  "spotlight": {
+   "name": "Ethoxyquin",
+   "note": "A preservative first developed to stabilize rubber. The EU suspended it as an animal feed additive in 2017."
+  }
+ },
+ {
+  "answer": "Powdered coffee creamer",
+  "options": [
+   "Powdered milk",
+   "Baby powder",
+   "Powdered coffee creamer",
+   "Pancake mix"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Corn syrup solids",
+   "Hydrogenated vegetable oil (coconut and/or palm kernel)",
+   "Sodium caseinate",
+   "Mono- and diglycerides",
+   "Dipotassium phosphate",
+   "Sodium aluminosilicate",
+   "Artificial flavor",
+   "Annatto color"
+  ],
+  "spotlight": {
+   "name": "Sodium caseinate",
+   "note": "A milk protein that keeps the oil blended into your coffee — even though the jar says \"non-dairy.\" Labeling rules allow it."
+  }
+ },
+ {
+  "answer": "Baby powder",
+  "options": [
+   "Cornstarch",
+   "Powdered sugar",
+   "Baby powder",
+   "Dry shampoo"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Zea mays (corn) starch",
+   "Tricalcium phosphate",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Zea mays (corn) starch",
+   "note": "The same cornstarch in your pantry, under its Latin name. Many brands switched to it from talc."
+  }
+ },
+ {
+  "answer": "Dry shampoo",
+  "options": [
+   "Spray deodorant",
+   "Cooking spray",
+   "Hairspray",
+   "Dry shampoo"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Butane",
+   "Isobutane",
+   "Propane",
+   "Alcohol denat.",
+   "Oryza sativa (rice) starch",
+   "Fragrance",
+   "Isopropyl myristate",
+   "Distearyldimonium chloride",
+   "Silica"
+  ],
+  "spotlight": {
+   "name": "Butane, isobutane, propane",
+   "note": "The first three ingredients are flammable fuel gases. Let it settle before you go near a curling iron or flame."
+  }
+ },
+ {
+  "answer": "Cooking spray",
+  "options": [
+   "Cooking spray",
+   "Dry shampoo",
+   "Furniture polish",
+   "Hairspray"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Canola oil",
+   "Soy lecithin",
+   "Dimethyl silicone",
+   "Rosemary extract",
+   "Propellant (butane, propane)"
+  ],
+  "spotlight": {
+   "name": "Dimethyl silicone",
+   "note": "An anti-foaming silicone — the same family as the dimethicone in hair conditioner and lotion."
+  }
+ },
+ {
+  "answer": "Laundry detergent pod",
+  "options": [
+   "Gummy candy",
+   "Dishwasher tablet",
+   "Laundry detergent pod",
+   "Bath bomb"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Propylene glycol",
+   "C12-15 pareth-9",
+   "Linear alkylbenzene sulfonate",
+   "Glycerin",
+   "Water",
+   "Ethanolamine",
+   "Citric acid",
+   "Enzymes",
+   "Fragrance",
+   "Polyvinyl alcohol (film)"
+  ],
+  "spotlight": {
+   "name": "Polyvinyl alcohol film",
+   "note": "The wrapper that dissolves in the wash. Pods look like candy, so keep them locked away from kids."
+  }
+ },
+ {
+  "answer": "Bath bomb",
+  "options": [
+   "Antacid tablet",
+   "Baking powder",
+   "Bath bomb",
+   "Fizzy candy"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Sodium bicarbonate",
+   "Citric acid",
+   "Magnesium sulfate",
+   "Corn starch",
+   "Coconut oil",
+   "Fragrance",
+   "Colorants"
+  ],
+  "spotlight": {
+   "name": "Sodium bicarbonate + citric acid",
+   "note": "Baking soda plus acid — the same fizz as a science-fair volcano or a fizzy antacid tablet."
+  }
+ },
+ {
+  "answer": "Baking powder",
+  "options": [
+   "Bath bomb",
+   "Antacid tablet",
+   "Laundry booster",
+   "Baking powder"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Sodium bicarbonate",
+   "Sodium aluminum sulfate",
+   "Corn starch",
+   "Monocalcium phosphate"
+  ],
+  "spotlight": {
+   "name": "Sodium aluminum sulfate",
+   "note": "The second-stage acid that makes \"double-acting\" powder rise again in the oven. Aluminum-free versions exist."
+  }
+ },
+ {
+  "answer": "Instant ramen seasoning packet",
+  "options": [
+   "Instant ramen seasoning packet",
+   "Bouillon cube",
+   "Taco seasoning",
+   "Bath salts"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Salt",
+   "Monosodium glutamate",
+   "Sugar",
+   "Hydrolyzed soy protein",
+   "Garlic powder",
+   "Onion powder",
+   "Spices",
+   "Disodium inosinate",
+   "Disodium guanylate",
+   "Caramel color"
+  ],
+  "spotlight": {
+   "name": "Disodium inosinate & guanylate",
+   "note": "Flavor boosters that make MSG taste many times stronger. They're often made from yeast or fish."
+  }
+ },
+ {
+  "answer": "Bath salts",
+  "options": [
+   "Sea salt",
+   "Instant ramen seasoning packet",
+   "Road salt",
+   "Bath salts"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Magnesium sulfate",
+   "Sodium chloride",
+   "Fragrance",
+   "Mica",
+   "Colorants"
+  ],
+  "spotlight": {
+   "name": "Magnesium sulfate",
+   "note": "Better known as Epsom salt. It's also sold as a laxative and as garden fertilizer."
+  }
+ },
+ {
+  "answer": "Energy drink",
+  "options": [
+   "Multivitamin",
+   "Energy drink",
+   "Sports drink",
+   "Cough syrup"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Carbonated water",
+   "Sucrose",
+   "Glucose",
+   "Citric acid",
+   "Natural flavors",
+   "Taurine",
+   "Sodium citrate",
+   "Panax ginseng extract",
+   "Caffeine",
+   "Sorbic acid",
+   "Niacinamide",
+   "Sucralose",
+   "Inositol",
+   "Guarana extract",
+   "Pyridoxine hydrochloride",
+   "Cyanocobalamin"
+  ],
+  "spotlight": {
+   "name": "Taurine",
+   "note": "Named after bulls (Latin taurus) because it was first found in ox bile. Today it's made in a lab."
+  }
+ },
+ {
+  "answer": "Cough syrup",
+  "options": [
+   "Fruit punch",
+   "Mouthwash",
+   "Energy drink",
+   "Cough syrup"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Water",
+   "High fructose corn syrup",
+   "Glycerin",
+   "Propylene glycol",
+   "Sorbitol",
+   "Dextromethorphan HBr",
+   "Citric acid",
+   "Sodium benzoate",
+   "Flavor",
+   "Red 40"
+  ],
+  "spotlight": {
+   "name": "Propylene glycol",
+   "note": "It keeps the syrup smooth. It's also the base of \"pet-safer\" antifreeze."
+  }
+ },
+ {
+  "answer": "Chewing gum",
+  "options": [
+   "Rubber cement",
+   "Chewing gum",
+   "Mint candies",
+   "Lip balm"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Sugar",
+   "Gum base",
+   "Corn syrup",
+   "Dextrose",
+   "Glycerol",
+   "Natural and artificial flavors",
+   "Soy lecithin",
+   "Yellow 5 Lake",
+   "BHT"
+  ],
+  "spotlight": {
+   "name": "Gum base",
+   "note": "A secret blend that can include synthetic rubber and polyvinyl acetate — a plastic also used in white wood glue."
+  }
+ },
+ {
+  "answer": "Diaper rash cream",
+  "options": [
+   "Sunscreen",
+   "Cream cheese",
+   "Diaper rash cream",
+   "Vanilla frosting"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Zinc oxide (40%)",
+   "Petrolatum",
+   "Cod liver oil",
+   "Lanolin",
+   "Talc",
+   "Water",
+   "Fragrance",
+   "Methylparaben",
+   "BHA"
+  ],
+  "spotlight": {
+   "name": "Cod liver oil",
+   "note": "Yes, fish oil — in a baby cream. It's there to soothe skin."
+  }
+ },
+ {
+  "answer": "Hot dogs",
+  "options": [
+   "Canned dog food",
+   "Hot dogs",
+   "Chicken nuggets",
+   "Canned meat loaf"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Mechanically separated chicken",
+   "Pork",
+   "Water",
+   "Corn syrup",
+   "Salt",
+   "Potassium lactate",
+   "Sodium phosphates",
+   "Flavorings",
+   "Sodium diacetate",
+   "Sodium erythorbate",
+   "Sodium nitrite",
+   "Extractives of paprika"
+  ],
+  "spotlight": {
+   "name": "Mechanically separated chicken",
+   "note": "A meat paste made by pressing chicken bones through a sieve under high pressure."
+  }
+ },
+ {
+  "answer": "Canned dog food",
+  "options": [
+   "Hot dogs",
+   "Beef stew",
+   "Canned dog food",
+   "Liver pâté"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water sufficient for processing",
+   "Meat by-products",
+   "Chicken",
+   "Liver",
+   "Wheat gluten",
+   "Corn starch",
+   "Guar gum",
+   "Salt",
+   "Potassium chloride",
+   "Caramel color",
+   "Vitamins and minerals"
+  ],
+  "spotlight": {
+   "name": "Water sufficient for processing",
+   "note": "Pet food labels list water first when it's the biggest ingredient — the can is mostly water."
+  }
+ },
+ {
+  "answer": "Ketchup",
+  "options": [
+   "Barbecue sauce",
+   "Pizza sauce",
+   "Ketchup",
+   "Red food coloring"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Tomato concentrate",
+   "Distilled vinegar",
+   "High fructose corn syrup",
+   "Corn syrup",
+   "Salt",
+   "Spice",
+   "Onion powder",
+   "Natural flavoring"
+  ],
+  "spotlight": {
+   "name": "Two corn syrups",
+   "note": "A common label trick: splitting the sweetener into two kinds pushes each one lower on the list."
+  }
+ },
+ {
+  "answer": "Hand sanitizer",
+  "options": [
+   "Aloe vera gel",
+   "Hair gel",
+   "Hand sanitizer",
+   "Mouthwash"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Ethyl alcohol (70%)",
+   "Water",
+   "Glycerin",
+   "Propylene glycol",
+   "Fragrance",
+   "Isopropyl myristate",
+   "Tocopheryl acetate",
+   "Aloe barbadensis leaf juice",
+   "Carbomer",
+   "Aminomethyl propanol"
+  ],
+  "spotlight": {
+   "name": "Ethyl alcohol",
+   "note": "The same alcohol found in drinks — denatured with bitter additives so nobody drinks it."
+  }
+ },
+ {
+  "answer": "Hair gel",
+  "options": [
+   "Grape jelly",
+   "Hand sanitizer",
+   "Hair gel",
+   "Aloe vera gel"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "PVP",
+   "Triethanolamine",
+   "Carbomer",
+   "Polysorbate 20",
+   "Glycerin",
+   "Fragrance",
+   "Methylparaben"
+  ],
+  "spotlight": {
+   "name": "PVP (polyvinylpyrrolidone)",
+   "note": "The hold in hair gel. It was used during World War II as a blood plasma substitute."
+  }
+ },
+ {
+  "answer": "Grape jelly",
+  "options": [
+   "Grape juice",
+   "Hair gel",
+   "Cough syrup",
+   "Grape jelly"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Grape juice",
+   "High fructose corn syrup",
+   "Corn syrup",
+   "Fruit pectin",
+   "Citric acid",
+   "Sodium citrate"
+  ],
+  "spotlight": {
+   "name": "Fruit pectin",
+   "note": "A natural gelling fiber from apple peels and citrus rinds. It's what turns juice into jelly."
+  }
+ },
+ {
+  "answer": "Liquid bleach",
+  "options": [
+   "Contact lens solution",
+   "Liquid bleach",
+   "Salt water",
+   "Glass cleaner"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Sodium hypochlorite",
+   "Sodium chloride",
+   "Sodium hydroxide",
+   "Sodium carbonate",
+   "Sodium chlorate",
+   "Sodium polyacrylate"
+  ],
+  "spotlight": {
+   "name": "Sodium hydroxide",
+   "note": "Also called lye. It's the same chemical used to make soap — and to give soft pretzels their shiny brown crust."
+  }
+ },
+ {
+  "answer": "Liquid laundry detergent",
+  "options": [
+   "Dish soap",
+   "Fabric softener",
+   "Liquid laundry detergent",
+   "Shampoo"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Sodium laureth sulfate",
+   "C12-15 pareth-7",
+   "Sodium citrate",
+   "Propylene glycol",
+   "Linear alkylbenzene sulfonate",
+   "Enzymes (protease, amylase)",
+   "Optical brightener",
+   "Fragrance",
+   "Colorant"
+  ],
+  "spotlight": {
+   "name": "Optical brightener",
+   "note": "A dye that glows blue under UV light so white clothes look whiter. It doesn't clean anything — it just changes how fabric reflects light."
+  }
+ },
+ {
+  "answer": "Fabric softener",
+  "options": [
+   "Hair conditioner",
+   "Fabric softener",
+   "Hand lotion",
+   "Liquid laundry detergent"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Diethylester dimethyl ammonium chloride",
+   "Fragrance",
+   "Calcium chloride",
+   "Formic acid",
+   "Silicone",
+   "Dye"
+  ],
+  "spotlight": {
+   "name": "Formic acid",
+   "note": "The same acid in ant stings. Its name comes from formica, Latin for ant."
+  }
+ },
+ {
+  "answer": "Dishwasher detergent powder",
+  "options": [
+   "Bath salts",
+   "Baking powder",
+   "Powdered drink mix",
+   "Dishwasher detergent powder"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Sodium carbonate",
+   "Sodium percarbonate",
+   "Sodium citrate",
+   "Sodium silicate",
+   "Enzymes",
+   "Nonionic surfactant",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Sodium percarbonate",
+   "note": "Washing soda bonded with hydrogen peroxide. In water it releases oxygen bubbles — the \"oxygen bleach\" in stain removers."
+  }
+ },
+ {
+  "answer": "Citrus all-purpose cleaner",
+  "options": [
+   "Orange soda",
+   "Citrus all-purpose cleaner",
+   "Sports drink",
+   "Air freshener"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Alkyl polyglucoside",
+   "Sodium citrate",
+   "Limonene",
+   "Fragrance",
+   "Methylisothiazolinone"
+  ],
+  "spotlight": {
+   "name": "Limonene",
+   "note": "The compound that makes oranges smell like oranges. Indoors it can react with ozone in the air and form small amounts of formaldehyde."
+  }
+ },
+ {
+  "answer": "Scouring powder",
+  "options": [
+   "Antacid tablets",
+   "Baby powder",
+   "Scouring powder",
+   "Baking soda"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Calcium carbonate",
+   "Sodium carbonate",
+   "Sodium dichloroisocyanurate",
+   "Sodium dodecylbenzene sulfonate",
+   "Fragrance",
+   "Dye"
+  ],
+  "spotlight": {
+   "name": "Calcium carbonate",
+   "note": "Basically ground-up chalk or limestone — the gritty scrubber. It's also the main ingredient in many antacid tablets."
+  }
+ },
+ {
+  "answer": "Liquid hand soap",
+  "options": [
+   "Liquid hand soap",
+   "Shampoo",
+   "Bubble bath",
+   "Dish soap"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Sodium laureth sulfate",
+   "Cocamidopropyl betaine",
+   "Sodium chloride",
+   "Glycerin",
+   "Fragrance",
+   "Citric acid",
+   "DMDM hydantoin",
+   "Tetrasodium EDTA",
+   "Benzalkonium chloride"
+  ],
+  "spotlight": {
+   "name": "DMDM hydantoin",
+   "note": "A preservative that works by slowly releasing tiny amounts of formaldehyde."
+  }
+ },
+ {
+  "answer": "Fruit snacks",
+  "options": [
+   "Gummy bears",
+   "Fruit leather",
+   "Fruit snacks",
+   "Kids' gummy vitamins"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Fruit puree (apple)",
+   "Corn syrup",
+   "Sugar",
+   "Modified corn starch",
+   "Gelatin",
+   "Citric acid",
+   "Lactic acid",
+   "Ascorbic acid",
+   "Natural flavor",
+   "Vitamin A palmitate",
+   "Carnauba wax",
+   "Coconut oil",
+   "Red 40",
+   "Blue 1"
+  ],
+  "spotlight": {
+   "name": "Ascorbic acid",
+   "note": "That's added vitamin C. It lets the box say \"good source of vitamin C\" even though it's mostly syrup and sugar."
+  }
+ },
+ {
+  "answer": "Boxed mac & cheese powder",
+  "options": [
+   "Cheddar cheese",
+   "Nacho cheese dip",
+   "Cheese puff dust",
+   "Boxed mac & cheese powder"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Whey",
+   "Milkfat",
+   "Milk protein concentrate",
+   "Salt",
+   "Sodium triphosphate",
+   "Citric acid",
+   "Lactic acid",
+   "Sodium phosphate",
+   "Calcium phosphate",
+   "Paprika",
+   "Turmeric",
+   "Annatto (color)",
+   "Enzymes",
+   "Cheese culture"
+  ],
+  "spotlight": {
+   "name": "Paprika, turmeric and annatto",
+   "note": "Where the bright orange comes from. Many brands swapped artificial dyes like Yellow 5 and 6 for spices."
+  }
+ },
+ {
+  "answer": "Kids' gummy vitamins",
+  "options": [
+   "Kids' gummy vitamins",
+   "Fruit snacks",
+   "Cough drops",
+   "Gummy bears"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Glucose syrup",
+   "Sugar",
+   "Water",
+   "Gelatin",
+   "Citric acid",
+   "Natural flavors",
+   "Vitamin C",
+   "Vitamin E",
+   "Vitamin A",
+   "Zinc",
+   "Coconut oil",
+   "Carnauba wax",
+   "Black carrot juice (color)"
+  ],
+  "spotlight": {
+   "name": "Glucose syrup and sugar",
+   "note": "The first two ingredients. They taste like candy, which is exactly why the bottle has a child-proof cap."
+  }
+ },
+ {
+  "answer": "Fruit punch juice box",
+  "options": [
+   "100% apple juice",
+   "Sports drink",
+   "Fruit punch juice box",
+   "Cough syrup"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Water",
+   "High fructose corn syrup",
+   "Concentrated juices (pear, grape, apple)",
+   "Citric acid",
+   "Natural flavors",
+   "Ascorbic acid",
+   "Red 40",
+   "Blue 1"
+  ],
+  "spotlight": {
+   "name": "Concentrated juices",
+   "note": "Third on the list — after water and syrup. Many \"juice drinks\" are only about 10% juice."
+  }
+ },
+ {
+  "answer": "Drain cleaner gel",
+  "options": [
+   "Liquid bleach",
+   "Toilet bowl cleaner",
+   "Drain cleaner gel",
+   "Glass cleaner"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water",
+   "Sodium hypochlorite",
+   "Sodium hydroxide",
+   "Sodium silicate",
+   "Lauramine oxide",
+   "Sodium xylenesulfonate"
+  ],
+  "spotlight": {
+   "name": "Sodium hydroxide",
+   "note": "Lye. It clears clogs by turning hair and grease into soap that rinses away. It can burn skin and eyes."
+  }
+ },
+ {
+  "answer": "Liquid ant bait",
+  "options": [
+   "Hummingbird nectar",
+   "Pancake syrup",
+   "Liquid ant bait",
+   "Eye drops"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Sugar",
+   "Water",
+   "Borax (sodium tetraborate)"
+  ],
+  "spotlight": {
+   "name": "Borax",
+   "note": "The sweet syrup is bait. Ants carry it home and share it, and the borax slowly works through the colony."
+  }
+ },
+ {
+  "answer": "Dryer sheets",
+  "options": [
+   "Makeup wipes",
+   "Dryer sheets",
+   "Facial tissues",
+   "Coffee filters"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Polyester sheet",
+   "Fabric softening agents (quaternary ammonium)",
+   "Fatty acid",
+   "Clay",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Polyester sheet",
+   "note": "The sheet itself is plastic fabric. It's a carrier that melts softener and fragrance onto your clothes in the heat."
+  }
+ },
+ {
+  "answer": "Dry cat food",
+  "options": [
+   "Breakfast cereal",
+   "Croutons",
+   "Dry cat food",
+   "Bird seed"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Chicken by-product meal",
+   "Ground yellow corn",
+   "Corn gluten meal",
+   "Animal fat (preserved with mixed tocopherols)",
+   "Brewers rice",
+   "Natural flavor",
+   "Fish meal",
+   "Salt",
+   "Taurine",
+   "Vitamins and minerals"
+  ],
+  "spotlight": {
+   "name": "Taurine",
+   "note": "Cats can't make enough of it on their own, so it's added — the same ingredient that's in energy drinks."
+  }
+ },
+ {
+  "answer": "Chocolate sandwich cookies",
+  "options": [
+   "Brownie mix",
+   "Chocolate sandwich cookies",
+   "Chocolate protein bar",
+   "Hot cocoa mix"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Sugar",
+   "Unbleached enriched flour",
+   "Palm and/or canola oil",
+   "Cocoa (processed with alkali)",
+   "High fructose corn syrup",
+   "Leavening (baking soda and/or calcium phosphate)",
+   "Salt",
+   "Soy lecithin",
+   "Vanillin (artificial flavor)"
+  ],
+  "spotlight": {
+   "name": "Cocoa processed with alkali",
+   "note": "Also called Dutch-process cocoa. The alkali darkens the color and mellows the taste — and strips out much of cocoa's natural antioxidants."
+  }
+ },
+ {
+  "answer": "Chicken nuggets",
+  "options": [
+   "Fish sticks",
+   "Mozzarella sticks",
+   "Chicken nuggets",
+   "Onion rings"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "White boneless chicken",
+   "Water",
+   "Vegetable oil",
+   "Enriched flour",
+   "Yellow corn flour",
+   "Modified food starch",
+   "Salt",
+   "Leavening (baking soda, sodium aluminum phosphate)",
+   "Spices",
+   "Yeast extract",
+   "Natural flavor",
+   "Dextrose",
+   "Citric acid",
+   "Dimethylpolysiloxane"
+  ],
+  "spotlight": {
+   "name": "Dimethylpolysiloxane",
+   "note": "A silicone added to frying oil so it doesn't foam up. It's the same family of silicone used in caulk and conditioner."
+  }
+ },
+ {
+  "answer": "Strawberry yogurt",
+  "options": [
+   "Strawberry milkshake",
+   "Strawberry jam",
+   "Strawberry ice cream",
+   "Strawberry yogurt"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Cultured low fat milk",
+   "Sugar",
+   "Strawberries",
+   "Modified corn starch",
+   "Kosher gelatin",
+   "Natural flavor",
+   "Carmine (color)",
+   "Vitamin A acetate",
+   "Vitamin D3"
+  ],
+  "spotlight": {
+   "name": "Carmine",
+   "note": "A bright red color made from crushed cochineal bugs. It's natural — but it's not vegetarian, and some people are allergic to it."
+  }
+ },
+ {
+  "answer": "Pancake syrup",
+  "options": [
+   "Pancake syrup",
+   "Pure maple syrup",
+   "Molasses",
+   "Chocolate syrup"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Corn syrup",
+   "High fructose corn syrup",
+   "Water",
+   "Cellulose gum",
+   "Caramel color",
+   "Salt",
+   "Natural and artificial flavor",
+   "Sodium benzoate",
+   "Sorbic acid",
+   "Sodium hexametaphosphate"
+  ],
+  "spotlight": {
+   "name": "Natural and artificial flavor",
+   "note": "There's no maple at all. \"Table syrup\" is corn syrup colored brown and flavored to taste like maple."
+  }
+ },
+ {
+  "answer": "Orange drink mix",
+  "options": [
+   "Orange juice",
+   "Orange soda",
+   "Orange drink mix",
+   "Orange gelatin"
+  ],
+  "kind": "food",
+  "book": "food",
+  "bookName": "It's Not Food",
+  "ingredients": [
+   "Sugar",
+   "Fructose",
+   "Citric acid",
+   "Calcium phosphate",
+   "Potassium citrate",
+   "Ascorbic acid",
+   "Natural flavor",
+   "Gum arabic",
+   "Xanthan gum",
+   "Yellow 5",
+   "Yellow 6",
+   "BHA"
+  ],
+  "spotlight": {
+   "name": "Sugar and fructose",
+   "note": "Two kinds of sugar come first. The orange comes from flavoring and two synthetic dyes — not from oranges."
+  }
+ },
+ {
+  "answer": "Antiperspirant stick",
+  "options": [
+   "Lip balm",
+   "Glue stick",
+   "Antiperspirant stick",
+   "Solid perfume"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Aluminum zirconium tetrachlorohydrex GLY",
+   "Cyclopentasiloxane",
+   "Stearyl alcohol",
+   "PPG-14 butyl ether",
+   "Talc",
+   "Hydrogenated castor oil",
+   "Fragrance",
+   "Behenyl alcohol"
+  ],
+  "spotlight": {
+   "name": "Aluminum zirconium tetrachlorohydrex GLY",
+   "note": "An aluminum salt that forms tiny plugs in sweat ducts so you sweat less. Deodorant alone just covers the smell."
+  }
+ },
+ {
+  "answer": "Nail polish remover",
+  "options": [
+   "Rubbing alcohol",
+   "Paint thinner",
+   "Nail polish remover",
+   "Hand sanitizer"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Acetone",
+   "Water",
+   "Glycerin",
+   "Propylene carbonate",
+   "Fragrance",
+   "Denatonium benzoate",
+   "Red 33"
+  ],
+  "spotlight": {
+   "name": "Denatonium benzoate",
+   "note": "The most bitter chemical known. It's added so anyone who takes a sip — especially a child — spits it right out."
+  }
+ },
+ {
+  "answer": "Sunscreen lotion",
+  "options": [
+   "Sunscreen lotion",
+   "Hand lotion",
+   "Aloe vera gel",
+   "Diaper rash cream"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Avobenzone (3%)",
+   "Homosalate (10%)",
+   "Octisalate (5%)",
+   "Octocrylene (10%)",
+   "Water",
+   "Glycerin",
+   "Styrene/acrylates copolymer",
+   "Silica",
+   "Dimethicone",
+   "Phenoxyethanol",
+   "Fragrance",
+   "Tocopherol"
+  ],
+  "spotlight": {
+   "name": "Homosalate",
+   "note": "A chemical UV filter. The FDA has asked makers for more safety data, and Europe now limits how much can be used."
+  }
+ },
+ {
+  "answer": "Hairspray",
+  "options": [
+   "Dry shampoo",
+   "Spray deodorant",
+   "Hairspray",
+   "Air freshener"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Alcohol denat.",
+   "Dimethyl ether",
+   "Octylacrylamide/acrylates copolymer",
+   "Aminomethyl propanol",
+   "Fragrance",
+   "Panthenol"
+  ],
+  "spotlight": {
+   "name": "Octylacrylamide/acrylates copolymer",
+   "note": "A plastic-like film that dries stiff on each hair. That's the \"hold.\""
+  }
+ },
+ {
+  "answer": "Liquid foundation",
+  "options": [
+   "Liquid foundation",
+   "Sunscreen lotion",
+   "Chocolate pudding",
+   "Diaper rash cream"
+  ],
+  "kind": "not",
+  "book": "beauty",
+  "bookName": "It's Not Beauty",
+  "ingredients": [
+   "Water",
+   "Cyclopentasiloxane",
+   "Titanium dioxide",
+   "Glycerin",
+   "Dimethicone",
+   "Iron oxides",
+   "Mica",
+   "Phenoxyethanol",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Iron oxides",
+   "note": "Purified rust. Red, yellow and black iron oxides are mixed to match skin tones."
+  }
+ },
+ {
+  "answer": "Laundry stain remover spray",
+  "options": [
+   "Laundry stain remover spray",
+   "Glass cleaner",
+   "Fabric softener",
+   "Dish soap"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "C12-15 pareth-7",
+   "Enzymes (protease, amylase)",
+   "Propylene glycol",
+   "Sodium citrate",
+   "Fragrance",
+   "Methylisothiazolinone"
+  ],
+  "spotlight": {
+   "name": "Enzymes (protease, amylase)",
+   "note": "Proteins that break down stains the way your stomach breaks down food — protease eats grass and blood, amylase eats starch."
+  }
+ },
+ {
+  "answer": "Oven cleaner",
+  "options": [
+   "Oven cleaner",
+   "Shaving cream",
+   "Drain cleaner gel",
+   "Carpet foam"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Sodium hydroxide",
+   "Butane",
+   "Monoethanolamine",
+   "Diethylene glycol monobutyl ether",
+   "Sodium lauryl sulfate",
+   "Isobutane"
+  ],
+  "spotlight": {
+   "name": "Sodium hydroxide",
+   "note": "Lye. It turns baked-on grease into soap so it wipes away — and it can burn skin and eyes, so gloves on."
+  }
+ },
+ {
+  "answer": "Disinfecting wipes",
+  "options": [
+   "Baby wipes",
+   "Disinfecting wipes",
+   "Makeup wipes",
+   "Hand sanitizer"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Alkyl dimethyl benzyl ammonium chloride",
+   "Alkyl dimethyl ethylbenzyl ammonium chloride",
+   "Propylene glycol",
+   "Fragrance",
+   "Polyester/polypropylene wipe"
+  ],
+  "spotlight": {
+   "name": "Alkyl dimethyl benzyl ammonium chloride",
+   "note": "A \"quat\" disinfectant. It kills germs — and leaves a film behind, which is why labels say to rinse food surfaces."
+  }
+ },
+ {
+  "answer": "Furniture polish spray",
+  "options": [
+   "Hairspray",
+   "Cooking spray",
+   "Furniture polish spray",
+   "Air freshener"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Isoparaffinic hydrocarbon",
+   "Dimethicone",
+   "Butane",
+   "Propane",
+   "Sorbitan oleate",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Dimethicone",
+   "note": "A silicone that leaves a glossy, slippery film — the same ingredient that makes hair conditioner feel smooth."
+  }
+ },
+ {
+  "answer": "Bar soap",
+  "options": [
+   "Bar soap",
+   "Candle",
+   "Bath bomb",
+   "Cheese block"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Sodium tallowate",
+   "Sodium cocoate",
+   "Water",
+   "Glycerin",
+   "Fragrance",
+   "Sodium chloride",
+   "Tetrasodium EDTA",
+   "Titanium dioxide"
+  ],
+  "spotlight": {
+   "name": "Sodium tallowate",
+   "note": "Soap made from beef fat (tallow) mixed with lye. Old-fashioned soap has been made this way for centuries."
+  }
+ },
+ {
+  "answer": "Fabric odor spray",
+  "options": [
+   "Fabric odor spray",
+   "Glass cleaner",
+   "Hair detangler",
+   "Linen water"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Alcohol",
+   "Hydroxypropyl beta-cyclodextrin",
+   "Fragrance",
+   "Citric acid",
+   "Benzisothiazolinone"
+  ],
+  "spotlight": {
+   "name": "Hydroxypropyl beta-cyclodextrin",
+   "note": "A ring-shaped sugar molecule made from corn starch. Odor molecules get trapped inside the ring — then fragrance covers the rest."
+  }
+ },
+ {
+  "answer": "Dishwasher rinse aid",
+  "options": [
+   "Dishwasher rinse aid",
+   "Mouthwash",
+   "Window cleaner",
+   "Sports drink"
+  ],
+  "kind": "not",
+  "book": "clean",
+  "bookName": "It's Not Clean",
+  "ingredients": [
+   "Water",
+   "Citric acid",
+   "Nonionic surfactant",
+   "Sodium cumenesulfonate",
+   "Methylisothiazolinone",
+   "Blue dye"
+  ],
+  "spotlight": {
+   "name": "Nonionic surfactant",
+   "note": "It makes water slide off dishes in a sheet instead of drying in spots. The label doesn't have to say exactly which one."
+  }
+ },
+ {
+  "answer": "Tear-free baby shampoo",
+  "options": [
+   "Bubble bath",
+   "Tear-free baby shampoo",
+   "Dish soap",
+   "Hand soap"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Water",
+   "Cocamidopropyl betaine",
+   "PEG-80 sorbitan laurate",
+   "Sodium trideceth sulfate",
+   "Glycerin",
+   "Polyquaternium-10",
+   "Fragrance",
+   "Sodium benzoate",
+   "Citric acid"
+  ],
+  "spotlight": {
+   "name": "Cocamidopropyl betaine",
+   "note": "A mild foaming agent from coconut oil — yet it was named \"Allergen of the Year\" in 2004 by the American Contact Dermatitis Society."
+  }
+ },
+ {
+  "answer": "Baby wipes",
+  "options": [
+   "Baby wipes",
+   "Disinfecting wipes",
+   "Makeup wipes",
+   "Paper towels"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Water",
+   "Glycerin",
+   "Polysorbate 20",
+   "Aloe barbadensis leaf juice",
+   "Tocopheryl acetate",
+   "Sodium benzoate",
+   "Citric acid",
+   "Phenoxyethanol",
+   "Fragrance"
+  ],
+  "spotlight": {
+   "name": "Phenoxyethanol",
+   "note": "A preservative in many baby products. France advises against it in wipes and creams used on the diaper area of children under 3."
+  }
+ },
+ {
+  "answer": "Kids' bubble-gum toothpaste",
+  "options": [
+   "Bubble gum",
+   "Kids' bubble-gum toothpaste",
+   "Strawberry frosting",
+   "Lip gloss"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Sorbitol",
+   "Water",
+   "Hydrated silica",
+   "Glycerin",
+   "Sodium lauryl sulfate",
+   "Flavor",
+   "Cellulose gum",
+   "Sodium saccharin",
+   "Titanium dioxide",
+   "Red 33",
+   "Sodium fluoride"
+  ],
+  "spotlight": {
+   "name": "Sodium fluoride",
+   "note": "It strengthens teeth, but kids shouldn't swallow it. That's why young children get just a rice-grain or pea-sized smear."
+  }
+ },
+ {
+  "answer": "Chocolate milk",
+  "options": [
+   "Chocolate pudding",
+   "Hot cocoa mix",
+   "Chocolate milk",
+   "Chocolate syrup"
+  ],
+  "kind": "food",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Low fat milk",
+   "Sugar",
+   "Cocoa (processed with alkali)",
+   "Salt",
+   "Carrageenan",
+   "Natural flavor",
+   "Vitamin A palmitate",
+   "Vitamin D3"
+  ],
+  "spotlight": {
+   "name": "Carrageenan",
+   "note": "A seaweed thickener that keeps the cocoa from sinking to the bottom. Scientists still debate its effect on the gut."
+  }
+ },
+ {
+  "answer": "Children's fever medicine",
+  "options": [
+   "Cough syrup",
+   "Fruit punch",
+   "Children's fever medicine",
+   "Strawberry milk"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Acetaminophen",
+   "Purified water",
+   "High fructose corn syrup",
+   "Sorbitol",
+   "Glycerin",
+   "Propylene glycol",
+   "Microcrystalline cellulose",
+   "Xanthan gum",
+   "Sucralose",
+   "Butylparaben",
+   "Sodium benzoate",
+   "Flavors",
+   "Red 40"
+  ],
+  "spotlight": {
+   "name": "Butylparaben",
+   "note": "A paraben preservative. The EU limits how much can be used in cosmetics and bans it in leave-on products for babies' diaper areas."
+  }
+ },
+ {
+  "answer": "Kids' bubble bath",
+  "options": [
+   "Kids' bubble bath",
+   "Dish soap",
+   "Strawberry milk",
+   "Bath bomb"
+  ],
+  "kind": "not",
+  "book": "kids",
+  "bookName": "It's Not for Kids",
+  "ingredients": [
+   "Water",
+   "Sodium laureth sulfate",
+   "Cocamidopropyl betaine",
+   "Sodium chloride",
+   "Fragrance",
+   "Glycol distearate",
+   "Citric acid",
+   "Red 33",
+   "Methylisothiazolinone"
+  ],
+  "spotlight": {
+   "name": "Sodium laureth sulfate",
+   "note": "The foaming detergent that makes mountains of bubbles. Pediatricians warn long bubble baths can irritate young children's skin."
+  }
+ },
+ {
+  "answer": "Antifreeze",
+  "options": [
+   "Sports drink",
+   "Antifreeze",
+   "Windshield washer fluid",
+   "Mouthwash"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Ethylene glycol",
+   "Diethylene glycol",
+   "Water",
+   "Sodium 2-ethylhexanoate",
+   "Sodium benzoate",
+   "Denatonium benzoate",
+   "Dye"
+  ],
+  "spotlight": {
+   "name": "Ethylene glycol",
+   "note": "It tastes sweet, which makes it dangerous to pets and kids. A bittering agent is added so it tastes awful."
+  }
+ },
+ {
+  "answer": "Windshield washer fluid",
+  "options": [
+   "Windshield washer fluid",
+   "Glass cleaner",
+   "Sports drink",
+   "Antifreeze"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water",
+   "Methanol",
+   "Nonionic surfactant",
+   "Blue dye"
+  ],
+  "spotlight": {
+   "name": "Methanol",
+   "note": "Wood alcohol. It keeps the fluid from freezing — and swallowing even a little can cause blindness."
+  }
+ },
+ {
+  "answer": "Scented candle",
+  "options": [
+   "Crayon",
+   "Scented candle",
+   "Lip balm",
+   "Bar soap"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Paraffin wax",
+   "Soy wax",
+   "Fragrance",
+   "Stearic acid",
+   "Dye",
+   "Cotton wick"
+  ],
+  "spotlight": {
+   "name": "Paraffin wax",
+   "note": "A petroleum wax. When it burns, it gives off soot along with whatever is in the fragrance."
+  }
+ },
+ {
+  "answer": "Air freshener spray",
+  "options": [
+   "Hairspray",
+   "Air freshener spray",
+   "Furniture polish spray",
+   "Cooking spray"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water",
+   "Propellant (butane, propane)",
+   "Fragrance",
+   "Triethylene glycol",
+   "Polysorbate 80",
+   "Sodium benzoate"
+  ],
+  "spotlight": {
+   "name": "Triethylene glycol",
+   "note": "Sprayed into the air to kill some airborne germs. It's also used to dry out natural gas in pipelines."
+  }
+ },
+ {
+  "answer": "Ice melt",
+  "options": [
+   "Bath salts",
+   "Ice melt",
+   "Rock candy",
+   "Garden fertilizer"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Sodium chloride",
+   "Calcium chloride",
+   "Magnesium chloride",
+   "Potassium chloride",
+   "Blue colorant"
+  ],
+  "spotlight": {
+   "name": "Calcium chloride",
+   "note": "It actually heats up as it dissolves, so it melts ice fast. It can also dry out and crack pets' paws."
+  }
+ },
+ {
+  "answer": "Latex wall paint",
+  "options": [
+   "Latex wall paint",
+   "Toothpaste",
+   "School glue",
+   "Sunscreen lotion"
+  ],
+  "kind": "not",
+  "book": "home",
+  "bookName": "Your Home Is Not Safe",
+  "ingredients": [
+   "Water",
+   "Titanium dioxide",
+   "Acrylic polymer",
+   "Calcium carbonate",
+   "Kaolin clay",
+   "Propylene glycol",
+   "Ammonia",
+   "Biocide"
+  ],
+  "spotlight": {
+   "name": "Titanium dioxide",
+   "note": "The bright white in white paint — the same mineral used to whiten toothpaste and candy coatings."
+  }
+ }
+]

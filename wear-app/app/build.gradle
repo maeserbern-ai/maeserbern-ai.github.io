@@ -1,0 +1,70 @@
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "org.jetbrains.kotlin.plugin.compose"
+}
+
+// Signing for store uploads comes from environment variables (GitHub secrets),
+// exactly like the phone/TV app in ../android.
+def keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+
+android {
+    // Same applicationId as the phone/TV app, so this joins the existing Play
+    // listing as its Wear OS form factor. Wear version codes live in the
+    // 2,000,000 range so they never collide with phone/TV builds.
+    namespace "io.github.maeserbern.ingredientpartygame"
+    compileSdk 36
+
+    defaultConfig {
+        applicationId "io.github.maeserbern.ingredientpartygame"
+        minSdk 30
+        targetSdk 36
+        versionCode Integer.parseInt(System.getenv("WEAR_VERSION_CODE") ?: "2000001")
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        if (keystorePath) {
+            release {
+                storeFile file(keystorePath)
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("ANDROID_KEY_ALIAS")
+                keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt")
+            if (keystorePath) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        compose true
+        buildConfig false
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:1.16.0"
+    implementation "androidx.activity:activity-compose:1.10.1"
+    implementation "androidx.wear.compose:compose-material:1.4.1"
+    implementation "androidx.wear.compose:compose-foundation:1.4.1"
+    implementation "androidx.wear.compose:compose-navigation:1.4.1"
+    implementation "androidx.navigation:navigation-compose:2.8.9"
+    implementation "androidx.wear:wear-remote-interactions:1.1.0"
+    implementation "androidx.concurrent:concurrent-futures:1.2.0"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.8.3"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.8.3"
+}

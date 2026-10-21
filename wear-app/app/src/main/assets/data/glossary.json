@@ -1,0 +1,1252 @@
+[
+ {
+  "pattern": "isoparaffinic hydrocarbon",
+  "flags": "i",
+  "text": "A petroleum solvent that helps spread polish and lift dust."
+ },
+ {
+  "pattern": "^purified water",
+  "flags": "i",
+  "text": "Water that's been filtered or distilled."
+ },
+ {
+  "pattern": "^alcohol$",
+  "flags": "i",
+  "text": "Alcohol (ethanol). Dissolves other ingredients and evaporates fast."
+ },
+ {
+  "pattern": "vanillin",
+  "flags": "i",
+  "text": "The main flavor chemical in vanilla — usually made in a lab, not from vanilla beans."
+ },
+ {
+  "pattern": "unbleached enriched flour|^enriched flour",
+  "flags": "i",
+  "text": "White wheat flour with some vitamins and iron added back after milling."
+ },
+ {
+  "pattern": "yellow corn flour",
+  "flags": "i",
+  "text": "Finely ground yellow corn."
+ },
+ {
+  "pattern": "modified food starch",
+  "flags": "i",
+  "text": "Starch (often corn) treated with heat, acid or enzymes so it thickens or binds better."
+ },
+ {
+  "pattern": "palm and\\/or canola oil",
+  "flags": "i",
+  "text": "Palm oil, canola oil, or both — the label lets the maker switch depending on price."
+ },
+ {
+  "pattern": "cocoa \\(processed with alkali\\)",
+  "flags": "i",
+  "text": "Cocoa powder treated with an alkali to darken it and soften the bitter taste."
+ },
+ {
+  "pattern": "leavening",
+  "flags": "i",
+  "text": "Ingredients that release gas so dough puffs up — like baking soda plus an acid."
+ },
+ {
+  "pattern": "white boneless chicken",
+  "flags": "i",
+  "text": "Chicken breast meat."
+ },
+ {
+  "pattern": "dimethylpolysiloxane",
+  "flags": "i",
+  "text": "A silicone that stops frying oil from foaming."
+ },
+ {
+  "pattern": "cultured low fat milk|^low fat milk",
+  "flags": "i",
+  "text": "Milk with part of the fat removed. \"Cultured\" means friendly bacteria turned it into yogurt."
+ },
+ {
+  "pattern": "^strawberries",
+  "flags": "i",
+  "text": "Strawberries."
+ },
+ {
+  "pattern": "carmine",
+  "flags": "i",
+  "text": "A red color made from crushed cochineal insects."
+ },
+ {
+  "pattern": "vitamin d3",
+  "flags": "i",
+  "text": "Vitamin D (the form your skin makes from sunlight)."
+ },
+ {
+  "pattern": "sodium hexametaphosphate",
+  "flags": "i",
+  "text": "A phosphate salt that keeps minerals from clouding a liquid and helps it pour smoothly."
+ },
+ {
+  "pattern": "^fructose",
+  "flags": "i",
+  "text": "Fruit sugar — a simple sugar sweeter than table sugar, usually made from corn."
+ },
+ {
+  "pattern": "potassium citrate",
+  "flags": "i",
+  "text": "A salt of citric acid that controls tartness."
+ },
+ {
+  "pattern": "aluminum zirconium",
+  "flags": "i",
+  "text": "An aluminum salt that plugs sweat ducts for a while so you sweat less."
+ },
+ {
+  "pattern": "cyclopentasiloxane",
+  "flags": "i",
+  "text": "A light silicone that makes products glide on and then evaporates."
+ },
+ {
+  "pattern": "stearyl alcohol|behenyl alcohol",
+  "flags": "i",
+  "text": "A waxy \"fatty alcohol\" that makes sticks and creams firm — not drying like rubbing alcohol."
+ },
+ {
+  "pattern": "ppg-14 butyl ether",
+  "flags": "i",
+  "text": "A synthetic liquid that keeps a stick smooth and less sticky."
+ },
+ {
+  "pattern": "hydrogenated castor oil",
+  "flags": "i",
+  "text": "Castor oil hardened into a wax."
+ },
+ {
+  "pattern": "^acetone",
+  "flags": "i",
+  "text": "A strong solvent that dissolves nail polish, glue and paint. Very flammable."
+ },
+ {
+  "pattern": "propylene carbonate",
+  "flags": "i",
+  "text": "A solvent that helps dissolve and spread other ingredients."
+ },
+ {
+  "pattern": "denatonium benzoate",
+  "flags": "i",
+  "text": "The most bitter chemical known — added so nobody drinks the product."
+ },
+ {
+  "pattern": "red 33",
+  "flags": "i",
+  "text": "A synthetic pink-red dye."
+ },
+ {
+  "pattern": "avobenzone|homosalate|octisalate|octocrylene",
+  "flags": "i",
+  "text": "A chemical sunscreen filter that absorbs UV light."
+ },
+ {
+  "pattern": "styrene\\/acrylates copolymer|octylacrylamide\\/acrylates copolymer|acrylic polymer",
+  "flags": "i",
+  "text": "A plastic-like polymer that forms a film as it dries."
+ },
+ {
+  "pattern": "^tocopherol",
+  "flags": "i",
+  "text": "Vitamin E. Keeps oils from going rancid."
+ },
+ {
+  "pattern": "dimethyl ether",
+  "flags": "i",
+  "text": "A flammable gas that pushes the product out of the can."
+ },
+ {
+  "pattern": "panthenol",
+  "flags": "i",
+  "text": "Pro-vitamin B5. Helps hair and skin hold moisture."
+ },
+ {
+  "pattern": "iron oxides",
+  "flags": "i",
+  "text": "Purified rust — red, yellow and black minerals mixed to make skin-tone colors."
+ },
+ {
+  "pattern": "diethylene glycol monobutyl ether",
+  "flags": "i",
+  "text": "A strong solvent that loosens baked-on grease."
+ },
+ {
+  "pattern": "alkyl dimethyl (ethyl)?benzyl ammonium chloride",
+  "flags": "i",
+  "text": "A \"quat\" disinfectant that kills germs on surfaces."
+ },
+ {
+  "pattern": "polyester\\/polypropylene wipe",
+  "flags": "i",
+  "text": "The wipe itself — a plastic fabric soaked in the liquid."
+ },
+ {
+  "pattern": "sorbitan oleate|polysorbate 80",
+  "flags": "i",
+  "text": "An emulsifier that keeps oil and water mixed."
+ },
+ {
+  "pattern": "sodium tallowate",
+  "flags": "i",
+  "text": "Soap made from beef fat and lye."
+ },
+ {
+  "pattern": "sodium cocoate",
+  "flags": "i",
+  "text": "Soap made from coconut oil and lye."
+ },
+ {
+  "pattern": "cyclodextrin",
+  "flags": "i",
+  "text": "A ring-shaped molecule made from starch that traps odor molecules inside it."
+ },
+ {
+  "pattern": "benzisothiazolinone",
+  "flags": "i",
+  "text": "A preservative that stops bacteria and mold. A known skin allergen."
+ },
+ {
+  "pattern": "sodium cumenesulfonate",
+  "flags": "i",
+  "text": "Helps the other ingredients stay dissolved so the liquid stays clear."
+ },
+ {
+  "pattern": "peg-80 sorbitan laurate",
+  "flags": "i",
+  "text": "A very mild cleanser used in \"no tears\" formulas."
+ },
+ {
+  "pattern": "sodium trideceth sulfate",
+  "flags": "i",
+  "text": "A mild foaming detergent."
+ },
+ {
+  "pattern": "polyquaternium-10",
+  "flags": "i",
+  "text": "A conditioning polymer that clings to hair to reduce tangles."
+ },
+ {
+  "pattern": "acetaminophen",
+  "flags": "i",
+  "text": "The medicine that lowers fever and eases pain."
+ },
+ {
+  "pattern": "microcrystalline cellulose",
+  "flags": "i",
+  "text": "Purified plant fiber (wood pulp) that thickens liquids and binds tablets."
+ },
+ {
+  "pattern": "butylparaben",
+  "flags": "i",
+  "text": "A paraben preservative."
+ },
+ {
+  "pattern": "^flavors$",
+  "flags": "i",
+  "text": "Added flavorings. The recipe doesn't have to be listed."
+ },
+ {
+  "pattern": "^ethylene glycol|^diethylene glycol$",
+  "flags": "i",
+  "text": "A sweet-tasting, poisonous liquid that keeps engines from freezing or overheating."
+ },
+ {
+  "pattern": "sodium 2-ethylhexanoate",
+  "flags": "i",
+  "text": "A corrosion inhibitor that protects metal engine parts."
+ },
+ {
+  "pattern": "methanol",
+  "flags": "i",
+  "text": "Wood alcohol — keeps liquid from freezing. Poisonous to drink."
+ },
+ {
+  "pattern": "soy wax",
+  "flags": "i",
+  "text": "Wax made from hydrogenated soybean oil."
+ },
+ {
+  "pattern": "paraffin wax",
+  "flags": "i",
+  "text": "A white wax refined from petroleum."
+ },
+ {
+  "pattern": "cotton wick",
+  "flags": "i",
+  "text": "The braided cotton string that burns."
+ },
+ {
+  "pattern": "triethylene glycol",
+  "flags": "i",
+  "text": "A liquid that can kill some airborne germs."
+ },
+ {
+  "pattern": "magnesium chloride",
+  "flags": "i",
+  "text": "A salt that melts ice at colder temperatures than table salt."
+ },
+ {
+  "pattern": "kaolin clay",
+  "flags": "i",
+  "text": "A fine white clay that adds body and helps cover the wall."
+ },
+ {
+  "pattern": "^ammonia",
+  "flags": "i",
+  "text": "A sharp-smelling chemical that adjusts the paint's pH."
+ },
+ {
+  "pattern": "biocide",
+  "flags": "i",
+  "text": "A preservative that stops mold and bacteria. The label doesn't say which one."
+ },
+ {
+  "pattern": "^water sufficient for processing",
+  "flags": "i",
+  "text": "Water — this wording is used when water is needed to cook or mix the product."
+ },
+ {
+  "pattern": "^carbonated water",
+  "flags": "i",
+  "text": "Water with carbon dioxide gas dissolved in it to make bubbles."
+ },
+ {
+  "pattern": "^water$",
+  "flags": "i",
+  "text": "Plain water. When it's first on a label, it's the biggest ingredient."
+ },
+ {
+  "pattern": "high fructose corn syrup",
+  "flags": "i",
+  "text": "A liquid sweetener made from corn starch, processed so part of its sugar becomes fructose."
+ },
+ {
+  "pattern": "corn syrup solids",
+  "flags": "i",
+  "text": "Corn syrup dried into a powder. Adds sweetness and body."
+ },
+ {
+  "pattern": "glucose syrup|^corn syrup",
+  "flags": "i",
+  "text": "A thick, sweet syrup made by breaking down corn or wheat starch into sugar."
+ },
+ {
+  "pattern": "^dextrose|^glucose$",
+  "flags": "i",
+  "text": "A simple sugar, usually made from corn."
+ },
+ {
+  "pattern": "^sucrose|^sugar$",
+  "flags": "i",
+  "text": "Ordinary table sugar."
+ },
+ {
+  "pattern": "sucralose",
+  "flags": "i",
+  "text": "An artificial sweetener about 600 times sweeter than sugar, made from sugar by adding chlorine."
+ },
+ {
+  "pattern": "aspartame",
+  "flags": "i",
+  "text": "An artificial sweetener about 200 times sweeter than sugar."
+ },
+ {
+  "pattern": "sodium saccharin",
+  "flags": "i",
+  "text": "One of the oldest artificial sweeteners, discovered in 1879."
+ },
+ {
+  "pattern": "sorbitol",
+  "flags": "i",
+  "text": "A sugar alcohol. Tastes sweet and helps hold in moisture."
+ },
+ {
+  "pattern": "^glycerin|^glycerol$",
+  "flags": "i",
+  "text": "A clear, sweet, syrupy liquid that pulls in water and keeps things moist."
+ },
+ {
+  "pattern": "modified corn starch",
+  "flags": "i",
+  "text": "Corn starch treated with heat, acid or enzymes so it thickens better."
+ },
+ {
+  "pattern": "zea mays|^corn starch|^starch$",
+  "flags": "i",
+  "text": "Starch from corn — a fine white powder that thickens liquids and absorbs moisture."
+ },
+ {
+  "pattern": "oryza sativa|rice\\) starch",
+  "flags": "i",
+  "text": "Rice starch — a fine powder that soaks up oil and moisture."
+ },
+ {
+  "pattern": "corn gluten meal",
+  "flags": "i",
+  "text": "The protein-rich leftover from making corn starch and corn syrup."
+ },
+ {
+  "pattern": "ground yellow corn|corn flour blend",
+  "flags": "i",
+  "text": "Corn ground into flour or meal."
+ },
+ {
+  "pattern": "whole grain oat flour|oat fiber",
+  "flags": "i",
+  "text": "Ground oats or the fibrous outer part of oats."
+ },
+ {
+  "pattern": "soluble corn fiber",
+  "flags": "i",
+  "text": "A fiber made from corn starch. Adds fiber and a little sweetness."
+ },
+ {
+  "pattern": "wheat gluten",
+  "flags": "i",
+  "text": "The main protein in wheat. Makes dough stretchy and binds ingredients together."
+ },
+ {
+  "pattern": "ground wheat|wheat flour",
+  "flags": "i",
+  "text": "Flour made from wheat."
+ },
+ {
+  "pattern": "brewers rice",
+  "flags": "i",
+  "text": "Small broken pieces of rice left over from milling."
+ },
+ {
+  "pattern": "defatted soy flour",
+  "flags": "i",
+  "text": "Soybeans with the oil pressed out, ground into flour. High in protein."
+ },
+ {
+  "pattern": "soy grits|soybean meal",
+  "flags": "i",
+  "text": "Coarsely ground soybeans, often what's left after the oil is pressed out."
+ },
+ {
+  "pattern": "cellulose gum",
+  "flags": "i",
+  "text": "A thickener made from plant cellulose (wood pulp or cotton)."
+ },
+ {
+  "pattern": "xanthan",
+  "flags": "i",
+  "text": "A thickener made by fermenting sugar with bacteria. Keeps mixtures from separating."
+ },
+ {
+  "pattern": "guar gum",
+  "flags": "i",
+  "text": "A thickener ground from guar beans."
+ },
+ {
+  "pattern": "gum arabic",
+  "flags": "i",
+  "text": "Hardened sap from acacia trees. Keeps ingredients evenly mixed."
+ },
+ {
+  "pattern": "carrageenan",
+  "flags": "i",
+  "text": "A thickener made from red seaweed."
+ },
+ {
+  "pattern": "fruit pectin",
+  "flags": "i",
+  "text": "A natural fiber from apple peels and citrus rinds that makes liquids gel."
+ },
+ {
+  "pattern": "hydrogenated vegetable oil",
+  "flags": "i",
+  "text": "Vegetable oil hardened with hydrogen gas so it stays solid at room temperature."
+ },
+ {
+  "pattern": "^soybean oil|^canola oil|^vegetable oil",
+  "flags": "i",
+  "text": "A cooking oil pressed from seeds."
+ },
+ {
+  "pattern": "^palm oil",
+  "flags": "i",
+  "text": "Oil from the fruit of oil palm trees. Solid-ish at room temperature."
+ },
+ {
+  "pattern": "^coconut oil",
+  "flags": "i",
+  "text": "Oil pressed from coconuts."
+ },
+ {
+  "pattern": "animal fat",
+  "flags": "i",
+  "text": "Fat from animals, kept fresh with a vitamin E–based preservative."
+ },
+ {
+  "pattern": "bacon fat",
+  "flags": "i",
+  "text": "Fat rendered from bacon, kept fresh with a synthetic preservative."
+ },
+ {
+  "pattern": "fish oil|cod liver oil",
+  "flags": "i",
+  "text": "Oil pressed from fish or fish livers. Rich in omega-3 fats and vitamins A and D."
+ },
+ {
+  "pattern": "mineral oil",
+  "flags": "i",
+  "text": "A clear oil refined from petroleum. Forms a barrier that locks in moisture."
+ },
+ {
+  "pattern": "petrolatum",
+  "flags": "i",
+  "text": "Petroleum jelly — a soft, greasy byproduct of oil refining."
+ },
+ {
+  "pattern": "paraffin",
+  "flags": "i",
+  "text": "A white wax refined from petroleum."
+ },
+ {
+  "pattern": "beeswax",
+  "flags": "i",
+  "text": "Wax made by honeybees to build their honeycombs."
+ },
+ {
+  "pattern": "carnauba wax",
+  "flags": "i",
+  "text": "A hard wax from the leaves of a Brazilian palm tree. Gives a glossy coating."
+ },
+ {
+  "pattern": "lanolin",
+  "flags": "i",
+  "text": "A waxy grease from sheep's wool."
+ },
+ {
+  "pattern": "stearic acid",
+  "flags": "i",
+  "text": "A fatty acid from plant or animal fat. Thickens and hardens."
+ },
+ {
+  "pattern": "^fatty acid",
+  "flags": "i",
+  "text": "Fat broken down into its building blocks. Helps things feel soft and smooth."
+ },
+ {
+  "pattern": "cetearyl alcohol|cetyl alcohol",
+  "flags": "i",
+  "text": "A waxy \"fatty alcohol\" from coconut or palm. Thickens and softens — not drying like rubbing alcohol."
+ },
+ {
+  "pattern": "glyceryl stearate|glycol distearate",
+  "flags": "i",
+  "text": "A waxy ingredient made from fat that thickens and adds a pearly look."
+ },
+ {
+  "pattern": "isopropyl myristate",
+  "flags": "i",
+  "text": "An oily liquid that makes products spread easily and feel less greasy."
+ },
+ {
+  "pattern": "^cream$|light cream",
+  "flags": "i",
+  "text": "The fatty part of milk."
+ },
+ {
+  "pattern": "nonfat milk|skim milk",
+  "flags": "i",
+  "text": "Milk with the fat removed."
+ },
+ {
+  "pattern": "^milk$",
+  "flags": "i",
+  "text": "Cow's milk."
+ },
+ {
+  "pattern": "milk protein concentrate",
+  "flags": "i",
+  "text": "Milk protein filtered and concentrated, often imported as a powder."
+ },
+ {
+  "pattern": "^milkfat",
+  "flags": "i",
+  "text": "Butterfat from milk."
+ },
+ {
+  "pattern": "^whey",
+  "flags": "i",
+  "text": "The watery part of milk left over from cheesemaking, usually dried into a powder."
+ },
+ {
+  "pattern": "sodium caseinate",
+  "flags": "i",
+  "text": "A protein made from milk. Helps blend fat and water."
+ },
+ {
+  "pattern": "cultured nonfat buttermilk",
+  "flags": "i",
+  "text": "Skim milk fermented with bacteria for a tangy taste."
+ },
+ {
+  "pattern": "cheese culture",
+  "flags": "i",
+  "text": "Friendly bacteria that ferment milk to make cheese."
+ },
+ {
+  "pattern": "^enzymes \\(protease",
+  "flags": "i",
+  "text": "Proteins that break down specific stains: protease breaks down proteins, amylase breaks down starches."
+ },
+ {
+  "pattern": "^enzymes",
+  "flags": "i",
+  "text": "Proteins that speed up a chemical change, like breaking down starch or helping milk curdle."
+ },
+ {
+  "pattern": "egg yolk",
+  "flags": "i",
+  "text": "The yellow part of an egg. A natural emulsifier."
+ },
+ {
+  "pattern": "gelatin",
+  "flags": "i",
+  "text": "A protein made by boiling animal skin, bones and connective tissue. Makes things chewy or jiggly."
+ },
+ {
+  "pattern": "mechanically separated chicken",
+  "flags": "i",
+  "text": "A meat paste made by pushing chicken bones with meat still on them through a sieve under high pressure."
+ },
+ {
+  "pattern": "chicken by-product meal",
+  "flags": "i",
+  "text": "Ground, rendered chicken parts other than clean meat — such as necks, feet and organs."
+ },
+ {
+  "pattern": "meat by-products",
+  "flags": "i",
+  "text": "Animal parts other than muscle meat, such as organs. The animal doesn't have to be named."
+ },
+ {
+  "pattern": "^chicken$",
+  "flags": "i",
+  "text": "Chicken meat."
+ },
+ {
+  "pattern": "^pork$",
+  "flags": "i",
+  "text": "Pig meat."
+ },
+ {
+  "pattern": "^liver$",
+  "flags": "i",
+  "text": "Animal liver."
+ },
+ {
+  "pattern": "fish meal|shrimp meal",
+  "flags": "i",
+  "text": "Fish or shrimp that's been cooked, dried and ground into powder."
+ },
+ {
+  "pattern": "tomato concentrate",
+  "flags": "i",
+  "text": "Tomatoes cooked down until most of the water is gone."
+ },
+ {
+  "pattern": "grape juice|concentrated juices|fruit puree",
+  "flags": "i",
+  "text": "Fruit juice or mashed fruit — often from concentrate, with the water added back."
+ },
+ {
+  "pattern": "black carrot juice",
+  "flags": "i",
+  "text": "Juice from purple-black carrots, used as a natural coloring."
+ },
+ {
+  "pattern": "aloe barbadensis",
+  "flags": "i",
+  "text": "Juice from the aloe vera plant."
+ },
+ {
+  "pattern": "dried garlic|garlic powder|dried onion|onion powder",
+  "flags": "i",
+  "text": "Dried garlic or onion."
+ },
+ {
+  "pattern": "paprika|extractives of paprika",
+  "flags": "i",
+  "text": "A red pepper spice. \"Extractives\" means its color and flavor were pulled out with a solvent."
+ },
+ {
+  "pattern": "turmeric",
+  "flags": "i",
+  "text": "A yellow-orange root spice."
+ },
+ {
+  "pattern": "^spices?$",
+  "flags": "i",
+  "text": "A mix of spices. Labels don't have to say which ones."
+ },
+ {
+  "pattern": "rosemary extract",
+  "flags": "i",
+  "text": "An extract of the rosemary herb that slows oils from going rancid."
+ },
+ {
+  "pattern": "natural smoke flavor",
+  "flags": "i",
+  "text": "Smoke captured in water and added for a smoky taste — no actual smoking needed."
+ },
+ {
+  "pattern": "natural and artificial flavor|artificial flavor",
+  "flags": "i",
+  "text": "Flavor chemicals made in a lab and/or extracted from natural sources. The exact recipe stays secret."
+ },
+ {
+  "pattern": "natural flavou?r|flavorings|^flavor$",
+  "flags": "i",
+  "text": "A flavor made from natural sources, but the recipe is secret — it can contain dozens of chemicals."
+ },
+ {
+  "pattern": "yeast extract",
+  "flags": "i",
+  "text": "The inside of yeast cells. Tastes savory, like broth."
+ },
+ {
+  "pattern": "hydrolyzed soy protein",
+  "flags": "i",
+  "text": "Soy protein broken down with acid. Has a strong savory taste and contains natural MSG."
+ },
+ {
+  "pattern": "monosodium glutamate",
+  "flags": "i",
+  "text": "MSG — a flavor enhancer that tastes savory (umami)."
+ },
+ {
+  "pattern": "disodium inosinate|disodium guanylate",
+  "flags": "i",
+  "text": "A flavor booster that makes MSG taste much stronger. Often made from yeast or fish."
+ },
+ {
+  "pattern": "brewers dried yeast",
+  "flags": "i",
+  "text": "Dried yeast left over from brewing beer. Rich in B vitamins."
+ },
+ {
+  "pattern": "spirulina|algae meal",
+  "flags": "i",
+  "text": "Dried algae. Adds protein and natural color."
+ },
+ {
+  "pattern": "panax ginseng",
+  "flags": "i",
+  "text": "An extract from the root of the ginseng plant."
+ },
+ {
+  "pattern": "guarana",
+  "flags": "i",
+  "text": "A seed extract from a South American plant. Naturally high in caffeine."
+ },
+ {
+  "pattern": "^caffeine",
+  "flags": "i",
+  "text": "A stimulant found in coffee, tea and cola nuts."
+ },
+ {
+  "pattern": "taurine",
+  "flags": "i",
+  "text": "An amino acid. It was first found in ox bile; today it's made in a lab."
+ },
+ {
+  "pattern": "inositol",
+  "flags": "i",
+  "text": "A sugar-like nutrient the body also makes on its own."
+ },
+ {
+  "pattern": "^vinegar|distilled vinegar",
+  "flags": "i",
+  "text": "Vinegar — a sour liquid made by fermenting alcohol."
+ },
+ {
+  "pattern": "^salt$|sodium chloride",
+  "flags": "i",
+  "text": "Table salt."
+ },
+ {
+  "pattern": "ascorbic acid|vitamin c",
+  "flags": "i",
+  "text": "Vitamin C."
+ },
+ {
+  "pattern": "vitamin a",
+  "flags": "i",
+  "text": "Vitamin A."
+ },
+ {
+  "pattern": "vitamin e|tocopheryl acetate",
+  "flags": "i",
+  "text": "Vitamin E (or a form of it). Also helps keep oils fresh."
+ },
+ {
+  "pattern": "niacinamide",
+  "flags": "i",
+  "text": "A form of vitamin B3."
+ },
+ {
+  "pattern": "pyridoxine",
+  "flags": "i",
+  "text": "Vitamin B6."
+ },
+ {
+  "pattern": "cyanocobalamin",
+  "flags": "i",
+  "text": "Vitamin B12."
+ },
+ {
+  "pattern": "vitamins and minerals",
+  "flags": "i",
+  "text": "A premixed blend of added vitamins and minerals."
+ },
+ {
+  "pattern": "^zinc oxide",
+  "flags": "i",
+  "text": "A white mineral powder that forms a protective barrier on skin and blocks sunlight."
+ },
+ {
+  "pattern": "zinc pyrithione",
+  "flags": "i",
+  "text": "A zinc compound that fights fungus and bacteria on the scalp."
+ },
+ {
+  "pattern": "^zinc$",
+  "flags": "i",
+  "text": "The mineral zinc."
+ },
+ {
+  "pattern": "sodium fluoride",
+  "flags": "i",
+  "text": "A fluoride compound that strengthens tooth enamel."
+ },
+ {
+  "pattern": "red 40|yellow 5|yellow 6|blue 1|green 3",
+  "flags": "i",
+  "text": "A synthetic dye made from petroleum. \"Lake\" means it's bound to a mineral so it won't bleed."
+ },
+ {
+  "pattern": "caramel color",
+  "flags": "i",
+  "text": "Brown coloring made by heating sugar, sometimes with ammonia or sulfites."
+ },
+ {
+  "pattern": "annatto",
+  "flags": "i",
+  "text": "An orange-yellow color from the seeds of the achiote tree."
+ },
+ {
+  "pattern": "apocarotenal|beta carotene",
+  "flags": "i",
+  "text": "An orange color related to the pigment in carrots."
+ },
+ {
+  "pattern": "titanium dioxide",
+  "flags": "i",
+  "text": "A bright white mineral powder used to make things look whiter."
+ },
+ {
+  "pattern": "^mica",
+  "flags": "i",
+  "text": "A shimmery mineral ground into a powder for sparkle."
+ },
+ {
+  "pattern": "blue dye|^dye$|colorants?$",
+  "flags": "i",
+  "text": "Added color. The label doesn't say which dye."
+ },
+ {
+  "pattern": "\\bbha\\b",
+  "flags": "i",
+  "text": "Butylated hydroxyanisole — a synthetic preservative that keeps fats from going rancid."
+ },
+ {
+  "pattern": "\\bbht\\b",
+  "flags": "i",
+  "text": "Butylated hydroxytoluene — a synthetic preservative that keeps fats from going rancid."
+ },
+ {
+  "pattern": "ethoxyquin",
+  "flags": "i",
+  "text": "A strong synthetic preservative first developed for rubber."
+ },
+ {
+  "pattern": "methylparaben|propylparaben",
+  "flags": "i",
+  "text": "A paraben — a preservative that stops mold and bacteria from growing."
+ },
+ {
+  "pattern": "methylisothiazolinone",
+  "flags": "i",
+  "text": "A strong preservative that stops bacteria from growing. A common skin allergen."
+ },
+ {
+  "pattern": "dmdm hydantoin",
+  "flags": "i",
+  "text": "A preservative that works by slowly releasing small amounts of formaldehyde."
+ },
+ {
+  "pattern": "phenoxyethanol",
+  "flags": "i",
+  "text": "A preservative that stops bacteria from growing."
+ },
+ {
+  "pattern": "benzyl alcohol",
+  "flags": "i",
+  "text": "A preservative and solvent, found naturally in some fruits and teas."
+ },
+ {
+  "pattern": "sodium benzoate|potassium benzoate|benzoic acid",
+  "flags": "i",
+  "text": "A preservative that stops mold and yeast, especially in acidic products."
+ },
+ {
+  "pattern": "potassium sorbate|sorbic acid",
+  "flags": "i",
+  "text": "A preservative that stops mold and yeast from growing."
+ },
+ {
+  "pattern": "calcium propionate",
+  "flags": "i",
+  "text": "A preservative that stops mold."
+ },
+ {
+  "pattern": "calcium disodium edta|tetrasodium edta",
+  "flags": "i",
+  "text": "EDTA — a chemical that grabs onto metals so they can't spoil flavor or interfere with cleaning."
+ },
+ {
+  "pattern": "sodium erythorbate",
+  "flags": "i",
+  "text": "A close relative of vitamin C that speeds up curing and keeps meat pink."
+ },
+ {
+  "pattern": "sodium nitrite",
+  "flags": "i",
+  "text": "A curing salt that keeps meat pink and prevents botulism."
+ },
+ {
+  "pattern": "potassium lactate|sodium diacetate",
+  "flags": "i",
+  "text": "A salt that slows bacteria growth in meat and adds a slight tang."
+ },
+ {
+  "pattern": "citric acid",
+  "flags": "i",
+  "text": "The sour acid in lemons and limes, usually made by fermenting sugar with mold."
+ },
+ {
+  "pattern": "lactic acid",
+  "flags": "i",
+  "text": "The sour acid in yogurt and sourdough, made by fermentation."
+ },
+ {
+  "pattern": "phosphoric acid",
+  "flags": "i",
+  "text": "A sharp, sour mineral acid."
+ },
+ {
+  "pattern": "formic acid",
+  "flags": "i",
+  "text": "The acid in ant stings. Adjusts how acidic a product is."
+ },
+ {
+  "pattern": "hydrochloric acid",
+  "flags": "i",
+  "text": "A strong, corrosive acid. Your stomach makes a weak version of it."
+ },
+ {
+  "pattern": "sodium citrate",
+  "flags": "i",
+  "text": "A salt of citric acid. Controls acidity and helps blend ingredients smoothly."
+ },
+ {
+  "pattern": "sodium triphosphate|sodium phosphates?|dipotassium phosphate|monopotassium phosphate|calcium phosphate|tricalcium phosphate|monocalcium phosphate",
+  "flags": "i",
+  "text": "A phosphate salt. Controls acidity, keeps powders flowing, or helps proteins hold water."
+ },
+ {
+  "pattern": "sodium aluminosilicate",
+  "flags": "i",
+  "text": "A powdered mineral that keeps powders from clumping."
+ },
+ {
+  "pattern": "sodium aluminum sulfate",
+  "flags": "i",
+  "text": "An aluminum-based acid that reacts with baking soda when heated."
+ },
+ {
+  "pattern": "sodium bicarbonate",
+  "flags": "i",
+  "text": "Baking soda."
+ },
+ {
+  "pattern": "sodium carbonate",
+  "flags": "i",
+  "text": "Washing soda — a strong cousin of baking soda that softens water and cuts grease."
+ },
+ {
+  "pattern": "sodium percarbonate",
+  "flags": "i",
+  "text": "Washing soda combined with hydrogen peroxide. Releases oxygen bubbles in water."
+ },
+ {
+  "pattern": "sodium silicate",
+  "flags": "i",
+  "text": "\"Water glass\" — a silica compound that protects metal and helps loosen grime."
+ },
+ {
+  "pattern": "calcium carbonate",
+  "flags": "i",
+  "text": "Chalk or ground limestone."
+ },
+ {
+  "pattern": "calcium chloride",
+  "flags": "i",
+  "text": "A salt that controls thickness and helps keep a liquid stable."
+ },
+ {
+  "pattern": "potassium chloride",
+  "flags": "i",
+  "text": "A salt substitute that tastes similar to table salt."
+ },
+ {
+  "pattern": "magnesium sulfate",
+  "flags": "i",
+  "text": "Epsom salt — a mineral salt of magnesium."
+ },
+ {
+  "pattern": "sodium chlorate",
+  "flags": "i",
+  "text": "A byproduct that forms as bleach breaks down over time."
+ },
+ {
+  "pattern": "sodium polyacrylate",
+  "flags": "i",
+  "text": "A super-absorbent polymer that holds water and stops minerals from settling."
+ },
+ {
+  "pattern": "hydrated silica|^silica$",
+  "flags": "i",
+  "text": "Silica (the main mineral in sand) as a fine powder. Polishes, thickens or absorbs oil."
+ },
+ {
+  "pattern": "^clay$",
+  "flags": "i",
+  "text": "Fine natural clay."
+ },
+ {
+  "pattern": "^talc$",
+  "flags": "i",
+  "text": "A soft mineral ground into powder. Can be contaminated with asbestos if not purified."
+ },
+ {
+  "pattern": "borax",
+  "flags": "i",
+  "text": "A natural boron mineral. Toxic if swallowed."
+ },
+ {
+  "pattern": "sodium dichloroisocyanurate",
+  "flags": "i",
+  "text": "A chlorine bleach in powder form. Releases chlorine in water."
+ },
+ {
+  "pattern": "sodium hypochlorite",
+  "flags": "i",
+  "text": "Chlorine bleach. Whitens and disinfects."
+ },
+ {
+  "pattern": "sodium hydroxide",
+  "flags": "i",
+  "text": "Lye — a very strong, corrosive base that turns fats and grease into soap."
+ },
+ {
+  "pattern": "ammonium hydroxide",
+  "flags": "i",
+  "text": "Ammonia dissolved in water. Cuts grease and evaporates without streaks."
+ },
+ {
+  "pattern": "sodium laureth sulfate",
+  "flags": "i",
+  "text": "A detergent that makes rich foam. A gentler cousin of sodium lauryl sulfate."
+ },
+ {
+  "pattern": "sodium lauryl sulfate",
+  "flags": "i",
+  "text": "A strong detergent that makes lots of foam. Can irritate skin."
+ },
+ {
+  "pattern": "linear alkylbenzene sulfonate|sodium dodecylbenzene sulfonate",
+  "flags": "i",
+  "text": "A detergent made from petroleum. Lifts grease and dirt into water."
+ },
+ {
+  "pattern": "sodium xylenesulfonate",
+  "flags": "i",
+  "text": "Helps other ingredients stay dissolved so the liquid stays clear and pourable."
+ },
+ {
+  "pattern": "c12-15 pareth|laureth-23|nonionic surfactant|alkyl polyglucoside|poloxamer|polysorbate 20",
+  "flags": "i",
+  "text": "A surfactant — it helps water mix with oil and dirt so they rinse away."
+ },
+ {
+  "pattern": "lauramine oxide",
+  "flags": "i",
+  "text": "A surfactant that boosts foam and helps cut grease."
+ },
+ {
+  "pattern": "cocamidopropyl betaine|cocamide mea",
+  "flags": "i",
+  "text": "A mild foaming agent made from coconut oil."
+ },
+ {
+  "pattern": "behentrimonium chloride|distearyldimonium chloride|stearamidopropyl dimethylamine",
+  "flags": "i",
+  "text": "A conditioning agent with a positive charge that clings to hair and smooths it."
+ },
+ {
+  "pattern": "diethylester dimethyl ammonium chloride|quaternary ammonium",
+  "flags": "i",
+  "text": "A \"quat\" — a positively charged chemical that clings to fabric and makes it feel soft."
+ },
+ {
+  "pattern": "benzalkonium chloride",
+  "flags": "i",
+  "text": "A \"quat\" disinfectant that kills germs."
+ },
+ {
+  "pattern": "optical brightener",
+  "flags": "i",
+  "text": "A dye that absorbs invisible UV light and gives off blue light, so white looks whiter."
+ },
+ {
+  "pattern": "2-hexoxyethanol",
+  "flags": "i",
+  "text": "A solvent that dissolves grease and oily film."
+ },
+ {
+  "pattern": "isopropanolamine|aminomethyl propanol|ethanolamine|triethanolamine",
+  "flags": "i",
+  "text": "An ammonia-like chemical that adjusts acidity and helps other ingredients work."
+ },
+ {
+  "pattern": "propylene glycol",
+  "flags": "i",
+  "text": "A syrupy liquid that dissolves other ingredients and holds in moisture."
+ },
+ {
+  "pattern": "ppg-26",
+  "flags": "i",
+  "text": "A synthetic polymer that keeps the formula stable and thin enough to pour."
+ },
+ {
+  "pattern": "polyvinyl alcohol",
+  "flags": "i",
+  "text": "A plastic film that dissolves in water."
+ },
+ {
+  "pattern": "polyester sheet",
+  "flags": "i",
+  "text": "A thin sheet of polyester fabric that carries the other ingredients."
+ },
+ {
+  "pattern": "fabric softening agents",
+  "flags": "i",
+  "text": "Chemicals that coat fibers so they feel soft and don't build up static."
+ },
+ {
+  "pattern": "limonene",
+  "flags": "i",
+  "text": "The natural chemical that gives citrus peels their smell. Also dissolves grease."
+ },
+ {
+  "pattern": "^fragrance",
+  "flags": "i",
+  "text": "A secret blend of scent chemicals. The individual ingredients don't have to be listed."
+ },
+ {
+  "pattern": "carbomer",
+  "flags": "i",
+  "text": "A synthetic polymer that turns liquids into a clear gel."
+ },
+ {
+  "pattern": "\\bpvp\\b",
+  "flags": "i",
+  "text": "Polyvinylpyrrolidone — a plastic-like polymer that forms a stiff film when it dries."
+ },
+ {
+  "pattern": "mono- and diglycerides|sorbitan monostearate|sodium stearoyl lactylate|polysorbate 60|soy lecithin",
+  "flags": "i",
+  "text": "An emulsifier — it keeps oil and water from separating."
+ },
+ {
+  "pattern": "glycerol ester of rosin",
+  "flags": "i",
+  "text": "Made from pine tree rosin. Keeps oils evenly suspended in a liquid."
+ },
+ {
+  "pattern": "dimethicone|dimethyl silicone|^silicone$",
+  "flags": "i",
+  "text": "A silicone. Makes things feel slippery-smooth or stops foam from forming."
+ },
+ {
+  "pattern": "gum base",
+  "flags": "i",
+  "text": "A secret blend of rubbery materials — it can include synthetic rubber and plastics."
+ },
+ {
+  "pattern": "ethyl alcohol|^alcohol \\(|alcohol denat",
+  "flags": "i",
+  "text": "Alcohol (ethanol). \"Denat.\" means bitter chemicals were added so nobody drinks it."
+ },
+ {
+  "pattern": "nitrous oxide",
+  "flags": "i",
+  "text": "Laughing gas. Dissolves into fat under pressure and puffs up when released."
+ },
+ {
+  "pattern": "propellant|butane|isobutane|propane",
+  "flags": "i",
+  "text": "A flammable fuel gas, kept liquid under pressure in a can."
+ },
+ {
+  "pattern": "menthol",
+  "flags": "i",
+  "text": "The cooling chemical in mint."
+ },
+ {
+  "pattern": "camphor",
+  "flags": "i",
+  "text": "A strong-smelling compound from camphor trees. Feels cooling on skin."
+ },
+ {
+  "pattern": "eucalyptol",
+  "flags": "i",
+  "text": "The main scent chemical in eucalyptus oil."
+ },
+ {
+  "pattern": "thymol",
+  "flags": "i",
+  "text": "An antiseptic chemical from the thyme plant."
+ },
+ {
+  "pattern": "methyl salicylate",
+  "flags": "i",
+  "text": "Oil of wintergreen — a minty compound. Toxic in large amounts."
+ },
+ {
+  "pattern": "dextromethorphan",
+  "flags": "i",
+  "text": "A cough suppressant medicine."
+ }
+]

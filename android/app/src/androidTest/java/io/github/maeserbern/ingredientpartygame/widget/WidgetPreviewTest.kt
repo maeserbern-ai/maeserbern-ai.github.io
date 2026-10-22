@@ -143,7 +143,7 @@ class WidgetPreviewTest {
         val bookLine = device.wait(Until.findObject(By.textContains("on Amazon")), 20000)
         assertNotNull("widget with the book link is on the home screen", bookLine)
         Thread.sleep(1500)
-        shell("screencap -p /sdcard/Download/android-home-widget-new.png")
+        device.takeScreenshot(File(out, "android-home-widget-new.png"))
 
         // Answer right on the widget.
         val right = device.findObject(By.textStartsWith(puzzle.options[puzzle.answer]))
@@ -153,15 +153,20 @@ class WidgetPreviewTest {
         assertEquals(puzzle.answer, DailyStateStore.load(context).choiceOn(day))
         log.append("tap answer '${puzzle.options[puzzle.answer]}' -> CORRECT! shown, streak ${DailyStateStore.load(context).streak}\n")
         Thread.sleep(1500)
-        shell("screencap -p /sdcard/Download/android-home-widget-correct.png")
+        device.takeScreenshot(File(out, "android-home-widget-correct.png"))
 
         for ((label, selector) in listOf(
-            "row" to By.textContains("on Amazon"),
+            "row" to By.desc(book.name),
             "qr" to By.desc("QR code for ${book.name} on Amazon"),
         )) {
             browsers.forEach { shell("am force-stop $it") }
             device.pressHome()
-            val target = device.wait(Until.findObject(selector), 10000)
+            var target = device.wait(Until.findObject(selector), 10000)
+            if (target == null) { device.pressHome(); target = device.wait(Until.findObject(selector), 10000) }
+            if (target == null) {
+                device.takeScreenshot(File(out, "android-missing-$label.png"))
+                File(out, "android-missing-$label.xml").outputStream().use { device.dumpWindowHierarchy(it) }
+            }
             assertNotNull("book $label on the widget", target)
             target!!.click()
             var opened: String? = null
@@ -173,7 +178,7 @@ class WidgetPreviewTest {
                 if (opened != null) break
             }
             log.append("tap book $label -> browser in front: ${opened ?: "none"}\n")
-            shell("screencap -p /sdcard/Download/android-booklink-$label.png")
+            device.takeScreenshot(File(out, "android-booklink-$label.png"))
             assertNotNull("tapping the book $label opened the browser for ${book.url}", opened)
         }
         device.pressHome()

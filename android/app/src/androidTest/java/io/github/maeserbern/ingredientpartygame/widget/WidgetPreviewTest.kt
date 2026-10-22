@@ -162,7 +162,13 @@ class WidgetPreviewTest {
             browsers.forEach { shell("am force-stop $it") }
             device.pressHome()
             var target = device.wait(Until.findObject(selector), 10000)
-            if (target == null) { device.pressHome(); target = device.wait(Until.findObject(selector), 10000) }
+            // The launcher may have put the widget on another home-screen page.
+            for (swipe in 0 until 3) {
+                if (target != null) break
+                device.swipe((device.displayWidth * 0.85).toInt(), device.displayHeight / 2,
+                    (device.displayWidth * 0.15).toInt(), device.displayHeight / 2, 20)
+                target = device.wait(Until.findObject(selector), 4000)
+            }
             if (target == null) {
                 device.takeScreenshot(File(out, "android-missing-$label.png"))
                 File(out, "android-missing-$label.xml").outputStream().use { device.dumpWindowHierarchy(it) }

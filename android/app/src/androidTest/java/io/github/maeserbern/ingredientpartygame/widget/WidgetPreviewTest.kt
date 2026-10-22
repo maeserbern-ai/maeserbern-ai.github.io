@@ -130,6 +130,9 @@ class WidgetPreviewTest {
         assertTrue("launcher supports pinning", manager.isRequestPinAppWidgetSupported)
         val addButton = By.text(Pattern.compile("(?i)(add( to home screen| automatically)?)"))
         var add: androidx.test.uiautomator.UiObject2? = null
+        device.pressHome()
+        device.wait(Until.hasObject(By.pkg(device.launcherPackageName).depth(0)), 30000)
+        Thread.sleep(5000)
         for (attempt in 0 until 3) {
             context.startActivity(Intent(Intent.ACTION_MAIN).setClassName(context, "${context.packageName}.MainActivity")
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -140,6 +143,8 @@ class WidgetPreviewTest {
             }
             add = device.wait(Until.findObject(addButton), 15000)
             if (add != null) break
+            device.takeScreenshot(File(out, "android-pin-attempt-$attempt.png"))
+            File(out, "android-pin-attempt-$attempt.xml").outputStream().use { device.dumpWindowHierarchy(it) }
             device.pressBack()
         }
         assertNotNull("pin dialog shown", add)

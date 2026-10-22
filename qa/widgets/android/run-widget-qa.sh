@@ -16,8 +16,7 @@ adb install -r android/app/build/outputs/apk/debug/app-debug.apk
 adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 adb shell am instrument -w -r "$PKG.test/androidx.test.runner.AndroidJUnitRunner" | tee "$OUT/instrument.txt"
 mkdir -p "$OUT/widget-previews"
-for f in $(adb shell run-as "$PKG" ls files/widget-previews | tr -d "
-"); do adb exec-out run-as "$PKG" cat "files/widget-previews/$f" > "$OUT/widget-previews/$f"; done
+for f in $(adb shell run-as "$PKG" ls files/widget-previews | tr -d '\015'); do adb exec-out run-as "$PKG" cat "files/widget-previews/$f" > "$OUT/widget-previews/$f"; done
 ls -la "$OUT" "$OUT/widget-previews" || true
 cat "$OUT/widget-previews/android-booklink.txt" || true
 grep -q '^OK (' "$OUT/instrument.txt"

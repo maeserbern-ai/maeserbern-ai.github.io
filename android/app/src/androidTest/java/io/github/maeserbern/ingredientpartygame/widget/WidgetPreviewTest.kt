@@ -130,7 +130,8 @@ class WidgetPreviewTest {
         device.pressHome()
         device.wait(Until.hasObject(By.pkg(device.launcherPackageName).depth(0)), 30000)
         // Right after boot the home role may not be assigned yet; pin requests need it.
-        val launcher = device.launcherPackageName
+        val launcher = if (shell("pm path com.google.android.apps.nexuslauncher").isNotBlank())
+            "com.google.android.apps.nexuslauncher" else device.launcherPackageName
         if (!shell("cmd role get-role-holders android.app.role.HOME").contains(launcher)) {
             shell("cmd role add-role-holder android.app.role.HOME $launcher 0")
         }

@@ -125,17 +125,23 @@ class WidgetPreviewTest {
         log.append("handlers=${browsers.joinToString()}\n")
         assertTrue("a browser can open ${book.url}: $handlers", browsers.isNotEmpty())
 
-        // Pinning needs the app in the foreground.
-        context.startActivity(Intent(Intent.ACTION_MAIN).setClassName(context, "${context.packageName}.MainActivity")
-            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        Thread.sleep(4000)
-        device.wait(Until.findObject(By.text("Got it")), 3000)?.click()
+        // Pinning needs the app in the foreground; the emulator's launcher is slow on first boot.
         val manager = AppWidgetManager.getInstance(context)
         assertTrue("launcher supports pinning", manager.isRequestPinAppWidgetSupported)
-        instrumentation.runOnMainSync {
-            manager.requestPinAppWidget(ComponentName(context, LabelOfTheDayReceiver::class.java), null, null)
+        val addButton = By.text(Pattern.compile("(?i)(add( to home screen| automatically)?)"))
+        var add: androidx.test.uiautomator.UiObject2? = null
+        for (attempt in 0 until 3) {
+            context.startActivity(Intent(Intent.ACTION_MAIN).setClassName(context, "${context.packageName}.MainActivity")
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            Thread.sleep(5000)
+            device.wait(Until.findObject(By.text("Got it")), 3000)?.click()
+            instrumentation.runOnMainSync {
+                manager.requestPinAppWidget(ComponentName(context, LabelOfTheDayReceiver::class.java), null, null)
+            }
+            add = device.wait(Until.findObject(addButton), 15000)
+            if (add != null) break
+            device.pressBack()
         }
-        val add = device.wait(Until.findObject(By.text(Pattern.compile("(?i)(add( to home screen| automatically)?)"))), 15000)
         assertNotNull("pin dialog shown", add)
         add!!.click()
         Thread.sleep(2000)

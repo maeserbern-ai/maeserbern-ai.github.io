@@ -24,7 +24,12 @@ final class BookLinkUITests: XCTestCase {
             // A URL sent from outside (here: the test) asks first; a widget tap does not.
             let open = springboard.buttons["Open"]
             if open.waitForExistence(timeout: 6) { open.tap() }
-            XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 30), "Safari opened for \(link)")
+            // Safari's address bar must show amazon.com (its run-state flag can lag on a cold start).
+            _ = safari.wait(for: .runningForeground, timeout: 20)
+            let amazon = safari.descendants(matching: .any)
+                .matching(NSPredicate(format: "label CONTAINS[c] 'amazon.com' OR value CONTAINS[c] 'amazon.com'"))
+                .firstMatch
+            XCTAssertTrue(amazon.waitForExistence(timeout: 30), "Safari shows amazon.com for \(link)")
             sleep(4)
             let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
             shot.name = "book-link-\(i)\(i == 0 ? "-cold-start" : "")"

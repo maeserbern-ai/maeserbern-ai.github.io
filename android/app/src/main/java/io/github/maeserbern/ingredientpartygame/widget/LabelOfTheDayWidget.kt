@@ -332,7 +332,7 @@ private fun Medium(data: LabelData, puzzle: DailyPuzzle, book: DailyBook) {
         Spacer(GlanceModifier.height(5.dp))
         Row(GlanceModifier.fillMaxWidth().height(62.dp)) {
             Box(GlanceModifier.width(118.dp).height(62.dp), contentAlignment = Alignment.TopEnd) {
-                LabelCard(if (puzzle.isTrueFalse) "THE CLAIM" else "INGREDIENTS", puzzle.fullLabel, 9.sp, 3,
+                LabelCard(if (puzzle.isTrueFalse) "THE CLAIM" else "INGREDIENTS", puzzle.fullLabel, 9.sp, 2,
                     GlanceModifier.fillMaxSize())
                 data.correct?.let { Box(GlanceModifier.padding(top = 20.dp, end = 2.dp)) { Stamp(it, 12.sp) } }
             }

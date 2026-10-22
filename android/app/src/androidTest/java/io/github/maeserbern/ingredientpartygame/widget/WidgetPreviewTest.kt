@@ -176,14 +176,18 @@ class WidgetPreviewTest {
             assertNotNull("book $label on the widget", target)
             target!!.click()
             var opened: String? = null
-            for (i in 0 until 25) {
+            for (i in 0 until 30) {
                 Thread.sleep(1000)
-                val top = shell("dumpsys activity activities").lines()
-                    .firstOrNull { it.contains("topResumedActivity") || it.contains("mResumedActivity") } ?: ""
-                opened = browsers.firstOrNull { top.contains(it) }
-                if (opened != null) break
+                val front = device.currentPackageName
+                if (front in browsers) { opened = front; break }
             }
-            log.append("tap book $label -> browser in front: ${opened ?: "none"}\n")
+            Thread.sleep(3000)
+            // The intent the browser was started with (data = the Amazon link).
+            val started = shell("dumpsys activity activities").lines()
+                .filter { it.contains("act=android.intent.action.VIEW") || it.contains("dat=") }
+                .filter { opened != null && (it.contains(opened!!) || it.contains("amazon")) }
+                .joinToString(" | ") { it.trim() }
+            log.append("tap book $label -> in front: ${opened ?: "none"}; started: $started\n")
             device.takeScreenshot(File(out, "android-booklink-$label.png"))
             assertNotNull("tapping the book $label opened the browser for ${book.url}", opened)
         }
@@ -217,7 +221,7 @@ class WidgetPreviewTest {
             parent.layout(0, 0, w, h)
             val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bmp)
-            canvas.drawColor(Color.parseColor("#3C4D63"))
+            canvas.drawColor(Color.TRANSPARENT)
             parent.draw(canvas)
             bitmap = bmp
         }

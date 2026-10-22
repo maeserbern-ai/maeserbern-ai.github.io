@@ -1206,7 +1206,7 @@
   const LOCKABLE = new Set(["answer", "reveal", "help", "menu", "extend"]);
   const QUIET = new Set(["answer", "reveal", "help", "wager", "sound", "music"]);
   function act(el) {
-    if (!el) return;
+    if (!el || el.tagName === "A") return;   // book links: the click handler opens them
     if (game && game.locked && LOCKABLE.has(el.dataset.action)) return;
     if (!QUIET.has(el.dataset.action)) sfx("click");
     if (el.dataset.teams) { pick(el, "teams"); return; }
@@ -1384,9 +1384,9 @@
     const ax = a.left + a.width / 2, ay = a.top + a.height / 2;
     // Prefer elements roughly in line with the arrow; up/down may fall back to
     // anything below/above (e.g. a lone Back button), left/right never jump rows.
-    const pickBest = (strict) => {
+    const pickBest = (strict, pool = items) => {
       let best = null, bestScore = Infinity;
-      items.forEach((el) => {
+      pool.forEach((el) => {
         if (el === focused) return;
         const b = el.getBoundingClientRect();
         const bx = b.left + b.width / 2, by = b.top + b.height / 2;
@@ -1394,7 +1394,7 @@
         const main = { left: -dx, right: dx, up: -dy, down: dy }[dir];
         if (main <= 1) return;
         const cross = dir === "left" || dir === "right" ? Math.abs(dy) : Math.abs(dx);
-        if (dir === "left" || dir === "right") {
+        if ((dir === "left" || dir === "right") && strict !== "side") {
           if (b.bottom <= a.top || b.top >= a.bottom) return;   // must share the same row
         } else if (strict && cross > main * 2) return;
         const score = main + cross * 2;
@@ -1403,6 +1403,8 @@
       return best;
     };
     let best = pickBest(true) || (dir === "up" || dir === "down" ? pickBest(false) : null);
+    // Left/right may still jump across to a book link in the side column.
+    if (!best && (dir === "left" || dir === "right")) best = pickBest("side", items.filter((el) => el.matches(BOOK_LINKS)));
     // Moving down off the ingredients lands on Reveal, never straight on Menu.
     const rev = $("#reveal");
     if (dir === "down" && best && best.dataset.action === "menu" && items.includes(rev) && focused !== rev) best = rev;
@@ -1433,7 +1435,7 @@
   document.addEventListener("keydown", (e) => {
     const k = KEYS[e.keyCode];
     if (k === "left" || k === "right" || k === "up" || k === "down") { e.preventDefault(); move(k); return; }
-    if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) act(focused); return; }
+    if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) { if (focused.tagName === "A") focused.click(); else act(focused); } return; }
     if (k === "back") { e.preventDefault(); back(); return; }
     if (e.key === "m" || e.key === "M") { setSound(!soundOn); return; }
     if (!$("#m-steal").hidden && modal.hidden) {

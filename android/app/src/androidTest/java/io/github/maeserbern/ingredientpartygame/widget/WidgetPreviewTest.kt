@@ -127,12 +127,17 @@ class WidgetPreviewTest {
 
         // Pinning needs the app in the foreground; the emulator's launcher is slow on first boot.
         val manager = AppWidgetManager.getInstance(context)
+        device.pressHome()
+        device.wait(Until.hasObject(By.pkg(device.launcherPackageName).depth(0)), 30000)
+        // Right after boot the default launcher may not accept pin requests yet.
+        for (i in 0 until 60) {
+            if (manager.isRequestPinAppWidgetSupported) break
+            Thread.sleep(2000)
+        }
         assertTrue("launcher supports pinning", manager.isRequestPinAppWidgetSupported)
         val addButton = By.text(Pattern.compile("(?i)(add( to home screen| automatically)?)"))
         var add: androidx.test.uiautomator.UiObject2? = null
-        device.pressHome()
-        device.wait(Until.hasObject(By.pkg(device.launcherPackageName).depth(0)), 30000)
-        Thread.sleep(5000)
+        Thread.sleep(3000)
         for (attempt in 0 until 3) {
             context.startActivity(Intent(Intent.ACTION_MAIN).setClassName(context, "${context.packageName}.MainActivity")
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

@@ -129,12 +129,18 @@ class WidgetPreviewTest {
         val manager = AppWidgetManager.getInstance(context)
         device.pressHome()
         device.wait(Until.hasObject(By.pkg(device.launcherPackageName).depth(0)), 30000)
-        // Right after boot the default launcher may not accept pin requests yet.
-        for (i in 0 until 60) {
+        // Right after boot the home role may not be assigned yet; pin requests need it.
+        val launcher = device.launcherPackageName
+        if (!shell("cmd role get-role-holders android.app.role.HOME").contains(launcher)) {
+            shell("cmd role add-role-holder android.app.role.HOME $launcher 0")
+        }
+        log.append("home=${shell("cmd role get-role-holders android.app.role.HOME").trim()}\n")
+        for (i in 0 until 30) {
             if (manager.isRequestPinAppWidgetSupported) break
             Thread.sleep(2000)
         }
-        assertTrue("launcher supports pinning", manager.isRequestPinAppWidgetSupported)
+        File(out, "android-booklink.txt").writeText(log.toString())
+        assertTrue("launcher supports pinning ($log)", manager.isRequestPinAppWidgetSupported)
         val addButton = By.text(Pattern.compile("(?i)(add( to home screen| automatically)?)"))
         var add: androidx.test.uiautomator.UiObject2? = null
         Thread.sleep(3000)

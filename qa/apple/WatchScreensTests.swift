@@ -20,10 +20,18 @@ final class WatchScreensTests: XCTestCase {
         // SwiftUI Link is exposed as a Link on watchOS 27 and a Button on 26.
         let element = app.descendants(matching: .any).matching(identifier: id).firstMatch
         XCTAssertTrue(element.waitForExistence(timeout: 15), "Missing \(id)")
-        for _ in 0..<10 {
+        // Short, momentum-free drags toward the element: a swipe can jump right past a
+        // button on the long true/false answer screen and then bounce back and forth.
+        let scroll = app.scrollViews.firstMatch
+        for _ in 0..<24 {
             if element.isHittable { return element }
-            // Scrolled past it (e.g. after capturing the book QR)? Go back up.
-            if element.frame.maxY < app.frame.minY + 20 { app.swipeDown() } else { app.swipeUp() }
+            let view = scroll.exists ? scroll.frame : app.windows.firstMatch.frame
+            let below = element.frame.midY > view.midY
+            let surface = scroll.exists ? scroll : app.windows.firstMatch
+            let start = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.7 : 0.35))
+            let end = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.35 : 0.7))
+            start.press(forDuration: 0.05, thenDragTo: end,
+                        withVelocity: XCUIGestureVelocity(rawValue: 120), thenHoldForDuration: 0.2)
         }
         XCTFail("Cannot reach \(id)")
         return element

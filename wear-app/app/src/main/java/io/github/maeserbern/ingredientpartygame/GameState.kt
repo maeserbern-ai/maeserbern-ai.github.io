@@ -11,13 +11,17 @@ import androidx.core.content.edit
  * Solo game state, ported from the Apple Watch app. Scoring matches the web
  * game: a puzzle starts with [START_SHOWN] ingredients and is worth
  * [MAX_POINTS]; each extra ingredient revealed costs one point, but a right
- * answer is always worth at least 1. Score, streaks and the shuffled deck are
+ * answer is always worth at least 1. A true/false question is worth
+ * [TF_POINTS]. Score, streaks, the chosen book and the no-repeat memory are
  * stored on the watch only.
  */
 class GameState(context: Context, val data: GameData) {
     companion object {
         const val START_SHOWN = 3
         const val MAX_POINTS = 5
+        /** A true/false question is worth the same as on the web (TF_POINTS). */
+        const val TF_POINTS = 3
+        private const val SEP = "\n"
     }
 
     private val prefs = context.getSharedPreferences("party-game", Context.MODE_PRIVATE)
@@ -33,6 +37,10 @@ class GameState(context: Context, val data: GameData) {
     var lastGuess by mutableStateOf<String?>(null)
         private set
     var lastPoints by mutableIntStateOf(0)
+        private set
+
+    /** The book being played ("all" = Mix all books). */
+    var bookId by mutableStateOf(prefs.getString("play.book", Deck.ALL) ?: Deck.ALL)
         private set
 
     var totalScore by mutableIntStateOf(prefs.getInt("score.total", 0))
@@ -57,7 +65,14 @@ class GameState(context: Context, val data: GameData) {
     val canRevealMore: Boolean get() = puzzle?.let { shown < it.ingredients.size } ?: false
 
     /** Points a right answer is worth right now. */
-    val currentPoints: Int get() = maxOf(1, MAX_POINTS - (shown - startingShown))
+    val currentPoints: Int
+        get() = if (puzzle?.trueFalse == true) TF_POINTS else maxOf(1, MAX_POINTS - (shown - startingShown))
+
+    /** Picks which book to play ("all" mixes every book). */
+    fun chooseBook(id: String) {
+        bookId = if (id == Deck.ALL || data.puzzlesIn(id).isNotEmpty()) id else Deck.ALL
+        prefs.edit { putString("play.book", bookId) }
+    }
 
     /** Starts the next puzzle; returns false if there is nothing to play. */
     fun nextPuzzle(): Boolean {
@@ -97,31 +112,21 @@ class GameState(context: Context, val data: GameData) {
         return wasCorrect
     }
 
-    /**
-     * Draws from a persisted shuffled deck so no puzzle repeats until every
-     * puzzle has been played. A fresh shuffle never starts with the puzzle
-     * that ended the previous deck.
-     */
+    /** Deals the next unseen puzzle from the chosen book (see [Deck]). */
     private fun drawFromDeck(): Puzzle? {
-        if (data.puzzles.isEmpty()) return null
-        val lastAnswer = prefs.getString("deck.lastAnswer", "") ?: ""
-        val remaining = (prefs.getString("deck.remaining", "") ?: "")
-            .split("\n")
-            .filter { it.isNotEmpty() && data.puzzlesByAnswer.containsKey(it) }
-            .toMutableList()
-
-        if (remaining.isEmpty()) {
-            remaining += data.puzzles.map { it.answer }.shuffled()
-            if (remaining.size > 1 && remaining.first() == lastAnswer) {
-                java.util.Collections.swap(remaining, 0, remaining.size - 1)
-            }
-        }
-
-        val answer = remaining.removeAt(0)
+        val pool = data.puzzlesIn(bookId).map { it.key }
+        val seen = (prefs.getString("deck.seen", "") ?: "")
+            .split(SEP)
+            .filter { it.isNotEmpty() && data.puzzlesByKey.containsKey(it) }
+            .toSet()
+        val (key, nextSeen) = Deck.draw(pool, seen, prefs.getString("deck.lastKey", null)) ?: return null
         prefs.edit {
-            putString("deck.remaining", remaining.joinToString("\n"))
-            putString("deck.lastAnswer", answer)
+            putString("deck.seen", nextSeen.joinToString(SEP))
+            putString("deck.lastKey", key)
+            // Version 1.0 kept one shuffled deck for every puzzle; it is replaced by deck.seen.
+            remove("deck.remaining")
+            remove("deck.lastAnswer")
         }
-        return data.puzzlesByAnswer[answer]
+        return data.puzzlesByKey[key]
     }
 }

@@ -19,7 +19,11 @@ data class Book(
     val qr: List<String>,
 )
 
-/** One "what is it?" puzzle, exported from party-game/puzzles.js. */
+/**
+ * One puzzle, exported from party-game/puzzles.js. Either a "what is it?"
+ * ingredient puzzle, or (when [trueFalse]) a What Is Toilet Paper? statement
+ * whose [answer] is "True" or "False" and whose [explain] is the real story.
+ */
 data class Puzzle(
     val answer: String,
     val options: List<String>,
@@ -29,7 +33,18 @@ data class Puzzle(
     val ingredients: List<String>,
     val spotlightName: String,
     val spotlightNote: String,
-)
+    val trueFalse: Boolean = false,
+    val statement: String = "",
+    val explain: String = "",
+) {
+    /** Same key the web game uses for its no-repeat memory. */
+    val key: String get() = book + "|" + (if (trueFalse) statement else answer)
+
+    companion object {
+        const val TRUE = "True"
+        const val FALSE = "False"
+    }
+}
 
 /** Ordered JavaScript regex rules; the first rule that matches wins. */
 class RuleMatcher(rules: JSONArray?) {
@@ -57,7 +72,7 @@ class RuleMatcher(rules: JSONArray?) {
 class GameData(private val context: Context) {
     val books: List<Book>
     val puzzles: List<Puzzle>
-    val puzzlesByAnswer: Map<String, Puzzle>
+    val puzzlesByKey: Map<String, Puzzle>
     private val glossary: RuleMatcher
     private val warnings: RuleMatcher
     private val undisclosed: RuleMatcher
@@ -75,6 +90,22 @@ class GameData(private val context: Context) {
             )
         }
         puzzles = readArray("puzzles.json").objects().map { p ->
+            if (p.optString("type") == "tf") {
+                val truth = p.getBoolean("truth")
+                return@map Puzzle(
+                    answer = if (truth) Puzzle.TRUE else Puzzle.FALSE,
+                    options = listOf(Puzzle.TRUE, Puzzle.FALSE),
+                    kind = "tf",
+                    book = p.getString("book"),
+                    bookName = p.optString("bookName"),
+                    ingredients = emptyList(),
+                    spotlightName = "",
+                    spotlightNote = "",
+                    trueFalse = true,
+                    statement = p.getString("statement"),
+                    explain = p.getString("explain"),
+                )
+            }
             val spot = p.getJSONObject("spotlight")
             Puzzle(
                 answer = p.getString("answer"),
@@ -87,7 +118,7 @@ class GameData(private val context: Context) {
                 spotlightNote = spot.getString("note"),
             )
         }
-        puzzlesByAnswer = puzzles.associateBy { it.answer }
+        puzzlesByKey = puzzles.associateBy { it.key }
         glossary = RuleMatcher(readArray("glossary.json"))
         val watch = JSONObject(readText("watch.json"))
         warnings = RuleMatcher(watch.optJSONArray("warn"))
@@ -95,6 +126,13 @@ class GameData(private val context: Context) {
     }
 
     fun book(id: String): Book? = books.firstOrNull { it.id == id }
+
+    /** The books a player can pick (the "all" series entry is "Mix all books"). */
+    val playableBooks: List<Book> get() = books.filter { it.id != Deck.ALL && puzzlesIn(it.id).isNotEmpty() }
+
+    /** Puzzles for one book, or every puzzle for [Deck.ALL]. */
+    fun puzzlesIn(bookId: String): List<Puzzle> =
+        if (bookId == Deck.ALL) puzzles else puzzles.filter { it.book == bookId }
 
     /** Plain-words explanation of an ingredient (same fallback as the web game). */
     fun explanation(ingredient: String): String =

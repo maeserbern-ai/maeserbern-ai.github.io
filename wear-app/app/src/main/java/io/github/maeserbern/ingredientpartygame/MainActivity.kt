@@ -32,6 +32,7 @@ object Routes {
     const val START = "start"
     const val CLUES = "clues"
     const val GUESS = "guess"
+    const val TRUE_FALSE = "truefalse"
     const val RESULT = "result"
     const val INGREDIENT = "ingredient/{index}"
     const val BOOKS = "books"
@@ -51,7 +52,10 @@ fun PartyGameApp(game: GameState) {
         composable(Routes.START) {
             StartScreen(
                 game = game,
-                onPlay = { if (game.nextPuzzle()) nav.navigate(Routes.CLUES) },
+                onPlay = { book ->
+                    game.chooseBook(book)
+                    if (game.nextPuzzle()) nav.navigate(game.roundRoute())
+                },
                 onBooks = { nav.navigate(Routes.BOOKS) },
             )
         }
@@ -76,12 +80,23 @@ fun PartyGameApp(game: GameState) {
                 onMissing = { nav.home() },
             )
         }
+        composable(Routes.TRUE_FALSE) {
+            TrueFalseScreen(
+                game = game,
+                onAnswered = {
+                    nav.navigate(Routes.RESULT) {
+                        popUpTo(Routes.TRUE_FALSE) { inclusive = true }
+                    }
+                },
+                onMissing = { nav.home() },
+            )
+        }
         composable(Routes.RESULT) {
             ResultScreen(
                 game = game,
                 onNext = {
                     if (game.nextPuzzle()) {
-                        nav.navigate(Routes.CLUES) { popUpTo(Routes.RESULT) { inclusive = true } }
+                        nav.navigate(game.roundRoute()) { popUpTo(Routes.RESULT) { inclusive = true } }
                     } else {
                         nav.home()
                     }
@@ -108,6 +123,10 @@ fun PartyGameApp(game: GameState) {
         }
     }
 }
+
+/** The first screen of the current puzzle: true/false, or the ingredient clues. */
+private fun GameState.roundRoute(): String =
+    if (puzzle?.trueFalse == true) Routes.TRUE_FALSE else Routes.CLUES
 
 private fun NavHostController.home() {
     if (!popBackStack(Routes.START, inclusive = false)) navigate(Routes.START)

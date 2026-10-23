@@ -54,6 +54,9 @@ jobs:
           fi
           echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
 
+      - name: Unit tests
+        run: gradle -p wear-app --no-daemon testDebugUnitTest
+
       - name: Build
         run: gradle -p wear-app --no-daemon assembleDebug bundleRelease
 

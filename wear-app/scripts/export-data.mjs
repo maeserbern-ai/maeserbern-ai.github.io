@@ -28,17 +28,32 @@ function load(file, names) {
 const { BOOKS, SERIES, PUZZLES, WATCH, UNDISCLOSED } = load("puzzles.js", ["BOOKS", "SERIES", "PUZZLES", "WATCH", "UNDISCLOSED"]);
 const { GLOSSARY } = load("glossary.js", ["GLOSSARY"]);
 
-// True/false (toilet paper) puzzles need a different screen; the watch skips them.
+// True/false (toilet paper) puzzles play on their own two-button screen.
 const isTrueFalse = (p) => p.type === "tf" || p.book === "tp" || (BOOKS[p.book] && BOOKS[p.book].trueFalse);
 const usable = [];
-let skippedTP = 0, skippedBad = 0;
+let exportedTF = 0, skippedBad = 0;
 for (const p of PUZZLES) {
-  if (isTrueFalse(p)) { skippedTP++; continue; }
+  if (isTrueFalse(p)) {
+    const ok = typeof p.statement === "string" && p.statement && typeof p.answer === "boolean" &&
+      typeof p.explain === "string" && p.explain && BOOKS[p.book];
+    if (!ok) { skippedBad++; console.warn("Skipping malformed true/false puzzle:", p.statement); continue; }
+    exportedTF++;
+    usable.push({
+      type: "tf",
+      statement: p.statement,
+      truth: p.answer,
+      explain: p.explain,
+      book: p.book,
+      bookName: BOOKS[p.book].name
+    });
+    continue;
+  }
   const ok = typeof p.answer === "string" && Array.isArray(p.options) && p.options.length === 4 &&
     p.options.includes(p.answer) && Array.isArray(p.ingredients) && p.ingredients.length > 0 &&
     p.spotlight && p.spotlight.name && p.spotlight.note && BOOKS[p.book];
   if (!ok) { skippedBad++; console.warn("Skipping malformed puzzle:", p.answer); continue; }
   usable.push({
+    type: "pick",
     answer: p.answer,
     options: p.options.slice(),
     kind: p.kind,
@@ -93,7 +108,7 @@ write("books.json", catalog);
 
 console.log(`puzzles in source: ${PUZZLES.length}`);
 console.log(`exported puzzles:  ${usable.length}`);
-console.log(`skipped tp/true-false: ${skippedTP}`);
+console.log(`  of which true/false: ${exportedTF}`);
 console.log(`skipped malformed: ${skippedBad}`);
 console.log(`glossary rules:    ${GLOSSARY.length}`);
 console.log(`watch rules:       ${(WATCH || []).length} warn, ${(UNDISCLOSED || []).length} undisclosed`);

@@ -4,6 +4,7 @@ import android.view.HapticFeedbackConstants
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,54 +40,141 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
 
-private const val TITLE = "Snack or Shampoo?"
+private const val TITLE = "Ingredient Dictionary"
+private const val SUBTITLE = "The Party Game"
+private const val HOOK = "Snack or Shampoo?"
 
 // ---------------------------------------------------------------- Start
 
+/** Title, then the book picker: tap Mix all books or one book to play it. */
 @Composable
-fun StartScreen(game: GameState, onPlay: () -> Unit, onBooks: () -> Unit) {
+fun StartScreen(game: GameState, onPlay: (String) -> Unit, onBooks: () -> Unit) {
     WatchScreen {
         item {
             Text(
                 TITLE,
                 fontFamily = Serif,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 16.sp,
+                lineHeight = 19.sp,
                 color = Palette.terracotta,
                 textAlign = TextAlign.Center,
+                // Inset so the top line stays inside the circle on round watches.
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
             )
+        }
+        item {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    SUBTITLE,
+                    fontFamily = Serif,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    color = Palette.ink,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    "$HOOK  ·  by Maeser",
+                    fontSize = 11.sp,
+                    color = Palette.soft,
+                    textAlign = TextAlign.Center,
+                )
+            }
         }
         item {
             Text(
-                "From the Ingredient Dictionary books by Maeser",
-                fontSize = 12.sp,
-                color = Palette.soft,
+                "PICK A BOOK",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                color = Palette.gold,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
             )
         }
         item {
-            PillButton(
-                "Play",
-                fill = Palette.terracotta,
-                textColor = Palette.labelInk,
+            BookPick(
+                game = game,
+                book = null,
+                title = "Mix all books",
+                count = countLabel(game.data.puzzlesIn(Deck.ALL)),
+                selected = game.bookId == Deck.ALL,
                 enabled = game.hasPuzzles,
-                onClick = onPlay,
-                modifier = Modifier.padding(top = 4.dp),
+                onClick = { onPlay(Deck.ALL) },
             )
         }
+        game.data.playableBooks.forEach { book ->
+            item {
+                BookPick(
+                    game = game,
+                    book = book,
+                    title = book.name,
+                    count = countLabel(game.data.puzzlesIn(book.id)),
+                    selected = game.bookId == book.id,
+                    onClick = { onPlay(book.id) },
+                )
+            }
+        }
         item {
-            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
                 Stat("Total score", game.totalScore, Modifier.weight(1f))
                 Stat("Best streak", game.bestStreak, Modifier.weight(1f))
             }
         }
-        item { PillButton("Books", onClick = onBooks) }
+        item { PillButton("Get the books", onClick = onBooks) }
+    }
+}
+
+private fun countLabel(puzzles: List<Puzzle>): String =
+    if (puzzles.isNotEmpty() && puzzles.all { it.trueFalse }) "${puzzles.size} true or false"
+    else "${puzzles.size} puzzles"
+
+/** One row of the book picker: small cover, name and how many puzzles it has. */
+@Composable
+private fun BookPick(
+    game: GameState,
+    book: Book?,
+    title: String,
+    count: String,
+    selected: Boolean,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 48.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(if (book == null) Palette.terracotta else Palette.button)
+            .then(if (selected) Modifier.border(2.dp, Palette.gold, RoundedCornerShape(24.dp)) else Modifier)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .padding(start = 12.dp, end = 12.dp, top = 5.dp, bottom = 5.dp),
+    ) {
+        if (book != null) Cover(game, book, width = 22.dp)
+        Column(Modifier.weight(1f)) {
+            Text(
+                title,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp,
+                lineHeight = 16.sp,
+                color = if (book == null) Palette.labelInk else Palette.ink,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                count,
+                fontSize = 11.sp,
+                color = if (book == null) Palette.labelInk.copy(alpha = 0.8f) else Palette.soft,
+                maxLines = 1,
+            )
+        }
     }
 }
 
@@ -114,23 +203,7 @@ fun CluesScreen(game: GameState, onIngredient: (Int) -> Unit, onGuess: () -> Uni
     }
     WatchScreen {
         item {
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    TITLE,
-                    fontFamily = Serif,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,
-                    color = Palette.terracotta,
-                    maxLines = 1,
-                    modifier = Modifier.weight(1f),
-                )
-                Text(
-                    if (game.currentPoints == 1) "1 pt" else "${game.currentPoints} pts",
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Palette.gold,
-                )
-            }
+            RoundHeader(game)
         }
         item {
             Column(
@@ -190,6 +263,106 @@ fun CluesScreen(game: GameState, onIngredient: (Int) -> Unit, onGuess: () -> Uni
         item {
             Text(
                 "Tap an ingredient to learn what it is",
+                fontSize = 11.sp,
+                color = Palette.soft,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+/** Centered "Ingredient Dictionary  5 pts" line at the top of a round (fits inside round screens). */
+@Composable
+private fun RoundHeader(game: GameState) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(
+            TITLE,
+            fontFamily = Serif,
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.sp,
+            color = Palette.terracotta,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false),
+        )
+        Text(
+            if (game.currentPoints == 1) "1 pt" else "${game.currentPoints} pts",
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = Palette.gold,
+        )
+    }
+}
+
+// ---------------------------------------------------------------- True or false
+
+/** What Is Toilet Paper? round: a statement and two buttons, True and False. */
+@Composable
+fun TrueFalseScreen(game: GameState, onAnswered: () -> Unit, onMissing: () -> Unit) {
+    val puzzle = game.puzzle
+    if (puzzle == null || !puzzle.trueFalse) {
+        LaunchedEffect(Unit) { onMissing() }
+        return
+    }
+    val view = LocalView.current
+    WatchScreen {
+        item {
+            RoundHeader(game)
+        }
+        item {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(Palette.label)
+                    .padding(10.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                Text(
+                    "TRUE OR FALSE?",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Palette.labelInk.copy(alpha = 0.85f),
+                )
+                Text(
+                    puzzle.statement,
+                    fontFamily = Serif,
+                    fontSize = 15.sp,
+                    lineHeight = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Palette.labelInk,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+        item {
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.fillMaxWidth()) {
+                listOf(Puzzle.TRUE, Puzzle.FALSE).forEach { option ->
+                    PillButton(
+                        option,
+                        fill = if (option == Puzzle.TRUE) Palette.terracotta else Palette.button,
+                        textColor = if (option == Puzzle.TRUE) Palette.labelInk else Palette.ink,
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        if (!game.answered) {
+                            val right = game.guess(option)
+                            view.performHapticFeedback(
+                                if (right) HapticFeedbackConstants.CONFIRM else HapticFeedbackConstants.REJECT,
+                            )
+                            onAnswered()
+                        }
+                    }
+                }
+            }
+        }
+        item {
+            Text(
+                "From ${puzzle.bookName}",
                 fontSize = 11.sp,
                 color = Palette.soft,
                 textAlign = TextAlign.Center,
@@ -295,7 +468,7 @@ fun ResultScreen(
         }
         item {
             Text(
-                puzzle.answer,
+                if (puzzle.trueFalse) "${puzzle.answer}." else puzzle.answer,
                 fontFamily = Serif,
                 fontWeight = FontWeight.Bold,
                 fontSize = 19.sp,
@@ -324,15 +497,20 @@ fun ResultScreen(
                     .padding(10.dp),
                 verticalArrangement = Arrangement.spacedBy(3.dp),
             ) {
-                Text("WEIRD INGREDIENT", fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Palette.gold)
                 Text(
-                    puzzle.spotlightName,
+                    if (puzzle.trueFalse) "THE REAL STORY" else "WEIRD INGREDIENT",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Palette.gold,
+                )
+                Text(
+                    if (puzzle.trueFalse) puzzle.statement else puzzle.spotlightName,
                     fontFamily = Serif,
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     color = Palette.terracotta,
                 )
-                Text(puzzle.spotlightNote, fontSize = 13.sp, color = Palette.ink)
+                Text(if (puzzle.trueFalse) puzzle.explain else puzzle.spotlightNote, fontSize = 13.sp, color = Palette.ink)
             }
         }
         item {

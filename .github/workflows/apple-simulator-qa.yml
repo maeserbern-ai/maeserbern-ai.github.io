@@ -1,0 +1,131 @@
+name: Isolated Apple Simulator QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Simulator platform to verify
+        type: choice
+        options: [both, ios, tvos, watch, inventory, ios-modern, watch-icons]
+        default: both
+      reuse_run_id:
+        description: Optional prior QA run with identical game source
+        type: string
+        default: ""
+      focus_probe:
+        description: Include diagnostic TV controls (never for store screenshots)
+        type: boolean
+        default: false
+      watch_only:
+        description: Retest only the embedded Watch app (requires identical compiled iOS app)
+        type: boolean
+        default: false
+      watch_size:
+        description: Watch size to test
+        type: choice
+        options: [both, small, large]
+        default: both
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  simulator:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(inputs.platform == 'both' && '["ios","tvos"]' || format('["{0}"]', inputs.platform)) }}
+    runs-on: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern') && 'xcode-27' || 'macos-15' }}
+    timeout-minutes: 60
+    env:
+      CI: "1"
+      EXPO_NO_TELEMETRY: "1"
+      QA_PLATFORM: ${{ matrix.platform == 'ios-modern' && 'ios' || matrix.platform }}
+      QA_REQUIRE_DUO: ${{ matrix.platform == 'ios-modern' && 'true' || 'false' }}
+      QA_WATCH_RUNTIME: ${{ matrix.platform == 'ios-modern' && '27-0' || '26-2' }}
+      QA_FOCUS_PROBE: ${{ inputs.focus_probe }}
+      QA_WATCH_ONLY: ${{ inputs.watch_only }}
+      QA_WATCH_SIZE: ${{ inputs.watch_size }}
+      DEVELOPER_DIR: ${{ (matrix.platform == 'inventory' || matrix.platform == 'ios-modern') && '/Applications/Xcode_27.1.app/Contents/Developer' || '/Applications/Xcode_26.2.app/Contents/Developer' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify compiled app provenance
+        if: inputs.reuse_run_id != ''
+        id: prior
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {data: run} = await github.rest.actions.getWorkflowRun({
+              ...context.repo, run_id: context.payload.inputs.reuse_run_id
+            });
+            if (run.head_branch !== 'codex/ingredient-apple-simulator-qa-20261015' ||
+                run.path !== '.github/workflows/apple-simulator-qa.yml') {
+              throw new Error('Only this isolated QA workflow can supply a compiled app');
+            }
+            core.setOutput('sha', run.head_sha);
+      - uses: actions/checkout@v4
+        if: inputs.reuse_run_id != ''
+        with:
+          ref: ${{ steps.prior.outputs.sha }}
+          path: qa-reuse-source
+      - name: Retrieve matching compiled simulator app
+        if: inputs.reuse_run_id != ''
+        uses: actions/download-artifact@v4
+        with:
+          name: ingredient-game-${{ matrix.platform }}-simulator-qa
+          path: qa-reuse/
+          run-id: ${{ inputs.reuse_run_id }}
+          github-token: ${{ github.token }}
+      - name: Prepare simulator tooling
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes
+          if [ "$QA_PLATFORM" = inventory ]; then
+            mkdir -p qa-output
+            xcodebuild -version > qa-output/xcode-version.txt
+            xcodebuild -showsdks > qa-output/sdks.txt
+            xcrun simctl list --json > qa-output/simulator-inventory.json
+            xcrun simctl help > qa-output/simctl-help.txt
+          else
+            command -v xcodegen || brew install xcodegen
+          fi
+      - name: Build and test actual app screens
+        if: matrix.platform != 'inventory'
+        run: |
+          if [ "$QA_REQUIRE_DUO" = true ]; then
+            mkdir -p qa-output
+            if [ "$QA_WATCH_ONLY" != true ]; then
+              xcodebuild -downloadPlatform iOS -buildVersion 27.1 2>&1 | tee qa-output/duo-runtime-download.log
+              xcrun simctl create 'Ingredient QA iPhone Duo' com.apple.CoreSimulator.SimDeviceType.iPhone-Duo com.apple.CoreSimulator.SimRuntime.iOS-27-1
+            fi
+            xcodebuild -downloadPlatform watchOS -buildVersion 27.0 2>&1 | tee qa-output/watch-runtime-download.log
+            if [ "$QA_WATCH_ONLY" = true ]; then
+              # Reimport Apple's runtime when the runner's cached Cryptex mount is unavailable.
+              WATCH_RUNTIME_EXPORT="$RUNNER_TEMP/ingredient-watch-runtime"
+              mkdir -p "$WATCH_RUNTIME_EXPORT"
+              xcodebuild -downloadPlatform watchOS -buildVersion 27.0 -exportPath "$WATCH_RUNTIME_EXPORT" 2>&1 | tee qa-output/watch-runtime-export.log
+              WATCH_RUNTIME_FILE=$(find "$WATCH_RUNTIME_EXPORT" -maxdepth 2 \( -name '*.dmg' -o -name '*.exportedBundle' \) -print -quit)
+              test -n "$WATCH_RUNTIME_FILE"
+              xcodebuild -importPlatform "$WATCH_RUNTIME_FILE" 2>&1 | tee qa-output/watch-runtime-import.log
+              xcrun simctl list runtimes --json > qa-output/watch-runtime-after-import.json
+            fi
+          fi
+          if [ "$QA_PLATFORM" = watch-icons ]; then
+            bash qa/apple/check-watch-icons.sh
+          elif [ "$QA_PLATFORM" = watch ]; then
+            bash qa/apple/build-watch-qa.sh
+          else
+            bash qa/apple/run-simulator-qa.sh
+          fi
+      - name: Preserve screenshots and test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ingredient-game-${{ matrix.platform }}-simulator-qa
+          path: qa-output/
+          retention-days: 14
+          if-no-files-found: error

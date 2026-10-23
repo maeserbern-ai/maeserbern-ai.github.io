@@ -74,11 +74,18 @@ final class WatchScreensTests: XCTestCase {
         for _ in 0..<24 {
             view = surface.frame
             if inView() { break }
-            let below = code.frame.maxY > view.maxY - 2
-            let start = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.6 : 0.45))
-            let end = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.45 : 0.6))
+            // Drag by exactly the distance that centres the code under the clock
+            // (very short drags are swallowed as taps, so at least 40 pt).
+            let target = (view.minY + 34 + view.maxY) / 2
+            var distance = code.frame.midY - target
+            if abs(distance) < 40 { distance = distance < 0 ? -40 : 40 }
+            let most = view.height * 0.6
+            distance = min(most, max(-most, distance))
+            let middle = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            let start = middle.withOffset(CGVector(dx: 0, dy: distance / 2))
+            let end = middle.withOffset(CGVector(dx: 0, dy: -distance / 2))
             start.press(forDuration: 0.05, thenDragTo: end,
-                        withVelocity: XCUIGestureVelocity(rawValue: 100), thenHoldForDuration: 0.2)
+                        withVelocity: XCUIGestureVelocity(rawValue: 150), thenHoldForDuration: 0.3)
         }
         XCTAssertTrue(inView(), "Book QR clipped on the answer screen: \(code.frame) in \(view)")
         XCTAssertGreaterThan(code.frame.width, 80)

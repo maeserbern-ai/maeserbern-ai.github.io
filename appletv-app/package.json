@@ -1,0 +1,32 @@
+{
+  "name": "ingredient-party-game-tv",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node scripts/import-data.mjs",
+    "import-data": "node scripts/import-data.mjs",
+    "render-audio": "node scripts/render-audio.mjs",
+    "prebuild": "node scripts/import-data.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "start": "expo start",
+    "config": "node scripts/expo-tv.mjs config --type public",
+    "bundle": "node scripts/expo-tv.mjs export --platform ios --output-dir dist"
+  },
+  "dependencies": {
+    "@react-native-tvos/config-tv": "^0.1.4",
+    "expo": "~54.0.34",
+    "expo-audio": "~1.1.1",
+    "expo-status-bar": "~3.0.9",
+    "react": "19.1.0",
+    "react-native": "npm:react-native-tvos@0.81.5-2"
+  },
+  "expo": {
+    "install": {
+      "exclude": [
+        "react-native"
+      ]
+    }
+  }
+}
+

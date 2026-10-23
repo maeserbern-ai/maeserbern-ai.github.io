@@ -36,9 +36,33 @@ final class WatchScreensTests: XCTestCase {
         add(attachment)
     }
 
+    func pickBook(_ id: String) {
+        reveal("watch-book-picker").tap()
+        reveal("watch-pick-\(id)").tap()
+        XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 10))
+    }
+
+    /// Scrolls the answer screen down to the "FROM THE BOOK" card and captures its QR code.
+    func captureResultBook(_ name: String) {
+        let code = app.images["watch-result-qr"]
+        XCTAssertTrue(code.waitForExistence(timeout: 10), "Missing book QR on the answer screen")
+        for _ in 0..<12 {
+            if code.isHittable && app.frame.contains(code.frame) { break }
+            app.swipeUp()
+        }
+        XCTAssertTrue(app.frame.contains(code.frame), "Book QR clipped on the answer screen")
+        XCTAssertGreaterThan(code.frame.width, 80)
+        capture(name)
+    }
+
     func testSoloGameAndRelaunch() {
         XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 20))
         capture("01-watch-title")
+        reveal("watch-book-picker").tap()
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "watch-pick-all").firstMatch.waitForExistence(timeout: 10))
+        capture("01-watch-book-picker")
+        reveal("watch-pick-food").tap()
+        XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 10))
         reveal("watch-play").tap()
         XCTAssertTrue(app.buttons["watch-ingredient-0"].waitForExistence(timeout: 10))
         capture("02-watch-ingredients")
@@ -51,6 +75,7 @@ final class WatchScreensTests: XCTestCase {
         reveal("watch-answer-0").tap()
         XCTAssertTrue(app.buttons["watch-next"].waitForExistence(timeout: 10))
         capture("04-watch-result")
+        captureResultBook("06-watch-result-book")
         reveal("watch-next").tap()
         reveal("watch-guess").tap()
         reveal("watch-answer-0").tap()
@@ -61,6 +86,30 @@ final class WatchScreensTests: XCTestCase {
         XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 20))
         reveal("watch-play").tap()
         XCTAssertTrue(app.buttons["watch-ingredient-0"].waitForExistence(timeout: 10))
+    }
+
+    func testToiletPaperTrueFalse() {
+        XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 20))
+        pickBook("tp")
+        reveal("watch-play").tap()
+        XCTAssertTrue(app.buttons["watch-true"].waitForExistence(timeout: 10), "True/false claim not shown")
+        XCTAssertTrue(app.buttons["watch-false"].exists)
+        XCTAssertFalse(app.buttons["watch-ingredient-0"].exists)
+        capture("07-watch-truefalse")
+        reveal("watch-true").tap()
+        XCTAssertTrue(app.buttons["watch-next"].waitForExistence(timeout: 10))
+        let answer = app.staticTexts["watch-result-answer"].label
+        XCTAssertTrue(answer == "True." || answer == "False.", "Unexpected answer \(answer)")
+        XCTAssertTrue(app.staticTexts["THE REAL STORY"].exists)
+        capture("08-watch-truefalse-result")
+        captureResultBook("09-watch-truefalse-book")
+        // The next claim comes from the same book and is a different one.
+        reveal("watch-next").tap()
+        XCTAssertTrue(app.buttons["watch-true"].waitForExistence(timeout: 10))
+        reveal("watch-false").tap()
+        XCTAssertTrue(app.buttons["watch-next"].waitForExistence(timeout: 10))
+        reveal("watch-home").tap()
+        pickBook("all")
     }
 
     func testAllBookDestinationsAndCodes() {

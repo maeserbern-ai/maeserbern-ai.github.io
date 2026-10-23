@@ -1,5 +1,7 @@
 [
   {
+    "key": "kids|Gummy bears",
+    "type": "mc",
     "answer": "Gummy bears",
     "options": [
       "Car wax",
@@ -30,6 +32,8 @@
     }
   },
   {
+    "key": "beauty|Toothpaste",
+    "type": "mc",
     "answer": "Toothpaste",
     "options": [
       "Cake frosting",
@@ -58,6 +62,8 @@
     }
   },
   {
+    "key": "beauty|Dandruff shampoo",
+    "type": "mc",
     "answer": "Dandruff shampoo",
     "options": [
       "Dish soap",
@@ -86,6 +92,8 @@
     }
   },
   {
+    "key": "beauty|Lip balm",
+    "type": "mc",
     "answer": "Lip balm",
     "options": [
       "Lip balm",
@@ -112,6 +120,8 @@
     }
   },
   {
+    "key": "food|Individually wrapped cheese slices",
+    "type": "mc",
     "answer": "Individually wrapped cheese slices",
     "options": [
       "Cheddar cheese",
@@ -143,6 +153,8 @@
     }
   },
   {
+    "key": "clean|Dish soap",
+    "type": "mc",
     "answer": "Dish soap",
     "options": [
       "Shampoo",
@@ -170,6 +182,8 @@
     }
   },
   {
+    "key": "food|Ranch dressing",
+    "type": "mc",
     "answer": "Ranch dressing",
     "options": [
       "Mayonnaise",
@@ -203,6 +217,8 @@
     }
   },
   {
+    "key": "beauty|Hand lotion",
+    "type": "mc",
     "answer": "Hand lotion",
     "options": [
       "Ranch dressing",
@@ -233,6 +249,8 @@
     }
   },
   {
+    "key": "food|Vanilla frosting",
+    "type": "mc",
     "answer": "Vanilla frosting",
     "options": [
       "Vanilla frosting",
@@ -264,6 +282,8 @@
     }
   },
   {
+    "key": "beauty|Shaving cream",
+    "type": "mc",
     "answer": "Shaving cream",
     "options": [
       "Spray whipped cream",
@@ -290,6 +310,8 @@
     }
   },
   {
+    "key": "food|Spray whipped cream",
+    "type": "mc",
     "answer": "Spray whipped cream",
     "options": [
       "Shaving cream",
@@ -317,6 +339,8 @@
     }
   },
   {
+    "key": "food|Frozen whipped topping",
+    "type": "mc",
     "answer": "Frozen whipped topping",
     "options": [
       "Real whipped cream",
@@ -347,6 +371,8 @@
     }
   },
   {
+    "key": "beauty|Hair conditioner",
+    "type": "mc",
     "answer": "Hair conditioner",
     "options": [
       "Hair conditioner",
@@ -375,6 +401,8 @@
     }
   },
   {
+    "key": "food|Diet cola",
+    "type": "mc",
     "answer": "Diet cola",
     "options": [
       "Iced tea",
@@ -401,6 +429,8 @@
     }
   },
   {
+    "key": "home|Toilet bowl cleaner",
+    "type": "mc",
     "answer": "Toilet bowl cleaner",
     "options": [
       "Diet cola",
@@ -425,6 +455,8 @@
     }
   },
   {
+    "key": "beauty|Mouthwash",
+    "type": "mc",
     "answer": "Mouthwash",
     "options": [
       "Sports drink",
@@ -456,6 +488,8 @@
     }
   },
   {
+    "key": "food|Sports drink",
+    "type": "mc",
     "answer": "Sports drink",
     "options": [
       "Mouthwash",
@@ -485,6 +519,8 @@
     }
   },
   {
+    "key": "home|Glass cleaner",
+    "type": "mc",
     "answer": "Glass cleaner",
     "options": [
       "Glass cleaner",
@@ -510,6 +546,8 @@
     }
   },
   {
+    "key": "kids|Fruity cereal rings",
+    "type": "mc",
     "answer": "Fruity cereal rings",
     "options": [
       "Dog treats",
@@ -542,6 +580,8 @@
     }
   },
   {
+    "key": "home|Bacon-style dog treats",
+    "type": "mc",
     "answer": "Bacon-style dog treats",
     "options": [
       "Beef jerky",
@@ -576,6 +616,8 @@
     }
   },
   {
+    "key": "food|Imitation bacon bits",
+    "type": "mc",
     "answer": "Imitation bacon bits",
     "options": [
       "Croutons",
@@ -601,6 +643,8 @@
     }
   },
   {
+    "key": "home|Fish food flakes",
+    "type": "mc",
     "answer": "Fish food flakes",
     "options": [
       "Fish food flakes",
@@ -629,6 +673,8 @@
     }
   },
   {
+    "key": "food|Powdered coffee creamer",
+    "type": "mc",
     "answer": "Powdered coffee creamer",
     "options": [
       "Powdered milk",
@@ -655,6 +701,8 @@
     }
   },
   {
+    "key": "kids|Baby powder",
+    "type": "mc",
     "answer": "Baby powder",
     "options": [
       "Cornstarch",
@@ -676,6 +724,8 @@
     }
   },
   {
+    "key": "beauty|Dry shampoo",
+    "type": "mc",
     "answer": "Dry shampoo",
     "options": [
       "Spray deodorant",
@@ -703,6 +753,8 @@
     }
   },
   {
+    "key": "food|Cooking spray",
+    "type": "mc",
     "answer": "Cooking spray",
     "options": [
       "Cooking spray",
@@ -726,6 +778,8 @@
     }
   },
   {
+    "key": "home|Laundry detergent pod",
+    "type": "mc",
     "answer": "Laundry detergent pod",
     "options": [
       "Gummy candy",
@@ -754,6 +808,8 @@
     }
   },
   {
+    "key": "beauty|Bath bomb",
+    "type": "mc",
     "answer": "Bath bomb",
     "options": [
       "Antacid tablet",
@@ -779,6 +835,8 @@
     }
   },
   {
+    "key": "food|Baking powder",
+    "type": "mc",
     "answer": "Baking powder",
     "options": [
       "Bath bomb",
@@ -801,6 +859,8 @@
     }
   },
   {
+    "key": "food|Instant ramen seasoning packet",
+    "type": "mc",
     "answer": "Instant ramen seasoning packet",
     "options": [
       "Instant ramen seasoning packet",
@@ -829,6 +889,8 @@
     }
   },
   {
+    "key": "beauty|Bath salts",
+    "type": "mc",
     "answer": "Bath salts",
     "options": [
       "Sea salt",
@@ -852,6 +914,8 @@
     }
   },
   {
+    "key": "food|Energy drink",
+    "type": "mc",
     "answer": "Energy drink",
     "options": [
       "Multivitamin",
@@ -886,6 +950,8 @@
     }
   },
   {
+    "key": "kids|Cough syrup",
+    "type": "mc",
     "answer": "Cough syrup",
     "options": [
       "Fruit punch",
@@ -914,6 +980,8 @@
     }
   },
   {
+    "key": "kids|Chewing gum",
+    "type": "mc",
     "answer": "Chewing gum",
     "options": [
       "Rubber cement",
@@ -941,6 +1009,8 @@
     }
   },
   {
+    "key": "kids|Diaper rash cream",
+    "type": "mc",
     "answer": "Diaper rash cream",
     "options": [
       "Sunscreen",
@@ -968,6 +1038,8 @@
     }
   },
   {
+    "key": "food|Hot dogs",
+    "type": "mc",
     "answer": "Hot dogs",
     "options": [
       "Canned dog food",
@@ -998,6 +1070,8 @@
     }
   },
   {
+    "key": "home|Canned dog food",
+    "type": "mc",
     "answer": "Canned dog food",
     "options": [
       "Hot dogs",
@@ -1027,6 +1101,8 @@
     }
   },
   {
+    "key": "food|Ketchup",
+    "type": "mc",
     "answer": "Ketchup",
     "options": [
       "Barbecue sauce",
@@ -1053,6 +1129,8 @@
     }
   },
   {
+    "key": "clean|Hand sanitizer",
+    "type": "mc",
     "answer": "Hand sanitizer",
     "options": [
       "Aloe vera gel",
@@ -1081,6 +1159,8 @@
     }
   },
   {
+    "key": "beauty|Hair gel",
+    "type": "mc",
     "answer": "Hair gel",
     "options": [
       "Grape jelly",
@@ -1107,6 +1187,8 @@
     }
   },
   {
+    "key": "food|Grape jelly",
+    "type": "mc",
     "answer": "Grape jelly",
     "options": [
       "Grape juice",
@@ -1131,6 +1213,8 @@
     }
   },
   {
+    "key": "clean|Liquid bleach",
+    "type": "mc",
     "answer": "Liquid bleach",
     "options": [
       "Contact lens solution",
@@ -1156,6 +1240,8 @@
     }
   },
   {
+    "key": "clean|Liquid laundry detergent",
+    "type": "mc",
     "answer": "Liquid laundry detergent",
     "options": [
       "Dish soap",
@@ -1184,6 +1270,8 @@
     }
   },
   {
+    "key": "clean|Fabric softener",
+    "type": "mc",
     "answer": "Fabric softener",
     "options": [
       "Hair conditioner",
@@ -1209,6 +1297,8 @@
     }
   },
   {
+    "key": "clean|Dishwasher detergent powder",
+    "type": "mc",
     "answer": "Dishwasher detergent powder",
     "options": [
       "Bath salts",
@@ -1234,6 +1324,8 @@
     }
   },
   {
+    "key": "clean|Citrus all-purpose cleaner",
+    "type": "mc",
     "answer": "Citrus all-purpose cleaner",
     "options": [
       "Orange soda",
@@ -1258,6 +1350,8 @@
     }
   },
   {
+    "key": "clean|Scouring powder",
+    "type": "mc",
     "answer": "Scouring powder",
     "options": [
       "Antacid tablets",
@@ -1282,6 +1376,8 @@
     }
   },
   {
+    "key": "clean|Liquid hand soap",
+    "type": "mc",
     "answer": "Liquid hand soap",
     "options": [
       "Liquid hand soap",
@@ -1310,6 +1406,8 @@
     }
   },
   {
+    "key": "kids|Fruit snacks",
+    "type": "mc",
     "answer": "Fruit snacks",
     "options": [
       "Gummy bears",
@@ -1342,6 +1440,8 @@
     }
   },
   {
+    "key": "kids|Boxed mac & cheese powder",
+    "type": "mc",
     "answer": "Boxed mac & cheese powder",
     "options": [
       "Cheddar cheese",
@@ -1374,6 +1474,8 @@
     }
   },
   {
+    "key": "kids|Kids' gummy vitamins",
+    "type": "mc",
     "answer": "Kids' gummy vitamins",
     "options": [
       "Kids' gummy vitamins",
@@ -1405,6 +1507,8 @@
     }
   },
   {
+    "key": "kids|Fruit punch juice box",
+    "type": "mc",
     "answer": "Fruit punch juice box",
     "options": [
       "100% apple juice",
@@ -1431,6 +1535,8 @@
     }
   },
   {
+    "key": "home|Drain cleaner gel",
+    "type": "mc",
     "answer": "Drain cleaner gel",
     "options": [
       "Liquid bleach",
@@ -1455,6 +1561,8 @@
     }
   },
   {
+    "key": "home|Liquid ant bait",
+    "type": "mc",
     "answer": "Liquid ant bait",
     "options": [
       "Hummingbird nectar",
@@ -1476,6 +1584,8 @@
     }
   },
   {
+    "key": "home|Dryer sheets",
+    "type": "mc",
     "answer": "Dryer sheets",
     "options": [
       "Makeup wipes",
@@ -1499,6 +1609,8 @@
     }
   },
   {
+    "key": "home|Dry cat food",
+    "type": "mc",
     "answer": "Dry cat food",
     "options": [
       "Breakfast cereal",
@@ -1527,6 +1639,8 @@
     }
   },
   {
+    "key": "food|Chocolate sandwich cookies",
+    "type": "mc",
     "answer": "Chocolate sandwich cookies",
     "options": [
       "Brownie mix",
@@ -1554,6 +1668,8 @@
     }
   },
   {
+    "key": "food|Chicken nuggets",
+    "type": "mc",
     "answer": "Chicken nuggets",
     "options": [
       "Fish sticks",
@@ -1586,6 +1702,8 @@
     }
   },
   {
+    "key": "food|Strawberry yogurt",
+    "type": "mc",
     "answer": "Strawberry yogurt",
     "options": [
       "Strawberry milkshake",
@@ -1613,6 +1731,8 @@
     }
   },
   {
+    "key": "food|Pancake syrup",
+    "type": "mc",
     "answer": "Pancake syrup",
     "options": [
       "Pancake syrup",
@@ -1641,6 +1761,8 @@
     }
   },
   {
+    "key": "food|Orange drink mix",
+    "type": "mc",
     "answer": "Orange drink mix",
     "options": [
       "Orange juice",
@@ -1671,6 +1793,8 @@
     }
   },
   {
+    "key": "beauty|Antiperspirant stick",
+    "type": "mc",
     "answer": "Antiperspirant stick",
     "options": [
       "Lip balm",
@@ -1697,6 +1821,8 @@
     }
   },
   {
+    "key": "beauty|Nail polish remover",
+    "type": "mc",
     "answer": "Nail polish remover",
     "options": [
       "Rubbing alcohol",
@@ -1722,6 +1848,8 @@
     }
   },
   {
+    "key": "beauty|Sunscreen lotion",
+    "type": "mc",
     "answer": "Sunscreen lotion",
     "options": [
       "Sunscreen lotion",
@@ -1752,6 +1880,8 @@
     }
   },
   {
+    "key": "beauty|Hairspray",
+    "type": "mc",
     "answer": "Hairspray",
     "options": [
       "Dry shampoo",
@@ -1776,6 +1906,8 @@
     }
   },
   {
+    "key": "beauty|Liquid foundation",
+    "type": "mc",
     "answer": "Liquid foundation",
     "options": [
       "Liquid foundation",
@@ -1803,6 +1935,8 @@
     }
   },
   {
+    "key": "clean|Laundry stain remover spray",
+    "type": "mc",
     "answer": "Laundry stain remover spray",
     "options": [
       "Laundry stain remover spray",
@@ -1828,6 +1962,8 @@
     }
   },
   {
+    "key": "clean|Oven cleaner",
+    "type": "mc",
     "answer": "Oven cleaner",
     "options": [
       "Oven cleaner",
@@ -1853,6 +1989,8 @@
     }
   },
   {
+    "key": "clean|Disinfecting wipes",
+    "type": "mc",
     "answer": "Disinfecting wipes",
     "options": [
       "Baby wipes",
@@ -1877,6 +2015,8 @@
     }
   },
   {
+    "key": "clean|Furniture polish spray",
+    "type": "mc",
     "answer": "Furniture polish spray",
     "options": [
       "Hairspray",
@@ -1902,6 +2042,8 @@
     }
   },
   {
+    "key": "clean|Bar soap",
+    "type": "mc",
     "answer": "Bar soap",
     "options": [
       "Bar soap",
@@ -1928,6 +2070,8 @@
     }
   },
   {
+    "key": "clean|Fabric odor spray",
+    "type": "mc",
     "answer": "Fabric odor spray",
     "options": [
       "Fabric odor spray",
@@ -1952,6 +2096,8 @@
     }
   },
   {
+    "key": "clean|Dishwasher rinse aid",
+    "type": "mc",
     "answer": "Dishwasher rinse aid",
     "options": [
       "Dishwasher rinse aid",
@@ -1976,6 +2122,8 @@
     }
   },
   {
+    "key": "kids|Tear-free baby shampoo",
+    "type": "mc",
     "answer": "Tear-free baby shampoo",
     "options": [
       "Bubble bath",
@@ -2003,6 +2151,8 @@
     }
   },
   {
+    "key": "kids|Baby wipes",
+    "type": "mc",
     "answer": "Baby wipes",
     "options": [
       "Baby wipes",
@@ -2030,6 +2180,8 @@
     }
   },
   {
+    "key": "kids|Kids' bubble-gum toothpaste",
+    "type": "mc",
     "answer": "Kids' bubble-gum toothpaste",
     "options": [
       "Bubble gum",
@@ -2059,6 +2211,8 @@
     }
   },
   {
+    "key": "kids|Chocolate milk",
+    "type": "mc",
     "answer": "Chocolate milk",
     "options": [
       "Chocolate pudding",
@@ -2085,6 +2239,8 @@
     }
   },
   {
+    "key": "kids|Children's fever medicine",
+    "type": "mc",
     "answer": "Children's fever medicine",
     "options": [
       "Cough syrup",
@@ -2116,6 +2272,8 @@
     }
   },
   {
+    "key": "kids|Kids' bubble bath",
+    "type": "mc",
     "answer": "Kids' bubble bath",
     "options": [
       "Kids' bubble bath",
@@ -2143,6 +2301,8 @@
     }
   },
   {
+    "key": "home|Antifreeze",
+    "type": "mc",
     "answer": "Antifreeze",
     "options": [
       "Sports drink",
@@ -2168,6 +2328,8 @@
     }
   },
   {
+    "key": "home|Windshield washer fluid",
+    "type": "mc",
     "answer": "Windshield washer fluid",
     "options": [
       "Windshield washer fluid",
@@ -2190,6 +2352,8 @@
     }
   },
   {
+    "key": "home|Scented candle",
+    "type": "mc",
     "answer": "Scented candle",
     "options": [
       "Crayon",
@@ -2214,6 +2378,8 @@
     }
   },
   {
+    "key": "home|Air freshener spray",
+    "type": "mc",
     "answer": "Air freshener spray",
     "options": [
       "Hairspray",
@@ -2238,6 +2404,8 @@
     }
   },
   {
+    "key": "home|Ice melt",
+    "type": "mc",
     "answer": "Ice melt",
     "options": [
       "Bath salts",
@@ -2261,6 +2429,8 @@
     }
   },
   {
+    "key": "home|Latex wall paint",
+    "type": "mc",
     "answer": "Latex wall paint",
     "options": [
       "Latex wall paint",
@@ -2285,5 +2455,285 @@
       "name": "Titanium dioxide",
       "note": "The bright white in white paint — the same mineral used to whiten toothpaste and candy coatings."
     }
+  },
+  {
+    "key": "tp|Most toilet paper starts out as trees.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Most toilet paper starts out as trees.",
+    "explain": "Most rolls are made from wood pulp, much of it from virgin forests. Bamboo and recycled paper are the main alternatives."
+  },
+  {
+    "key": "tp|Toilet paper is naturally white.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Toilet paper is naturally white.",
+    "explain": "Wood pulp is brown. Toilet paper is bleached to make it white — usually with chlorine dioxide."
+  },
+  {
+    "key": "tp|Scientists have found PFAS \"forever chemicals\" in toilet paper.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Scientists have found PFAS \"forever chemicals\" in toilet paper.",
+    "explain": "A 2023 study tested toilet paper from around the world and found PFAS in it. PFAS can be used in paper-making."
+  },
+  {
+    "key": "tp|Recycled toilet paper can contain traces of BPA.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Recycled toilet paper can contain traces of BPA.",
+    "explain": "BPA coats many thermal cash-register receipts. When receipts get recycled into paper, traces can carry over."
+  },
+  {
+    "key": "tp|\"Flushable\" wipes break down in pipes just like toilet paper.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "\"Flushable\" wipes break down in pipes just like toilet paper.",
+    "explain": "Toilet paper is made to fall apart in water within seconds. Wipes hold together, so they clog pipes and sewers."
+  },
+  {
+    "key": "tp|Toilet paper is designed to fall apart when it gets wet.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Toilet paper is designed to fall apart when it gets wet.",
+    "explain": "Its fibers are short and only lightly bonded, so it breaks up in water instead of clogging your pipes."
+  },
+  {
+    "key": "tp|Packaged toilet paper has been sold in the US since the 1850s.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Packaged toilet paper has been sold in the US since the 1850s.",
+    "explain": "Joseph Gayetty sold flat sheets of \"medicated paper\" in 1857. Rolls came a few decades later."
+  },
+  {
+    "key": "tp|Most people in the world use toilet paper.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Most people in the world use toilet paper.",
+    "explain": "Much of the world — including large parts of Asia, the Middle East and southern Europe — mainly uses water instead."
+  },
+  {
+    "key": "tp|The average American uses more than 100 rolls of toilet paper a year.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "The average American uses more than 100 rolls of toilet paper a year.",
+    "explain": "Estimates put it around 140 rolls per person per year — among the highest in the world."
+  },
+  {
+    "key": "tp|Brown, unbleached toilet paper is dirtier than white toilet paper.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Brown, unbleached toilet paper is dirtier than white toilet paper.",
+    "explain": "The color comes from skipping the bleach, not from dirt. Unbleached paper just skips a chemical step."
+  },
+  {
+    "key": "tp|Scented toilet paper can irritate sensitive skin.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Scented toilet paper can irritate sensitive skin.",
+    "explain": "Added fragrance is one of the most common causes of skin irritation, and toilet paper touches very sensitive skin."
+  },
+  {
+    "key": "tp|The original 1891 toilet-roll patent drawing shows the paper hanging \"over,\" not \"under.\"",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "The original 1891 toilet-roll patent drawing shows the paper hanging \"over,\" not \"under.\"",
+    "explain": "Seth Wheeler's patent drawing shows the loose end hanging over the front of the roll. Debate settled?"
+  },
+  {
+    "key": "tp|A 1930s toilet paper brand advertised itself as \"splinter-free.\"",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "A 1930s toilet paper brand advertised itself as \"splinter-free.\"",
+    "explain": "Early paper could contain bits of wood. One brand made \"splinter-free\" a selling point in the 1930s."
+  },
+  {
+    "key": "tp|Most toilet paper sold in the US is made from recycled paper.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Most toilet paper sold in the US is made from recycled paper.",
+    "explain": "Most US toilet paper is made from new (virgin) wood pulp. Recycled rolls are a small share of sales."
+  },
+  {
+    "key": "tp|Toilet paper sheets have gotten smaller over the years.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Toilet paper sheets have gotten smaller over the years.",
+    "explain": "Many brands have quietly shrunk sheet sizes and sheet counts while keeping the price the same."
+  },
+  {
+    "key": "tp|Bamboo toilet paper is always chemical-free.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Bamboo toilet paper is always chemical-free.",
+    "explain": "Bamboo still has to be pulped and is often bleached. Testers have even found PFAS markers in some bamboo brands."
+  },
+  {
+    "key": "tp|In March 2020, US toilet paper sales more than doubled in some weeks.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "In March 2020, US toilet paper sales more than doubled in some weeks.",
+    "explain": "Panic buying at the start of the pandemic sent sales soaring for weeks and emptied store shelves."
+  },
+  {
+    "key": "tp|\"Two-ply\" means two layers of paper pressed together.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "\"Two-ply\" means two layers of paper pressed together.",
+    "explain": "Each sheet is two thin layers bonded together, which makes it softer and stronger than one thick layer."
+  },
+  {
+    "key": "tp|Ancient Romans used a sponge on a stick instead of toilet paper.",
+    "type": "tf",
+    "answer": "True",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Ancient Romans used a sponge on a stick instead of toilet paper.",
+    "explain": "It was called a tersorium — a sea sponge on a stick, rinsed in water or vinegar and shared."
+  },
+  {
+    "key": "tp|Toilet paper companies must list the chemicals used to make it.",
+    "type": "tf",
+    "answer": "False",
+    "options": [
+      "True",
+      "False"
+    ],
+    "book": "tp",
+    "bookName": "What Is Toilet Paper?",
+    "ingredients": [],
+    "statement": "Toilet paper companies must list the chemicals used to make it.",
+    "explain": "There's no ingredient label on toilet paper. Makers don't have to disclose what goes into it."
   }
 ]

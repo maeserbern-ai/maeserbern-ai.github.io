@@ -4,6 +4,8 @@ import WatchKit
 /// Solo game state. Scoring matches the web game: a puzzle starts with
 /// `startShown` ingredients and is worth `maxPoints`; each extra ingredient
 /// revealed costs one point, but a right answer is always worth at least 1.
+/// A What Is Toilet Paper? true/false claim is worth `trueFalsePoints`
+/// (the web game's TF_POINTS). A wrong answer scores 0 and ends the streak.
 final class GameState: ObservableObject {
     enum Screen: Equatable {
         case start, clues, guess, result
@@ -11,6 +13,7 @@ final class GameState: ObservableObject {
 
     static let startShown = 3
     static let maxPoints = 5
+    static let trueFalsePoints = 3
 
     @Published private(set) var screen: Screen = .start
     @Published private(set) var puzzle: Puzzle?
@@ -25,11 +28,23 @@ final class GameState: ObservableObject {
     @AppStorage("score.total") private(set) var totalScore = 0
     @AppStorage("score.streak") private(set) var streak = 0
     @AppStorage("score.bestStreak") private(set) var bestStreak = 0
-    /// Answers still to be played in the current shuffled deck, newline separated.
-    @AppStorage("deck.remaining") private var deckRemaining = ""
-    @AppStorage("deck.lastAnswer") private var lastAnswer = ""
+    /// Puzzle keys already played, newline separated (the web game's "seen" list).
+    @AppStorage("deck.seen") private var seenKeys = ""
+    @AppStorage("deck.lastKey") private var lastKey = ""
+    /// The book picked on the Start screen; "all" = Mix all books.
+    @AppStorage("book.selected") var selectedBook = "all"
 
-    var hasPuzzles: Bool { !GameData.puzzles.isEmpty }
+    var hasPuzzles: Bool { !GameData.pool(for: selectedBook).isEmpty }
+
+    /// Name shown for the selected book on the Start screen.
+    var selectedBookName: String {
+        selectedBook == "all" ? "Mix all books" : (GameData.book(id: selectedBook)?.name ?? "Mix all books")
+    }
+
+    func selectBook(_ id: String) {
+        objectWillChange.send()
+        selectedBook = (id == "all" || GameData.book(id: id) != nil) ? id : "all"
+    }
 
     var wasCorrect: Bool {
         guard let puzzle, let lastGuess else { return false }
@@ -47,7 +62,8 @@ final class GameState: ObservableObject {
 
     /// Points a right answer is worth right now.
     var currentPoints: Int {
-        max(1, Self.maxPoints - (shown - startingShown))
+        if puzzle?.isTrueFalse == true { return Self.trueFalsePoints }
+        return max(1, Self.maxPoints - (shown - startingShown))
     }
 
     // MARK: - Actions
@@ -62,11 +78,13 @@ final class GameState: ObservableObject {
             return
         }
         puzzle = next
-        options = next.options.shuffled()
+        // True/False keep their order, like the web game.
+        options = next.isTrueFalse ? next.options : next.options.shuffled()
         shown = min(Self.startShown, next.ingredients.count)
         lastGuess = nil
         lastPoints = 0
-        screen = .clues
+        // A true/false claim has no label to read: straight to the two buttons.
+        screen = next.isTrueFalse ? .guess : .clues
     }
 
     /// Shows the next ingredient (costs a point, never below 1).
@@ -81,7 +99,7 @@ final class GameState: ObservableObject {
     }
 
     func backToClues() {
-        guard puzzle != nil else { return }
+        guard let puzzle, !puzzle.isTrueFalse else { return }
         screen = .clues
     }
 
@@ -108,27 +126,26 @@ final class GameState: ObservableObject {
 
     // MARK: - Deck
 
-    /// Draws from a persisted shuffled deck so no puzzle repeats until every
-    /// puzzle has been played. A fresh shuffle never starts with the puzzle
-    /// that ended the previous deck.
+    /// No repeats, like the web game: deals a puzzle the watch has not shown yet
+    /// from the selected book (or every book). Once that book runs out, only that
+    /// book starts over. A fresh start never repeats the puzzle just played.
     private func drawFromDeck() -> Puzzle? {
-        guard !GameData.puzzles.isEmpty else { return nil }
+        let pool = GameData.pool(for: selectedBook)
+        guard !pool.isEmpty else { return nil }
 
-        var remaining = deckRemaining
-            .split(separator: "\n")
-            .map(String.init)
-            .filter { GameData.puzzlesByAnswer[$0] != nil }
-
-        if remaining.isEmpty {
-            remaining = GameData.puzzles.map(\.answer).shuffled()
-            if remaining.count > 1, remaining.first == lastAnswer {
-                remaining.swapAt(0, remaining.count - 1)
-            }
+        var seen = Set(seenKeys.split(separator: "\n").map(String.init))
+            .filter { GameData.puzzlesByKey[$0] != nil }
+        var fresh = pool.filter { !seen.contains($0.key) }
+        if fresh.isEmpty {
+            pool.forEach { seen.remove($0.key) }
+            fresh = pool
         }
+        if fresh.count > 1 { fresh.removeAll { $0.key == lastKey } }
 
-        let answer = remaining.removeFirst()
-        deckRemaining = remaining.joined(separator: "\n")
-        lastAnswer = answer
-        return GameData.puzzlesByAnswer[answer]
+        guard let next = fresh.randomElement() else { return nil }
+        seen.insert(next.key)
+        seenKeys = seen.sorted().joined(separator: "\n")
+        lastKey = next.key
+        return next
     }
 }

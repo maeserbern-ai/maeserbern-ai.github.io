@@ -8,23 +8,30 @@ struct Book: Decodable, Identifiable {
     let qrAsset: String
 }
 
-/// One "what is it?" puzzle. Generated from party-game/puzzles.js by
-/// scripts/export-data.mjs (true/false toilet-paper puzzles are left out).
+/// One puzzle, generated from party-game/puzzles.js by scripts/export-data.mjs.
+/// `type` "mc" = which product is it (ingredient label, 4 options);
+/// `type` "tf" = What Is Toilet Paper? true/false claim (options True/False).
 struct Puzzle: Codable, Hashable, Identifiable {
     struct Spotlight: Codable, Hashable {
         let name: String
         let note: String
     }
 
+    /// "book|statement-or-answer", the web game's no-repeat key.
+    let key: String
+    let type: String
     let answer: String
     let options: [String]
-    let kind: String
+    let kind: String?
     let book: String
     let bookName: String
     let ingredients: [String]
-    let spotlight: Spotlight
+    let spotlight: Spotlight?
+    let statement: String?
+    let explain: String?
 
-    var id: String { answer }
+    var id: String { key }
+    var isTrueFalse: Bool { type == "tf" }
 }
 
 /// A JavaScript regular expression exported as source + flags, with its text.
@@ -71,10 +78,19 @@ enum GameData {
     static let books: [Book] = load("books", as: [Book].self) ?? []
     static let puzzles: [Puzzle] = load("puzzles", as: [Puzzle].self) ?? []
 
-    static let puzzlesByAnswer: [String: Puzzle] = Dictionary(
-        puzzles.map { ($0.answer, $0) },
+    static let puzzlesByKey: [String: Puzzle] = Dictionary(
+        puzzles.map { ($0.key, $0) },
         uniquingKeysWith: { first, _ in first }
     )
+
+    static func book(id: String) -> Book? { books.first { $0.id == id } }
+
+    /// The six books for the Start screen picker ("all" = Mix all books).
+    static var pickableBooks: [Book] { books.filter { $0.id != "all" } }
+
+    static func pool(for book: String) -> [Puzzle] {
+        book == "all" ? puzzles : puzzles.filter { $0.book == book }
+    }
 
     private static let glossary = RuleMatcher(load("glossary", as: [RegexRule].self) ?? [])
     private static let watchRules = load("watch", as: WatchRules.self)

@@ -33,8 +33,9 @@ The puzzle deck and glossary come from the web game. After editing
 node watch-app/scripts/export-data.mjs
 ```
 
-and commit the regenerated JSON files. True/false toilet-paper puzzles are
-skipped; only the normal 4-option puzzles are exported.
+and commit the regenerated JSON files. All puzzles are exported: the 4-option
+ingredient labels and the 20 What Is Toilet Paper? true/false claims (played
+with True/False buttons, worth 3 points like the web game's TF_POINTS).
 
 ## How CI builds it
 

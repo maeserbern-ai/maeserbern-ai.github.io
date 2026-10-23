@@ -25,25 +25,49 @@ function load(file, names) {
 const { BOOKS, SERIES, PUZZLES, WATCH, UNDISCLOSED } = load("puzzles.js", ["BOOKS", "SERIES", "PUZZLES", "WATCH", "UNDISCLOSED"]);
 const { GLOSSARY } = load("glossary.js", ["GLOSSARY"]);
 
-const isTrueFalse = (p) => p.type === "tf" || p.book === "tp" || (BOOKS[p.book] && BOOKS[p.book].trueFalse);
+const isTrueFalse = (p) => p.type === "tf" || (BOOKS[p.book] && BOOKS[p.book].trueFalse);
+// Same key the web game uses for its no-repeat list (game.js puzzleKey).
+const puzzleKey = (p) => p.book + "|" + (p.statement || p.answer);
 const usable = [];
-let skippedTP = 0, skippedBad = 0;
+let trueFalse = 0, skippedBad = 0;
 for (const p of PUZZLES) {
-  if (isTrueFalse(p)) { skippedTP++; continue; }
+  const bookName = BOOKS[p.book] ? BOOKS[p.book].name : "";
+  if (isTrueFalse(p)) {
+    // What Is Toilet Paper? plays as true/false: a claim, two buttons, the real story.
+    const ok = typeof p.statement === "string" && p.statement && typeof p.answer === "boolean" &&
+      typeof p.explain === "string" && p.explain;
+    if (!ok) { skippedBad++; console.warn("Skipping malformed true/false:", p.statement); continue; }
+    trueFalse++;
+    usable.push({
+      key: puzzleKey(p),
+      type: "tf",
+      answer: p.answer ? "True" : "False",
+      options: ["True", "False"],
+      book: p.book,
+      bookName,
+      ingredients: [],
+      statement: p.statement,
+      explain: p.explain
+    });
+    continue;
+  }
   const ok = typeof p.answer === "string" && Array.isArray(p.options) && p.options.length === 4 &&
     p.options.includes(p.answer) && Array.isArray(p.ingredients) && p.ingredients.length > 0 &&
     p.spotlight && p.spotlight.name && p.spotlight.note;
   if (!ok) { skippedBad++; console.warn("Skipping malformed puzzle:", p.answer); continue; }
   usable.push({
+    key: puzzleKey(p),
+    type: "mc",
     answer: p.answer,
     options: p.options.slice(),
     kind: p.kind,
     book: p.book,
-    bookName: BOOKS[p.book] ? BOOKS[p.book].name : "",
+    bookName,
     ingredients: p.ingredients.slice(),
     spotlight: { name: p.spotlight.name, note: p.spotlight.note }
   });
 }
+if (new Set(usable.map((p) => p.key)).size !== usable.length) throw new Error("Duplicate puzzle keys");
 
 const rules = (list) => (list || []).map(([re, text]) => ({ pattern: re.source, flags: re.flags, text }));
 
@@ -75,7 +99,7 @@ writeFileSync(join(outDir, "books.json"), JSON.stringify(catalog, null, 2) + "\n
 
 console.log(`puzzles in source: ${PUZZLES.length}`);
 console.log(`exported puzzles:  ${usable.length}`);
-console.log(`skipped tp/true-false: ${skippedTP}`);
+console.log(`true/false (tp):    ${trueFalse}`);
 console.log(`skipped malformed: ${skippedBad}`);
 console.log(`glossary rules:    ${GLOSSARY.length}`);
 console.log(`watch rules:       ${(WATCH || []).length} warn, ${(UNDISCLOSED || []).length} undisclosed`);

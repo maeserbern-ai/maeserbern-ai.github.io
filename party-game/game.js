@@ -49,6 +49,7 @@
   function fit() {
     const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
     stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+    stage.style.visibility = "visible";
   }
   window.addEventListener("resize", fit);
   fit();

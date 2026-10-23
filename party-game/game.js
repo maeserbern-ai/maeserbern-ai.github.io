@@ -883,6 +883,8 @@
     $("#r-cover").src = bk.cover;
     $("#r-cover").alt = bk.title + " cover";
     $("#r-book-title").textContent = bk.title;
+    $("#r-qr").src = bk.qr;
+    resetQrNudge();
     const nb = $("#next-btn"), last = game.index + 1 >= game.deck.length;
     if (last) nb.textContent = "See final scores";
     else if (game.teams === 1) nb.textContent = "Next round";
@@ -1116,6 +1118,7 @@
     $("#f-title").textContent = bk ? bk.title : "the Ingredient Dictionary books";
     $("#f-link").href = bk ? bk.url : SERIES.url;
     $("#f-link").innerHTML = bk ? `Get ${bk.name} on Amazon &rarr;` : "See all the books &rarr;";
+    resetQrNudge();
 
     sfx("win");
     if (who) setTimeout(() => current === "s-final" && sfx("dare"), 2600);
@@ -1204,7 +1207,7 @@
   const LOCKABLE = new Set(["answer", "reveal", "help", "menu", "extend"]);
   const QUIET = new Set(["answer", "reveal", "help", "wager", "sound", "music"]);
   function act(el) {
-    if (!el) return;
+    if (!el || el.tagName === "A") return;   // book links: the click handler opens them
     if (game && game.locked && LOCKABLE.has(el.dataset.action)) return;
     if (!QUIET.has(el.dataset.action)) sfx("click");
     if (el.dataset.teams) { pick(el, "teams"); return; }
@@ -1259,6 +1262,107 @@
     if (el && !el.disabled) { setFocus(el); act(el); }
   });
 
+  /* ---------- book links (Amazon) on every device ---------- */
+  // The book links (#f-link on the final screen, #r-book on the answer screen) are
+  // plain target=_blank anchors. That is exactly what the phone apps need (iOS:
+  // onShouldStartLoadWithRequest -> Linking.openURL, Android: shouldOverrideUrlLoading
+  // -> ACTION_VIEW), so on phones and normal browsers we leave the click alone.
+  // TVs and embedded pages get help:
+  //   LG webOS  -> open the TV's web browser app (never load Amazon inside the game)
+  //   Samsung   -> open the book in the TV's browser through an app control
+  //   VIZIO     -> no browser at all: point at the QR code
+  //   iframes   -> if the portal blocks pop-ups, point at the QR code
+  // If anything fails, the QR code next to the link pulses with a short hint.
+  const BOOK_LINKS = "#f-link, #r-book";
+  const ua = navigator.userAgent || "";
+  const onWebOS = () => !!window.PalmSystem || /Web0S|webOS/.test(ua);
+  const onTizen = () => !!(window.tizen && window.tizen.application);
+  const onVizio = () => !!(window.VIZIO && typeof window.VIZIO === "object") ||
+    !!(window.vizioAdapter && window.vizioAdapter.libLoaded) || /VIZIO|SmartCast/i.test(ua);
+  function inFrame() { try { return window.self !== window.top; } catch (e) { return true; } }
+
+  function resetQrNudge() {
+    $$(".qr-box.nudge").forEach((b) => b.classList.remove("nudge"));
+    $$(".qr-hint").forEach((h) => {
+      h.classList.remove("nudge");
+      if (h.dataset.default) h.textContent = h.dataset.default; else { h.hidden = true; h.textContent = ""; }
+    });
+  }
+  // Highlight the QR code that belongs to this link and say what to do.
+  function nudgeQr(link, msg) {
+    const card = link.closest(".r-book, .promo") || link;
+    const box = $(".qr-box", card), hint = $(".qr-hint", card);
+    if (box) { box.classList.remove("nudge"); void box.offsetWidth; box.classList.add("nudge"); }
+    if (hint) { hint.textContent = msg; hint.hidden = false; hint.classList.add("nudge"); }
+    window.bookLinkLog.push({ action: "qr", url: link.href, msg });
+  }
+  window.bookLinkLog = [];   // what the last book-link clicks did (handy for testing on a TV)
+
+  // Calls ok() or fail() exactly once; gives up after a few seconds without an answer
+  // (unless the TV already switched to the browser and the game is in the background).
+  function once(ok, fail) {
+    let done = false;
+    const t = setTimeout(() => { if (!done) { done = true; (document.hidden ? ok : fail)(); } }, 4000);
+    const wrap = (fn) => (r) => { if (done) return; done = true; clearTimeout(t); fn(r); };
+    return [wrap(ok), wrap(fail)];
+  }
+
+  let palmBridge = null;   // keep the bridge alive until webOS answers
+  function launchWebOSBrowser(url, okCb, failCb) {
+    const [ok, fail] = once(okCb, failCb);
+    const service = "luna://com.webos.applicationManager";
+    const params = { id: "com.webos.app.browser", params: { target: url } };
+    try {
+      if (window.webOS && webOS.service && typeof webOS.service.request === "function") {
+        webOS.service.request(service, { method: "launch", parameters: params, onSuccess: ok, onFailure: fail });
+      } else if (typeof window.PalmServiceBridge === "function") {
+        palmBridge = new window.PalmServiceBridge();
+        palmBridge.onservicecallback = (msg) => {
+          let r = {};
+          try { r = typeof msg === "string" ? JSON.parse(msg) : (msg || {}); } catch (e) { /* bad reply */ }
+          (r.returnValue === false || r.errorCode ? fail : ok)(r);
+        };
+        palmBridge.call(service + "/launch", JSON.stringify(params));
+      } else fail(new Error("No webOS service API"));
+    } catch (e) { fail(e); }
+  }
+  function launchTizenBrowser(url, okCb, failCb) {
+    const [ok, fail] = once(okCb, failCb);
+    try {
+      const ctl = new tizen.ApplicationControl("http://tizen.org/appcontrol/operation/view", url);
+      tizen.application.launchAppControl(ctl, null, ok, fail);
+    } catch (e) { fail(e); }
+  }
+
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest && e.target.closest(BOOK_LINKS);
+    if (!link || !link.href) return;
+    const url = link.href;
+    const scanPhone = () => nudgeQr(link, "Scan the code with your phone");
+    if (onWebOS()) {
+      e.preventDefault();
+      window.bookLinkLog.push({ action: "webos-launch", url });
+      launchWebOSBrowser(url, () => {}, scanPhone);
+    } else if (onTizen()) {
+      e.preventDefault();
+      window.bookLinkLog.push({ action: "tizen-launch", url });
+      launchTizenBrowser(url, () => {}, scanPhone);
+    } else if (onVizio()) {
+      e.preventDefault();
+      scanPhone();
+    } else if (inFrame()) {
+      // Embedded on a game portal. A sandbox without allow-popups silently drops the
+      // click, so open it ourselves and check. ("noopener" would make window.open
+      // always return null, so the opener is cut off by hand instead.)
+      e.preventDefault();
+      let w = null;
+      try { w = window.open(url, "_blank"); } catch (err) { w = null; }
+      if (w) { try { w.opener = null; } catch (err) { /* cross-origin already */ } window.bookLinkLog.push({ action: "window-open", url }); }
+      else nudgeQr(link, "Scan the code to open the book");
+    }
+    // Everywhere else (phones, tablets, computers): the normal link does its job.
+  }, true);
+
   /* ---------- remote / keyboard navigation ---------- */
   let focused = null;
   function anyModal() { return $$(".modal").find((m) => !m.hidden) || null; }
@@ -1281,9 +1385,9 @@
     const ax = a.left + a.width / 2, ay = a.top + a.height / 2;
     // Prefer elements roughly in line with the arrow; up/down may fall back to
     // anything below/above (e.g. a lone Back button), left/right never jump rows.
-    const pickBest = (strict) => {
+    const pickBest = (strict, pool = items) => {
       let best = null, bestScore = Infinity;
-      items.forEach((el) => {
+      pool.forEach((el) => {
         if (el === focused) return;
         const b = el.getBoundingClientRect();
         const bx = b.left + b.width / 2, by = b.top + b.height / 2;
@@ -1291,7 +1395,7 @@
         const main = { left: -dx, right: dx, up: -dy, down: dy }[dir];
         if (main <= 1) return;
         const cross = dir === "left" || dir === "right" ? Math.abs(dy) : Math.abs(dx);
-        if (dir === "left" || dir === "right") {
+        if ((dir === "left" || dir === "right") && strict !== "side") {
           if (b.bottom <= a.top || b.top >= a.bottom) return;   // must share the same row
         } else if (strict && cross > main * 2) return;
         const score = main + cross * 2;
@@ -1300,6 +1404,8 @@
       return best;
     };
     let best = pickBest(true) || (dir === "up" || dir === "down" ? pickBest(false) : null);
+    // Left/right may still jump across to a book link in the side column.
+    if (!best && (dir === "left" || dir === "right")) best = pickBest("side", items.filter((el) => el.matches(BOOK_LINKS)));
     // Moving down off the ingredients lands on Reveal, never straight on Menu.
     const rev = $("#reveal");
     if (dir === "down" && best && best.dataset.action === "menu" && items.includes(rev) && focused !== rev) best = rev;
@@ -1330,7 +1436,7 @@
   document.addEventListener("keydown", (e) => {
     const k = KEYS[e.keyCode];
     if (k === "left" || k === "right" || k === "up" || k === "down") { e.preventDefault(); move(k); return; }
-    if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) act(focused); return; }
+    if (k === "ok") { e.preventDefault(); if (focused && !focused.disabled) { if (focused.tagName === "A") focused.click(); else act(focused); } return; }
     if (k === "back") { e.preventDefault(); back(); return; }
     if (e.key === "m" || e.key === "M") { setSound(!soundOn); return; }
     if (!$("#m-steal").hidden && modal.hidden) {

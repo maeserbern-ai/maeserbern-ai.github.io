@@ -66,6 +66,23 @@ Today: play on Apple TV with **AirPlay** (iPhone, iPad or Mac → Screen Mirrori
 A real Apple TV app needs the game rebuilt in Apple's own tools, because Apple TV
 apps can't show web pages. That's a bigger project for later.
 
+## 7. VIZIO TVs (SmartCast) — partner approval needed
+
+VIZIO apps are web pages that VIZIO loads from your own hosting, so there is no
+file to upload. The VIZIO version is `tv/vizio/` in this folder. Once merged it is
+live at **https://maeserbern-ai.github.io/party-game/tv/vizio/**. It runs the same
+game files and adds VIZIO's remote and text-to-speech support:
+
+- Back on the title screen closes the app (VIZIO's `exitApplication`); during a
+  game Back still pauses, like on the other TVs.
+- The Exit key closes the app, and Play/Pause pauses and resumes a round.
+- When the TV's text-to-speech is on, screens and the selected button are read out.
+
+Next steps happen with VIZIO: they reply to the partner application, register
+the app (they ask for test and live URLs — both can be the link above), switch a
+test TV to developer mode, send their pre-certification checklist, and review the
+submission. Store art and the listing text are in `PartyGame-StoreExtras/vizio`.
+
 ## Store listing text (copy/paste)
 
 **Name:** Ingredient Dictionary: The Party Game

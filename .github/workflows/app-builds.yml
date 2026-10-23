@@ -81,6 +81,7 @@ jobs:
           cp -r party-game tv/lg
           cp -r party-game tv/samsung
           rm -f tv/*/TV-STORES.md tv/*/sw.js tv/*/manifest.webmanifest
+          rm -rf tv/*/tv   # VIZIO entry page is web-only (hosted on GitHub Pages)
           rm -f tv/lg/config.xml tv/lg/icon-samsung.png tv/samsung/appinfo.json
 
       - name: LG webOS package (.ipk)

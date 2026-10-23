@@ -18,8 +18,19 @@ data class DailyPuzzle(
     val options: List<String>,
     val answer: Int,
     val ingredients: List<String>,
+    /** The game's weird-ingredient spotlight ("mc"); empty for "tf". */
+    val spotlight: String = "",
+    /** Spotlight note ("mc") or the real story behind the claim ("tf"), shown after answering. */
+    val note: String = "",
 ) {
     val isTrueFalse: Boolean get() = type == "tf"
+
+    /** Header of the card shown after answering, as on the game's answer screen. */
+    val revealHeader: String get() = if (isTrueFalse) "THE REAL STORY" else "WEIRD INGREDIENT"
+
+    val revealText: String get() = if (isTrueFalse || spotlight.isEmpty()) note else "$spotlight: $note"
+
+    val answerText: String get() = options.getOrNull(answer)?.let { if (isTrueFalse) "$it." else it } ?: ""
 
     fun preview(count: Int): String {
         if (isTrueFalse) return statement
@@ -91,6 +102,8 @@ class DailyDeck(val order: IntArray, val puzzles: Map<Int, DailyPuzzle>, val boo
                     options = (0 until opts.length()).map { opts.getString(it) },
                     answer = p.getInt("answer"),
                     ingredients = (0 until ingr.length()).map { ingr.getString(it) },
+                    spotlight = p.optString("spotlight", ""),
+                    note = p.optString("note", ""),
                 )
             }.associateBy { it.id }
             return DailyDeck(order, puzzles, books)

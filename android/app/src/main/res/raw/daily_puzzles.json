@@ -1,5 +1,5 @@
 {
- "version": 1,
+ "version": 2,
  "epoch": "2026-01-01",
  "seed": 20261113,
  "count": 105,
@@ -192,7 +192,9 @@
     "Red 40",
     "Yellow 5",
     "Blue 1"
-   ]
+   ],
+   "spotlight": "Carnauba wax",
+   "note": "A wax from Brazilian palm leaves. It gives gummies their shine — and it's also a classic ingredient in car wax and shoe polish."
   },
   {
    "id": 1,
@@ -217,7 +219,9 @@
     "Sodium saccharin",
     "Titanium dioxide",
     "Sodium fluoride"
-   ]
+   ],
+   "spotlight": "Sorbitol",
+   "note": "A sugar alcohol that keeps the paste moist and sweet. It's the same sweetener found in sugar-free gum and candy."
   },
   {
    "id": 2,
@@ -242,7 +246,9 @@
     "Dimethicone",
     "Fragrance",
     "Sodium benzoate"
-   ]
+   ],
+   "spotlight": "Sodium chloride",
+   "note": "That's plain table salt. Shampoo makers add it to make the liquid thicker."
   },
   {
    "id": 3,
@@ -265,7 +271,9 @@
     "Camphor",
     "Menthol",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Lanolin",
+   "note": "A waxy grease that comes from sheep's wool. Sheep make it to waterproof their coats."
   },
   {
    "id": 4,
@@ -293,7 +301,9 @@
     "Annatto (color)",
     "Enzymes",
     "Cheese culture"
-   ]
+   ],
+   "spotlight": "Sodium citrate",
+   "note": "An emulsifying salt that makes slices melt perfectly smooth. With all the extras, many are legally labeled \"cheese product,\" not cheese."
   },
   {
    "id": 5,
@@ -317,7 +327,9 @@
     "Fragrance",
     "Methylisothiazolinone",
     "Colorants"
-   ]
+   ],
+   "spotlight": "Methylisothiazolinone",
+   "note": "A preservative that's a common skin allergen. The EU banned it from leave-on cosmetics, but it still shows up in rinse-off products and cleaners."
   },
   {
    "id": 6,
@@ -347,7 +359,9 @@
     "Monosodium glutamate",
     "Sorbic acid",
     "Calcium disodium EDTA"
-   ]
+   ],
+   "spotlight": "Calcium disodium EDTA",
+   "note": "A preservative that grabs onto metals so flavors don't go stale. Doctors use the same compound to treat lead poisoning."
   },
   {
    "id": 7,
@@ -374,7 +388,9 @@
     "Carbomer",
     "Methylparaben",
     "Propylparaben"
-   ]
+   ],
+   "spotlight": "Stearic acid",
+   "note": "A fatty acid from plant or animal fat. It's also what makes candles and bar soap hard."
   },
   {
    "id": 8,
@@ -402,7 +418,9 @@
     "Citric acid",
     "Potassium sorbate",
     "Soy lecithin"
-   ]
+   ],
+   "spotlight": "Polysorbate 60",
+   "note": "An emulsifier that keeps oil and water mixed. You'll find the same family of ingredients in lotions and creams."
   },
   {
    "id": 9,
@@ -425,7 +443,9 @@
     "Propane",
     "Fragrance",
     "Sorbitol"
-   ]
+   ],
+   "spotlight": "Isobutane and propane",
+   "note": "The same gases used in camping stoves. In a can, they're what puff the cream into foam."
   },
   {
    "id": 10,
@@ -449,7 +469,9 @@
     "Mono- and diglycerides",
     "Carrageenan",
     "Nitrous oxide (propellant)"
-   ]
+   ],
+   "spotlight": "Nitrous oxide",
+   "note": "Also known as laughing gas — the same gas a dentist uses. It whips the cream as it leaves the can."
   },
   {
    "id": 11,
@@ -476,7 +498,9 @@
     "Polysorbate 60",
     "Sorbitan monostearate",
     "Beta carotene (color)"
-   ]
+   ],
+   "spotlight": "Light cream",
+   "note": "It's sixth on the list. The tub is mostly water, oil and syrup — cream makes up only a tiny part."
   },
   {
    "id": 12,
@@ -501,7 +525,9 @@
     "Citric acid",
     "Benzyl alcohol",
     "Phenoxyethanol"
-   ]
+   ],
+   "spotlight": "Cetearyl alcohol",
+   "note": "Despite the name, it's not drying like rubbing alcohol. It's a waxy \"fatty alcohol\" from coconut or palm that makes conditioner creamy."
   },
   {
    "id": 13,
@@ -524,7 +550,9 @@
     "Natural flavors",
     "Citric acid",
     "Caffeine"
-   ]
+   ],
+   "spotlight": "Phosphoric acid",
+   "note": "It gives cola its tang. It's also the main ingredient in many rust removers."
   },
   {
    "id": 14,
@@ -545,7 +573,9 @@
     "Xanthan gum",
     "Fragrance",
     "Colorant"
-   ]
+   ],
+   "spotlight": "Hydrochloric acid",
+   "note": "The same acid your stomach makes to digest food. Never mix it with bleach — together they release toxic gas."
   },
   {
    "id": 15,
@@ -573,7 +603,9 @@
     "Sodium benzoate",
     "Sodium saccharin",
     "Green 3"
-   ]
+   ],
+   "spotlight": "Alcohol (21.6%)",
+   "note": "That's about 43 proof — stronger than most wine. It's why the classic version burns."
   },
   {
    "id": 16,
@@ -599,7 +631,9 @@
     "Glycerol ester of rosin",
     "Natural flavor",
     "Yellow 6"
-   ]
+   ],
+   "spotlight": "Glycerol ester of rosin",
+   "note": "Made from pine tree rosin. It keeps the flavor oils from floating to the top of the bottle."
   },
   {
    "id": 17,
@@ -621,7 +655,9 @@
     "Ammonium hydroxide",
     "Fragrance",
     "Blue dye"
-   ]
+   ],
+   "spotlight": "Ammonium hydroxide",
+   "note": "Ammonia dissolved in water — it's what cuts the streaks. Never mix it with bleach."
   },
   {
    "id": 18,
@@ -650,7 +686,9 @@
     "Blue 1",
     "Yellow 6",
     "BHT (for freshness)"
-   ]
+   ],
+   "spotlight": "BHT",
+   "note": "A preservative that stops fats from going rancid. The same antioxidant is also added to rubber, plastics and jet fuel."
   },
   {
    "id": 19,
@@ -681,7 +719,9 @@
     "Yellow 5",
     "Yellow 6",
     "Blue 1"
-   ]
+   ],
+   "spotlight": "Red 40",
+   "note": "The same dye used in candy. Dogs don't care what color their treats are — the color is there for the humans."
   },
   {
    "id": 20,
@@ -703,7 +743,9 @@
     "Natural and artificial flavor",
     "Yeast extract",
     "Red 40"
-   ]
+   ],
+   "spotlight": "Defatted soy flour",
+   "note": "There's no bacon in them at all. They're crunchy bits of flavored, colored soy."
   },
   {
    "id": 21,
@@ -728,7 +770,9 @@
     "Algae meal",
     "Ascorbic acid",
     "Ethoxyquin"
-   ]
+   ],
+   "spotlight": "Ethoxyquin",
+   "note": "A preservative first developed to stabilize rubber. The EU suspended it as an animal feed additive in 2017."
   },
   {
    "id": 22,
@@ -751,7 +795,9 @@
     "Sodium aluminosilicate",
     "Artificial flavor",
     "Annatto color"
-   ]
+   ],
+   "spotlight": "Sodium caseinate",
+   "note": "A milk protein that keeps the oil blended into your coffee — even though the jar says \"non-dairy.\" Labeling rules allow it."
   },
   {
    "id": 23,
@@ -769,7 +815,9 @@
     "Zea mays (corn) starch",
     "Tricalcium phosphate",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Zea mays (corn) starch",
+   "note": "The same cornstarch in your pantry, under its Latin name. Many brands switched to it from talc."
   },
   {
    "id": 24,
@@ -793,7 +841,9 @@
     "Isopropyl myristate",
     "Distearyldimonium chloride",
     "Silica"
-   ]
+   ],
+   "spotlight": "Butane, isobutane, propane",
+   "note": "The first three ingredients are flammable fuel gases. Let it settle before you go near a curling iron or flame."
   },
   {
    "id": 25,
@@ -813,7 +863,9 @@
     "Dimethyl silicone",
     "Rosemary extract",
     "Propellant (butane, propane)"
-   ]
+   ],
+   "spotlight": "Dimethyl silicone",
+   "note": "An anti-foaming silicone — the same family as the dimethicone in hair conditioner and lotion."
   },
   {
    "id": 26,
@@ -838,7 +890,9 @@
     "Enzymes",
     "Fragrance",
     "Polyvinyl alcohol (film)"
-   ]
+   ],
+   "spotlight": "Polyvinyl alcohol film",
+   "note": "The wrapper that dissolves in the wash. Pods look like candy, so keep them locked away from kids."
   },
   {
    "id": 27,
@@ -860,7 +914,9 @@
     "Coconut oil",
     "Fragrance",
     "Colorants"
-   ]
+   ],
+   "spotlight": "Sodium bicarbonate + citric acid",
+   "note": "Baking soda plus acid — the same fizz as a science-fair volcano or a fizzy antacid tablet."
   },
   {
    "id": 28,
@@ -879,7 +935,9 @@
     "Sodium aluminum sulfate",
     "Corn starch",
     "Monocalcium phosphate"
-   ]
+   ],
+   "spotlight": "Sodium aluminum sulfate",
+   "note": "The second-stage acid that makes \"double-acting\" powder rise again in the oven. Aluminum-free versions exist."
   },
   {
    "id": 29,
@@ -904,7 +962,9 @@
     "Disodium inosinate",
     "Disodium guanylate",
     "Caramel color"
-   ]
+   ],
+   "spotlight": "Disodium inosinate & guanylate",
+   "note": "Flavor boosters that make MSG taste many times stronger. They're often made from yeast or fish."
   },
   {
    "id": 30,
@@ -924,7 +984,9 @@
     "Fragrance",
     "Mica",
     "Colorants"
-   ]
+   ],
+   "spotlight": "Magnesium sulfate",
+   "note": "Better known as Epsom salt. It's also sold as a laxative and as garden fertilizer."
   },
   {
    "id": 31,
@@ -955,7 +1017,9 @@
     "Guarana extract",
     "Pyridoxine hydrochloride",
     "Cyanocobalamin"
-   ]
+   ],
+   "spotlight": "Taurine",
+   "note": "Named after bulls (Latin taurus) because it was first found in ox bile. Today it's made in a lab."
   },
   {
    "id": 32,
@@ -980,7 +1044,9 @@
     "Sodium benzoate",
     "Flavor",
     "Red 40"
-   ]
+   ],
+   "spotlight": "Propylene glycol",
+   "note": "It keeps the syrup smooth. It's also the base of \"pet-safer\" antifreeze."
   },
   {
    "id": 33,
@@ -1004,7 +1070,9 @@
     "Soy lecithin",
     "Yellow 5 Lake",
     "BHT"
-   ]
+   ],
+   "spotlight": "Gum base",
+   "note": "A secret blend that can include synthetic rubber and polyvinyl acetate — a plastic also used in white wood glue."
   },
   {
    "id": 34,
@@ -1028,7 +1096,9 @@
     "Fragrance",
     "Methylparaben",
     "BHA"
-   ]
+   ],
+   "spotlight": "Cod liver oil",
+   "note": "Yes, fish oil — in a baby cream. It's there to soothe skin."
   },
   {
    "id": 35,
@@ -1055,7 +1125,9 @@
     "Sodium erythorbate",
     "Sodium nitrite",
     "Extractives of paprika"
-   ]
+   ],
+   "spotlight": "Mechanically separated chicken",
+   "note": "A meat paste made by pressing chicken bones through a sieve under high pressure."
   },
   {
    "id": 36,
@@ -1081,7 +1153,9 @@
     "Potassium chloride",
     "Caramel color",
     "Vitamins and minerals"
-   ]
+   ],
+   "spotlight": "Water sufficient for processing",
+   "note": "Pet food labels list water first when it's the biggest ingredient — the can is mostly water."
   },
   {
    "id": 37,
@@ -1104,7 +1178,9 @@
     "Spice",
     "Onion powder",
     "Natural flavoring"
-   ]
+   ],
+   "spotlight": "Two corn syrups",
+   "note": "A common label trick: splitting the sweetener into two kinds pushes each one lower on the list."
   },
   {
    "id": 38,
@@ -1129,7 +1205,9 @@
     "Aloe barbadensis leaf juice",
     "Carbomer",
     "Aminomethyl propanol"
-   ]
+   ],
+   "spotlight": "Ethyl alcohol",
+   "note": "The same alcohol found in drinks — denatured with bitter additives so nobody drinks it."
   },
   {
    "id": 39,
@@ -1152,7 +1230,9 @@
     "Glycerin",
     "Fragrance",
     "Methylparaben"
-   ]
+   ],
+   "spotlight": "PVP (polyvinylpyrrolidone)",
+   "note": "The hold in hair gel. It was used during World War II as a blood plasma substitute."
   },
   {
    "id": 40,
@@ -1173,7 +1253,9 @@
     "Fruit pectin",
     "Citric acid",
     "Sodium citrate"
-   ]
+   ],
+   "spotlight": "Fruit pectin",
+   "note": "A natural gelling fiber from apple peels and citrus rinds. It's what turns juice into jelly."
   },
   {
    "id": 41,
@@ -1195,7 +1277,9 @@
     "Sodium carbonate",
     "Sodium chlorate",
     "Sodium polyacrylate"
-   ]
+   ],
+   "spotlight": "Sodium hydroxide",
+   "note": "Also called lye. It's the same chemical used to make soap — and to give soft pretzels their shiny brown crust."
   },
   {
    "id": 42,
@@ -1220,7 +1304,9 @@
     "Optical brightener",
     "Fragrance",
     "Colorant"
-   ]
+   ],
+   "spotlight": "Optical brightener",
+   "note": "A dye that glows blue under UV light so white clothes look whiter. It doesn't clean anything — it just changes how fabric reflects light."
   },
   {
    "id": 43,
@@ -1242,7 +1328,9 @@
     "Formic acid",
     "Silicone",
     "Dye"
-   ]
+   ],
+   "spotlight": "Formic acid",
+   "note": "The same acid in ant stings. Its name comes from formica, Latin for ant."
   },
   {
    "id": 44,
@@ -1264,7 +1352,9 @@
     "Enzymes",
     "Nonionic surfactant",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Sodium percarbonate",
+   "note": "Washing soda bonded with hydrogen peroxide. In water it releases oxygen bubbles — the \"oxygen bleach\" in stain removers."
   },
   {
    "id": 45,
@@ -1285,7 +1375,9 @@
     "Limonene",
     "Fragrance",
     "Methylisothiazolinone"
-   ]
+   ],
+   "spotlight": "Limonene",
+   "note": "The compound that makes oranges smell like oranges. Indoors it can react with ozone in the air and form small amounts of formaldehyde."
   },
   {
    "id": 46,
@@ -1306,7 +1398,9 @@
     "Sodium dodecylbenzene sulfonate",
     "Fragrance",
     "Dye"
-   ]
+   ],
+   "spotlight": "Calcium carbonate",
+   "note": "Basically ground-up chalk or limestone — the gritty scrubber. It's also the main ingredient in many antacid tablets."
   },
   {
    "id": 47,
@@ -1331,7 +1425,9 @@
     "DMDM hydantoin",
     "Tetrasodium EDTA",
     "Benzalkonium chloride"
-   ]
+   ],
+   "spotlight": "DMDM hydantoin",
+   "note": "A preservative that works by slowly releasing tiny amounts of formaldehyde."
   },
   {
    "id": 48,
@@ -1360,7 +1456,9 @@
     "Coconut oil",
     "Red 40",
     "Blue 1"
-   ]
+   ],
+   "spotlight": "Ascorbic acid",
+   "note": "That's added vitamin C. It lets the box say \"good source of vitamin C\" even though it's mostly syrup and sugar."
   },
   {
    "id": 49,
@@ -1389,7 +1487,9 @@
     "Annatto (color)",
     "Enzymes",
     "Cheese culture"
-   ]
+   ],
+   "spotlight": "Paprika, turmeric and annatto",
+   "note": "Where the bright orange comes from. Many brands swapped artificial dyes like Yellow 5 and 6 for spices."
   },
   {
    "id": 50,
@@ -1417,7 +1517,9 @@
     "Coconut oil",
     "Carnauba wax",
     "Black carrot juice (color)"
-   ]
+   ],
+   "spotlight": "Glucose syrup and sugar",
+   "note": "The first two ingredients. They taste like candy, which is exactly why the bottle has a child-proof cap."
   },
   {
    "id": 51,
@@ -1440,7 +1542,9 @@
     "Ascorbic acid",
     "Red 40",
     "Blue 1"
-   ]
+   ],
+   "spotlight": "Concentrated juices",
+   "note": "Third on the list — after water and syrup. Many \"juice drinks\" are only about 10% juice."
   },
   {
    "id": 52,
@@ -1461,7 +1565,9 @@
     "Sodium silicate",
     "Lauramine oxide",
     "Sodium xylenesulfonate"
-   ]
+   ],
+   "spotlight": "Sodium hydroxide",
+   "note": "Lye. It clears clogs by turning hair and grease into soap that rinses away. It can burn skin and eyes."
   },
   {
    "id": 53,
@@ -1479,7 +1585,9 @@
     "Sugar",
     "Water",
     "Borax (sodium tetraborate)"
-   ]
+   ],
+   "spotlight": "Borax",
+   "note": "The sweet syrup is bait. Ants carry it home and share it, and the borax slowly works through the colony."
   },
   {
    "id": 54,
@@ -1499,7 +1607,9 @@
     "Fatty acid",
     "Clay",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Polyester sheet",
+   "note": "The sheet itself is plastic fabric. It's a carrier that melts softener and fragrance onto your clothes in the heat."
   },
   {
    "id": 55,
@@ -1524,7 +1634,9 @@
     "Salt",
     "Taurine",
     "Vitamins and minerals"
-   ]
+   ],
+   "spotlight": "Taurine",
+   "note": "Cats can't make enough of it on their own, so it's added — the same ingredient that's in energy drinks."
   },
   {
    "id": 56,
@@ -1548,7 +1660,9 @@
     "Salt",
     "Soy lecithin",
     "Vanillin (artificial flavor)"
-   ]
+   ],
+   "spotlight": "Cocoa processed with alkali",
+   "note": "Also called Dutch-process cocoa. The alkali darkens the color and mellows the taste — and strips out much of cocoa's natural antioxidants."
   },
   {
    "id": 57,
@@ -1577,7 +1691,9 @@
     "Dextrose",
     "Citric acid",
     "Dimethylpolysiloxane"
-   ]
+   ],
+   "spotlight": "Dimethylpolysiloxane",
+   "note": "A silicone added to frying oil so it doesn't foam up. It's the same family of silicone used in caulk and conditioner."
   },
   {
    "id": 58,
@@ -1601,7 +1717,9 @@
     "Carmine (color)",
     "Vitamin A acetate",
     "Vitamin D3"
-   ]
+   ],
+   "spotlight": "Carmine",
+   "note": "A bright red color made from crushed cochineal bugs. It's natural — but it's not vegetarian, and some people are allergic to it."
   },
   {
    "id": 59,
@@ -1626,7 +1744,9 @@
     "Sodium benzoate",
     "Sorbic acid",
     "Sodium hexametaphosphate"
-   ]
+   ],
+   "spotlight": "Natural and artificial flavor",
+   "note": "There's no maple at all. \"Table syrup\" is corn syrup colored brown and flavored to taste like maple."
   },
   {
    "id": 60,
@@ -1653,7 +1773,9 @@
     "Yellow 5",
     "Yellow 6",
     "BHA"
-   ]
+   ],
+   "spotlight": "Sugar and fructose",
+   "note": "Two kinds of sugar come first. The orange comes from flavoring and two synthetic dyes — not from oranges."
   },
   {
    "id": 61,
@@ -1676,7 +1798,9 @@
     "Hydrogenated castor oil",
     "Fragrance",
     "Behenyl alcohol"
-   ]
+   ],
+   "spotlight": "Aluminum zirconium tetrachlorohydrex GLY",
+   "note": "An aluminum salt that forms tiny plugs in sweat ducts so you sweat less. Deodorant alone just covers the smell."
   },
   {
    "id": 62,
@@ -1698,7 +1822,9 @@
     "Fragrance",
     "Denatonium benzoate",
     "Red 33"
-   ]
+   ],
+   "spotlight": "Denatonium benzoate",
+   "note": "The most bitter chemical known. It's added so anyone who takes a sip — especially a child — spits it right out."
   },
   {
    "id": 63,
@@ -1725,7 +1851,9 @@
     "Phenoxyethanol",
     "Fragrance",
     "Tocopherol"
-   ]
+   ],
+   "spotlight": "Homosalate",
+   "note": "A chemical UV filter. The FDA has asked makers for more safety data, and Europe now limits how much can be used."
   },
   {
    "id": 64,
@@ -1746,7 +1874,9 @@
     "Aminomethyl propanol",
     "Fragrance",
     "Panthenol"
-   ]
+   ],
+   "spotlight": "Octylacrylamide/acrylates copolymer",
+   "note": "A plastic-like film that dries stiff on each hair. That's the \"hold.\""
   },
   {
    "id": 65,
@@ -1770,7 +1900,9 @@
     "Mica",
     "Phenoxyethanol",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Iron oxides",
+   "note": "Purified rust. Red, yellow and black iron oxides are mixed to match skin tones."
   },
   {
    "id": 66,
@@ -1792,7 +1924,9 @@
     "Sodium citrate",
     "Fragrance",
     "Methylisothiazolinone"
-   ]
+   ],
+   "spotlight": "Enzymes (protease, amylase)",
+   "note": "Proteins that break down stains the way your stomach breaks down food — protease eats grass and blood, amylase eats starch."
   },
   {
    "id": 67,
@@ -1814,7 +1948,9 @@
     "Diethylene glycol monobutyl ether",
     "Sodium lauryl sulfate",
     "Isobutane"
-   ]
+   ],
+   "spotlight": "Sodium hydroxide",
+   "note": "Lye. It turns baked-on grease into soap so it wipes away — and it can burn skin and eyes, so gloves on."
   },
   {
    "id": 68,
@@ -1835,7 +1971,9 @@
     "Propylene glycol",
     "Fragrance",
     "Polyester/polypropylene wipe"
-   ]
+   ],
+   "spotlight": "Alkyl dimethyl benzyl ammonium chloride",
+   "note": "A \"quat\" disinfectant. It kills germs — and leaves a film behind, which is why labels say to rinse food surfaces."
   },
   {
    "id": 69,
@@ -1857,7 +1995,9 @@
     "Propane",
     "Sorbitan oleate",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Dimethicone",
+   "note": "A silicone that leaves a glossy, slippery film — the same ingredient that makes hair conditioner feel smooth."
   },
   {
    "id": 70,
@@ -1880,7 +2020,9 @@
     "Sodium chloride",
     "Tetrasodium EDTA",
     "Titanium dioxide"
-   ]
+   ],
+   "spotlight": "Sodium tallowate",
+   "note": "Soap made from beef fat (tallow) mixed with lye. Old-fashioned soap has been made this way for centuries."
   },
   {
    "id": 71,
@@ -1901,7 +2043,9 @@
     "Fragrance",
     "Citric acid",
     "Benzisothiazolinone"
-   ]
+   ],
+   "spotlight": "Hydroxypropyl beta-cyclodextrin",
+   "note": "A ring-shaped sugar molecule made from corn starch. Odor molecules get trapped inside the ring — then fragrance covers the rest."
   },
   {
    "id": 72,
@@ -1922,7 +2066,9 @@
     "Sodium cumenesulfonate",
     "Methylisothiazolinone",
     "Blue dye"
-   ]
+   ],
+   "spotlight": "Nonionic surfactant",
+   "note": "It makes water slide off dishes in a sheet instead of drying in spots. The label doesn't have to say exactly which one."
   },
   {
    "id": 73,
@@ -1946,7 +2092,9 @@
     "Fragrance",
     "Sodium benzoate",
     "Citric acid"
-   ]
+   ],
+   "spotlight": "Cocamidopropyl betaine",
+   "note": "A mild foaming agent from coconut oil — yet it was named \"Allergen of the Year\" in 2004 by the American Contact Dermatitis Society."
   },
   {
    "id": 74,
@@ -1970,7 +2118,9 @@
     "Citric acid",
     "Phenoxyethanol",
     "Fragrance"
-   ]
+   ],
+   "spotlight": "Phenoxyethanol",
+   "note": "A preservative in many baby products. France advises against it in wipes and creams used on the diaper area of children under 3."
   },
   {
    "id": 75,
@@ -1996,7 +2146,9 @@
     "Titanium dioxide",
     "Red 33",
     "Sodium fluoride"
-   ]
+   ],
+   "spotlight": "Sodium fluoride",
+   "note": "It strengthens teeth, but kids shouldn't swallow it. That's why young children get just a rice-grain or pea-sized smear."
   },
   {
    "id": 76,
@@ -2019,7 +2171,9 @@
     "Natural flavor",
     "Vitamin A palmitate",
     "Vitamin D3"
-   ]
+   ],
+   "spotlight": "Carrageenan",
+   "note": "A seaweed thickener that keeps the cocoa from sinking to the bottom. Scientists still debate its effect on the gut."
   },
   {
    "id": 77,
@@ -2047,7 +2201,9 @@
     "Sodium benzoate",
     "Flavors",
     "Red 40"
-   ]
+   ],
+   "spotlight": "Butylparaben",
+   "note": "A paraben preservative. The EU limits how much can be used in cosmetics and bans it in leave-on products for babies' diaper areas."
   },
   {
    "id": 78,
@@ -2071,7 +2227,9 @@
     "Citric acid",
     "Red 33",
     "Methylisothiazolinone"
-   ]
+   ],
+   "spotlight": "Sodium laureth sulfate",
+   "note": "The foaming detergent that makes mountains of bubbles. Pediatricians warn long bubble baths can irritate young children's skin."
   },
   {
    "id": 79,
@@ -2093,7 +2251,9 @@
     "Sodium benzoate",
     "Denatonium benzoate",
     "Dye"
-   ]
+   ],
+   "spotlight": "Ethylene glycol",
+   "note": "It tastes sweet, which makes it dangerous to pets and kids. A bittering agent is added so it tastes awful."
   },
   {
    "id": 80,
@@ -2112,7 +2272,9 @@
     "Methanol",
     "Nonionic surfactant",
     "Blue dye"
-   ]
+   ],
+   "spotlight": "Methanol",
+   "note": "Wood alcohol. It keeps the fluid from freezing — and swallowing even a little can cause blindness."
   },
   {
    "id": 81,
@@ -2133,7 +2295,9 @@
     "Stearic acid",
     "Dye",
     "Cotton wick"
-   ]
+   ],
+   "spotlight": "Paraffin wax",
+   "note": "A petroleum wax. When it burns, it gives off soot along with whatever is in the fragrance."
   },
   {
    "id": 82,
@@ -2154,7 +2318,9 @@
     "Triethylene glycol",
     "Polysorbate 80",
     "Sodium benzoate"
-   ]
+   ],
+   "spotlight": "Triethylene glycol",
+   "note": "Sprayed into the air to kill some airborne germs. It's also used to dry out natural gas in pipelines."
   },
   {
    "id": 83,
@@ -2174,7 +2340,9 @@
     "Magnesium chloride",
     "Potassium chloride",
     "Blue colorant"
-   ]
+   ],
+   "spotlight": "Calcium chloride",
+   "note": "It actually heats up as it dissolves, so it melts ice fast. It can also dry out and crack pets' paws."
   },
   {
    "id": 84,
@@ -2197,7 +2365,9 @@
     "Propylene glycol",
     "Ammonia",
     "Biocide"
-   ]
+   ],
+   "spotlight": "Titanium dioxide",
+   "note": "The bright white in white paint — the same mineral used to whiten toothpaste and candy coatings."
   },
   {
    "id": 85,
@@ -2209,7 +2379,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Most rolls are made from wood pulp, much of it from virgin forests. Bamboo and recycled paper are the main alternatives."
   },
   {
    "id": 86,
@@ -2221,7 +2393,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Wood pulp is brown. Toilet paper is bleached to make it white — usually with chlorine dioxide."
   },
   {
    "id": 87,
@@ -2233,7 +2407,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "A 2023 study tested toilet paper from around the world and found PFAS in it. PFAS can be used in paper-making."
   },
   {
    "id": 88,
@@ -2245,7 +2421,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "BPA coats many thermal cash-register receipts. When receipts get recycled into paper, traces can carry over."
   },
   {
    "id": 89,
@@ -2257,7 +2435,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Toilet paper is made to fall apart in water within seconds. Wipes hold together, so they clog pipes and sewers."
   },
   {
    "id": 90,
@@ -2269,7 +2449,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Its fibers are short and only lightly bonded, so it breaks up in water instead of clogging your pipes."
   },
   {
    "id": 91,
@@ -2281,7 +2463,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Joseph Gayetty sold flat sheets of \"medicated paper\" in 1857. Rolls came a few decades later."
   },
   {
    "id": 92,
@@ -2293,7 +2477,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Much of the world — including large parts of Asia, the Middle East and southern Europe — mainly uses water instead."
   },
   {
    "id": 93,
@@ -2305,7 +2491,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Estimates put it around 140 rolls per person per year — among the highest in the world."
   },
   {
    "id": 94,
@@ -2317,7 +2505,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "The color comes from skipping the bleach, not from dirt. Unbleached paper just skips a chemical step."
   },
   {
    "id": 95,
@@ -2329,7 +2519,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Added fragrance is one of the most common causes of skin irritation, and toilet paper touches very sensitive skin."
   },
   {
    "id": 96,
@@ -2341,7 +2533,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Seth Wheeler's patent drawing shows the loose end hanging over the front of the roll. Debate settled?"
   },
   {
    "id": 97,
@@ -2353,7 +2547,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Early paper could contain bits of wood. One brand made \"splinter-free\" a selling point in the 1930s."
   },
   {
    "id": 98,
@@ -2365,7 +2561,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Most US toilet paper is made from new (virgin) wood pulp. Recycled rolls are a small share of sales."
   },
   {
    "id": 99,
@@ -2377,7 +2575,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Many brands have quietly shrunk sheet sizes and sheet counts while keeping the price the same."
   },
   {
    "id": 100,
@@ -2389,7 +2589,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Bamboo still has to be pulped and is often bleached. Testers have even found PFAS markers in some bamboo brands."
   },
   {
    "id": 101,
@@ -2401,7 +2603,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Panic buying at the start of the pandemic sent sales soaring for weeks and emptied store shelves."
   },
   {
    "id": 102,
@@ -2413,7 +2617,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "Each sheet is two thin layers bonded together, which makes it softer and stronger than one thick layer."
   },
   {
    "id": 103,
@@ -2425,7 +2631,9 @@
     "False"
    ],
    "answer": 0,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "It was called a tersorium — a sea sponge on a stick, rinsed in water or vinegar and shared."
   },
   {
    "id": 104,
@@ -2437,7 +2645,9 @@
     "False"
    ],
    "answer": 1,
-   "ingredients": []
+   "ingredients": [],
+   "spotlight": "",
+   "note": "There's no ingredient label on toilet paper. Makers don't have to disclose what goes into it."
   }
  ]
 }

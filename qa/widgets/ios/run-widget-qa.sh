@@ -44,6 +44,7 @@ xcrun simctl status_bar "$DEV" override --time '9:41' --batteryState charged --b
   cp "$DATA"/Documents/widget-snapshots/* "$OUT/snapshots/"
   cat "$OUT/snapshots/report.txt"
   grep -q 'uniqueIn105Days=105' "$OUT/snapshots/report.txt"
+  grep -q 'revealNotes=105' "$OUT/snapshots/report.txt"
   ! grep -q ':false' "$OUT/snapshots/report.txt"
   test "$(ls "$OUT"/snapshots/*.png | wc -l)" -ge 42
 ) || fail "widget snapshots"

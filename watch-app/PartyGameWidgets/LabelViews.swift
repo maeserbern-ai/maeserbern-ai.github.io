@@ -5,7 +5,9 @@ import WidgetKit
 // The approved "Label of the Day" design (watch-samples/pg.html):
 // dark emerald card, terracotta italic kicker, Fraunces headline, cream label,
 // four colored answer buttons, a CORRECT!/WRONG! stamp, the streak, and the
-// book cover with its Amazon link (always shown on medium and large).
+// book cover with its Amazon link (always shown on medium and large). After
+// answering, medium and large show the game's weird-ingredient spotlight or the
+// true/false explanation, as on the game's answer screen.
 
 // MARK: - Shared pieces
 
@@ -47,6 +49,38 @@ struct LabelCard: View {
         .padding(.vertical, padding)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(PG.label))
+    }
+}
+
+/// After answering: the game's weird-ingredient spotlight or the real story behind
+/// a true/false claim, on the dark card used by the book row.
+struct RevealCard: View {
+    let puzzle: DailyPuzzle
+    var textSize: CGFloat
+    var headerSize: CGFloat
+    var lineLimit: Int
+    var padding: CGFloat = 7
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text(puzzle.revealHeader)
+                .font(PG.heavy(headerSize))
+                .tracking(headerSize * 0.08)
+                .foregroundStyle(PG.gold)
+                .lineLimit(1)
+            Text(puzzle.revealText)
+                .font(PG.body(textSize))
+                .foregroundStyle(PG.label)
+                .lineSpacing(textSize * 0.15)
+                .lineLimit(lineLimit)
+                .truncationMode(.tail)
+                .minimumScaleFactor(0.8)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(padding)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous).fill(PG.bg2))
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -313,7 +347,9 @@ struct MediumLabelView: View {
                     .accessibilityLabel("\(entry.streak)-day streak")
                 }
                 HStack(alignment: .top, spacing: 8) {
-                    LabelCard(header: puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS", text: puzzle.fullLabel,
+                    // Answered: the right answer on the label, the game's explanation beside it.
+                    LabelCard(header: entry.answered ? "ANSWER" : (puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS"),
+                              text: entry.answered ? answerLine(puzzle) : puzzle.fullLabel,
                               textSize: 9, headerSize: 6.5, lineLimit: 3, padding: 6)
                         .frame(width: 128)
                         .frame(maxHeight: 72, alignment: .top)
@@ -323,8 +359,14 @@ struct MediumLabelView: View {
                                 Stamp(correct: correct, size: 14).offset(x: 10, y: 18)
                             }
                         }
-                    AnswerGrid(entry: entry, puzzle: puzzle,
-                               height: puzzle.isTrueFalse ? 72 : 32, fontSize: 10, spacing: 6)
+                    if entry.answered {
+                        RevealCard(puzzle: puzzle, textSize: 9, headerSize: 6.5, lineLimit: 4, padding: 6)
+                            .frame(height: 72)
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    } else {
+                        AnswerGrid(entry: entry, puzzle: puzzle,
+                                   height: puzzle.isTrueFalse ? 72 : 32, fontSize: 10, spacing: 6)
+                    }
                 }
                 .frame(height: 72)
                 BookRow(book: book, coverWidth: 18, fontSize: 10, padding: 5)
@@ -334,6 +376,16 @@ struct MediumLabelView: View {
         } else {
             MissingDeckView()
         }
+    }
+}
+
+extension MediumLabelView {
+    /// "Lip balm" or "True." plus what the player picked when it was wrong.
+    func answerLine(_ puzzle: DailyPuzzle) -> String {
+        guard let choice = entry.choice, choice != puzzle.answer, puzzle.options.indices.contains(choice) else {
+            return puzzle.answerText
+        }
+        return "\(puzzle.answerText)\nYou said \(puzzle.options[choice])"
     }
 }
 
@@ -352,8 +404,12 @@ struct LargeLabelView: View {
                     .minimumScaleFactor(0.8)
                     .padding(.top, 1)
                     .padding(.bottom, 9)
-                LabelCard(header: puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS", text: puzzle.fullLabel,
-                          textSize: puzzle.isTrueFalse ? 13 : 11, headerSize: 8.5, lineLimit: 4)
+                // Answered: the label turns into the game's spotlight / real story; the
+                // buttons below still mark the right answer and the player's pick.
+                LabelCard(header: entry.answered ? puzzle.revealHeader : (puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS"),
+                          text: entry.answered ? puzzle.revealText : puzzle.fullLabel,
+                          textSize: puzzle.isTrueFalse || entry.answered ? 12 : 11, headerSize: 8.5,
+                          lineLimit: entry.answered ? 5 : 4)
                     .overlay(alignment: .topTrailing) {
                         if let correct = entry.correct {
                             Stamp(correct: correct, size: 26).offset(x: 4, y: 22)

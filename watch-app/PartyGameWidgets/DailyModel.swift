@@ -31,8 +31,26 @@ struct DailyPuzzle: Codable, Hashable, Identifiable {
     let options: [String]
     let answer: Int
     let ingredients: [String]
+    /// The game's weird-ingredient spotlight ("mc"); empty for "tf".
+    let spotlight: String?
+    /// Spotlight note ("mc") or the real story behind the claim ("tf"), shown after answering.
+    let note: String?
 
     var isTrueFalse: Bool { type == "tf" }
+
+    /// Header of the card shown after answering, as on the game's answer screen.
+    var revealHeader: String { isTrueFalse ? "THE REAL STORY" : "WEIRD INGREDIENT" }
+
+    var revealText: String {
+        let text = note ?? ""
+        guard !isTrueFalse, let name = spotlight, !name.isEmpty else { return text }
+        return "\(name): \(text)"
+    }
+
+    var answerText: String {
+        guard options.indices.contains(answer) else { return "" }
+        return isTrueFalse ? "\(options[answer])." : options[answer]
+    }
 
     /// The first few ingredients, for the small widget.
     func preview(count: Int) -> String {

@@ -43,6 +43,8 @@ enum Renderer {
         // Same puzzle for everyone each day, every puzzle once per 105 days.
         let ids = Set((0..<deck.count).compactMap { deck.puzzle(forDay: $0)?.id })
         report.append("uniqueIn105Days=\(ids.count)")
+        // Spotlight (labels) or explanation (true/false) shown after answering.
+        report.append("revealNotes=\(deck.puzzles.filter { !($0.note ?? "").isEmpty }.count)")
         report.append("today=\(DailyClock.today()) puzzleToday=\(deck.puzzle(forDay: DailyClock.today())?.id ?? -1)")
         report.append("fontsRegistered=\(PGFonts.registered) " + PGFonts.names.map { "\($0):\(UIFont(name: $0, size: 12) != nil)" }.joined(separator: ","))
 

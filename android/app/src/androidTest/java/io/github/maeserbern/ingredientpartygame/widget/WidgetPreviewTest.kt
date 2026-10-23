@@ -62,6 +62,11 @@ class WidgetPreviewTest {
         val seen = (0 until 105).map { deck.puzzleForDay(it)!!.id }.toSet()
         assertEquals(105, seen.size)
         deck.books.values.forEach { assertTrue(it.url.startsWith("https://www.amazon.com/")) }
+        // Every puzzle has the spotlight / true-false explanation shown after answering.
+        deck.puzzles.values.forEach {
+            assertTrue("note for ${it.id}", it.note.isNotBlank())
+            assertEquals("spotlight for ${it.id}", !it.isTrueFalse, it.spotlight.isNotBlank())
+        }
     }
 
     @Test fun answerAndStreakRules() {

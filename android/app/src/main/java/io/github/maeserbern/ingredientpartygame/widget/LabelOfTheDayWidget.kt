@@ -156,6 +156,24 @@ private fun LabelCard(header: String?, text: String, size: TextUnit, lines: Int,
     }
 }
 
+/** After answering: the game's weird-ingredient spotlight or the true/false explanation. */
+@Composable
+private fun RevealCard(puzzle: DailyPuzzle, size: TextUnit, lines: Int, modifier: GlanceModifier = GlanceModifier) {
+    Column(modifier = modifier.background(ImageProvider(R.drawable.widget_book_bg)).padding(horizontal = 8.dp, vertical = 6.dp)) {
+        Text(puzzle.revealHeader, style = TextStyle(color = c(GOLD), fontSize = 8.sp, fontWeight = FontWeight.Bold), maxLines = 1)
+        Spacer(GlanceModifier.height(3.dp))
+        Text(puzzle.revealText, style = TextStyle(color = c(LABEL), fontSize = size), maxLines = lines)
+    }
+}
+
+/** "Lip balm" or "True." plus what the player picked when it was wrong. */
+private fun answerLine(data: LabelData, puzzle: DailyPuzzle): String {
+    val choice = data.choice
+    if (choice == null || choice == puzzle.answer) return puzzle.answerText
+    val picked = puzzle.options.getOrNull(choice) ?: return puzzle.answerText
+    return "${puzzle.answerText}\nYou said $picked"
+}
+
 @Composable
 private fun Stamp(correct: Boolean, size: TextUnit) {
     Box(
@@ -332,13 +350,22 @@ private fun Medium(data: LabelData, puzzle: DailyPuzzle, book: DailyBook) {
         Spacer(GlanceModifier.height(5.dp))
         Row(GlanceModifier.fillMaxWidth().height(62.dp)) {
             Box(GlanceModifier.width(118.dp).height(62.dp), contentAlignment = Alignment.TopEnd) {
-                LabelCard(if (puzzle.isTrueFalse) "THE CLAIM" else "INGREDIENTS", puzzle.fullLabel, 9.sp, 2,
-                    GlanceModifier.fillMaxSize())
+                // Answered: the right answer on the label, the game's explanation beside it.
+                if (data.answered) {
+                    LabelCard("ANSWER", answerLine(data, puzzle), 9.sp, 3, GlanceModifier.fillMaxSize())
+                } else {
+                    LabelCard(if (puzzle.isTrueFalse) "THE CLAIM" else "INGREDIENTS", puzzle.fullLabel, 9.sp, 2,
+                        GlanceModifier.fillMaxSize())
+                }
                 data.correct?.let { Box(GlanceModifier.padding(top = 20.dp, end = 2.dp)) { Stamp(it, 12.sp) } }
             }
             Spacer(GlanceModifier.width(7.dp))
             Column(GlanceModifier.defaultWeight()) {
-                AnswerGrid(data, puzzle, if (puzzle.isTrueFalse) 62 else 28, 10.sp, 6)
+                if (data.answered) {
+                    RevealCard(puzzle, 9.sp, 4, GlanceModifier.fillMaxWidth().height(62.dp))
+                } else {
+                    AnswerGrid(data, puzzle, if (puzzle.isTrueFalse) 62 else 28, 10.sp, 6)
+                }
             }
         }
         Spacer(GlanceModifier.height(6.dp))
@@ -355,8 +382,14 @@ private fun Large(data: LabelData, puzzle: DailyPuzzle, book: DailyBook) {
         }
         Spacer(GlanceModifier.height(8.dp))
         Box(GlanceModifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
-            LabelCard(if (puzzle.isTrueFalse) "THE CLAIM" else "INGREDIENTS", puzzle.fullLabel,
-                if (puzzle.isTrueFalse) 13.sp else 11.sp, 4, GlanceModifier.fillMaxWidth())
+            // Answered: the label turns into the game's spotlight / real story; the buttons
+            // below still mark the right answer and the player's pick.
+            if (data.answered) {
+                LabelCard(puzzle.revealHeader, puzzle.revealText, 11.sp, 5, GlanceModifier.fillMaxWidth())
+            } else {
+                LabelCard(if (puzzle.isTrueFalse) "THE CLAIM" else "INGREDIENTS", puzzle.fullLabel,
+                    if (puzzle.isTrueFalse) 13.sp else 11.sp, 4, GlanceModifier.fillMaxWidth())
+            }
             data.correct?.let { Box(GlanceModifier.padding(top = 18.dp, end = 6.dp)) { Stamp(it, 22.sp) } }
         }
         Spacer(GlanceModifier.defaultWeight())

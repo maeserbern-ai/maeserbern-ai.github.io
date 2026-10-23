@@ -4,8 +4,9 @@ Usage (from the repository root):
     python widgets/export-widget-data.py          # write data + cover thumbnails
     python widgets/export-widget-data.py --check  # fail if the committed data is stale
 
-Reads party-game/puzzles.js (all 105 puzzles: 85 "which product is it?" labels and
-20 toilet-paper true/false claims) with Node, and the book names, Amazon links and
+Reads party-game/puzzles.js (all 105 puzzles: 85 "which product is it?" labels with
+their weird-ingredient spotlight, and 20 toilet-paper true/false claims with their
+explanation) with Node, and the book names, Amazon links and
 covers from the same BOOKS table the game uses. Nothing is maintained by hand.
 
 Writes:
@@ -85,17 +86,23 @@ def build():
         if p["book"] not in out_books:
             raise SystemExit(f"Puzzle {i} uses unknown book {p['book']}")
         if p.get("type") == "tf" or isinstance(p.get("answer"), bool):
+            if not p.get("explain"):
+                raise SystemExit(f"True/false puzzle {i} has no explanation")
+            # After answering, medium/large widgets show the game's "real story".
             out.append({"id": i, "type": "tf", "book": p["book"], "statement": p["statement"],
                         "options": ["True", "False"], "answer": 0 if p["answer"] else 1,
-                        "ingredients": []})
+                        "ingredients": [], "spotlight": "", "note": p["explain"]})
             continue
         opts = p["options"]
-        if len(opts) != 4 or p["answer"] not in opts or not p.get("ingredients"):
+        spot = p.get("spotlight") or {}
+        if (len(opts) != 4 or p["answer"] not in opts or not p.get("ingredients")
+                or not spot.get("name") or not spot.get("note")):
             raise SystemExit(f"Malformed puzzle {i}: {p.get('answer')}")
+        # After answering, medium/large widgets show the game's weird-ingredient spotlight.
         out.append({"id": i, "type": "mc", "book": p["book"], "statement": "",
                     "options": opts, "answer": opts.index(p["answer"]),
-                    "ingredients": p["ingredients"]})
-    data = {"version": 1, "epoch": EPOCH, "seed": SEED, "count": len(out),
+                    "ingredients": p["ingredients"], "spotlight": spot["name"], "note": spot["note"]})
+    data = {"version": 2, "epoch": EPOCH, "seed": SEED, "count": len(out),
             "order": daily_order(len(out)), "books": out_books, "puzzles": out}
     return json.dumps(data, ensure_ascii=False, indent=1) + "\n"
 

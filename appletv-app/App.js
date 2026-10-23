@@ -900,9 +900,19 @@ function ResultScreen({ S, A, overlay }) {
               </View>
             </View>
           ) : null}
-          <View style={[st.rBook, solo && { flexDirection: "column", alignItems: "center" }]}>
-            <Image source={COVERS[r.book]} style={[st.rCover, solo && { width: 300, height: 480 }]} resizeMode="cover" />
-            <T style={[st.rBookText, solo && { textAlign: "center" }]}>Learn more in{"\n"}<T style={{ fontSize: 30, lineHeight: 40, color: C.ink, fontWeight: "800" }}>{r.bookTitle}</T></T>
+          {/* Book card as on the web: cover, "Learn more in <title>", QR in a light box, "Scan with your phone". */}
+          <View style={[st.rBook, solo && { alignItems: "center" }]}>
+            {solo ? <Image source={COVERS[r.book]} style={[st.rCover, { width: 260, height: 416 }]} resizeMode="cover" /> : null}
+            <T style={[st.rBookText, solo && { textAlign: "center" }]}>Learn more in{solo ? "\n" : " "}<T style={{ fontSize: 30, lineHeight: 40, color: C.ink, fontWeight: "800" }}>{r.bookTitle}</T></T>
+            <View style={st.rQrRow}>
+              {!solo ? <Image source={COVERS[r.book]} style={[st.rCover, { width: 176, height: 282 }]} resizeMode="cover" /> : null}
+              <View style={{ alignItems: "center" }}>
+                <View style={st.rQr}>
+                  <Image source={QR[r.book]} style={st.rQrImg} resizeMode="contain" accessibilityLabel="QR code to the book" />
+                </View>
+                <T style={st.rQrCap}>Scan with your phone</T>
+              </View>
+            </View>
           </View>
         </View>
       </View>
@@ -1061,9 +1071,14 @@ const st = StyleSheet.create({
   watchItem: { borderLeftWidth: 6, paddingVertical: 4, paddingLeft: 18 },
   watchName: { fontSize: 30, lineHeight: 38, fontWeight: "800" },
   watchTag: { fontSize: 24, fontWeight: "700", marginTop: 2 },
-  rBook: { flexDirection: "row", alignItems: "center", gap: 32 },
+  rBook: { gap: 12 },
+  rQrRow: { flexDirection: "row", alignItems: "center", gap: 28 },
   rCover: { width: 230, height: 368, borderTopLeftRadius: 6, borderBottomLeftRadius: 6, borderTopRightRadius: 12, borderBottomRightRadius: 12, backgroundColor: "#fff" },
   rBookText: { fontSize: 30, lineHeight: 40, color: C.muted, flexShrink: 1 },
+  // Answer-screen QR: 224pt code + 12pt light margin (about 4 modules of quiet zone), readable from the couch.
+  rQr: { width: 248, height: 248, padding: 12, backgroundColor: C.label, borderRadius: 14 },
+  rQrImg: { width: 224, height: 224 },
+  rQrCap: { marginTop: 8, fontSize: 22, lineHeight: 26, fontWeight: "700", color: C.muted },
   winner: { fontWeight: "900", fontSize: 104, lineHeight: 110, marginBottom: 30 },
   finalRow: { flexDirection: "row", alignItems: "center", gap: 24, marginBottom: 12 },
   finalDot: { width: 28, height: 28, borderRadius: 14 },

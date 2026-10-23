@@ -5,7 +5,7 @@
   },
   "build": {
     "production": {
-      "autoIncrement": true,
+      "autoIncrement": false,
       "env": {
         "EXPO_TV": "1"
       },

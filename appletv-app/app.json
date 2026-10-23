@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ingredient Dictionary: The Party Game",
     "slug": "ingredient-party-game",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "infoPlist": {
         "CFBundleDisplayName": "Party Game",
         "ITSAppUsesNonExemptEncryption": false

@@ -64,12 +64,12 @@ struct GuessView: View {
                     .font(.system(size: 11, weight: .bold))
                     .foregroundStyle(Theme.labelInk.opacity(0.85))
                 Text(puzzle.statement ?? "")
-                    .font(.system(.body, weight: .semibold))
+                    .font(.system(.footnote, weight: .semibold))
                     .foregroundStyle(Theme.labelInk)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityIdentifier("watch-statement")
             }
-            .padding(10)
+            .padding(8)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(RoundedRectangle(cornerRadius: 14).fill(Theme.label))
 

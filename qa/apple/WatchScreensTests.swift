@@ -64,11 +64,23 @@ final class WatchScreensTests: XCTestCase {
     func captureResultBook(_ name: String) {
         let code = app.images["watch-result-qr"]
         XCTAssertTrue(code.waitForExistence(timeout: 10), "Missing book QR on the answer screen")
-        for _ in 0..<12 {
-            if code.isHittable && app.frame.contains(code.frame) { break }
-            app.swipeUp()
+        // Bring the whole code into view below the clock (top ~34 pt) with short drags.
+        let scroll = app.scrollViews.firstMatch
+        let surface = scroll.exists ? scroll : app.windows.firstMatch
+        var view = surface.frame
+        func inView() -> Bool {
+            code.frame.minY >= view.minY + 34 && code.frame.maxY <= view.maxY - 2
         }
-        XCTAssertTrue(app.frame.contains(code.frame), "Book QR clipped on the answer screen")
+        for _ in 0..<24 {
+            view = surface.frame
+            if inView() { break }
+            let below = code.frame.maxY > view.maxY - 2
+            let start = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.6 : 0.45))
+            let end = surface.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: below ? 0.45 : 0.6))
+            start.press(forDuration: 0.05, thenDragTo: end,
+                        withVelocity: XCUIGestureVelocity(rawValue: 100), thenHoldForDuration: 0.2)
+        }
+        XCTAssertTrue(inView(), "Book QR clipped on the answer screen: \(code.frame) in \(view)")
         XCTAssertGreaterThan(code.frame.width, 80)
         capture(name)
         // Back to the top of the answer screen (Next puzzle).

@@ -22,7 +22,8 @@ final class WatchScreensTests: XCTestCase {
         XCTAssertTrue(element.waitForExistence(timeout: 15), "Missing \(id)")
         for _ in 0..<10 {
             if element.isHittable { return element }
-            app.swipeUp()
+            // Scrolled past it (e.g. after capturing the book QR)? Go back up.
+            if element.frame.maxY < app.frame.minY + 20 { app.swipeDown() } else { app.swipeUp() }
         }
         XCTFail("Cannot reach \(id)")
         return element
@@ -62,6 +63,8 @@ final class WatchScreensTests: XCTestCase {
         XCTAssertTrue(app.frame.contains(code.frame), "Book QR clipped on the answer screen")
         XCTAssertGreaterThan(code.frame.width, 80)
         capture(name)
+        // Back to the top of the answer screen (Next puzzle).
+        for _ in 0..<4 { app.swipeDown() }
     }
 
     func testSoloGameAndRelaunch() {

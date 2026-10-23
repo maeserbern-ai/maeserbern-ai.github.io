@@ -25,15 +25,26 @@ struct LabelCard: View {
     var headerSize: CGFloat
     var lineLimit: Int
     var padding: CGFloat = 9
+    /// After answering, the CORRECT!/WRONG! stamp sits in the header row so it
+    /// never covers the answer or the explanation.
+    var stamp: Bool? = nil
+    var stampSize: CGFloat = 14
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             if let header {
-                Text(header)
-                    .font(PG.heavy(headerSize))
-                    .tracking(headerSize * 0.08)
-                    .foregroundStyle(PG.labelInk)
-                    .padding(.bottom, 3)
+                HStack(alignment: .center, spacing: 4) {
+                    Text(header)
+                        .font(PG.heavy(headerSize))
+                        .tracking(headerSize * 0.08)
+                        .foregroundStyle(PG.labelInk)
+                        .lineLimit(1)
+                    Spacer(minLength: 0)
+                    if let stamp {
+                        Stamp(correct: stamp, size: stampSize)
+                    }
+                }
+                .padding(.bottom, 3)
                 Rectangle().fill(PG.labelInk).frame(height: 2).padding(.bottom, 5)
             }
             Text(text)
@@ -350,15 +361,11 @@ struct MediumLabelView: View {
                     // Answered: the right answer on the label, the game's explanation beside it.
                     LabelCard(header: entry.answered ? "ANSWER" : (puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS"),
                               text: entry.answered ? answerLine(puzzle) : puzzle.fullLabel,
-                              textSize: 9, headerSize: 6.5, lineLimit: 3, padding: 6)
+                              textSize: 9, headerSize: 6.5, lineLimit: 3, padding: 6,
+                              stamp: entry.correct, stampSize: 11)
                         .frame(width: 128)
                         .frame(maxHeight: 72, alignment: .top)
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        .overlay(alignment: .topTrailing) {
-                            if let correct = entry.correct {
-                                Stamp(correct: correct, size: 14).offset(x: 10, y: 18)
-                            }
-                        }
                     if entry.answered {
                         RevealCard(puzzle: puzzle, textSize: 9, headerSize: 6.5, lineLimit: 4, padding: 6)
                             .frame(height: 72)
@@ -409,12 +416,7 @@ struct LargeLabelView: View {
                 LabelCard(header: entry.answered ? puzzle.revealHeader : (puzzle.isTrueFalse ? "THE CLAIM" : "INGREDIENTS"),
                           text: entry.answered ? puzzle.revealText : puzzle.fullLabel,
                           textSize: puzzle.isTrueFalse || entry.answered ? 12 : 11, headerSize: 8.5,
-                          lineLimit: entry.answered ? 5 : 4)
-                    .overlay(alignment: .topTrailing) {
-                        if let correct = entry.correct {
-                            Stamp(correct: correct, size: 26).offset(x: 4, y: 22)
-                        }
-                    }
+                          lineLimit: entry.answered ? 5 : 4, stamp: entry.correct, stampSize: 18)
                 Spacer(minLength: 8)
                 AnswerGrid(entry: entry, puzzle: puzzle, height: puzzle.isTrueFalse ? 44 : 34, fontSize: 12.5)
                 Spacer(minLength: 8)

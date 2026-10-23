@@ -38,7 +38,16 @@ final class WatchScreensTests: XCTestCase {
 
     func pickBook(_ id: String) {
         reveal("watch-book-picker").tap()
-        reveal("watch-pick-\(id)").tap()
+        let first = app.descendants(matching: .any).matching(identifier: "watch-pick-all").firstMatch
+        XCTAssertTrue(first.waitForExistence(timeout: 10), "Book picker did not open")
+        // List rows below the fold are created lazily: scroll until the row exists.
+        let row = app.descendants(matching: .any).matching(identifier: "watch-pick-\(id)").firstMatch
+        for _ in 0..<12 {
+            if row.exists && row.isHittable { break }
+            app.swipeUp()
+        }
+        XCTAssertTrue(row.exists && row.isHittable, "Missing watch-pick-\(id)")
+        row.tap()
         XCTAssertTrue(app.buttons["watch-play"].waitForExistence(timeout: 10))
     }
 

@@ -120,7 +120,7 @@ struct BookPickerView: View {
                         cover: book.coverAsset)
                 }
             }
-            .navigationTitle("Pick your book")
+            .navigationTitle("Book")
         }
         .tint(Theme.gold)
     }

@@ -1,0 +1,22 @@
+# EAS on Windows does not consistently honor nested ignore files.
+.git/
+**/node_modules/
+**/.expo/
+**/dist/
+**/dist-*/
+**/artifacts/
+**/credentials.json
+**/.env*
+**/*.p8
+**/*.p12
+**/*.mobileprovision
+**/*.jks
+**/*.keystore
+/apple-app/ios/
+/appletv-app/ios/
+/appletv-app/android/
+/apple-app/scripts/store-*.mjs
+/apple-app/store-metadata.json
+/apple-app/release-readiness.json
+/android/
+/samples/

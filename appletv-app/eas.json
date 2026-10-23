@@ -1,22 +1,37 @@
 {
   "cli": {
     "version": ">= 13.0.0",
-    "appVersionSource": "remote"
+    "appVersionSource": "local"
   },
   "build": {
     "production": {
       "autoIncrement": true,
-      "env": { "EXPO_TV": "1" },
-      "ios": { "simulator": false }
+      "env": {
+        "EXPO_TV": "1"
+      },
+      "ios": {
+        "simulator": false,
+        "image": "latest"
+      },
+      "credentialsSource": "local"
     },
     "simulator": {
-      "env": { "EXPO_TV": "1" },
-      "ios": { "simulator": true }
+      "env": {
+        "EXPO_TV": "1"
+      },
+      "ios": {
+        "simulator": true
+      }
     }
   },
   "submit": {
     "production": {
-      "ios": {}
+      "ios": {
+        "ascAppId": "6823244099",
+        "ascApiKeyPath": "./certs/asc_api_key.p8",
+        "ascApiKeyId": "32V2QTHG9W",
+        "ascApiKeyIssuerId": "8307f227-d82c-48c5-b3c6-824114d5a918"
+      }
     }
   }
 }

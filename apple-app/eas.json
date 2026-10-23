@@ -6,16 +6,27 @@
   "build": {
     "preview": {
       "distribution": "internal",
-      "ios": { "simulator": false }
+      "ios": {
+        "simulator": false
+      }
     },
     "production": {
       "autoIncrement": true,
-      "ios": { "simulator": false }
+      "ios": {
+        "simulator": false,
+        "image": "macos-tahoe-26.6-xcode-27.1"
+      },
+      "credentialsSource": "local"
     }
   },
   "submit": {
     "production": {
-      "ios": {}
+      "ios": {
+        "ascAppId": "6823244099",
+        "ascApiKeyPath": "./ios/certs/asc_api_key.p8",
+        "ascApiKeyId": "32V2QTHG9W",
+        "ascApiKeyIssuerId": "8307f227-d82c-48c5-b3c6-824114d5a918"
+      }
     }
   }
 }

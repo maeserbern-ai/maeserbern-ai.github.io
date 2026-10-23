@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Ingredient Dictionary: The Party Game",
-    "slug": "ingredient-party-game-tv",
+    "slug": "ingredient-party-game",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
@@ -14,10 +14,16 @@
     },
     "ios": {
       "bundleIdentifier": "io.github.maeserbern.ingredientpartygame",
-      "buildNumber": "1",
+      "buildNumber": "3",
       "infoPlist": {
         "CFBundleDisplayName": "Party Game",
         "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "owner": "maeserbern-ai",
+    "extra": {
+      "eas": {
+        "projectId": "5c765c38-7e1b-4b4c-9f50-5187865a7235"
       }
     },
     "plugins": [

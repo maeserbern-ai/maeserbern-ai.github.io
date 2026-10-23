@@ -1,5 +1,13 @@
 import Foundation
 
+struct Book: Decodable, Identifiable {
+    let id: String
+    let name: String
+    let url: URL
+    let coverAsset: String?
+    let qrAsset: String
+}
+
 /// One "what is it?" puzzle. Generated from party-game/puzzles.js by
 /// scripts/export-data.mjs (true/false toilet-paper puzzles are left out).
 struct Puzzle: Codable, Hashable, Identifiable {
@@ -60,6 +68,7 @@ struct RuleMatcher {
 
 /// Bundled game data, loaded once.
 enum GameData {
+    static let books: [Book] = load("books", as: [Book].self) ?? []
     static let puzzles: [Puzzle] = load("puzzles", as: [Puzzle].self) ?? []
 
     static let puzzlesByAnswer: [String: Puzzle] = Dictionary(

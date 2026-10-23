@@ -68,6 +68,7 @@ struct CluesView: View {
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                .accessibilityIdentifier("watch-ingredient-\(index)")
                 .id(index)
             }
 
@@ -90,12 +91,14 @@ struct CluesView: View {
                 game.revealMore()
             }
             .buttonStyle(PillButtonStyle(fill: Theme.button, text: Theme.ink))
+            .accessibilityIdentifier("watch-more")
             .disabled(!game.canRevealMore)
 
             Button("Guess") {
                 game.goToGuess()
             }
             .buttonStyle(PillButtonStyle(fill: Theme.terracotta, text: Theme.labelInk))
+            .accessibilityIdentifier("watch-guess")
         }
     }
 }

@@ -21,6 +21,7 @@ targets:
     deploymentTarget: "10.0"
     sources:
       - path: PartyGameWatch
+        excludes: [Info.plist, expo-target.config.js]
     # Signing.xcconfig sets CODE_SIGN_STYLE = Automatic and an empty
     # DEVELOPMENT_TEAM placeholder; CI passes DEVELOPMENT_TEAM=$(APPLE_TEAM_ID)
     # on the xcodebuild command line.

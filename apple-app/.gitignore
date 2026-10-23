@@ -1,4 +1,8 @@
 node_modules/
 .expo/
 dist/
+dist-*/
 game-html.js
+credentials.json
+ios/certs/
+artifacts/

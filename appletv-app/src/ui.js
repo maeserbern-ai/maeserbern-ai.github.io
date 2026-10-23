@@ -44,19 +44,20 @@ export function F({ id, onPress, style, focusedStyle, children, focusable = true
   return (
     <Pressable
       ref={ref}
+      testID={id}
       hasTVPreferredFocus={preferred}
+      tvParallaxProperties={{ magnification: scale }}
       onFocus={() => { setFocused(true); ctx.onFocused(id); }}
       onBlur={() => setFocused(false)}
       onPress={onPress}
-      style={[style, focused && { transform: [{ scale }], zIndex: 2 }, focused && focusedStyle]}
+      style={[style, focused && focusedStyle]}
     >
       {typeof children === "function" ? children({ focused }) : children}
-      {focused ? (
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, {
+      <View pointerEvents="none" style={[StyleSheet.absoluteFill, {
           top: -ringWidth, left: -ringWidth, right: -ringWidth, bottom: -ringWidth,
-          borderRadius: radius + ringWidth, borderWidth: ringWidth, borderColor: C.gold
-        }]} />
-      ) : null}
+          borderRadius: radius + ringWidth, borderWidth: ringWidth, borderColor: C.gold,
+          opacity: focused ? 1 : 0
+      }]} />
     </Pressable>
   );
 }
@@ -107,11 +108,9 @@ export function Stamp({ pop }) {
 // animated view. Bursts are capped so older Apple TVs stay smooth.
 const MAX_PIECES = 90;
 export function Confetti({ bursts }) {
-  return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-      {bursts.map((b) => <Burst key={b.id} burst={b} />)}
-    </View>
-  );
+  // A full-screen native View occludes tvOS focus candidates, even with
+  // pointerEvents="none". Keep decoration as individual stage-level pieces.
+  return bursts.map((b) => <Burst key={b.id} burst={b} />);
 }
 function Burst({ burst }) {
   const pieces = useRef(null);
@@ -135,7 +134,7 @@ function Burst({ burst }) {
       Animated.timing(p.v, { toValue: 1, duration: p.dur, easing: Easing.in(Easing.quad), useNativeDriver: true }))).start();
   }, []);
   return pieces.current.map((p, i) => (
-    <Animated.View key={i} style={{
+    <Animated.View key={i} pointerEvents="none" accessible={false} style={{
       position: "absolute", left: p.x, top: p.y, width: p.w, height: p.h, backgroundColor: p.c,
       transform: [
         { translateY: p.v.interpolate({ inputRange: [0, 1], outputRange: [0, p.fall] }) },

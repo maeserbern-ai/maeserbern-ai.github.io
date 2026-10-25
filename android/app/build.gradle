@@ -80,6 +80,7 @@ android {
             release {
                 manifest.srcFile "src/quest/AndroidManifest.xml"
                 java.srcDirs += ["src/quest/java"]
+                res.srcDirs += ["src/quest/res"]
             }
         }
     }

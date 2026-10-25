@@ -98,12 +98,13 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
+            adb shell settings put secure immersive_mode_confirmations confirmed
             adb install -r out/PartyGame-MetaQuest.apk
             adb shell am start -W -n io.github.maeserbern.ingredientpartygame/.QuestActivity
             sleep 20
             adb exec-out screencap -p > out/quest-title-screen.png
             adb shell input keyevent KEYCODE_BUTTON_A
-            sleep 3
+            sleep 4
             adb exec-out screencap -p > out/quest-after-button-a.png
             adb shell input keyevent KEYCODE_BUTTON_B
             sleep 3

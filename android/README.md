@@ -44,3 +44,14 @@ Actions → New repository secret, named `ANDROID_UPLOAD_KEY`, with the value
   `app-release.apk` and pick Fire TV devices.
 - Store description, privacy note and category: see `../party-game/TV-STORES.md`.
   Privacy policy URL: https://maeserbern-ai.github.io/#privacy
+
+## Meta Quest (Horizon OS)
+
+The Quest version is the same app built with `gradle -p android -Pquest assembleRelease`
+(workflow **Quest build**, `.github/workflows/quest-build.yml`). It is 64-bit only,
+targets API 34 (Meta's rule for new apps), declares the Quest headsets in
+`app/src/quest/AndroidManifest.xml`, opens as a 1280x720dp landscape panel and has
+no home-screen widget. `QuestActivity` adds controller buttons: A/X = OK,
+B/Y = Back, thumbstick = arrows; pointing + trigger or pinch works as taps.
+Download `PartyGame-MetaQuest.apk` from the run's Artifacts and upload it in the
+Meta Horizon Developer Dashboard as a 2D app (versionCode = 3000000 + run number).

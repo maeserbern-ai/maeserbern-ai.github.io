@@ -32,7 +32,7 @@ public class MainActivity extends ComponentActivity {
     private static final String HOST = "appassets.androidplatform.net";
     private static final String START_URL = "https://" + HOST + "/assets/index.html";
 
-    private WebView webView;
+    protected WebView webView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override

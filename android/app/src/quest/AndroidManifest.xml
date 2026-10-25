@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Meta Quest (Horizon OS) additions, merged over main/AndroidManifest.xml
+     only in the Quest build (gradle -Pquest). See android/README.md. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="auto">
+
+    <!-- A 2D panel app: head tracking is not required. -->
+    <uses-feature android:name="android.hardware.vr.headtracking" android:required="false" android:version="1" />
+    <!-- TV-only declaration isn't needed on Quest. -->
+    <uses-feature android:name="android.software.leanback" tools:node="remove" />
+
+    <application tools:remove="android:banner">
+        <meta-data
+            android:name="com.oculus.supportedDevices"
+            android:value="quest2|questpro|quest3|quest3s" />
+
+        <!-- The phone/TV activity is replaced by QuestActivity (same game, plus
+             Quest controller buttons and thumbstick). -->
+        <activity android:name=".MainActivity" tools:node="remove" />
+
+        <activity
+            android:name=".QuestActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:resizeableActivity="true"
+            android:configChanges="orientation|screenSize|screenLayout|keyboard|keyboardHidden|navigation|smallestScreenSize|uiMode|density"
+            android:launchMode="singleTask">
+            <!-- Opens as a 16:9 landscape panel, like a TV screen. -->
+            <layout
+                android:defaultWidth="1280dp"
+                android:defaultHeight="720dp"
+                android:minWidth="640dp"
+                android:minHeight="360dp" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Quest has no home-screen widgets. -->
+        <receiver android:name=".widget.LabelOfTheDayReceiver" tools:node="remove" />
+    </application>
+</manifest>

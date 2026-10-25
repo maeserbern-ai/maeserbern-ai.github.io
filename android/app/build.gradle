@@ -7,6 +7,11 @@ plugins {
 // Signing for store uploads comes from environment variables (GitHub secrets).
 def keystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
 
+// Meta Quest (Horizon OS) build: `gradle assembleRelease -Pquest`.
+// Same app id, 64-bit only, Quest manifest entries from src/quest, no home-screen
+// widget (Quest has no widget host). Without -Pquest nothing below changes.
+def quest = providers.gradleProperty("quest").isPresent()
+
 android {
     namespace "io.github.maeserbern.ingredientpartygame"
     compileSdk 36
@@ -19,6 +24,15 @@ android {
         versionCode Integer.parseInt(System.getenv("VERSION_CODE") ?: "23")
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        if (quest) {
+            // Meta: apps created since March 2026 must target API 34; min 29-34.
+            minSdk 32
+            targetSdk 34
+            // High range so it never clashes with the phone/TV builds.
+            versionCode Integer.parseInt(System.getenv("QUEST_VERSION_CODE") ?: "3000001")
+            versionName "1.0"
+            ndk { abiFilters "arm64-v8a" }
+        }
     }
 
     signingConfigs {
@@ -28,6 +42,7 @@ android {
                 storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
                 keyAlias System.getenv("ANDROID_KEY_ALIAS")
                 keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                if (quest) { enableV1Signing true; enableV2Signing true }
             }
         }
     }
@@ -52,7 +67,7 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
     buildFeatures {
-        compose true
+        compose !quest
     }
 
     // The game itself is the website's party-game folder, bundled so it works offline.
@@ -60,6 +75,17 @@ android {
         main {
             assets.srcDirs = ["../../party-game"]
         }
+        if (quest) {
+            // Quest manifest overlay + controller handling (QuestActivity).
+            release {
+                manifest.srcFile "src/quest/AndroidManifest.xml"
+                java.srcDirs += ["src/quest/java"]
+            }
+        }
+    }
+    if (quest) {
+        // Meta requires targetSdk 34, below Google Play's current minimum.
+        lint { disable "ExpiredTargetSdkVersion", "OldTargetApi" }
     }
     // TV-store packaging files from the folder aren't needed inside the app.
     androidResources {
@@ -78,13 +104,21 @@ dependencies {
     implementation platform("org.jetbrains.kotlin:kotlin-bom:2.1.21")
     implementation "androidx.webkit:webkit:1.12.1"
     implementation "androidx.activity:activity:1.9.3"
-    // "Label of the Day" home-screen widget.
-    implementation "androidx.glance:glance-appwidget:1.1.1"
-    implementation "androidx.datastore:datastore-preferences:1.1.1"
+    // "Label of the Day" home-screen widget (not in the Quest build).
+    if (!quest) {
+        implementation "androidx.glance:glance-appwidget:1.1.1"
+        implementation "androidx.datastore:datastore-preferences:1.1.1"
+    }
 
     // Renders the widget previews on an emulator (widgets workflow).
     androidTestImplementation "androidx.test:runner:1.6.2"
     androidTestImplementation "androidx.test.ext:junit:1.2.1"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+}
+
+// The Quest build leaves out the widget code (it needs Glance).
+if (quest) {
+    tasks.withType(JavaCompile).configureEach { exclude "**/widget/**" }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach { exclude "**/widget/**" }
 }

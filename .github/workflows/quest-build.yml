@@ -1,0 +1,118 @@
+# Builds the Meta Quest (Horizon OS) version of the party game: a signed,
+# 64-bit release APK to upload in the Meta Horizon Developer Dashboard as a 2D app.
+# Same game files (party-game/), same upload key as the Play/Amazon builds.
+# Nothing is uploaded to Meta; the APK is a build download ("Artifacts").
+name: Quest build
+
+on:
+  push:
+    branches: ["quest-app"]
+    paths:
+      - "android/**"
+      - "party-game/**"
+      - ".github/workflows/quest-build.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      UPLOAD_KEY: ${{ secrets.ANDROID_UPLOAD_KEY }}
+      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.14.3"
+
+      - name: Load upload key
+        if: ${{ env.UPLOAD_KEY != '' || env.KEYSTORE_BASE64 != '' }}
+        run: |
+          if [ -n "$UPLOAD_KEY" ]; then
+            pass="${UPLOAD_KEY%%:*}"
+            echo "$UPLOAD_KEY" | tr -d ' \r\n' | cut -d: -f2- | base64 -d > "$RUNNER_TEMP/upload.jks"
+            echo "::add-mask::$pass"
+            { echo "ANDROID_KEYSTORE_PASSWORD=$pass"; echo "ANDROID_KEY_PASSWORD=$pass"; echo "ANDROID_KEY_ALIAS=upload"; } >> "$GITHUB_ENV"
+          else
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/upload.jks"
+            { echo "ANDROID_KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"; echo "ANDROID_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}"; echo "ANDROID_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}"; } >> "$GITHUB_ENV"
+          fi
+          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
+
+      # Each run gets a higher versionCode (3000000 + run number), far above the
+      # phone/TV builds, so every Quest upload is accepted as an update.
+      - name: Build Quest APK
+        run: |
+          echo "QUEST_VERSION_CODE=$((3000000 + ${{ github.run_number }}))" >> "$GITHUB_ENV"
+          QUEST_VERSION_CODE=$((3000000 + ${{ github.run_number }})) gradle -p android --no-daemon -Pquest assembleRelease
+          mkdir -p out
+          cp android/app/build/outputs/apk/release/app-release.apk out/PartyGame-MetaQuest.apk
+
+      - name: Check the APK
+        run: |
+          BT="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -n 1)"
+          APK=out/PartyGame-MetaQuest.apk
+          "$BT/aapt2" dump badging "$APK" | tee out/badging.txt
+          "$BT/aapt2" dump xmltree --file AndroidManifest.xml "$APK" > out/manifest.txt
+          "$BT/apksigner" verify --verbose --print-certs "$APK" | tee out/signature.txt
+          grep -q "Verified using v2 scheme (APK Signature Scheme v2): true" out/signature.txt
+          grep -q "com.oculus.supportedDevices" out/manifest.txt
+          grep -q "targetSdkVersion:'34'" out/badging.txt
+          if unzip -l "$APK" | grep -E "lib/(armeabi|x86)"; then echo "32-bit/x86 native code found"; exit 1; fi
+          if grep -qi "glance\|gms\|LabelOfTheDay" out/manifest.txt; then echo "widget/Play bits still in manifest"; exit 1; fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: party-game-meta-quest
+          path: out/*
+
+  # Launches the APK once on a plain Android 14 emulator (no Google Play
+  # services, like Quest) and saves a screenshot of the title screen.
+  screenshot:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: party-game-meta-quest
+          path: out
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: default
+          arch: x86_64
+          profile: pixel_tablet
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: |
+            adb install -r out/PartyGame-MetaQuest.apk
+            adb shell am start -W -n io.github.maeserbern.ingredientpartygame/.QuestActivity
+            sleep 20
+            adb exec-out screencap -p > out/quest-title-screen.png
+            adb shell input keyevent KEYCODE_BUTTON_A
+            sleep 3
+            adb exec-out screencap -p > out/quest-after-button-a.png
+            adb shell input keyevent KEYCODE_BUTTON_B
+            sleep 3
+            adb exec-out screencap -p > out/quest-after-button-b.png
+            adb logcat -d -s chromium:* AndroidRuntime:* > out/logcat.txt || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: party-game-meta-quest-screenshots
+          path: |
+            out/*.png
+            out/logcat.txt

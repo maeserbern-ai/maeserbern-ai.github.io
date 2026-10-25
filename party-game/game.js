@@ -1168,6 +1168,7 @@
 
   /* ---------- pause menu (Menu button or the remote's Back key) ---------- */
   const modal = $("#m-quit");
+  const exitModal = $("#m-exit");
   let focusBeforeModal = null;
   function syncToggles() {
     $$("[data-action='timer-toggle']").forEach((b) => { b.textContent = settings.timer ? "Timer: On" : "Timer: Off"; });
@@ -1246,6 +1247,8 @@
       case "steal-toggle": toggleSteal(); break;
       case "change-game": modal.hidden = true; show("s-books", `#book-list [data-book="${settings.book}"]`); break;
       case "quit-no": closeQuit(); break;
+      case "exit-no": closeExit(); break;
+      case "exit-yes": exitApp(); break;
     }
   }
   function pick(el, key) {
@@ -1414,18 +1417,30 @@
 
   function back() {
     if (game && game.locked) return;
+    if (!exitModal.hidden) { closeExit(); return; }
     if (!modal.hidden) { closeQuit(); return; }
     if (!$("#m-steal").hidden) return;   // pick a team or "No steal"
     if (current === "s-round" || current === "s-result") { openQuit(); return; }
     if (current === "s-setup") { act({ dataset: { action: "books" } }); return; }
     if (current === "s-order") { act({ dataset: { action: $('#s-order [data-action="go"]') ? "pick-colors" : "setup" } }); return; }
     if (current !== "s-title") { show("s-title"); return; }
-    // On the title screen, Back exits the app on TVs that allow it.
+    // On the title screen, Back offers to exit on TVs that allow it (Samsung asks
+    // apps to confirm in their own popup first).
+    if (window.tizen || (window.webOS && webOS.platformBack) || window.AndroidApp) openExit();
+  }
+  function openExit() {
+    focusBeforeModal = focused;
+    exitModal.hidden = false;
+    setFocus($(".focusable", exitModal));
+  }
+  function closeExit() { exitModal.hidden = true; setFocus(focusBeforeModal); }
+  function exitApp() {
     try {
       if (window.tizen) tizen.application.getCurrentApplication().exit();
       else if (window.webOS && webOS.platformBack) webOS.platformBack();
       else if (window.AndroidApp) AndroidApp.exit();
     } catch (e) { /* not on a TV */ }
+    closeExit();
   }
 
   const KEYS = {

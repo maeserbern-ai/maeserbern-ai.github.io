@@ -1,0 +1,17 @@
+/* CueReady TV: same screens as the phone app, sized for a TV across the room.
+   tv-scale.js lays the app out on a smaller "screen" and scales it up. */
+html, body { margin: 0; overflow: hidden; background: #FAFAF7; }
+body { transform-origin: 0 0; }
+:focus { outline: none; }
+.tv-focus {
+  outline: 4px solid #1E4E8C !important;
+  outline-offset: 3px;
+  border-radius: 12px;
+  box-shadow: 0 0 0 8px rgba(30, 78, 140, 0.25) !important;
+}
+.tv-exit { position: fixed; inset: 0; z-index: 99999; background: rgba(22, 36, 58, 0.55); display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; }
+.tv-exit-card { background: #FFFFFF; color: #16243A; border: 1px solid #DDDDD6; padding: 28px 32px; min-width: 360px; text-align: center; }
+.tv-exit-title { font-size: 24px; font-weight: 700; margin-bottom: 22px; }
+.tv-exit-row { display: flex; gap: 16px; justify-content: center; }
+.tv-exit-btn { min-width: 130px; padding: 12px 20px; font-size: 18px; font-weight: 700; border: 1px solid #DDDDD6; background: #FFFFFF; cursor: pointer; }
+.tv-exit-stay { background: #1E4E8C; border-color: #1E4E8C; color: #FFFFFF; }

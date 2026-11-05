@@ -1,0 +1,11 @@
+// Signing settings for the PartyGameWatch target.
+//
+// DEVELOPMENT_TEAM is deliberately empty here. Supply it at build time:
+//   CI:    xcodebuild ... DEVELOPMENT_TEAM="$APPLE_TEAM_ID"   (command-line
+//          build settings override this file)
+//   Local: create Config/Local.xcconfig (git-ignored) containing
+//          DEVELOPMENT_TEAM = ABCDE12345
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM =
+
+#include? "Local.xcconfig"

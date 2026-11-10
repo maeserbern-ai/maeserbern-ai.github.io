@@ -50,8 +50,20 @@
     current = el;
     if (!el) return;
     el.classList.add('tv-focus');
-    try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    // Text boxes are only highlighted here. Focusing one opens the TV keyboard,
+    // which takes over the arrow keys (Samsung "focus stuck"), so the keyboard
+    // opens only when OK is pressed on the box.
+    if (typing(el)) {
+      if (typing(document.activeElement) && document.activeElement !== el) document.activeElement.blur();
+    } else {
+      try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); }
+    }
     try { el.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
+  }
+  function stopTyping() {
+    var a = document.activeElement;
+    if (typing(a)) a.blur();
+    try { if (window.webapis && webapis.ime && webapis.ime.hide) webapis.ime.hide(); } catch (e) {}
   }
   function center(r) { return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
   function move(dir, retried) {
@@ -130,17 +142,42 @@
   window.tvBack = goBack;
 
   var KEYS = { 37: 'left', 38: 'up', 39: 'right', 40: 'down' };
+  // Tizen on-screen keyboard: Done 65376, Cancel 65385
+  var IME_DONE = 65376, IME_CANCEL = 65385;
   document.addEventListener('keydown', function (e) {
     var dir = KEYS[e.keyCode];
-    if (dir) {
-      if (typing(document.activeElement) && (dir === 'left' || dir === 'right')) return;
-      e.preventDefault(); move(dir); return;
+    var editing = typing(document.activeElement);
+    if (e.keyCode === IME_DONE || e.keyCode === IME_CANCEL) {
+      e.preventDefault(); stopTyping(); return;
     }
-    // OK presses the selected button exactly once (the app's buttons also react to
-    // Enter on their own, which would press checkboxes twice).
-    if (e.keyCode === 13 && current && !typing(current)) { e.preventDefault(); e.stopPropagation(); current.click(); return; }
+    if (dir) {
+      // inside a text box, left/right move the cursor; up/down leave the box
+      if (editing && (dir === 'left' || dir === 'right')) return;
+      e.preventDefault();
+      if (editing) stopTyping();
+      move(dir); return;
+    }
+    if (e.keyCode === 13 && current) {
+      // OK on a highlighted text box opens the keyboard; OK while typing closes it
+      if (typing(current)) {
+        if (!editing || document.activeElement !== current) {
+          e.preventDefault(); e.stopPropagation();
+          try { current.focus({ preventScroll: true }); } catch (x) { current.focus(); }
+        } else if (current.tagName === 'INPUT') {
+          e.preventDefault(); stopTyping();
+        }
+        return;
+      }
+      // OK presses the selected button exactly once (the app's buttons also react to
+      // Enter on their own, which would press checkboxes twice).
+      e.preventDefault(); e.stopPropagation(); current.click(); return;
+    }
+    // Back while typing just closes the keyboard
+    if (editing && (e.keyCode === 27 || e.keyCode === 461 || e.keyCode === 10009)) {
+      e.preventDefault(); e.stopPropagation(); stopTyping(); return;
+    }
     // Back: Escape, Backspace (outside text fields), webOS 461, Tizen 10009
-    if (e.keyCode === 27 || e.keyCode === 461 || e.keyCode === 10009 || (e.keyCode === 8 && !typing(document.activeElement))) {
+    if (e.keyCode === 27 || e.keyCode === 461 || e.keyCode === 10009 || (e.keyCode === 8 && !editing)) {
       e.preventDefault(); e.stopPropagation(); goBack();
     }
   }, true);

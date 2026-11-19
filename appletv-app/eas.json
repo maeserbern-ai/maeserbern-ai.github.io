@@ -1,0 +1,22 @@
+{
+  "cli": {
+    "version": ">= 13.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "production": {
+      "autoIncrement": true,
+      "env": { "EXPO_TV": "1" },
+      "ios": { "simulator": false }
+    },
+    "simulator": {
+      "env": { "EXPO_TV": "1" },
+      "ios": { "simulator": true }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {}
+    }
+  }
+}

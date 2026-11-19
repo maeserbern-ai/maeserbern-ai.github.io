@@ -1,0 +1,73 @@
+# Builds the Apple Watch app (watch-app/) on a Mac and, when the App Store
+# Connect key is set up, uploads it to App Store Connect / TestFlight.
+# Secrets (see watch-app/README.md): ASC_KEY_ID, ASC_ISSUER_ID,
+# ASC_KEY_P8_BASE64, APPLE_TEAM_ID.
+name: Apple Watch app
+
+on:
+  push:
+    paths:
+      - "watch-app/**"
+      - "party-game/puzzles.js"
+      - "party-game/glossary.js"
+      - ".github/workflows/watch-app.yml"
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: "Upload to App Store Connect"
+        type: boolean
+        default: true
+
+jobs:
+  watch:
+    runs-on: macos-15
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+      DEVELOPMENT_TEAM: ${{ secrets.APPLE_TEAM_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh puzzle data from the game
+        run: node watch-app/scripts/export-data.mjs
+
+      - name: Generate the Xcode project
+        run: |
+          brew install xcodegen
+          cd watch-app && xcodegen generate
+
+      # Always: make sure the app compiles (no signing needed).
+      - name: Compile check (simulator)
+        run: |
+          cd watch-app
+          xcodebuild -project PartyGameWatch.xcodeproj -scheme PartyGameWatch \
+            -destination 'generic/platform=watchOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -n 40
+
+      - name: Load App Store Connect key
+        if: ${{ env.ASC_KEY_ID != '' && env.ASC_KEY_P8_BASE64 != '' }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/keys"
+          echo "$ASC_KEY_P8_BASE64" | base64 --decode > "$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8"
+          echo "ASC_KEY_PATH=$RUNNER_TEMP/keys/AuthKey_$ASC_KEY_ID.p8" >> "$GITHUB_ENV"
+
+      - name: Archive and upload to App Store Connect
+        if: ${{ env.ASC_KEY_PATH != '' && (github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.upload)) }}
+        run: |
+          cd watch-app
+          BUILD_NUMBER=${{ github.run_number }}
+          xcodebuild -project PartyGameWatch.xcodeproj -scheme PartyGameWatch \
+            -destination 'generic/platform=watchOS' -archivePath "$RUNNER_TEMP/PartyGameWatch.xcarchive" \
+            DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            archive | tail -n 40
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/PartyGameWatch.xcarchive" \
+            -exportOptionsPlist ExportOptions.plist -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$ASC_KEY_PATH" -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" | tail -n 40

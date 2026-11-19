@@ -1,0 +1,59 @@
+# XcodeGen spec for the standalone (watch-only) Apple Watch app.
+# Generate the project with:  xcodegen generate
+name: PartyGameWatch
+
+options:
+  bundleIdPrefix: io.github.maeserbern
+  deploymentTarget:
+    watchOS: "10.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  PartyGameWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: PartyGameWatch
+    # Signing.xcconfig sets CODE_SIGN_STYLE = Automatic and an empty
+    # DEVELOPMENT_TEAM placeholder; CI passes DEVELOPMENT_TEAM=$(APPLE_TEAM_ID)
+    # on the xcodebuild command line.
+    configFiles:
+      Debug: Config/Signing.xcconfig
+      Release: Config/Signing.xcconfig
+    info:
+      path: Support/Info.plist
+      properties:
+        CFBundleDevelopmentRegion: en
+        CFBundleDisplayName: "Snack or Shampoo?"
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: "6.0"
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        WKApplication: true
+        WKWatchOnly: true
+        ITSAppUsesNonExemptEncryption: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.maeserbern.ingredientpartygame.watch
+        PRODUCT_NAME: PartyGameWatch
+        INFOPLIST_FILE: Support/Info.plist
+        GENERATE_INFOPLIST_FILE: "NO"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "4"
+        SKIP_INSTALL: "NO"
+        ENABLE_PREVIEWS: "YES"
+        SWIFT_EMIT_LOC_STRINGS: "YES"
+    scheme:
+      configurations:
+        Debug: Debug
+        Release: Release

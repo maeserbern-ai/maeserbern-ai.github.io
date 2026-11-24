@@ -1467,6 +1467,59 @@
     }
   });
 
+  // Game controllers (Xbox, PlayStation, Switch Pro and others, via the standard Gamepad API):
+  // D-pad or left stick moves, A selects, B goes back, X reveals the next ingredient,
+  // Menu/Start goes back, Y turns sound on or off. Held directions repeat.
+  (function gamepads() {
+    if (!navigator.getGamepads) return;
+    const held = {}, nextAt = {};
+    const FIRST = 380, REPEAT = 150, DEAD = 0.55;
+    let running = false;
+    function okPress() {
+      unlockAudio();
+      if (focused && !focused.disabled) { if (focused.tagName === "A") focused.click(); else act(focused); }
+    }
+    function fire(name) {
+      switch (name) {
+        case "up": case "down": case "left": case "right": move(name); break;
+        case "ok": okPress(); break;
+        case "back": back(); break;
+        case "reveal": if (current === "s-round" && !anyModal()) reveal(); break;
+        case "sound": setSound(!soundOn); break;
+      }
+    }
+    function poll() {
+      const pads = navigator.getGamepads ? [...navigator.getGamepads()].filter(Boolean) : [];
+      if (!pads.length) { running = false; return; }
+      const now = performance.now();
+      const state = {};
+      pads.forEach((p) => {
+        const b = (i) => !!(p.buttons[i] && p.buttons[i].pressed);
+        const ax = p.axes[0] || 0, ay = p.axes[1] || 0;
+        state.up = state.up || b(12) || ay < -DEAD;
+        state.down = state.down || b(13) || ay > DEAD;
+        state.left = state.left || b(14) || ax < -DEAD;
+        state.right = state.right || b(15) || ax > DEAD;
+        state.ok = state.ok || b(0);
+        state.back = state.back || b(1) || b(9);
+        state.reveal = state.reveal || b(2);
+        state.sound = state.sound || b(3);
+      });
+      Object.keys(state).forEach((name) => {
+        const repeats = name === "up" || name === "down" || name === "left" || name === "right";
+        if (state[name]) {
+          if (!held[name]) { held[name] = true; nextAt[name] = now + FIRST; fire(name); }
+          else if (repeats && now >= nextAt[name]) { nextAt[name] = now + REPEAT; fire(name); }
+        } else held[name] = false;
+      });
+      setTimeout(poll, 16);
+    }
+    function start() { if (!running) { running = true; setTimeout(poll, 16); } }
+    window.addEventListener("gamepadconnected", start);
+    // Some browsers only report a controller after its first button press.
+    start();
+  })();
+
   // Samsung TVs only send number keys to apps that ask for them.
   try {
     if (window.tizen && tizen.tvinputdevice) ["1", "2", "3", "4"].forEach((k) => tizen.tvinputdevice.registerKey(k));
